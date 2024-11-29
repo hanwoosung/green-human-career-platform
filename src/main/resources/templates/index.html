@@ -10,15 +10,13 @@
     </head>
     <body>
 
-        <div id="wrapper" class="flex-row">
-
-            <div th:insert="~{layout/user_side}"></div>
-            <div class="flex-column">
+        <div class="flex-row">
+            <div style="width: 300px;" th:insert="~{layout/user_side}"></div>
+            <div style="flex: 1" class="flex-column">
                 <div th:insert="~{layout/header_no_logo}"></div>
                 <h1> test</h1>
             </div>
         </div>
-
         <footer th:insert="~{layout/footer}"></footer>
     </body>
 </html>
