@@ -1,8 +1,10 @@
 package org.green.career.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.green.career.dto.ResponseDto;
 import org.green.career.dto.TestDto;
 import org.green.career.exception.BaseException;
+import org.green.career.service.TestService;
 import org.green.career.type.ResultType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,10 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
+@RequiredArgsConstructor
 public class TestController extends AbstractController {
 
+    private  final TestService service;
     @RequestMapping("/")
     public String index() {
+
+        service.test();
         return "index";
     }
 
