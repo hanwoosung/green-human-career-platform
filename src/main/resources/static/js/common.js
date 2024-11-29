@@ -3,6 +3,7 @@ export let common = {
     get: {
 
         dataById: (ids = [], required = "required", point = "#") => {
+            // ID 기반으로 데이터 가져오기 ids에 배열로 넣으면 됨
 
             let result = {
                 result: true
@@ -34,10 +35,10 @@ export let common = {
                     }
                 }
 
-                if (date_id.indexOf(id) > -1){
+                if (date_id.indexOf(id) > -1) {
                     //날짜 id 체크
                     result[id] = new Date(ele.value);
-                }else {
+                } else {
                     result[id] = ele.value;
                 }
 
@@ -48,6 +49,52 @@ export let common = {
 
 
     },
+
+    format: {
+
+        dateObject(date) { //date 객체로 변환
+
+            if (date instanceof Date) {
+                return date;
+            }
+
+            const parsedDate = new Date(date);
+            if (isNaN(parsedDate.getTime())) {
+                throw new Error("유효하지 않은 날짜 형식입니다.");
+            }
+            
+            return parsedDate;
+        },
+
+        date: (inputDate) => { // 2000-12-12 형식으로 변환
+            const date = common.format.dateObject(inputDate);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        },
+
+
+        dateTime: (inputDate) => { // 2000-12-12 12:12:12 형식으로 변환
+            const date = common.format.dateObject(inputDate);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            const seconds = String(date.getSeconds()).padStart(2, '0');
+            return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+        },
+
+        time: (inputDate) => { //12:12:12 형식으로 변환
+            const date = common.format.dateObject(inputDate);
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            const seconds = String(date.getSeconds()).padStart(2, '0');
+            return `${hours}:${minutes}:${seconds}`;
+        }
+
+    }
 
 
 }
