@@ -1,16 +1,33 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+    <link rel="stylesheet" href="/static/css/modal/alert.css">
     <body>
-            <div class="flex-column flex-center  w100p h165 bg-light-gray">
-                <div class="flex-row flex-center">
-                <img class="w60"  src="/static/images/footer_logo.png" alt="logo" />
+        <div class="flex-column flex-center  w100p h165 bg-light-gray">
+            <div class="flex-row flex-center">
+                <img class="w60" src="/static/images/footer_logo.png" alt="logo" />
                 <h3 class="fs-12  text-black ml30">@created by</h3>
                 <h3 class="fs-12 text-black ml30">한우성</h3>
                 <h3 class="fs-12 text-black ml30">김상준</h3>
                 <h3 class="fs-12 text-black ml30">김재홍</h3>
                 <h3 class="fs-12 text-black ml30">구경림</h3>
-                </div>
-                <h3 class="fs-20 mt40 text-black ml30">© 2024 Green Career Project. All Rights Reserved.</h3>
             </div>
+            <h3 class="fs-20 mt40 text-black ml30">© 2024 Green Career Project. All Rights Reserved.</h3>
+        </div>
+
+        <div class="modal-alert">
+            <div class="modal-alert-wrap">
+                <div class="modal-alert-title">
+                    <span id="alert_title">alert 제목~</span>
+                </div>
+                <div class="modal-alert-content" id="alert_detail">
+                    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                </div>
+                <div class="modal-alert-btn">
+                    <button>확인</button>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
+
+<script src="/static/js/alert.js"></script>
