@@ -1,10 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    <h1>Test Index</h1>
-</body>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <link rel="stylesheet" href="/static/css/common.css">
+        <link rel="stylesheet" href="/static/css/index.css">
+        <style>
+        </style>
+    </head>
+    <body>
+
+        <div id="wrapper" class="flex-row">
+
+            <div th:insert="~{layout/user_side}"></div>
+            <div class="flex-column">
+                <div th:insert="~{layout/header_no_logo}"></div>
+                <h1> test</h1>
+            </div>
+        </div>
+
+        <footer th:insert="~{layout/footer}"></footer>
+    </body>
 </html>

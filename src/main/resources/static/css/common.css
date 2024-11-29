@@ -2,6 +2,10 @@
    1. Margin Utilities
 ------------------------- */
 /* 기본 margin 스타일 모듈화 (픽셀) */
+.mar-center {
+    margin: 0 auto;
+}
+
 .mar0 {
     margin: 0;
 }
@@ -2352,6 +2356,10 @@
     background-color: #343a40;
 }
 
+.bg-light-gray{
+    background-color: #A3A3A350;
+}
+
 .bg-cover {
     background-size: cover;
 }
@@ -2602,4 +2610,48 @@
 
 .aspect-ratio-1-1 {
     aspect-ratio: 1 / 1;
+}
+
+.text-primary {
+    color: #007bff;
+}
+
+.text-secondary {
+    color: #6c757d;
+}
+
+.text-danger {
+    color: #dc3545;
+}
+
+.text-warning {
+    color: #ffc107;
+}
+
+.text-success {
+    color: #28a745;
+}
+
+.text-info {
+    color: #17a2b8;
+}
+
+.text-light {
+    color: #f8f9fa;
+}
+
+.text-dark {
+    color: #343a40;
+}
+
+.text-muted {
+    color: #6c757d;
+}
+
+.text-white {
+    color: #fff;
+}
+
+.text-black {
+    color: #000;
 }
