@@ -28,6 +28,7 @@ public class ResultObject {
         this.code = e.getCode();
         this.desc = e.getDesc();
         this.message = e.getMessage();
+
     }
 
     public static ResultObject getSuccess() {
