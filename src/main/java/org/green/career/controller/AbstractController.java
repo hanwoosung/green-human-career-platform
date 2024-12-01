@@ -1,7 +1,7 @@
 package org.green.career.controller;
 
-import org.green.career.dto.ResponseDto;
-import org.green.career.dto.ResultObject;
+import org.green.career.dto.common.ResponseDto;
+import org.green.career.dto.common.ResultObject;
 
 /**
  * 공통적으로 사용되는 API 응답 처리를 제공하는 추상 컨트롤러 클래스.
