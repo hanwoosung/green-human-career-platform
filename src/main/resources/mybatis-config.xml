@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE configuration
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
-        "https://mybatis.org/dtd/mybatis-3-config.dtd">
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
 <configuration>
+    <!-- MyBatis 설정 -->
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <setting name="callSettersOnNulls" value="true"/>
+        <setting name="jdbcTypeForNull" value="NULL"/>
+    </settings>
+
+    <!-- 타입 별칭 설정 -->
     <typeAliases>
-        <!-- 개별 클래스 alias 설정 -->
         <package name="org.green.career.dto"/>
+        <package name="org.green.career.dto.jobopen"/>
+        <package name="org.green.career.dto.common"/>
+
     </typeAliases>
+
+
+
 </configuration>
