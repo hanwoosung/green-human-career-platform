@@ -10,6 +10,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
+/**
+ * 작성자: 구경림
+ * 작성일: 2024-12-01
+ *  레이아웃 테스트용으로 작성된 컨트롤러 - 팀원간 협의 이후 삭제하거나 적용 예정
+ */
 @Controller
 @RequestMapping("/test")
 public class LayoutTestController {
