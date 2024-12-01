@@ -11,7 +11,7 @@
     </select>
 
     <!-- 채용 공고 리스트 조회 -->
-    <select id="findJobOpeningList" resultType="org.green.career.dto.jobopen.JobOpeningDto$JobOpeningResponseDto">
+    <select id="findJobOpeningList" resultType="org.green.career.dto.jobopen.requset.JobOpeningResponseDto">
         SELECT a.*,
                COALESCE(GROUP_CONCAT(DISTINCT b.stack_cd ORDER BY b.stack_cd SEPARATOR ','), '') AS skills,
                COALESCE(f.file_url, '') AS fileUrl
@@ -23,7 +23,7 @@
     </select>
 
     <!-- 검색 조건에 따른 공고 리스트 조회 -->
-    <select id="searchJobOpenings" resultType="org.green.career.dto.jobopen.JobOpeningDto$JobOpeningResponseDto">
+    <select id="searchJobOpenings" resultType="org.green.career.dto.jobopen.requset.JobOpeningResponseDto">
         SELECT
         a.*,
         COALESCE((SELECT GROUP_CONCAT(DISTINCT b1.stack_cd ORDER BY b1.stack_cd SEPARATOR ',')
