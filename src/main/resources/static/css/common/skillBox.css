@@ -1,6 +1,6 @@
 .skill-container {
     display: flex;
-    width: 1600px;
+    width: 100%;
     margin: 20px auto;
     background: white;
     border: 1px solid #ddd;
@@ -83,7 +83,7 @@
     display: flex;
     justify-content: end;
     align-items: center;
-    width: 1600px;
+    width: 100%;
     margin: 20px auto 0;
     box-sizing: border-box;
 }
