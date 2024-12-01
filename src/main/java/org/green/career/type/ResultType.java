@@ -3,6 +3,12 @@ package org.green.career.type;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+
+/**
+ * 작성자: 한우성
+ * 작성일: 2024-11-30
+ * response 반환 타입 모음
+ */
 @Getter
 @AllArgsConstructor
 public enum ResultType {
