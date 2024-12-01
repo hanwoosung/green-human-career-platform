@@ -39,6 +39,7 @@ public class MainController {
         model.addAttribute("searchText", searchText);
         model.addAttribute("skills", skills);
 
-        return "user_main";
+//        return "user_main";
+        return "/layout-test/main_sample";
     }
 }

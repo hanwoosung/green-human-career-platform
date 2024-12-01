@@ -1,0 +1,9 @@
+/* 공통 색상 */
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #6c757d;
+    --text-color: #212529;
+    --text-a-color: #35393d;
+    --border-color: #e0e0e0;
+    --background-color:#fbfbfb; 
+}

@@ -1,0 +1,39 @@
+<!-- templates/layout-test/parts/footer.html -->
+<!DOCTYPE html>
+<!-- Thymeleaf 선언 / FooterFragment 임을 선언-->
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      th:fragment="footer">
+<footer>
+    <div class="footer">
+        <div class="footer-credits">
+            <div class="footer-logo">
+                <img src="/static/images/footer_logo.png" alt="logo"/>
+                <link rel="stylesheet" href="/static/css/modal/alert.css">
+            </div>
+            <p>@created by</p>
+            <p>한우성</p>
+            <p>김상준</p>
+            <p>김재홍</p>
+            <p>구경림</p>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 Green Career Project. All Rights Reserved.</p>
+        </div>
+
+        <div class="modal-alert">
+            <div class="modal-alert-wrap">
+                <div class="modal-alert-title">
+                    <span id="alert_title">alert 제목~</span>
+                </div>
+                <div class="modal-alert-content" id="alert_detail">
+                </div>
+                <div class="modal-alert-btn">
+                    <button>확인</button>
+                </div>
+            </div>
+        </div>
+
+        <script src="/static/js/alert.js"></script>
+</footer>
+</html>
