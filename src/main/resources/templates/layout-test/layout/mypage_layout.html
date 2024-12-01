@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" th:href="@{/static/css/common/common.css}">
+  <link rel="stylesheet" th:href="@{/static/css/layout/theme.css}">
+  <title>Human</title>
+</head>
+
+<body>
+  <div class="mypage-layout">
+    <!--사이드바 영역을 참조합니다.-->
+    <div th:replace="~{/layout-test/parts/sidebar :: sidebar(
+                ${#httpSession != null and #httpSession.getAttribute('userType') != null ?
+                #httpSession.getAttribute('userType') : '비회원'}
+            )}" class="sidebar">
+    </div>
+
+    <!-- Main Container -->
+    <div class="mypage-container">
+      <!--마이페이지 Header 영역을 참조합니다.-->
+        <div th:replace="~{/layout-test/parts/header_mypage :: headerMypage(
+                ${#httpSession != null and #httpSession.getAttribute('userType') != null ?
+                #httpSession.getAttribute('userType') : '비회원'}
+            )}">
+        </div>
+
+      <!--Content 내용 영역을 참조합니다-->
+      <div class="mypage-content"  layout:fragment="content" >
+
+      </div>
+
+    </div>
+
+  </div>
+  <!-- Footer -->
+  <div th:replace="~{/layout-test/parts/footer :: footer}"></div>
+</body>
+
+</html>

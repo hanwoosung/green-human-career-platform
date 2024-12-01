@@ -1,31 +1,26 @@
-package org.green.career.controller.main;
+package org.green.career.controller;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.green.career.dto.jobopen.JobSearchResult;
 import org.green.career.service.main.MainService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-/**
- * 작성자: 한우성
- * 작성일: 2024-11-30
- * USER_MAIN 컨트롤러
- * 현재는 페이징+ 검색기능 까지 있음
- * TODO: 1.(북마크 ,스크랩 기능 추가필요) 2. (추후 인기순위 ? 등등 추가 될 수있음)  3. 메인쪽 폰트나 텍스트 사이즈 디테일 잡아야함 채용공고 완료 후 진행
- */
 @Controller
-@RequiredArgsConstructor
-@Slf4j
-public class MainController {
+@RequestMapping("/test")
+public class LayoutTestController {
 
     private final MainService mainService;
 
-    @GetMapping("/")
+    public LayoutTestController(MainService mainService) {
+        this.mainService = mainService;
+    }
+
+    @GetMapping
     public String userMain(@RequestParam(value = "page", defaultValue = "1") int page,
                            @RequestParam(value = "search", required = false) String searchText,
                            @RequestParam(value = "skills", required = false) List<String> skills,
@@ -39,6 +34,14 @@ public class MainController {
         model.addAttribute("searchText", searchText);
         model.addAttribute("skills", skills);
 
-        return "user_main";
+        return "layout-test/main_sample";
+    }
+    @GetMapping("/main-empty")
+    public String mainEmpty() {
+        return "layout-test/main_sample_empty";
+    }
+    @GetMapping("/mypage-empty")
+    public String mypageEmpty() {
+        return "layout-test/mypage_sample_empty";
     }
 }
