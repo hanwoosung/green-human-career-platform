@@ -1,10 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      th:fragment="headerMypage(userType)">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 </head>
-<body>
-$END$
-</body>
+
+<header>
+        <div class="mypage-header">
+                <div class="user-info" th:attr="data-userType=${userType}" onclick="toggleProfileDropdown(event)">
+
+                    <div class="user-type" th:switch="${userType}">
+                        <span th:case="기업">
+                            <a class="link">기업이름</a>
+                        </span>
+                        <span th:case="구직자">
+                            <p class="link">구직자 이름</p>
+                        </span>
+                        <span th:case="비회원">
+                            <a href="@{/login}" class="link">로그인</a>
+                            <a href="@{/regist}" class="link">회원가입</a>
+                        </span>
+                    </div>
+                    <!-- 프로필 아이콘 -->
+                    <div class="profile" th:switch="${userType}">
+
+                        <img class="profile-icon" src="/static/images/default_profile.png" alt="Profile">
+                        <div class="profile-dropdown-menu">
+
+                            <ul th:case="구직자">
+                                <li>MY 홈</li>
+                                <li>이력서/자소서 관리</li>
+                                <li>스크랩</li>
+                                <li>로그아웃</li>
+                            </ul>
+
+                            <ul th:case="기업">
+                                <li>MY 홈</li>
+                                <li>구직자 정보</li>
+                                <li>채용 공고</li>
+                                <li>로그아웃</li>
+                            </ul>
+                            <ul th:case="비회원">
+                                <li>로그인</li>
+                                <li>회원가입</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+        </div>
+
+
+    <script src="/static/js/header.js"></script>
+</header>
 </html>

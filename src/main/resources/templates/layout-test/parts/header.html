@@ -1,7 +1,4 @@
-<!-- templates/layout-test/parts/header.html -->
-<!-- templates/layout-test/parts/footer.html -->
 <!DOCTYPE html>
-<!-- Thymeleaf 선언 / FooterFragment 임을 선언-->
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       th:fragment="header(userType)">
@@ -15,7 +12,7 @@
     <div class="header-wrap">
         <div class="header">
             <!-- 사용자 유형별 로고 -->
-            <div>
+            <div class="left-header">
                 <!-- 기업 로고 -->
                 <a th:if="${userType == '기업'}" th:href="@{/company}">
                     <img class="header-logo" src="/static/images/logo_company.png" alt="Company Logo">
@@ -30,8 +27,15 @@
                 <a th:if="${userType == '비회원'}" th:href="@{/}">
                     <img class="header-logo" src="/static/images/logo.png" alt="Default Logo">
                 </a>
-            </div>
+                <!-- 검색창 -->
+                <div class="search-bar">
+                    <input type="text" placeholder="채용 정보를 검색하세요!" />
+                    <button type="submit">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
 
+            </div>
 
             <!-- 사용자 유형별 컨텐츠 -->
             <div class="utility">
