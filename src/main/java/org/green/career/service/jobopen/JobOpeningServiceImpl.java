@@ -1,19 +1,29 @@
 package org.green.career.service.jobopen;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.green.career.dao.jobopen.JobOpeningDao;
 import org.green.career.dto.common.file.request.TblFileRequestDto;
+import org.green.career.dto.common.file.response.FileResponseDto;
+import org.green.career.dto.jobopen.JobOpeningDetailDto;
 import org.green.career.dto.jobopen.requset.JobOpeningRequestDto;
 import org.green.career.exception.BaseException;
 import org.green.career.service.AbstractService;
 import org.green.career.type.ResultType;
 import org.green.career.utils.CommonUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+/**
+ * 작성자: 한우성
+ * 작성일: 2024-11-30
+ * 채용공고 기능 구현체
+ */
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class JobOpeningServiceImpl extends AbstractService implements JobOpeningService {
 
     private final JobOpeningDao jobOpeningDao;
@@ -65,7 +75,6 @@ public class JobOpeningServiceImpl extends AbstractService implements JobOpening
         });
     }
 
-
     private JobOpeningRequestDto buildJobOpeningRequestDto(JobOpeningRequestDto requestDto) {
         return JobOpeningRequestDto.builder()
                 .id("company2") //TODO: 추후 세션 아이디로
@@ -90,8 +99,85 @@ public class JobOpeningServiceImpl extends AbstractService implements JobOpening
             List<TblFileRequestDto> fileList = commonUtils.saveCompanyImages(requestDto.getCompanyImages(), maxNum);
             insertFiles(fileList);
         } catch (Exception e) {
-            throw new RuntimeException("파일 업로드 중 오류 발생", e);
+            throw new RuntimeException("파일 업로드 오류", e);
         }
+    }
+
+    @Override
+    public JobOpeningDetailDto getJobOpening(int jNo) {
+        JobOpeningDetailDto dto = jobOpeningDao.getJobOpening(jNo);
+
+        if (dto == null) {
+            throw new BaseException(ResultType.ERROR, "공고 정보 못 찾구나...");
+        } else {
+            if (dto.getSkills() != null && dto.getSkills().size() == 1) {
+                dto.setSkills(String.valueOf(dto.getSkills()));
+            }
+            if (!getFile(jNo).isEmpty() && getFile(jNo) != null) {
+                dto.setFiles(getFile(jNo));
+            }
+        }
+        return dto;
+    }
+
+
+    @Override
+    public void deleteFileDB(List<Long> fileIds, int refNo) {
+        if (fileIds == null || fileIds.isEmpty()) {
+            throw new BaseException(ResultType.ERROR, "삭제할 파일 ID가 없네...");
+        }
+
+        fileIds.forEach(fileId -> {
+            FileResponseDto file = jobOpeningDao.getFileById(fileId);
+            if (file != null) {
+                log.info("삭제 요청 파일 : {}", file);
+                boolean isDeleted = commonUtils.deleteFile(file.getFileUrl());
+                if (!isDeleted) {
+                    throw new BaseException(ResultType.ERROR, "파일 삭제 오류: " + file.getFileName());
+                }
+                jobOpeningDao.deleteFileDB(fileId, String.valueOf(refNo));
+            }
+        });
+    }
+
+    @Override
+    public int addSkills(int jNo, List<String> addedSkills) {
+        if (addedSkills == null || addedSkills.isEmpty()) {
+            throw new BaseException(ResultType.ERROR, "추가할 스킬 없다.");
+        }
+        try {
+            return jobOpeningDao.insertSkills(jNo, addedSkills);
+        } catch (Exception e) {
+            throw new BaseException(ResultType.ERROR, "스킬 추가 오류 ", e);
+        }
+    }
+
+    @Override
+    public int removeSkills(int jNo, List<String> removedSkills) {
+        if (removedSkills == null || removedSkills.isEmpty()) {
+            throw new BaseException(ResultType.ERROR, "삭제할 스킬이 없다.");
+        }
+        try {
+            return jobOpeningDao.deleteSkills(jNo, removedSkills);
+        } catch (Exception e) {
+            throw new BaseException(ResultType.ERROR, "스킬 삭제 오류", e);
+        }
+    }
+
+    @Override
+    public void addFiles(int jNo, List<MultipartFile> companyImages) throws Exception {
+        List<TblFileRequestDto> fileList = commonUtils.saveCompanyImages(companyImages, jNo);
+        insertFiles(fileList);
+    }
+
+    @Override
+    public int updateJobOpening(int jNo, JobOpeningRequestDto jobOpeningRequestDto) {
+        return jobOpeningDao.updateJobOpening(jNo, jobOpeningRequestDto);
+    }
+
+    @Override
+    public List<FileResponseDto> getFile(int jNo) {
+        return jobOpeningDao.getFile(jNo);
     }
 
     @Override
@@ -108,4 +194,5 @@ public class JobOpeningServiceImpl extends AbstractService implements JobOpening
     public int insertFiles(List<TblFileRequestDto> fileList) {
         return jobOpeningDao.insertFiles(fileList);
     }
+
 }
