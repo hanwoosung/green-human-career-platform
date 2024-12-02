@@ -30,4 +30,5 @@ public class BaseException extends RuntimeException {
         this.desc = resultType.getDesc();
         this.message = message != null ? message : "";
     }
+
 }
