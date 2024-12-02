@@ -193,7 +193,7 @@
 }
 
 .mt20 {
-    margin-top: 20px;
+    margin-top: 20px !important;
 }
 
 .mt25 {
@@ -1512,7 +1512,7 @@
 }
 
 .w100p {
-    width: 100%;
+    width: 100% !important;
 }
 
 /* 기본 width 스타일 모듈화 (뷰포트 너비 - vw) */

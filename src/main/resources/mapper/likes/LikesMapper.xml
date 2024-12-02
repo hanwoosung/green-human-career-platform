@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.green.career.dao.LikesDao">
+
+    <select id="getLikesCnt" resultType="Integer">
+        SELECT COUNT(*)
+        FROM tbl_likes a
+        WHERE a.id = #{id}
+        AND a.l_gbn_cd = #{lGbnCd}
+        AND a.cj_no = #{cJNo};
+    </select>
+
+    <insert id="insertLikes">
+        INSERT INTO tbl_likes(
+            id,
+            l_gbn_cd,
+            cj_no
+        )VALUES(
+            #{id},
+            #{lGbnCd},
+            #{cJNo}
+        );
+    </insert>
+
+    <delete id="deleteLikes">
+        DELETE FROM tbl_likes
+        WHERE id = #{id}
+        AND l_gbn_cd = #{lGbnCd}
+        AND cj_no = #{cJNo}
+    </delete>
+
+</mapper>

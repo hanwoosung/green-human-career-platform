@@ -5,7 +5,7 @@ const alert_modal = {
         document.querySelector(".modal-alert").classList.add("on");
 
         document.querySelector("#alert_title").innerHTML = title;
-        document.querySelector("#alert_detail").innerHTML = title;
+        document.querySelector("#alert_detail").innerHTML = detail;
     },
 
     off: () => {

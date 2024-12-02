@@ -15,4 +15,7 @@ public interface ScrapDao {
 
     List<ScrapStackDto> getStacks(String jNos);
 
+
+
+
 }

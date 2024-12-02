@@ -54,6 +54,9 @@ public class ScrapServiceImpl extends AbstractService implements ScrapService {
         return result;
     }
 
+
+
+
     /*
      * 페이징을 추가한 list 뿌려주기
      * @param offset = 현재 페이지
@@ -83,9 +86,9 @@ public class ScrapServiceImpl extends AbstractService implements ScrapService {
 
     /*
      * 스크랩한 공고에 스택 조회해서 넣어 주는 함수
-     * 
+     *
      * */
-    
+
     private void setStack(List<ScrapDto> list) {
 
         String cjNos = getCjNo(list);
@@ -94,7 +97,7 @@ public class ScrapServiceImpl extends AbstractService implements ScrapService {
 
         for (ScrapDto scrap : list) {
             for (ScrapStackDto stack : stacks) {
-                if (scrap.getCjNo().equals(stack.getJNo())){
+                if (scrap.getCjNo().equals(stack.getJNo())) {
                     scrap.getStacks().add(stack);
                 }
             }
@@ -105,9 +108,9 @@ public class ScrapServiceImpl extends AbstractService implements ScrapService {
      * 스크랩한 공고에 cjno 추출하는 함수
      *
      * */
-    
+
     private String getCjNo(List<ScrapDto> list) {
-        List<String> cjNo  = new ArrayList<>();
+        List<String> cjNo = new ArrayList<>();
         cjNo.add("0");
         for (ScrapDto dto : list) {
             cjNo.add(dto.getCjNo());
