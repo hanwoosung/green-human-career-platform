@@ -1,4 +1,24 @@
 <!DOCTYPE html>
+<!--
+    작성자: 구경림
+    작성일: 2024.12.01
+    파일 설명:
+    마이페이지 헤더 템플릿
+    사용자의 유형(userType)에 따라 다르게 표시되는 마이페이지 상단 영역을 정의
+    1. 사용자 정보:
+       - 사용자 유형(userType)에 따라 로그인된 사용자의 이름을 표시합니다.
+         - 기업(C): 기업 이름을 표시.
+         - 구직자(S): 구직자 이름을 표시.
+         - 비회원: 로그인 및 회원가입 링크를 표시.
+    2. 프로필 아이콘:
+       - 사용자의 프로필 아이콘을 표시합니다.
+       - 아이콘 클릭 시 드롭다운 메뉴가 나타나며, 메뉴 내용은 사용자 유형에 따라 달라집니다.
+       - 구직자(S)와 기업(C) 각각에 맞는 메뉴 항목을 제공합니다.
+       - 비회원일 경우 로그인 및 회원가입 링크만 표시됩니다.
+    3. 스크립트:
+       - `axios`와 `jQuery` 라이브러리, 그리고 `Bootstrap Icons`를 외부 CDN으로 불러옴
+       - `header.js` 파일을 통해 헤더 드롭다운 메뉴 기능 처리
+-->
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       th:fragment="headerMypage(userType)">
@@ -7,53 +27,50 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 </head>
-
 <header>
-        <div class="mypage-header">
-                <div class="user-info" th:attr="data-userType=${userType}" onclick="toggleProfileDropdown(event)">
+    <div class="mypage-header">
+        <div class="user-info" th:attr="data-userType=${userType}" onclick="toggleProfileDropdown(event)">
 
-                    <div class="user-type" th:switch="${userType}">
-                        <span th:case="기업">
-                            <a class="link">기업이름</a>
+            <div class="user-type" th:switch="${userType}">
+                        <span th:case="C">
+                            <a class="link" th:text="${session.userName}">기업이름</a>
                         </span>
-                        <span th:case="구직자">
-                            <p class="link">구직자 이름</p>
+                <span th:case="S">
+                            <p class="link" th:text="${session.userName}">구직자 이름</p>
                         </span>
-                        <span th:case="비회원">
+                <span th:case="비회원">
                             <a href="@{/login}" class="link">로그인</a>
                             <a href="@{/regist}" class="link">회원가입</a>
                         </span>
-                    </div>
-                    <!-- 프로필 아이콘 -->
-                    <div class="profile" th:switch="${userType}">
+            </div>
 
-                        <img class="profile-icon" src="/static/images/default_profile.png" alt="Profile">
-                        <div class="profile-dropdown-menu">
-
-                            <ul th:case="구직자">
-                                <li>MY 홈</li>
-                                <li>이력서/자소서 관리</li>
-                                <li>스크랩</li>
-                                <li>로그아웃</li>
-                            </ul>
-
-                            <ul th:case="기업">
-                                <li>MY 홈</li>
-                                <li>구직자 정보</li>
-                                <li>채용 공고</li>
-                                <li>로그아웃</li>
-                            </ul>
-                            <ul th:case="비회원">
-                                <li>로그인</li>
-                                <li>회원가입</li>
-                            </ul>
-                        </div>
-                    </div>
+            <!-- 프로필 아이콘 영역 -->
+            <div class="profile" th:switch="${userType}">
+                <img class="profile-icon" src="/static/images/default_profile.png" alt="Profile">
+                <div class="profile-dropdown-menu">
+                    <!-- 구직자(S)용 메뉴 -->
+                    <ul th:case="S">
+                        <li><a th:href="@{/test/mypage-empty}">MY 홈</a></li>
+                        <li><a th:href="@{/}">이력서/자소서 관리</a></li>
+                        <li><a th:href="@{/}">스크랩</a></li>
+                        <li><a th:href="@{/logout}">로그아웃</a></li>
+                    </ul>
+                    <!-- 기업(C)용 메뉴 -->
+                    <ul th:case="C">
+                        <li><a th:href="@{/test/mypage-empty}">MY 홈</a></li>
+                        <li><a th:href="@{/}">구직자 정보</a></li>
+                        <li><a th:href="@{/}">채용 공고</a></li>
+                        <li><a th:href="@{/logout}">로그아웃</a></li>
+                    </ul>
+                    <!-- 비회원용 메뉴 -->
+                    <ul th:case="비회원">
+                        <li><a th:href="@{/login}">로그인</a></li>
+                        <li><a th:href="@{/register}">회원가입</a></li>
+                    </ul>
                 </div>
-
+            </div>
         </div>
-
-
+    </div>
     <script src="/static/js/header.js"></script>
 </header>
 </html>

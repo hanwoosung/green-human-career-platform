@@ -1,6 +1,23 @@
 <!DOCTYPE html>
+<!--
+    작성자: 구경림
+    작성일: 2024.12.01
+    파일 설명:
+    메인페이지 레이아웃 템플릿
+    사용자 유형(session.userType)에 따라 Header의 동적 콘텐츠를 표시하며,
+    Content 영역은 각 페이지에서 layout:fragment="content"를 통해 작성.
+
+    1. Header:
+       - session.userType 값을 기준으로 동적 헤더를 로드.
+       - 비회원인 경우 기본 헤더를 표시.
+    2. Content:
+       - 개별 페이지에서 layout:fragment="content"로 대체.
+    3. Footer:
+       - 공통 푸터를 로드.
+    공통 스타일은 common.css와 theme.css를 통해 관리
+-->
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" >
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,17 +26,17 @@
     <title>Human</title>
 </head>
 <body>
-<!--Header 영역을 참조합니다.-->
+<!-- Header 영역 -->
 <div th:replace="~{/layout-test/parts/header :: header(
-            ${#httpSession != null and #httpSession.getAttribute('userType') != null ?
-            #httpSession.getAttribute('userType') : '비회원'}
-        )}"></div>
-<!--Content 내용 영역을 참조합니다-->
-<th:main class="container" layout:fragment="content">
+            ${session.userType != null ? session.userType : '비회원'}
+        )}">
+</div>
 
+<!-- Content 영역 -->
+<th:main class="container" layout:fragment="content">
 </th:main>
 
-<!--Footer 영역을 참조합니다.-->
+<!-- Footer 영역 -->
 <div th:replace="/layout-test/parts/footer::footer"></div>
 </body>
 </html>
