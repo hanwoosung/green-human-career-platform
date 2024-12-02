@@ -7,40 +7,54 @@
 >
     <head>
         <meta charset="UTF-8">
-        <title>북마크한 기업 목록</title>
-        <link rel="stylesheet" href="/static/css/jobseeker/mypage/bookmark.css">
+        <title>asd</title>
+        <link rel="stylesheet" href="/static/css/jobseeker/mypage/scrap.css">
         <link rel="stylesheet" href="/static/css/common/paging.css">
     </head>
     <body>
         <main layout:fragment="content">
             <div class="content-title font-bold">
-                <span>북마크한 기업 목록</span>
+                <span>스크랩한 공고 목록</span>
             </div>
-            <div class="content-detail">
-                <div class="list-wrap">
 
-                    <div class="list" th:each="bookmark : ${list}" th:attr="data-id=${bookmark.cjNo}">
-                        <div class="list-img">
-                            <img th:src="${bookmark.fileUrl + '/' + bookmark.fileId + '.' + bookmark.fileExt}"
-                                 onerror="this.src='/static/images/default_profile.png'">
+            <div class="main-list-wrapper">
+                <div class="main-list-container" th:each="scrap : ${list}">
+                    <div class="job-card">
+                        <div class="card-image">
+                            <div class="card-overlay">
+                                <span class="days-left">D - [[${scrap.leftDt}]]</span>
+                                <i class="bi bi-bookmark scrap-icon" id="bookmark-icon"></i>
+                            </div>
+                            <img alt="회사 이미지"
+                                 th:src="${bookmark?.fileUrl + '/' + bookmark?.fileId + '.' + bookmark?.fileExt}"
+                                 onerror="this.src='/static/images/empty_company.png'">
                         </div>
-                        <div class="list-content">
-                            <div>
-                                <span class="font-bold fs-20">[[${bookmark.name}]]</span>
-                                <span class="list-age">([[${bookmark.age}]])</span>
+                        <div class="card-header">
+                            <div class="card-header-box">
+                                <span class="company-name">[[${scrap.name}]]</span>
+                                <i class="bi bi-heart heart-icon" id="heart-icon"></i>
                             </div>
-                            <div>
-                                <span class="list-addr">([[${bookmark.zipCd}]]) [[${bookmark.addr}]] [[${bookmark.addr2}]]</span>
+                        </div>
+
+                        <div class="card-body">
+                            <h3 class="job-title">[[${scrap.jTitle}]]</h3>
+                            <h4 class="job-content">[[${scrap.jSTitle}]]</h4>
+                            <div class="job-location">
+                                <span>[[${scrap.workPlace}]]</span> | <span>[[${scrap.careerNm}]]</span>
                             </div>
-                            <div class="list-item">
-                                <span>[[${bookmark.CBusiness}]]</span>
+                            <div class="skill-tags">
+                                <div class="skill-tags" th:if="${not #lists.isEmpty(scrap.stacks)}">
+                                    <span th:each="skill : ${scrap.stacks}" class="skill-tag"
+                                          th:text="${skill.stackNm}"></span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
 
-            <!-- 페이징 -->
+            <!--             페이징 -->
             <div class="pagination-wrapper">
                 <nav class="pagination-nav">
                     <ul class="pagination">

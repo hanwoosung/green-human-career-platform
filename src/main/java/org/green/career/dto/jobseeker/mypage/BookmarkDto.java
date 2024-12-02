@@ -1,4 +1,4 @@
-package org.green.career.dto.jobseeker;
+package org.green.career.dto.jobseeker.mypage;
 
 import lombok.Data;
 
