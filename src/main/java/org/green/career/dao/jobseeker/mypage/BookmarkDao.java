@@ -1,7 +1,7 @@
 package org.green.career.dao.jobseeker.mypage;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.green.career.dto.jobseeker.BookmarkDto;
+import org.green.career.dto.jobseeker.mypage.BookmarkDto;
 
 import java.util.List;
 
