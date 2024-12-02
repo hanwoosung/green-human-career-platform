@@ -2,9 +2,6 @@ package org.green.career.service.login;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.green.career.config.MD5Config;
-import org.green.career.dao.login.CompanyDao;
-import org.green.career.dto.login.CompanyDto;
 import org.green.career.exception.BaseException;
 import org.green.career.service.AbstractService;
 import org.green.career.type.ResultType;
@@ -12,10 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+/**
+ * 작성자: 구경림
+ * 작성일: 2024-12-01
+ * 로그인 서비스의 구현체 클래스
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class LoginServiceImpl extends AbstractService implements LoginService {
+    private final LoginDao loginDao;
 
     @Autowired
     private CompanyDao companyDao;
@@ -23,6 +26,7 @@ public class LoginServiceImpl extends AbstractService implements LoginService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
+    public UserLoginDto login(String id, String pw, String userGbnCd) {
     public int registCompany(CompanyDto company){
         System.out.println(company.getPw() + "bbb");
         String pw = MD5Config.md5Util(company.getPw());
@@ -35,6 +39,7 @@ public class LoginServiceImpl extends AbstractService implements LoginService {
     }
 
 
+        UserLoginDto user = loginDao.findUserForLogin(id, pw, userGbnCd);
     @Override
     public CompanyDto login(String id, String pw, String userGbnCd) {
 
@@ -57,4 +62,5 @@ public class LoginServiceImpl extends AbstractService implements LoginService {
         log.info("로그인 성공: {}", id);
         return user;
     }
+
 }

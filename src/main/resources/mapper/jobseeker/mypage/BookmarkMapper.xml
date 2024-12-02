@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.green.career.dao.jobseeker.mypage.BookmarkDao">
+
+    <select id="getBookmarkList" resultType="org.green.career.dto.jobseeker.mypage.BookmarkDto">
+        SELECT *,
+               TRUNCATE((TO_DAYS(NOW()) - TO_DAYS(b.birth)) / 365, 0) AS age,
+               c.file_id,
+               c.file_name,
+               c.file_ext,
+               c.file_url,
+               d.c_business
+        FROM tbl_likes a
+        LEFT JOIN tbl_user b ON a.cj_no = b.id AND b.user_gbn_cd = 'C'
+        LEFT JOIN tbl_file c ON c.file_gbn_cd = '10' AND c.file_ref_id = b.id
+        LEFT JOIN tbl_company d ON a.cj_no = d.id
+        WHERE a.l_gbn_cd = 'B'
+        AND a.id = #{id}
+        AND b.use_yn = 'Y'
+        LIMIT #{offset}, #{limit};
+    </select>
+
+    <select id="getTotalCnt">
+        SELECT COUNT(*)
+        FROM tbl_likes a
+        LEFT JOIN tbl_user b ON a.cj_no = b.id AND b.user_gbn_cd = 'C'
+        WHERE a.l_gbn_cd = 'B'
+        AND a.id = #{id}
+        AND b.use_yn = 'Y';
+    </select>
+
+</mapper>

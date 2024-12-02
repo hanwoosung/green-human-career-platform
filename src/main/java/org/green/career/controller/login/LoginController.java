@@ -1,23 +1,25 @@
 package org.green.career.controller.login;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.green.career.dto.ResponseDto;
-import org.green.career.dto.login.CompanyDto;
 import org.green.career.service.login.LoginService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import static org.green.career.dto.ResponseDto.ok;
-
+/**
+ * 작성자: 구경림
+ * 작성일: 2024-12-01
+ * 로그인 컨트롤러
+ * 기초적 로그인 기능만 구현함
+ * TODO: 유효성검증
+ */
 @Controller
-public class LoginController {
-
-    @Autowired
-    private LoginService loginService;
+@RequiredArgsConstructor
+@Slf4j
+public class LoginController extends AbstractController {
+    private final LoginService loginService;
 
     @GetMapping("/login")
     public String loginPage() {
@@ -26,13 +28,13 @@ public class LoginController {
 
     @ResponseBody
     @PostMapping("/login")
-    public ResponseDto<String> login(@RequestBody CompanyDto loginDto, HttpSession session) {
-        CompanyDto user = loginService.login(loginDto.getId(), loginDto.getPw(), loginDto.getUser_gbn_cd());
+    public ResponseDto<String> login(@RequestBody UserLoginDto loginDto, HttpSession session) {
+        UserLoginDto user = loginService.login(loginDto.getId(), loginDto.getPw(), loginDto.getUserGbnCd());
         session.setAttribute("userId", user.getId());
         session.setAttribute("userName", user.getName());
-        session.setAttribute("userType", user.getUser_gbn_cd());
+        session.setAttribute("userType", user.getUserGbnCd());
         System.out.println(user.getId());
-        System.out.println(user.getUser_gbn_cd());
+        System.out.println(user.getUserGbnCd());
         return ok("로그인 성공");
     }
 
