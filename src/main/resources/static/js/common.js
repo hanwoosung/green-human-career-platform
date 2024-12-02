@@ -42,6 +42,13 @@ export let common = {
                             formDataObj.append(name, ele.value);
                         }
                     }
+                } else if (ele.type === "file") {
+                    // 체크박스인 경우 선택된 값만 처리
+                    output.value[name].push(ele.files);
+                    if (formDataObj) {
+                        formDataObj.append(name, ele.value);
+                    }
+
                 } else if (ele.tagName === "SELECT" && ele.multiple) {
                     // 멀티 셀렉트 박스인 경우 선택된 값 배열 처리
                     let selectedValues = Array.from(ele.selectedOptions).map(option => option.value);

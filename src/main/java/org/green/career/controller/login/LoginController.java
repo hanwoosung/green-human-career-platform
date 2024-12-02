@@ -32,6 +32,7 @@ public class LoginController {
     public String login(@RequestParam String id, @RequestParam String pw, HttpSession session) {
         UserLoginDto user = loginService.login(id, pw);
         session.setAttribute("userName", user.getName());
+        session.setAttribute("userId", user.getId());
         session.setAttribute("userType", user.getUserGbnCd());
         System.out.println("userType: " + session.getAttribute("userType"));
         System.out.println("userType: " + session.getAttribute("userName"));

@@ -1,216 +1,87 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- Default Layout Import-->
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout-test/layout/mypage_layout}"
+>
     <head>
         <meta charset="UTF-8">
-        <title>Title</title>
+        <title>asd</title>
         <link rel="stylesheet" href="/static/css/jobseeker/mypage/bookmark.css">
+        <link rel="stylesheet" href="/static/css/common/paging.css">
     </head>
     <body>
+        <main layout:fragment="content">
+            <div class="content-title font-bold">
+                <span>북마크한 기업 목록</span>
+            </div>
+            <div class="content-detail">
+                <div class="list-wrap">
 
-        <div class="flex-row">
-            <div class="w300" th:insert="~{layout/user_side}"></div>
-            <div class="flex-column flex1">
-                <div th:insert="~{layout/header_no_logo}"></div>
-                <div class="content pl50 pt50 pb50">
-                    <div class="content-title font-bold">
-                        <span>북마크한 기업 목록</span>
-                    </div>
-                    <div class="content-detail">
-                        <div class="list-wrap">
-                            <div class="list">
-                                <div class="list-img">
-                                    <img>
-                                </div>
-                                <div class="list-content">
-                                    <div>
-                                        <span class="font-bold fs-20">박명수</span>
-                                        <span class="list-age">(22)</span>
-                                    </div>
-                                    <div>
-                                        <span class="list-addr">부산광역시 부산진구 중앙대로 749</span>
-                                    </div>
-                                    <div class="list-item">
-                                        <span>대표 이력서</span>
-                                    </div>
-                                </div>
+                    <div class="list" th:each="bookmark : ${list}" th:attr="data-id=${bookmark.cjNo}">
+                        <div class="list-img">
+                            <img th:src="${bookmark.fileUrl + '/' + bookmark.fileId + '.' + bookmark.fileExt}"
+                                 onerror="this.src='/static/images/default_profile.png'">
+                        </div>
+                        <div class="list-content">
+                            <div>
+                                <span class="font-bold fs-20">[[${bookmark.name}]]</span>
+                                <span class="list-age">([[${bookmark.age}]])</span>
                             </div>
-
-                            <div class="list">
-                                <div class="list-img">
-                                    <img>
-                                </div>
-                                <div class="list-content">
-                                    <div>
-                                        <span class="font-bold fs-20">박명수</span>
-                                        <span class="list-age">(22)</span>
-                                    </div>
-                                    <div>
-                                        <span class="list-addr">부산광역시 부산진구 중앙대로 749</span>
-                                    </div>
-                                    <div class="list-item">
-                                        <span>대표 이력서</span>
-                                    </div>
-                                </div>
+                            <div>
+                                <span class="list-addr">([[${bookmark.zipCd}]]) [[${bookmark.addr}]] [[${bookmark.addr2}]]</span>
                             </div>
-
-                            <div class="list">
-                                <div class="list-img">
-                                    <img>
-                                </div>
-                                <div class="list-content">
-                                    <div>
-                                        <span class="font-bold fs-20">박명수</span>
-                                        <span class="list-age">(22)</span>
-                                    </div>
-                                    <div>
-                                        <span class="list-addr">부산광역시 부산진구 중앙대로 749</span>
-                                    </div>
-                                    <div class="list-item">
-                                        <span>대표 이력서</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="list">
-                                <div class="list-img">
-                                    <img>
-                                </div>
-                                <div class="list-content">
-                                    <div>
-                                        <span class="font-bold fs-20">박명수</span>
-                                        <span class="list-age">(22)</span>
-                                    </div>
-                                    <div>
-                                        <span class="list-addr">부산광역시 부산진구 중앙대로 749</span>
-                                    </div>
-                                    <div class="list-item">
-                                        <span>대표 이력서</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="list">
-                                <div class="list-img">
-                                    <img>
-                                </div>
-                                <div class="list-content">
-                                    <div>
-                                        <span class="font-bold fs-20">박명수</span>
-                                        <span class="list-age">(22)</span>
-                                    </div>
-                                    <div>
-                                        <span class="list-addr">부산광역시 부산진구 중앙대로 749</span>
-                                    </div>
-                                    <div class="list-item">
-                                        <span>대표 이력서</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="list">
-                                <div class="list-img">
-                                    <img>
-                                </div>
-                                <div class="list-content">
-                                    <div>
-                                        <span class="font-bold fs-20">박명수</span>
-                                        <span class="list-age">(22)</span>
-                                    </div>
-                                    <div>
-                                        <span class="list-addr">부산광역시 부산진구 중앙대로 749</span>
-                                    </div>
-                                    <div class="list-item">
-                                        <span>대표 이력서</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="list">
-                                <div class="list-img">
-                                    <img>
-                                </div>
-                                <div class="list-content">
-                                    <div>
-                                        <span class="font-bold fs-20">박명수</span>
-                                        <span class="list-age">(22)</span>
-                                    </div>
-                                    <div>
-                                        <span class="list-addr">부산광역시 부산진구 중앙대로 749</span>
-                                    </div>
-                                    <div class="list-item">
-                                        <span>대표 이력서</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="list">
-                                <div class="list-img">
-                                    <img>
-                                </div>
-                                <div class="list-content">
-                                    <div>
-                                        <span class="font-bold fs-20">박명수</span>
-                                        <span class="list-age">(22)</span>
-                                    </div>
-                                    <div>
-                                        <span class="list-addr">부산광역시 부산진구 중앙대로 749</span>
-                                    </div>
-                                    <div class="list-item">
-                                        <span>대표 이력서</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="list">
-                                <div class="list-img">
-                                    <img>
-                                </div>
-                                <div class="list-content">
-                                    <div>
-                                        <span class="font-bold fs-20">박명수</span>
-                                        <span class="list-age">(22)</span>
-                                    </div>
-                                    <div>
-                                        <span class="list-addr">부산광역시 부산진구 중앙대로 749</span>
-                                    </div>
-                                    <div class="list-item">
-                                        <span>대표 이력서</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="list">
-                                <div class="list-img">
-                                    <img>
-                                </div>
-                                <div class="list-content">
-                                    <div>
-                                        <span class="font-bold fs-20">박명수</span>
-                                        <span class="list-age">(22)</span>
-                                    </div>
-                                    <div>
-                                        <span class="list-addr">부산광역시 부산진구 중앙대로 749</span>
-                                    </div>
-                                    <div class="list-item">
-                                        <span>대표 이력서</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="list">
-                                <div class="list-img">
-                                    <img>
-                                </div>
-                                <div class="list-content">
-                                    <div>
-                                        <span class="font-bold fs-20">박명수</span>
-                                        <span class="list-age">(22)</span>
-                                    </div>
-                                    <div>
-                                        <span class="list-addr">부산광역시 부산진구 중앙대로 749</span>
-                                    </div>
-                                    <div class="list-item">
-                                        <span>대표 이력서</span>
-                                    </div>
-                                </div>
+                            <div class="list-item">
+                                <span>[[${bookmark.CBusiness}]]</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <footer th:insert="~{layout/footer}"></footer>
+
+            <!-- 페이징 -->
+            <div class="pagination-wrapper">
+                <nav class="pagination-nav">
+                    <ul class="pagination">
+                        <!-- 처음 페이지 버튼 -->
+                        <li th:class="${paging.firstPageBtn ? 'page-item' : 'page-item disabled'}">
+                            <a class="page-link"
+                               th:href="${paging.firstPageBtn ? '/job-seeker/my-page/bookmark?page=1' : '#'}"
+                               aria-label="처음">&laquo;</a>
+                        </li>
+
+                        <!-- 이전 페이지 버튼 -->
+                        <li th:class="${paging.prevBtn ? 'page-item' : 'page-item disabled'}">
+                            <a class="page-link"
+                               th:href="${paging.prevBtn ? '/job-seeker/my-page/bookmark?page=' + (paging.startPage - 1) : '#'}"
+                               aria-label="이전">&lt;</a>
+                        </li>
+
+                        <!-- 페이지 번호 리스트 -->
+                        <li th:each="i : ${#numbers.sequence(paging.startPage, paging.endPage)}"
+                            th:class="${paging.currentPage == i ? 'page-item active' : 'page-item'}">
+                            <a class="page-link" th:href="@{/job-seeker/my-page/bookmark(page=${i})}"
+                               th:text="${i}"></a>
+                        </li>
+
+                        <!-- 다음 페이지 버튼 -->
+                        <li th:class="${paging.nextBtn ? 'page-item' : 'page-item disabled'}">
+                            <a class="page-link"
+                               th:href="${paging.nextBtn ? '/job-seeker/my-page/bookmark?page=' + (paging.endPage + 1) : '#'}"
+                               aria-label="다음">&gt;</a>
+                        </li>
+
+                        <!-- 마지막 페이지 버튼 -->
+                        <li th:class="${paging.lastPageBtn ? 'page-item' : 'page-item disabled'}">
+                            <a class="page-link"
+                               th:href="${paging.lastPageBtn ? '/job-seeker/my-page/bookmark?page=' + paging.totalPage : '#'}"
+                               aria-label="마지막">&raquo;</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </main>
+
     </body>
 </html>
