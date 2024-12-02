@@ -1,5 +1,6 @@
 package org.green.career.service.jobseeker.mypage.stack;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.green.career.dao.jobseeker.mypage.StackDao;
@@ -32,6 +33,7 @@ import java.util.stream.Collectors;
 public class StackServiceImpl extends AbstractService implements StackService {
 
     private final StackDao stackDao;
+    private final HttpSession session;
 
     /**
      * 기술 리스트 조회
@@ -66,7 +68,10 @@ public class StackServiceImpl extends AbstractService implements StackService {
      */
     @Override
     public List<JobOpeningResponseDto> findJobOpeningList(int offset, int limit) {
-        List<JobOpeningResponseDto> jobList = stackDao.findJobOpeningList(offset, limit);
+
+        String id = session.getAttribute("userId").toString();
+
+        List<JobOpeningResponseDto> jobList = stackDao.findJobOpeningList(offset, limit, id);
         if (jobList.isEmpty()) {
             log.info("조회된 채용 공고 없음.");
             return Collections.emptyList();
@@ -81,7 +86,10 @@ public class StackServiceImpl extends AbstractService implements StackService {
     @Override
     public List<JobOpeningResponseDto> searchJobOpenings(String searchText, List<String> skills, int offset, int limit) {
         try {
-            List<JobOpeningResponseDto> jobList = stackDao.searchJobOpenings(searchText, skills, offset, limit);
+
+            String id = session.getAttribute("userId").toString();
+
+            List<JobOpeningResponseDto> jobList = stackDao.searchJobOpenings(searchText, skills, offset, limit, id);
 
             if (jobList == null || jobList.isEmpty()) {
                 log.info("검색 조건에 맞는 채용 공고 없음.");
