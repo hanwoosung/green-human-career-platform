@@ -49,6 +49,12 @@ public class JobOpeningResponseDto {
     // 파일 URL (예: 이미지 파일)
     private String fileUrl;
 
+    // scrapCnt
+    private int scrapCnt;
+
+    // bookmarkCnt
+    private int bookmarkCnt;
+
 
     /**
      * 디비에서 스킬이 [JAVA,AWS]이런식으로 날라오게 만들어 놓아서

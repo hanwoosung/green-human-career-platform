@@ -6,5 +6,4 @@ public interface ScrapService {
 
     Map<String, Object> selectAllScraps(int page);
 
-
 }
