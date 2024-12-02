@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<!--
+    작성자: 구경림
+    작성일: 2024.12.01
+    파일 설명:
+    userType 값을 기준으로 기업(C), 구직자(S), 비회원 사용자로 구분
+    각각에 적합한 메뉴와 하위 메뉴를 동적으로 렌더링
+    FontAwesome 아이콘과 sidebar.css 파일을 활용해 스타일링
+-->
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      th:fragment="sidebar(userType)">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" th:href="@{/static/css/layout/sidebar.css}">
+  <title>Sidebar</title>
+</head>
+<body>
+<div class="sidebar">
+  <div class="sidebar-logo">
+    <a th:if="${userType == 'C'}" th:href="@{/company}">
+      <img class="header-logo" src="/static/images/logo_company.png" alt="Company Logo">
+    </a>
+    <a th:if="${userType == 'S'}" th:href="@{/}">
+      <img class="header-logo" src="/static/images/logo_user.png" alt="User Logo">
+    </a>
+    <a th:if="${userType == '비회원'}" th:href="@{/}">
+      <img class="header-logo" src="/static/images/logo.png" alt="Default Logo">
+    </a>
+  </div>
+  <nav class="nav-section">
+    <ul class="sidebar-list" th:if="${userType == 'C'}">
+      <li class="sidebar-item has-submenu">
+        <a href="/test/mypage-empty">
+          <i class="fas fa-home"></i> MY홈
+        </a>
+        <ul class="submenu">
+          <li><a href="/test">내 정보 수정</a></li>
+          <li><a href="/test">비밀번호 수정</a></li>
+        </ul>
+      </li>
+      <li class="sidebar-item has-submenu">
+        <a href="/test">
+          <i class="fas fa-file-alt"></i> 구직자 관리
+        </a>
+        <ul class="submenu">
+          <li><a href="/test">북마크한 구직자 목록</a></li>
+          <li><a href="/test">기술스택 기반 이력서 조회</a></li>
+          <li><a href="/test">입사 제안 현황</a></li>
+        </ul>
+      </li>
+      <li class="sidebar-item">
+        <a href="/test">
+          <i class="fas fa-star"></i> 기업 정보
+        </a>
+      </li>
+      <li class="sidebar-item has-submenu">
+        <a href="/test">
+          <i class="fas fa-cogs"></i> 고객 센터
+        </a>
+        <ul class="submenu">
+          <li><a href="/test">문의하기</a></li>
+          <li><a href="/test">문의 확인</a></li>
+        </ul>
+      </li>
+    </ul>
+    <ul class="sidebar-list" th:if="${userType == 'S'}">
+      <li class="sidebar-item has-submenu">
+        <a href="/test/mypage-empty">
+          <i class="fas fa-home"></i> MY홈
+        </a>
+        <ul class="submenu">
+          <li><a href="/test">내 정보 수정</a></li>
+          <li><a href="/test">비밀번호 수정</a></li>
+        </ul>
+      </li>
+      <li class="sidebar-item">
+        <a href="/test">
+          <i class="fas fa-briefcase"></i> 이력서 관리
+        </a>
+      </li>
+      <li class="sidebar-item has-submenu">
+        <a href="/test">
+          <i class="fas fa-file-alt"></i> 결과 확인
+        </a>
+        <ul class="submenu">
+          <li><a href="/test">지원 결과 확인</a></li>
+          <li><a href="/test">제안 내역 확인</a></li>
+        </ul>
+      </li>
+      <li class="sidebar-item">
+        <a href="/test">
+          <i class="fas fa-star"></i> 관심 기업
+        </a>
+      </li>
+      <li class="sidebar-item has-submenu">
+        <a href="/test">
+          <i class="fas fa-cogs"></i> 고객 센터
+        </a>
+        <ul class="submenu">
+          <li><a href="/test">문의하기</a></li>
+          <li><a href="/test">문의 확인</a></li>
+        </ul>
+      </li>
+    </ul>
+    <ul class="sidebar-list" th:if="${userType == '비회원'}">
+      <li class="sidebar-item has-submenu">
+        <a href="/test/mypage-empty">
+          <i class="fas fa-home"></i> MY홈
+        </a>
+        <ul class="submenu">
+          <li><a href="/test">회원가입</a></li>
+          <li><a href="/login">로그인</a></li>
+        </ul>
+      </li>
+  </nav>
+</div>
+</body>
+</html>
