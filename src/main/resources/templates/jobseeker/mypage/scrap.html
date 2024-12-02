@@ -18,15 +18,15 @@
             </div>
 
             <div class="main-list-wrapper">
-                <div class="main-list-container" th:each="scrap : ${list}">
-                    <div class="job-card">
+                <div class="main-list-container" >
+                    <div class="job-card" th:each="scrap : ${list}">
                         <div class="card-image">
                             <div class="card-overlay">
                                 <span class="days-left">D - [[${scrap.leftDt}]]</span>
-                                <i class="bi bi-bookmark scrap-icon" id="bookmark-icon"></i>
+<!--                                <i class="bi bi-bookmark scrap-icon" id="bookmark-icon"></i>-->
                             </div>
                             <img alt="회사 이미지"
-                                 th:src="${bookmark?.fileUrl + '/' + bookmark?.fileId + '.' + bookmark?.fileExt}"
+                                 th:src="${scrap?.fileUrl + '/' + scrap?.fileId + '.' + scrap?.fileExt}"
                                  onerror="this.src='/static/images/empty_company.png'">
                         </div>
                         <div class="card-header">
@@ -75,7 +75,7 @@
                         <!-- 페이지 번호 리스트 -->
                         <li th:each="i : ${#numbers.sequence(paging.startPage, paging.endPage)}"
                             th:class="${paging.currentPage == i ? 'page-item active' : 'page-item'}">
-                            <a class="page-link" th:href="@{/job-seeker/my-page/bookmark(page=${i})}"
+                            <a class="page-link" th:href="@{/job-seeker/my-page/scrap(page=${i})}"
                                th:text="${i}"></a>
                         </li>
 

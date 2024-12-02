@@ -35,11 +35,10 @@ public class ScrapServiceImpl extends AbstractService implements ScrapService {
     public Map<String, Object> selectAllScraps(int page) {
 
         String id = (String) session.getAttribute("userId");
-//        String id = "user1";
 
         Map<String, Object> result = new HashMap<>();
 
-        int pageSize = 15;
+        int pageSize = 6;
         int offset = (page - 1) * pageSize;
 
         int totalCount = totalCount(id);

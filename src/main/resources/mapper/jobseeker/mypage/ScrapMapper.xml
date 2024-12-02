@@ -27,7 +27,8 @@
                  LEFT JOIN tbl_file f ON b.j_no = f.file_ref_id AND f.file_gbn_cd = '20'
         WHERE d.use_yn = 'Y'
           AND a.l_gbn_cd = 'S'
-          AND a.id = #{id};
+          AND a.id = #{id}
+          LIMIT #{offset}, #{limit};
     </select>
 
     <select id="getTotalCnt">
