@@ -1,6 +1,8 @@
 /* 공통 색상 */
 :root {
     --primary-color: #007bff;
+    --primary-color2: #082b51;
+    --primary-color3: #0e59aa;
     --secondary-color: #6c757d;
     --text-color: #212529;
     --text-a-color: #35393d;

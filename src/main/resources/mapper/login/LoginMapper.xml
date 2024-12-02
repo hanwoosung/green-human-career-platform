@@ -7,9 +7,9 @@
     사용자 로그인 관련 MyBatis 매퍼
 -->
 <mapper namespace="org.green.career.dao.login.LoginDao">
-    <select id="findUserForLogin" parameterType="map" resultType="org.green.career.dto.login.UserLoginDto">
-        SELECT id, name, user_gbn_cd
+    <select id="findUserForLogin" parameterType="String" resultType="org.green.career.dto.login.UserLoginDto">
+        SELECT id, name, pw, user_gbn_cd
         FROM tbl_user
-        WHERE id = #{id} AND pw = #{pw} AND use_yn = 'Y'
+        WHERE id = #{id} AND use_yn = 'Y'
     </select>
 </mapper>

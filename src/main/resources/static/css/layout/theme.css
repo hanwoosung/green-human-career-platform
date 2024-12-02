@@ -30,6 +30,7 @@ body {
     width: 240px;
     background-color: #f8f9fa;
     display: flex;
+    padding-left: 20px;
     border-right: 1px solid var(--border-color);
     flex-direction: column;
     z-index: 100;
@@ -151,6 +152,7 @@ body {
 
 .header-logo {
     height: 40px;
+    margin-right: 10px;
     align-items: center;
 }
 
