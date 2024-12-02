@@ -19,7 +19,7 @@ body {
 }
 
 /* 마이페이지 레이아웃 */
-.mypage-layout{
+.mypage-layout {
     display: grid;
     grid-template-columns: 300px 3fr;
 }
@@ -70,6 +70,7 @@ body {
     font-weight: 500;
     border-radius: 4px;
 }
+
 .sidebar-item > a {
     display: block;
     padding: 12px 20px;
@@ -101,7 +102,7 @@ body {
 }
 
 
-.mypage-container{
+.mypage-container {
     padding: 40px 120px 40px 40px;
 }
 
@@ -111,16 +112,17 @@ body {
     display: flex;
     justify-content: end;
     align-items: center;
-    background-color: #ffffff;
+    /*    background-color: #ffffff;*/
 }
-.mypage-content{
+
+.mypage-content {
     min-height: 100vh;
     padding: 20px;
     width: 100%;
 }
 
 /* 메인페이지 레이아웃 */
-.container{
+.container {
     flex: 1;
     margin: 0 auto;
     width: 1150px;
@@ -128,7 +130,7 @@ body {
 }
 
 /* 헤더 레이아웃 */
-.header-wrap{
+.header-wrap {
     margin-top: 20px;
     width: 100vw;
     height: 90px;
@@ -137,6 +139,7 @@ body {
     justify-content: center;
     align-items: center;
 }
+
 .header {
     margin: auto;
     width: 1150px;
@@ -146,7 +149,7 @@ body {
     background-color: #ffffff;
 }
 
-.left-header{
+.left-header {
     display: flex;
 }
 
@@ -184,11 +187,11 @@ body {
 }
 
 
-
 /* 마이페이지, 메인페이지 헤더 공통 */
-.profile-icon{
+.profile-icon {
     height: 40px;
 }
+
 .user-info, .user-type {
     position: relative;
     padding: 5px 10px 5px 10px;
@@ -210,7 +213,7 @@ body {
     gap: 5px;
 }
 
-.profile-dropdown-menu{
+.profile-dropdown-menu {
     position: absolute;
     width: 150px;
     top: 60px;
@@ -221,13 +224,14 @@ body {
     display: none;
     z-index: 10;
 }
-.profile-dropdown-menu ul{
+
+.profile-dropdown-menu ul {
     list-style: none;
     margin: 0;
     padding: 10px;
 }
 
-.profile-dropdown-menu li{
+.profile-dropdown-menu li {
     padding: 10px 20px;
     font-size: 0.7rem;
     color: var(--text-a-color);
@@ -277,7 +281,7 @@ body {
     color: #555;
 }
 
-.footer-bottom{
+.footer-bottom {
     font-size: 12px;
     color: #aaa;
     margin: 0;

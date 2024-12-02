@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <title>채용 공고 등록</title>
+        <link rel="stylesheet" href="/static/css/common/common.css">
+        <link rel="stylesheet" href="/static/css/jobopen/register.css">
+    </head>
+    <body>
+
+        <!DOCTYPE html>
+        <html lang="en"
+              xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+              layout:decorate="~{/layout-test/layout/mypage_layout}"
+        >
+            <head>
+                <meta charset="UTF-8">
+                <title>채용 공고 등록</title>
+            </head>
+            <body>
+                <main layout:fragment="content">
+                    <div class="content">
+                        <div class="job-registration-form">
+                            <header class="form-header">
+                                <h1>채용 공고 등록</h1>
+                            </header>
+                            <form id="jobForm" enctype="multipart/form-data" onsubmit="regist(event)">
+                                <!-- 공고명 -->
+                                <div class="form-group">
+                                    <label for="jobTitle">공고명</label>
+                                    <input type="text" id="jobTitle" name="jobTitle" placeholder="예: 프론트엔드 개발자 모집"
+                                           maxlength="255" required>
+                                </div>
+
+                                <!-- 서브타이틀 -->
+                                <div class="form-group">
+                                    <label for="jobSubtitle">서브타이틀</label>
+                                    <input type="text" id="jobSubtitle" name="jobSubtitle"
+                                           placeholder="예: 혁신적인 팀에서 함께할 인재를 찾습니다!" maxlength="255">
+                                </div>
+
+                                <!-- 내용 -->
+                                <div class="form-group">
+                                    <label for="jobDescription">내용</label>
+                                    <textarea id="jobDescription" name="jobDescription" placeholder="공고 상세 내용을 입력하세요"
+                                              rows="5" required></textarea>
+                                </div>
+
+                                <!-- 채용 기간 -->
+                                <div class="form-group">
+                                    <label>채용 기간</label>
+                                    <div class="date-range-group">
+                                        <!-- 시작 날짜 -->
+                                        <div class="date-field">
+                                            <label for="startDate">시작 날짜</label>
+                                            <input type="datetime-local" id="startDate" name="startDate" required>
+                                        </div>
+
+                                        <!-- 마감 날짜 -->
+                                        <div class="date-field">
+                                            <label for="endDate">마감 날짜</label>
+                                            <input type="datetime-local" id="endDate" name="endDate" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 학력 -->
+                                <div class="form-group">
+                                    <label for="education">학력</label>
+                                    <select id="education" name="education" required>
+                                        <option value="">선택하세요</option>
+                                        <option value="H">고졸</option>
+                                        <option value="U">대졸</option>
+                                        <option value="J">전문대</option>
+                                        <option value="S">석사</option>
+                                        <option value="D">박사</option>
+                                    </select>
+                                </div>
+
+                                <!-- 경력 -->
+                                <div class="form-group">
+                                    <label for="experience">경력</label>
+                                    <select id="experience" name="experience" required>
+                                        <option value="">선택하세요</option>
+                                        <option value="S">신입</option>
+                                        <option value="G">경력</option>
+                                        <option value="SG">신입/경력</option>
+                                    </select>
+                                </div>
+
+                                <!-- 우대 사항 -->
+                                <div class="form-group">
+                                    <label for="preferred">우대 사항</label>
+                                    <textarea id="preferred" name="preferred" placeholder="우대 조건을 입력하세요"
+                                              maxlength="200" rows="3"></textarea>
+                                </div>
+
+                                <!-- 근무 위치 -->
+                                <div class="form-group">
+                                    <label for="workLocation">근무 위치</label>
+                                    <input type="text" id="workLocation" name="workLocation" placeholder="예: 서울특별시 강남구"
+                                           maxlength="255">
+                                </div>
+
+                                <!-- 근무 시간 -->
+                                <div class="form-group">
+                                    <label for="workTime">근무 시간</label>
+                                    <input type="text" id="workTime" name="workTime" placeholder="월~금 몇시 ~ 몇시까지"
+                                           maxlength="255">
+                                </div>
+
+                                <!-- 근무 형태 -->
+                                <div class="form-group">
+                                    <label for="employmentType">근무 형태</label>
+                                    <select id="employmentType" name="employmentType" required>
+                                        <option value="">선택하세요</option>
+                                        <option value="C">계약직</option>
+                                        <option value="F">정규직</option>
+                                        <option value="A">계약/정규직</option>
+                                    </select>
+                                </div>
+
+                                <!-- 등록 버튼 -->
+                                <div class="form-actions">
+                                    <button type="submit" class="submit-button">공고 등록</button>
+                                </div>
+                            </form>
+
+
+                        </div>
+                    </div>
+                </main>
+            </body>
+        </html>
+
+
+        <script src="/static/js/jobopen/job_open_register.js"></script>
+    </body>
+</html>

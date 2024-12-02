@@ -1,8 +1,7 @@
 package org.green.career.service.main;
 
-import org.green.career.dto.common.CodeInfoDto;
-import org.green.career.dto.jobopen.JobOpeningDto;
 import org.green.career.dto.jobopen.JobSearchResult;
+import org.green.career.dto.jobopen.requset.JobOpeningResponseDto;
 
 import java.util.List;
 import java.util.Map;
@@ -14,11 +13,11 @@ import java.util.Map;
  */
 public interface MainService {
 
-    Map<String, List<CodeInfoDto>> findSkillList();
+    Map<String, Object> findSkillList();
 
-    List<JobOpeningDto.JobOpeningResponseDto> findJobOpeningList(int offset, int limit);
+    List<JobOpeningResponseDto> findJobOpeningList(int offset, int limit);
 
-    List<JobOpeningDto.JobOpeningResponseDto> searchJobOpenings(String searchText, List<String> skills, int offset, int limit);
+    List<JobOpeningResponseDto> searchJobOpenings(String searchText, List<String> skills, int offset, int limit);
 
     JobSearchResult getJobOpeningsWithPaging(String searchText, List<String> skills, int page);
 
