@@ -1,0 +1,2660 @@
+/* -------------------------
+   1. Margin Utilities
+------------------------- */
+/* 기본 margin 스타일 모듈화 (픽셀) */
+.mar-center {
+    margin: 0 auto;
+}
+
+.mar0 {
+    margin: 0;
+}
+
+.mar5 {
+    margin: 5px;
+}
+
+.mar10 {
+    margin: 10px;
+}
+
+.mar15 {
+    margin: 15px;
+}
+
+.mar20 {
+    margin: 20px;
+}
+
+.mar25 {
+    margin: 25px;
+}
+
+.mar30 {
+    margin: 30px;
+}
+
+.mar35 {
+    margin: 35px;
+}
+
+.mar40 {
+    margin: 40px;
+}
+
+.mar45 {
+    margin: 45px;
+}
+
+.mar50 {
+    margin: 50px;
+}
+
+.mar55 {
+    margin: 55px;
+}
+
+.mar60 {
+    margin: 60px;
+}
+
+.mar65 {
+    margin: 65px;
+}
+
+.mar70 {
+    margin: 70px;
+}
+
+.mar75 {
+    margin: 75px;
+}
+
+.mar80 {
+    margin: 80px;
+}
+
+.mar85 {
+    margin: 85px;
+}
+
+.mar90 {
+    margin: 90px;
+}
+
+.mar95 {
+    margin: 95px;
+}
+
+.mar100 {
+    margin: 100px;
+}
+
+/* 기본 margin 스타일 모듈화 (퍼센트) */
+.mar0p {
+    margin: 0;
+}
+
+.mar5p {
+    margin: 5%;
+}
+
+.mar10p {
+    margin: 10%;
+}
+
+.mar15p {
+    margin: 15%;
+}
+
+.mar20p {
+    margin: 20%;
+}
+
+.mar25p {
+    margin: 25%;
+}
+
+.mar30p {
+    margin: 30%;
+}
+
+.mar35p {
+    margin: 35%;
+}
+
+.mar40p {
+    margin: 40%;
+}
+
+.mar45p {
+    margin: 45%;
+}
+
+.mar50p {
+    margin: 50%;
+}
+
+.mar55p {
+    margin: 55%;
+}
+
+.mar60p {
+    margin: 60%;
+}
+
+.mar65p {
+    margin: 65%;
+}
+
+.mar70p {
+    margin: 70%;
+}
+
+.mar75p {
+    margin: 75%;
+}
+
+.mar80p {
+    margin: 80%;
+}
+
+.mar85p {
+    margin: 85%;
+}
+
+.mar90p {
+    margin: 90%;
+}
+
+.mar95p {
+    margin: 95%;
+}
+
+.mar100p {
+    margin: 100%;
+}
+
+/* 개별 방향 margin (픽셀) */
+.mt0 {
+    margin-top: 0;
+}
+
+.mt5 {
+    margin-top: 5px;
+}
+
+.mt10 {
+    margin-top: 10px;
+}
+
+.mt15 {
+    margin-top: 15px;
+}
+
+.mt20 {
+    margin-top: 20px;
+}
+
+.mt25 {
+    margin-top: 25px;
+}
+
+.mt30 {
+    margin-top: 30px;
+}
+
+.mt35 {
+    margin-top: 35px;
+}
+
+.mt40 {
+    margin-top: 40px;
+}
+
+.mt45 {
+    margin-top: 45px;
+}
+
+.mt50 {
+    margin-top: 50px;
+}
+
+.mt55 {
+    margin-top: 55px;
+}
+
+.mt60 {
+    margin-top: 60px;
+}
+
+.mt65 {
+    margin-top: 65px;
+}
+
+.mt70 {
+    margin-top: 70px;
+}
+
+.mt75 {
+    margin-top: 75px;
+}
+
+.mt80 {
+    margin-top: 80px;
+}
+
+.mt85 {
+    margin-top: 85px;
+}
+
+.mt90 {
+    margin-top: 90px;
+}
+
+.mt95 {
+    margin-top: 95px;
+}
+
+.mt100 {
+    margin-top: 100px;
+}
+
+/* margin-bottom (픽셀) */
+.mb0 {
+    margin-bottom: 0;
+}
+
+.mb5 {
+    margin-bottom: 5px;
+}
+
+.mb10 {
+    margin-bottom: 10px;
+}
+
+.mb15 {
+    margin-bottom: 15px;
+}
+
+.mb20 {
+    margin-bottom: 20px;
+}
+
+.mb25 {
+    margin-bottom: 25px;
+}
+
+.mb30 {
+    margin-bottom: 30px;
+}
+
+.mb35 {
+    margin-bottom: 35px;
+}
+
+.mb40 {
+    margin-bottom: 40px;
+}
+
+.mb45 {
+    margin-bottom: 45px;
+}
+
+.mb50 {
+    margin-bottom: 50px;
+}
+
+.mb55 {
+    margin-bottom: 55px;
+}
+
+.mb60 {
+    margin-bottom: 60px;
+}
+
+.mb65 {
+    margin-bottom: 65px;
+}
+
+.mb70 {
+    margin-bottom: 70px;
+}
+
+.mb75 {
+    margin-bottom: 75px;
+}
+
+.mb80 {
+    margin-bottom: 80px;
+}
+
+.mb85 {
+    margin-bottom: 85px;
+}
+
+.mb90 {
+    margin-bottom: 90px;
+}
+
+.mb95 {
+    margin-bottom: 95px;
+}
+
+.mb100 {
+    margin-bottom: 100px;
+}
+
+/* margin-left (픽셀) */
+.ml0 {
+    margin-left: 0;
+}
+
+.ml5 {
+    margin-left: 5px;
+}
+
+.ml10 {
+    margin-left: 10px;
+}
+
+.ml15 {
+    margin-left: 15px;
+}
+
+.ml20 {
+    margin-left: 20px;
+}
+
+.ml25 {
+    margin-left: 25px;
+}
+
+.ml30 {
+    margin-left: 30px;
+}
+
+.ml35 {
+    margin-left: 35px;
+}
+
+.ml40 {
+    margin-left: 40px;
+}
+
+.ml45 {
+    margin-left: 45px;
+}
+
+.ml50 {
+    margin-left: 50px;
+}
+
+.ml55 {
+    margin-left: 55px;
+}
+
+.ml60 {
+    margin-left: 60px;
+}
+
+.ml65 {
+    margin-left: 65px;
+}
+
+.ml70 {
+    margin-left: 70px;
+}
+
+.ml75 {
+    margin-left: 75px;
+}
+
+.ml80 {
+    margin-left: 80px;
+}
+
+.ml85 {
+    margin-left: 85px;
+}
+
+.ml90 {
+    margin-left: 90px;
+}
+
+.ml95 {
+    margin-left: 95px;
+}
+
+.ml100 {
+    margin-left: 100px;
+}
+
+/* margin-right (픽셀) */
+.mr0 {
+    margin-right: 0;
+}
+
+.mr5 {
+    margin-right: 5px;
+}
+
+.mr10 {
+    margin-right: 10px;
+}
+
+.mr15 {
+    margin-right: 15px;
+}
+
+.mr20 {
+    margin-right: 20px;
+}
+
+.mr25 {
+    margin-right: 25px;
+}
+
+.mr30 {
+    margin-right: 30px;
+}
+
+.mr35 {
+    margin-right: 35px;
+}
+
+.mr40 {
+    margin-right: 40px;
+}
+
+.mr45 {
+    margin-right: 45px;
+}
+
+.mr50 {
+    margin-right: 50px;
+}
+
+.mr55 {
+    margin-right: 55px;
+}
+
+.mr60 {
+    margin-right: 60px;
+}
+
+.mr65 {
+    margin-right: 65px;
+}
+
+.mr70 {
+    margin-right: 70px;
+}
+
+.mr75 {
+    margin-right: 75px;
+}
+
+.mr80 {
+    margin-right: 80px;
+}
+
+.mr85 {
+    margin-right: 85px;
+}
+
+.mr90 {
+    margin-right: 90px;
+}
+
+.mr95 {
+    margin-right: 95px;
+}
+
+.mr100 {
+    margin-right: 100px;
+}
+
+/* margin-top (퍼센트) */
+.mt0p {
+    margin-top: 0;
+}
+
+.mt5p {
+    margin-top: 5%;
+}
+
+.mt10p {
+    margin-top: 10%;
+}
+
+.mt15p {
+    margin-top: 15%;
+}
+
+.mt20p {
+    margin-top: 20%;
+}
+
+.mt25p {
+    margin-top: 25%;
+}
+
+.mt30p {
+    margin-top: 30%;
+}
+
+.mt35p {
+    margin-top: 35%;
+}
+
+.mt40p {
+    margin-top: 40%;
+}
+
+.mt45p {
+    margin-top: 45%;
+}
+
+.mt50p {
+    margin-top: 50%;
+}
+
+.mt55p {
+    margin-top: 55%;
+}
+
+.mt60p {
+    margin-top: 60%;
+}
+
+.mt65p {
+    margin-top: 65%;
+}
+
+.mt70p {
+    margin-top: 70%;
+}
+
+.mt75p {
+    margin-top: 75%;
+}
+
+.mt80p {
+    margin-top: 80%;
+}
+
+.mt85p {
+    margin-top: 85%;
+}
+
+.mt90p {
+    margin-top: 90%;
+}
+
+.mt95p {
+    margin-top: 95%;
+}
+
+.mt100p {
+    margin-top: 100%;
+}
+
+/* margin-bottom (퍼센트) */
+.mb0p {
+    margin-bottom: 0;
+}
+
+.mb5p {
+    margin-bottom: 5%;
+}
+
+.mb10p {
+    margin-bottom: 10%;
+}
+
+.mb15p {
+    margin-bottom: 15%;
+}
+
+.mb20p {
+    margin-bottom: 20%;
+}
+
+.mb25p {
+    margin-bottom: 25%;
+}
+
+.mb30p {
+    margin-bottom: 30%;
+}
+
+.mb35p {
+    margin-bottom: 35%;
+}
+
+.mb40p {
+    margin-bottom: 40%;
+}
+
+.mb45p {
+    margin-bottom: 45%;
+}
+
+.mb50p {
+    margin-bottom: 50%;
+}
+
+.mb55p {
+    margin-bottom: 55%;
+}
+
+.mb60p {
+    margin-bottom: 60%;
+}
+
+.mb65p {
+    margin-bottom: 65%;
+}
+
+.mb70p {
+    margin-bottom: 70%;
+}
+
+.mb75p {
+    margin-bottom: 75%;
+}
+
+.mb80p {
+    margin-bottom: 80%;
+}
+
+.mb85p {
+    margin-bottom: 85%;
+}
+
+.mb90p {
+    margin-bottom: 90%;
+}
+
+.mb95p {
+    margin-bottom: 95%;
+}
+
+.mb100p {
+    margin-bottom: 100%;
+}
+
+/* margin-left (퍼센트) */
+.ml0p {
+    margin-left: 0;
+}
+
+.ml5p {
+    margin-left: 5%;
+}
+
+.ml10p {
+    margin-left: 10%;
+}
+
+.ml15p {
+    margin-left: 15%;
+}
+
+.ml20p {
+    margin-left: 20%;
+}
+
+.ml25p {
+    margin-left: 25%;
+}
+
+.ml30p {
+    margin-left: 30%;
+}
+
+.ml35p {
+    margin-left: 35%;
+}
+
+.ml40p {
+    margin-left: 40%;
+}
+
+.ml45p {
+    margin-left: 45%;
+}
+
+.ml50p {
+    margin-left: 50%;
+}
+
+.ml55p {
+    margin-left: 55%;
+}
+
+.ml60p {
+    margin-left: 60%;
+}
+
+.ml65p {
+    margin-left: 65%;
+}
+
+.ml70p {
+    margin-left: 70%;
+}
+
+.ml75p {
+    margin-left: 75%;
+}
+
+.ml80p {
+    margin-left: 80%;
+}
+
+.ml85p {
+    margin-left: 85%;
+}
+
+.ml90p {
+    margin-left: 90%;
+}
+
+.ml95p {
+    margin-left: 95%;
+}
+
+.ml100p {
+    margin-left: 100%;
+}
+
+/* margin-right (퍼센트) */
+.mr0p {
+    margin-right: 0;
+}
+
+.mr5p {
+    margin-right: 5%;
+}
+
+.mr10p {
+    margin-right: 10%;
+}
+
+.mr15p {
+    margin-right: 15%;
+}
+
+.mr20p {
+    margin-right: 20%;
+}
+
+.mr25p {
+    margin-right: 25%;
+}
+
+.mr30p {
+    margin-right: 30%;
+}
+
+.mr35p {
+    margin-right: 35%;
+}
+
+.mr40p {
+    margin-right: 40%;
+}
+
+.mr45p {
+    margin-right: 45%;
+}
+
+.mr50p {
+    margin-right: 50%;
+}
+
+.mr55p {
+    margin-right: 55%;
+}
+
+.mr60p {
+    margin-right: 60%;
+}
+
+.mr65p {
+    margin-right: 65%;
+}
+
+.mr70p {
+    margin-right: 70%;
+}
+
+.mr75p {
+    margin-right: 75%;
+}
+
+.mr80p {
+    margin-right: 80%;
+}
+
+.mr85p {
+    margin-right: 85%;
+}
+
+.mr90p {
+    margin-right: 90%;
+}
+
+.mr95p {
+    margin-right: 95%;
+}
+
+.mr100p {
+    margin-right: 100%;
+}
+
+/* -------------------------
+   2. Padding Utilities
+------------------------- */
+
+/* Padding Top, Right, Bottom, Left - Pixels */
+.pt0 { padding-top: 0; }
+.pr0 { padding-right: 0; }
+.pb0 { padding-bottom: 0; }
+.pl0 { padding-left: 0; }
+
+.pt5 { padding-top: 5px; }
+.pr5 { padding-right: 5px; }
+.pb5 { padding-bottom: 5px; }
+.pl5 { padding-left: 5px; }
+
+.pt10 { padding-top: 10px; }
+.pr10 { padding-right: 10px; }
+.pb10 { padding-bottom: 10px; }
+.pl10 { padding-left: 10px; }
+
+.pt15 { padding-top: 15px; }
+.pr15 { padding-right: 15px; }
+.pb15 { padding-bottom: 15px; }
+.pl15 { padding-left: 15px; }
+
+.pt20 { padding-top: 20px; }
+.pr20 { padding-right: 20px; }
+.pb20 { padding-bottom: 20px; }
+.pl20 { padding-left: 20px; }
+
+.pt25 { padding-top: 25px; }
+.pr25 { padding-right: 25px; }
+.pb25 { padding-bottom: 25px; }
+.pl25 { padding-left: 25px; }
+
+.pt30 { padding-top: 30px; }
+.pr30 { padding-right: 30px; }
+.pb30 { padding-bottom: 30px; }
+.pl30 { padding-left: 30px; }
+
+.pt35 { padding-top: 35px; }
+.pr35 { padding-right: 35px; }
+.pb35 { padding-bottom: 35px; }
+.pl35 { padding-left: 35px; }
+
+.pt40 { padding-top: 40px; }
+.pr40 { padding-right: 40px; }
+.pb40 { padding-bottom: 40px; }
+.pl40 { padding-left: 40px; }
+
+.pt45 { padding-top: 45px; }
+.pr45 { padding-right: 45px; }
+.pb45 { padding-bottom: 45px; }
+.pl45 { padding-left: 45px; }
+
+.pt50 { padding-top: 50px; }
+.pr50 { padding-right: 50px; }
+.pb50 { padding-bottom: 50px; }
+.pl50 { padding-left: 50px; }
+
+.pt55 { padding-top: 55px; }
+.pr55 { padding-right: 55px; }
+.pb55 { padding-bottom: 55px; }
+.pl55 { padding-left: 55px; }
+
+.pt60 { padding-top: 60px; }
+.pr60 { padding-right: 60px; }
+.pb60 { padding-bottom: 60px; }
+.pl60 { padding-left: 60px; }
+
+.pt65 { padding-top: 65px; }
+.pr65 { padding-right: 65px; }
+.pb65 { padding-bottom: 65px; }
+.pl65 { padding-left: 65px; }
+
+.pt70 { padding-top: 70px; }
+.pr70 { padding-right: 70px; }
+.pb70 { padding-bottom: 70px; }
+.pl70 { padding-left: 70px; }
+
+.pt75 { padding-top: 75px; }
+.pr75 { padding-right: 75px; }
+.pb75 { padding-bottom: 75px; }
+.pl75 { padding-left: 75px; }
+
+.pt80 { padding-top: 80px; }
+.pr80 { padding-right: 80px; }
+.pb80 { padding-bottom: 80px; }
+.pl80 { padding-left: 80px; }
+
+.pt85 { padding-top: 85px; }
+.pr85 { padding-right: 85px; }
+.pb85 { padding-bottom: 85px; }
+.pl85 { padding-left: 85px; }
+
+.pt90 { padding-top: 90px; }
+.pr90 { padding-right: 90px; }
+.pb90 { padding-bottom: 90px; }
+.pl90 { padding-left: 90px; }
+
+.pt95 { padding-top: 95px; }
+.pr95 { padding-right: 95px; }
+.pb95 { padding-bottom: 95px; }
+.pl95 { padding-left: 95px; }
+
+.pt100 { padding-top: 100px; }
+.pr100 { padding-right: 100px; }
+.pb100 { padding-bottom: 100px; }
+.pl100 { padding-left: 100px; }
+
+/* Padding Top, Right, Bottom, Left - Percent */
+.pt0p { padding-top: 0; }
+.pr0p { padding-right: 0; }
+.pb0p { padding-bottom: 0; }
+.pl0p { padding-left: 0; }
+
+.pt5p { padding-top: 5%; }
+.pr5p { padding-right: 5%; }
+.pb5p { padding-bottom: 5%; }
+.pl5p { padding-left: 5%; }
+
+.pt10p { padding-top: 10%; }
+.pr10p { padding-right: 10%; }
+.pb10p { padding-bottom: 10%; }
+.pl10p { padding-left: 10%; }
+
+.pt15p { padding-top: 15%; }
+.pr15p { padding-right: 15%; }
+.pb15p { padding-bottom: 15%; }
+.pl15p { padding-left: 15%; }
+
+.pt20p { padding-top: 20%; }
+.pr20p { padding-right: 20%; }
+.pb20p { padding-bottom: 20%; }
+.pl20p { padding-left: 20%; }
+
+.pt25p { padding-top: 25%; }
+.pr25p { padding-right: 25%; }
+.pb25p { padding-bottom: 25%; }
+.pl25p { padding-left: 25%; }
+
+.pt30p { padding-top: 30%; }
+.pr30p { padding-right: 30%; }
+.pb30p { padding-bottom: 30%; }
+.pl30p { padding-left: 30%; }
+
+.pt35p { padding-top: 35%; }
+.pr35p { padding-right: 35%; }
+.pb35p { padding-bottom: 35%; }
+.pl35p { padding-left: 35%; }
+
+.pt40p { padding-top: 40%; }
+.pr40p { padding-right: 40%; }
+.pb40p { padding-bottom: 40%; }
+.pl40p { padding-left: 40%; }
+
+.pt45p { padding-top: 45%; }
+.pr45p { padding-right: 45%; }
+.pb45p { padding-bottom: 45%; }
+.pl45p { padding-left: 45%; }
+
+.pt50p { padding-top: 50%; }
+.pr50p { padding-right: 50%; }
+.pb50p { padding-bottom: 50%; }
+.pl50p { padding-left: 50%; }
+
+.pt55p { padding-top: 55%; }
+.pr55p { padding-right: 55%; }
+.pb55p { padding-bottom: 55%; }
+.pl55p { padding-left: 55%; }
+
+.pt60p { padding-top: 60%; }
+.pr60p { padding-right: 60%; }
+.pb60p { padding-bottom: 60%; }
+.pl60p { padding-left: 60%; }
+
+.pt65p { padding-top: 65%; }
+.pr65p { padding-right: 65%; }
+.pb65p { padding-bottom: 65%; }
+.pl65p { padding-left: 65%; }
+
+.pt70p { padding-top: 70%; }
+.pr70p { padding-right: 70%; }
+.pb70p { padding-bottom: 70%; }
+.pl70p { padding-left: 70%; }
+
+.pt75p { padding-top: 75%; }
+.pr75p { padding-right: 75%; }
+.pb75p { padding-bottom: 75%; }
+.pl75p { padding-left: 75%; }
+
+.pt80p { padding-top: 80%; }
+.pr80p { padding-right: 80%; }
+.pb80p { padding-bottom: 80%; }
+.pl80p { padding-left: 80%; }
+
+.pt85p { padding-top: 85%; }
+.pr85p { padding-right: 85%; }
+.pb85p { padding-bottom: 85%; }
+.pl85p { padding-left: 85%; }
+
+.pt90p { padding-top: 90%; }
+.pr90p { padding-right: 90%; }
+.pb90p { padding-bottom: 90%; }
+.pl90p { padding-left: 90%; }
+
+.pt95p { padding-top: 95%; }
+.pr95p { padding-right: 95%; }
+.pb95p { padding-bottom: 95%; }
+.pl95p { padding-left: 95%; }
+
+/* 기본 padding 스타일 모듈화 (픽셀) */
+.pad0 {
+    padding: 0;
+}
+
+.pad5 {
+    padding: 5px;
+}
+
+.pad10 {
+    padding: 10px;
+}
+
+.pad15 {
+    padding: 15px;
+}
+
+.pad20 {
+    padding: 20px;
+}
+
+.pad25 {
+    padding: 25px;
+}
+
+.pad30 {
+    padding: 30px;
+}
+
+.pad35 {
+    padding: 35px;
+}
+
+.pad40 {
+    padding: 40px;
+}
+
+.pad45 {
+    padding: 45px;
+}
+
+.pad50 {
+    padding: 50px;
+}
+
+.pad55 {
+    padding: 55px;
+}
+
+.pad60 {
+    padding: 60px;
+}
+
+.pad65 {
+    padding: 65px;
+}
+
+.pad70 {
+    padding: 70px;
+}
+
+.pad75 {
+    padding: 75px;
+}
+
+.pad80 {
+    padding: 80px;
+}
+
+.pad85 {
+    padding: 85px;
+}
+
+.pad90 {
+    padding: 90px;
+}
+
+.pad95 {
+    padding: 95px;
+}
+
+.pad100 {
+    padding: 100px;
+}
+
+/* 기본 padding 스타일 모듈화 (퍼센트) */
+.pad0p {
+    padding: 0;
+}
+
+.pad5p {
+    padding: 5%;
+}
+
+.pad10p {
+    padding: 10%;
+}
+
+.pad15p {
+    padding: 15%;
+}
+
+.pad20p {
+    padding: 20%;
+}
+
+.pad25p {
+    padding: 25%;
+}
+
+.pad30p {
+    padding: 30%;
+}
+
+.pad35p {
+    padding: 35%;
+}
+
+.pad40p {
+    padding: 40%;
+}
+
+.pad45p {
+    padding: 45%;
+}
+
+.pad50p {
+    padding: 50%;
+}
+
+.pad55p {
+    padding: 55%;
+}
+
+.pad60p {
+    padding: 60%;
+}
+
+.pad65p {
+    padding: 65%;
+}
+
+.pad70p {
+    padding: 70%;
+}
+
+.pad75p {
+    padding: 75%;
+}
+
+.pad80p {
+    padding: 80%;
+}
+
+.pad85p {
+    padding: 85%;
+}
+
+.pad90p {
+    padding: 90%;
+}
+
+.pad95p {
+    padding: 95%;
+}
+
+.pad100p {
+    padding: 100%;
+}
+
+/* Padding X (Horizontal) and Y (Vertical) */
+.px0 { padding-left: 0; padding-right: 0; }
+.py0 { padding-top: 0; padding-bottom: 0; }
+
+.px5 { padding-left: 5px; padding-right: 5px; }
+.py5 { padding-top: 5px; padding-bottom: 5px; }
+
+.px10 { padding-left: 10px; padding-right: 10px; }
+.py10 { padding-top: 10px; padding-bottom: 10px; }
+
+.px15 { padding-left: 15px; padding-right: 15px; }
+.py15 { padding-top: 15px; padding-bottom: 15px; }
+
+.px20 { padding-left: 20px; padding-right: 20px; }
+.py20 { padding-top: 20px; padding-bottom: 20px; }
+
+.px25 { padding-left: 25px; padding-right: 25px; }
+.py25 { padding-top: 25px; padding-bottom: 25px; }
+
+.px30 { padding-left: 30px; padding-right: 30px; }
+.py30 { padding-top: 30px; padding-bottom: 30px; }
+
+.px35 { padding-left: 35px; padding-right: 35px; }
+.py35 { padding-top: 35px; padding-bottom: 35px; }
+
+.px40 { padding-left: 40px; padding-right: 40px; }
+.py40 { padding-top: 40px; padding-bottom: 40px; }
+
+.px45 { padding-left: 45px; padding-right: 45px; }
+.py45 { padding-top: 45px; padding-bottom: 45px; }
+
+.px50 { padding-left: 50px; padding-right: 50px; }
+.py50 { padding-top: 50px; padding-bottom: 50px; }
+
+.px55 { padding-left: 55px; padding-right: 55px; }
+.py55 { padding-top: 55px; padding-bottom: 55px; }
+
+.px60 { padding-left: 60px; padding-right: 60px; }
+.py60 { padding-top: 60px; padding-bottom: 60px; }
+
+.px65 { padding-left: 65px; padding-right: 65px; }
+.py65 { padding-top: 65px; padding-bottom: 65px; }
+
+.px70 { padding-left: 70px; padding-right: 70px; }
+.py70 { padding-top: 70px; padding-bottom: 70px; }
+
+.px75 { padding-left: 75px; padding-right: 75px; }
+.py75 { padding-top: 75px; padding-bottom: 75px; }
+
+.px80 { padding-left: 80px; padding-right: 80px; }
+.py80 { padding-top: 80px; padding-bottom: 80px; }
+
+.px85 { padding-left: 85px; padding-right: 85px; }
+.py85 { padding-top: 85px; padding-bottom: 85px; }
+
+.px90 { padding-left: 90px; padding-right: 90px; }
+.py90 { padding-top: 90px; padding-bottom: 90px; }
+
+.px95 { padding-left: 95px; padding-right: 95px; }
+.py95 { padding-top: 95px; padding-bottom: 95px; }
+
+.px100 { padding-left: 100px; padding-right: 100px; }
+.py100 { padding-top: 100px; padding-bottom: 100px; }
+
+/* Padding X (Horizontal) and Y (Vertical) - Percent */
+.px0p { padding-left: 0; padding-right: 0; }
+.py0p { padding-top: 0; padding-bottom: 0; }
+
+.px5p { padding-left: 5%; padding-right: 5%; }
+.py5p { padding-top: 5%; padding-bottom: 5%; }
+
+.px10p { padding-left: 10%; padding-right: 10%; }
+.py10p { padding-top: 10%; padding-bottom: 10%; }
+
+.px15p { padding-left: 15%; padding-right: 15%; }
+.py15p { padding-top: 15%; padding-bottom: 15%; }
+
+.px20p { padding-left: 20%; padding-right: 20%; }
+.py20p { padding-top: 20%; padding-bottom: 20%; }
+
+.px25p { padding-left: 25%; padding-right: 25%; }
+.py25p { padding-top: 25%; padding-bottom: 25%; }
+
+.px30p { padding-left: 30%; padding-right: 30%; }
+.py30p { padding-top: 30%; padding-bottom: 30%; }
+
+.px35p { padding-left: 35%; padding-right: 35%; }
+.py35p { padding-top: 35%; padding-bottom: 35%; }
+
+.px40p { padding-left: 40%; padding-right: 40%; }
+.py40p { padding-top: 40%; padding-bottom: 40%; }
+
+.px45p { padding-left: 45%; padding-right: 45%; }
+.py45p { padding-top: 45%; padding-bottom: 45%; }
+
+.px50p { padding-left: 50%; padding-right: 50%; }
+.py50p { padding-top: 50%; padding-bottom: 50%; }
+
+.px55p { padding-left: 55%; padding-right: 55%; }
+.py55p { padding-top: 55%; padding-bottom: 55%; }
+
+.px60p { padding-left: 60%; padding-right: 60%; }
+.py60p { padding-top: 60%; padding-bottom: 60%; }
+
+.px65p { padding-left: 65%; padding-right: 65%; }
+.py65p { padding-top: 65%; padding-bottom: 65%; }
+
+.px70p { padding-left: 70%; padding-right: 70%; }
+.py70p { padding-top: 70%; padding-bottom: 70%; }
+
+.px75p { padding-left: 75%; padding-right: 75%; }
+.py75p { padding-top: 75%; padding-bottom: 75%; }
+
+.px80p { padding-left: 80%; padding-right: 80%; }
+.py80p { padding-top: 80%; padding-bottom: 80%; }
+
+.px85p { padding-left: 85%; padding-right: 85%; }
+.py85p { padding-top: 85%; padding-bottom: 85%; }
+
+.px90p { padding-left: 90%; padding-right: 90%; }
+.py90p { padding-top: 90%; padding-bottom: 90%; }
+
+.px95p { padding-left: 95%; padding-right: 95%; }
+.py95p { padding-top: 95%; padding-bottom: 95%; }
+
+.px100p { padding-left: 100%; padding-right: 100%; }
+.py100p { padding-top: 100%; padding-bottom: 100%; }
+
+/* -------------------------
+   3. Width Utilities
+------------------------- */
+/* 기본 width 스타일 모듈화 (픽셀) */
+.w0 { width: 0; }
+.w5 { width: 5px; }
+.w10 { width: 10px; }
+.w15 { width: 15px; }
+.w20 { width: 20px; }
+.w25 { width: 25px; }
+.w30 { width: 30px; }
+.w35 { width: 35px; }
+.w40 { width: 40px; }
+.w45 { width: 45px; }
+.w50 { width: 50px; }
+.w55 { width: 55px; }
+.w60 { width: 60px; }
+.w65 { width: 65px; }
+.w70 { width: 70px; }
+.w75 { width: 75px; }
+.w80 { width: 80px; }
+.w85 { width: 85px; }
+.w90 { width: 90px; }
+.w95 { width: 95px; }
+.w100 { width: 100px; }
+.w105 { width: 105px; }
+.w110 { width: 110px; }
+.w115 { width: 115px; }
+.w120 { width: 120px; }
+.w125 { width: 125px; }
+.w130 { width: 130px; }
+.w135 { width: 135px; }
+.w140 { width: 140px; }
+.w145 { width: 145px; }
+.w150 { width: 150px; }
+.w155 { width: 155px; }
+.w160 { width: 160px; }
+.w165 { width: 165px; }
+.w170 { width: 170px; }
+.w175 { width: 175px; }
+.w180 { width: 180px; }
+.w185 { width: 185px; }
+.w190 { width: 190px; }
+.w195 { width: 195px; }
+.w200 { width: 200px; }
+.w205 { width: 205px; }
+.w210 { width: 210px; }
+.w215 { width: 215px; }
+.w220 { width: 220px; }
+.w225 { width: 225px; }
+.w230 { width: 230px; }
+.w235 { width: 235px; }
+.w240 { width: 240px; }
+.w245 { width: 245px; }
+.w250 { width: 250px; }
+.w255 { width: 255px; }
+.w260 { width: 260px; }
+.w265 { width: 265px; }
+.w270 { width: 270px; }
+.w275 { width: 275px; }
+.w280 { width: 280px; }
+.w285 { width: 285px; }
+.w290 { width: 290px; }
+.w295 { width: 295px; }
+.w300 { width: 300px; }
+
+/* 기본 width 스타일 모듈화 (퍼센트) */
+.w0p {
+    width: 0;
+}
+
+.w5p {
+    width: 5%;
+}
+
+.w10p {
+    width: 10%;
+}
+
+.w15p {
+    width: 15%;
+}
+
+.w20p {
+    width: 20%;
+}
+
+.w25p {
+    width: 25%;
+}
+
+.w30p {
+    width: 30%;
+}
+
+.w35p {
+    width: 35%;
+}
+
+.w40p {
+    width: 40%;
+}
+
+.w45p {
+    width: 45%;
+}
+
+.w50p {
+    width: 50%;
+}
+
+.w55p {
+    width: 55%;
+}
+
+.w60p {
+    width: 60%;
+}
+
+.w65p {
+    width: 65%;
+}
+
+.w70p {
+    width: 70%;
+}
+
+.w75p {
+    width: 75%;
+}
+
+.w80p {
+    width: 80%;
+}
+
+.w85p {
+    width: 85%;
+}
+
+.w90p {
+    width: 90%;
+}
+
+.w95p {
+    width: 95%;
+}
+
+.w100p {
+    width: 100%;
+}
+
+/* 기본 width 스타일 모듈화 (뷰포트 너비 - vw) */
+.w0vw {
+    width: 0;
+}
+
+.w5vw {
+    width: 5vw;
+}
+
+.w10vw {
+    width: 10vw;
+}
+
+.w15vw {
+    width: 15vw;
+}
+
+.w20vw {
+    width: 20vw;
+}
+
+.w25vw {
+    width: 25vw;
+}
+
+.w30vw {
+    width: 30vw;
+}
+
+.w35vw {
+    width: 35vw;
+}
+
+.w40vw {
+    width: 40vw;
+}
+
+.w45vw {
+    width: 45vw;
+}
+
+.w50vw {
+    width: 50vw;
+}
+
+.w55vw {
+    width: 55vw;
+}
+
+.w60vw {
+    width: 60vw;
+}
+
+.w65vw {
+    width: 65vw;
+}
+
+.w70vw {
+    width: 70vw;
+}
+
+.w75vw {
+    width: 75vw;
+}
+
+.w80vw {
+    width: 80vw;
+}
+
+.w85vw {
+    width: 85vw;
+}
+
+.w90vw {
+    width: 90vw;
+}
+
+.w95vw {
+    width: 95vw;
+}
+
+.w100vw {
+    width: 100vw;
+}
+
+/* -------------------------
+   4. Height Utilities
+------------------------- */
+/* 기본 height 스타일 모듈화 (픽셀) */
+.h0 { height: 0; }
+.h5 { height: 5px; }
+.h10 { height: 10px; }
+.h15 { height: 15px; }
+.h20 { height: 20px; }
+.h25 { height: 25px; }
+.h30 { height: 30px; }
+.h35 { height: 35px; }
+.h40 { height: 40px; }
+.h45 { height: 45px; }
+.h50 { height: 50px; }
+.h55 { height: 55px; }
+.h60 { height: 60px; }
+.h65 { height: 65px; }
+.h70 { height: 70px; }
+.h75 { height: 75px; }
+.h80 { height: 80px; }
+.h85 { height: 85px; }
+.h90 { height: 90px; }
+.h95 { height: 95px; }
+.h100 { height: 100px; }
+.h105 { height: 105px; }
+.h110 { height: 110px; }
+.h115 { height: 115px; }
+.h120 { height: 120px; }
+.h125 { height: 125px; }
+.h130 { height: 130px; }
+.h135 { height: 135px; }
+.h140 { height: 140px; }
+.h145 { height: 145px; }
+.h150 { height: 150px; }
+.h155 { height: 155px; }
+.h160 { height: 160px; }
+.h165 { height: 165px; }
+.h170 { height: 170px; }
+.h175 { height: 175px; }
+.h180 { height: 180px; }
+.h185 { height: 185px; }
+.h190 { height: 190px; }
+.h195 { height: 195px; }
+.h200 { height: 200px; }
+.h205 { height: 205px; }
+.h210 { height: 210px; }
+.h215 { height: 215px; }
+.h220 { height: 220px; }
+.h225 { height: 225px; }
+.h230 { height: 230px; }
+.h235 { height: 235px; }
+.h240 { height: 240px; }
+.h245 { height: 245px; }
+.h250 { height: 250px; }
+.h255 { height: 255px; }
+.h260 { height: 260px; }
+.h265 { height: 265px; }
+.h270 { height: 270px; }
+.h275 { height: 275px; }
+.h280 { height: 280px; }
+.h285 { height: 285px; }
+.h290 { height: 290px; }
+.h295 { height: 295px; }
+.h300 { height: 300px; }
+
+/* 기본 height 스타일 모듈화 (퍼센트) */
+.h0p {
+    height: 0;
+}
+
+.h5p {
+    height: 5%;
+}
+
+.h10p {
+    height: 10%;
+}
+
+.h15p {
+    height: 15%;
+}
+
+.h20p {
+    height: 20%;
+}
+
+.h25p {
+    height: 25%;
+}
+
+.h30p {
+    height: 30%;
+}
+
+.h35p {
+    height: 35%;
+}
+
+.h40p {
+    height: 40%;
+}
+
+.h45p {
+    height: 45%;
+}
+
+.h50p {
+    height: 50%;
+}
+
+.h55p {
+    height: 55%;
+}
+
+.h60p {
+    height: 60%;
+}
+
+.h65p {
+    height: 65%;
+}
+
+.h70p {
+    height: 70%;
+}
+
+.h75p {
+    height: 75%;
+}
+
+.h80p {
+    height: 80%;
+}
+
+.h85p {
+    height: 85%;
+}
+
+.h90p {
+    height: 90%;
+}
+
+.h95p {
+    height: 95%;
+}
+
+.h100p {
+    height: 100%;
+}
+
+/* 기본 height 스타일 모듈화 (뷰포트 높이 - vh) */
+.h0vh {
+    height: 0;
+}
+
+.h5vh {
+    height: 5vh;
+}
+
+.h10vh {
+    height: 10vh;
+}
+
+.h15vh {
+    height: 15vh;
+}
+
+.h20vh {
+    height: 20vh;
+}
+
+.h25vh {
+    height: 25vh;
+}
+
+.h30vh {
+    height: 30vh;
+}
+
+.h35vh {
+    height: 35vh;
+}
+
+.h40vh {
+    height: 40vh;
+}
+
+.h45vh {
+    height: 45vh;
+}
+
+.h50vh {
+    height: 50vh;
+}
+
+.h55vh {
+    height: 55vh;
+}
+
+.h60vh {
+    height: 60vh;
+}
+
+.h65vh {
+    height: 65vh;
+}
+
+.h70vh {
+    height: 70vh;
+}
+
+.h75vh {
+    height: 75vh;
+}
+
+.h80vh {
+    height: 80vh;
+}
+
+.h85vh {
+    height: 85vh;
+}
+
+.h90vh {
+    height: 90vh;
+}
+
+.h95vh {
+    height: 95vh;
+}
+
+.h100vh {
+    height: 100vh;
+}
+
+/* -------------------------
+   5. Border-Radius Utilities
+------------------------- */
+/* 기본 border-radius 스타일 모듈화 */
+.br0 {
+    border-radius: 0;
+}
+
+.br5 {
+    border-radius: 5px;
+}
+
+.br10 {
+    border-radius: 10px;
+}
+
+.br15 {
+    border-radius: 15px;
+}
+
+.br20 {
+    border-radius: 20px;
+}
+
+.br25 {
+    border-radius: 25px;
+}
+
+.br30 {
+    border-radius: 30px;
+}
+
+.br35 {
+    border-radius: 35px;
+}
+
+.br40 {
+    border-radius: 40px;
+}
+
+.br45 {
+    border-radius: 45px;
+}
+
+.br50 {
+    border-radius: 50px;
+}
+
+.br55 {
+    border-radius: 55px;
+}
+
+.br60 {
+    border-radius: 60px;
+}
+
+.br65 {
+    border-radius: 65px;
+}
+
+.br70 {
+    border-radius: 70px;
+}
+
+.br75 {
+    border-radius: 75px;
+}
+
+.br80 {
+    border-radius: 80px;
+}
+
+.br85 {
+    border-radius: 85px;
+}
+
+.br90 {
+    border-radius: 90px;
+}
+
+.br95 {
+    border-radius: 95px;
+}
+
+.br100 {
+    border-radius: 100px;
+}
+
+/* 기본 border-radius 스타일 모듈화 (퍼센트) */
+.br0p {
+    border-radius: 0;
+}
+
+.br5p {
+    border-radius: 5%;
+}
+
+.br10p {
+    border-radius: 10%;
+}
+
+.br15p {
+    border-radius: 15%;
+}
+
+.br20p {
+    border-radius: 20%;
+}
+
+.br25p {
+    border-radius: 25%;
+}
+
+.br30p {
+    border-radius: 30%;
+}
+
+.br35p {
+    border-radius: 35%;
+}
+
+.br40p {
+    border-radius: 40%;
+}
+
+.br45p {
+    border-radius: 45%;
+}
+
+.br50p {
+    border-radius: 50%;
+}
+
+.br55p {
+    border-radius: 55%;
+}
+
+.br60p {
+    border-radius: 60%;
+}
+
+.br65p {
+    border-radius: 65%;
+}
+
+.br70p {
+    border-radius: 70%;
+}
+
+.br75p {
+    border-radius: 75%;
+}
+
+.br80p {
+    border-radius: 80%;
+}
+
+.br85p {
+    border-radius: 85%;
+}
+
+.br90p {
+    border-radius: 90%;
+}
+
+.br95p {
+    border-radius: 95%;
+}
+
+.br100p {
+    border-radius: 100%;
+}
+
+/* -------------------------
+   6. Positioning Utilities
+------------------------- */
+.pos-relative {
+    position: relative;
+}
+
+.pos-absolute {
+    position: absolute;
+}
+
+.pos-fixed {
+    position: fixed;
+}
+
+.pos-sticky {
+    position: sticky;
+}
+
+.top-0 {
+    top: 0;
+}
+
+.top-5 {
+    top: 5px;
+}
+
+.top-10 {
+    top: 10px;
+}
+
+.top-15 {
+    top: 15px;
+}
+
+.top-20 {
+    top: 20px;
+}
+
+.left-0 {
+    left: 0;
+}
+
+.left-5 {
+    left: 5px;
+}
+
+.left-10 {
+    left: 10px;
+}
+
+.left-15 {
+    left: 15px;
+}
+
+.left-20 {
+    left: 20px;
+}
+
+.right-0 {
+    right: 0;
+}
+
+.right-5 {
+    right: 5px;
+}
+
+.right-10 {
+    right: 10px;
+}
+
+.right-15 {
+    right: 15px;
+}
+
+.right-20 {
+    right: 20px;
+}
+
+.bottom-0 {
+    bottom: 0;
+}
+
+.bottom-5 {
+    bottom: 5px;
+}
+
+.bottom-10 {
+    bottom: 10px;
+}
+
+.bottom-15 {
+    bottom: 15px;
+}
+
+.bottom-20 {
+    bottom: 20px;
+}
+
+/* -------------------------
+   7. Z-Index Utilities
+------------------------- */
+.z-0 {
+    z-index: 0;
+}
+
+.z-1 {
+    z-index: 1;
+}
+
+.z-5 {
+    z-index: 5;
+}
+
+.z-10 {
+    z-index: 10;
+}
+
+.z-20 {
+    z-index: 20;
+}
+
+.z-50 {
+    z-index: 50;
+}
+
+.z-100 {
+    z-index: 100;
+}
+
+/* -------------------------
+   8. Display Utilities
+------------------------- */
+.d-block {
+    display: block;
+}
+
+.d-inline {
+    display: inline;
+}
+
+.d-inline-block {
+    display: inline-block;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.d-grid {
+    display: grid;
+}
+
+.d-none {
+    display: none;
+}
+
+/* -------------------------
+   9. Flexbox Utilities
+------------------------- */
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-start {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.flex-end {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.flex-space-between {
+    display: flex;
+    justify-content: space-between;
+}
+
+.flex-space-around {
+    display: flex;
+    justify-content: space-around;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+.flex-nowrap {
+    flex-wrap: nowrap;
+}
+
+/* -------------------------
+   10. Overflow Utilities
+------------------------- */
+.overflow-hidden {
+    overflow: hidden;
+}
+
+.overflow-auto {
+    overflow: auto;
+}
+
+.overflow-scroll {
+    overflow: scroll;
+}
+
+.overflow-visible {
+    overflow: visible;
+}
+
+/* -------------------------
+   11. Text Utilities
+------------------------- */
+.text-left {
+    text-align: left;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-justify {
+    text-align: justify;
+}
+
+.text-uppercase {
+    text-transform: uppercase;
+}
+
+.text-lowercase {
+    text-transform: lowercase;
+}
+
+.text-capitalize {
+    text-transform: capitalize;
+}
+
+.font-bold {
+    font-weight: bold;
+}
+
+.font-light {
+    font-weight: 300;
+}
+
+.font-normal {
+    font-weight: 400;
+}
+
+.fs-12 {
+    font-size: 12px;
+}
+
+.fs-14 {
+    font-size: 14px;
+}
+
+.fs-16 {
+    font-size: 16px;
+}
+
+.fs-18 {
+    font-size: 18px;
+}
+
+.fs-20 {
+    font-size: 20px;
+}
+
+.line-height-1 {
+    line-height: 1;
+}
+
+.line-height-1-5 {
+    line-height: 1.5;
+}
+
+.line-height-2 {
+    line-height: 2;
+}
+
+/* -------------------------
+   12. Background Utilities
+------------------------- */
+.bg-transparent {
+    background-color: transparent;
+}
+
+.bg-white {
+    background-color: #fff;
+}
+
+.bg-black {
+    background-color: #000;
+}
+
+.bg-primary {
+    background-color: #007bff;
+}
+
+.bg-secondary {
+    background-color: #6c757d;
+}
+
+.bg-danger {
+    background-color: #dc3545;
+}
+
+.bg-warning {
+    background-color: #ffc107;
+}
+
+.bg-success {
+    background-color: #28a745;
+}
+
+.bg-info {
+    background-color: #17a2b8;
+}
+
+.bg-light {
+    background-color: #f8f9fa;
+}
+
+.bg-dark {
+    background-color: #343a40;
+}
+
+.bg-light-gray{
+    background-color: #A3A3A350;
+}
+
+.bg-cover {
+    background-size: cover;
+}
+
+.bg-contain {
+    background-size: contain;
+}
+
+.bg-repeat {
+    background-repeat: repeat;
+}
+
+.bg-no-repeat {
+    background-repeat: no-repeat;
+}
+
+/* -------------------------
+   13. Borders Utilities
+------------------------- */
+.border {
+    border: 1px solid;
+}
+
+.border-0 {
+    border: none;
+}
+
+.border-1 {
+    border-width: 1px;
+}
+
+.border-2 {
+    border-width: 2px;
+}
+
+.border-4 {
+    border-width: 4px;
+}
+
+.border-8 {
+    border-width: 8px;
+}
+
+.border-primary {
+    border-color: #007bff;
+}
+
+.border-secondary {
+    border-color: #6c757d;
+}
+
+.border-danger {
+    border-color: #dc3545;
+}
+
+.border-warning {
+    border-color: #ffc107;
+}
+
+.border-success {
+    border-color: #28a745;
+}
+
+.border-info {
+    border-color: #17a2b8;
+}
+
+.border-light {
+    border-color: #f8f9fa;
+}
+
+.border-dark {
+    border-color: #343a40;
+}
+
+.border-dashed {
+    border-style: dashed;
+}
+
+.border-dotted {
+    border-style: dotted;
+}
+
+.border-solid {
+    border-style: solid;
+}
+
+/* -------------------------
+   14. Cursor Utilities
+------------------------- */
+.cursor-auto {
+    cursor: auto;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.cursor-default {
+    cursor: default;
+}
+
+.cursor-move {
+    cursor: move;
+}
+
+.cursor-not-allowed {
+    cursor: not-allowed;
+}
+
+.cursor-wait {
+    cursor: wait;
+}
+
+.cursor-crosshair {
+    cursor: crosshair;
+}
+
+.cursor-text {
+    cursor: text;
+}
+
+/* -------------------------
+   15. Visibility Utilities
+------------------------- */
+.visible {
+    visibility: visible;
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+/* -------------------------
+   16. Opacity Utilities
+------------------------- */
+.opacity-0 {
+    opacity: 0;
+}
+
+.opacity-10 {
+    opacity: 0.1;
+}
+
+.opacity-20 {
+    opacity: 0.2;
+}
+
+.opacity-30 {
+    opacity: 0.3;
+}
+
+.opacity-40 {
+    opacity: 0.4;
+}
+
+.opacity-50 {
+    opacity: 0.5;
+}
+
+.opacity-60 {
+    opacity: 0.6;
+}
+
+.opacity-70 {
+    opacity: 0.7;
+}
+
+.opacity-80 {
+    opacity: 0.8;
+}
+
+.opacity-90 {
+    opacity: 0.9;
+}
+
+.opacity-100 {
+    opacity: 1;
+}
+
+/* -------------------------
+   17. Shadow Utilities
+------------------------- */
+.shadow-none {
+    box-shadow: none;
+}
+
+.shadow-sm {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.shadow-md {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.shadow-lg {
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+}
+
+.shadow-xl {
+    box-shadow: 0 20px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* -------------------------
+   18. Transition Utilities
+------------------------- */
+.transition {
+    transition: all 0.3s ease;
+}
+
+.transition-fast {
+    transition: all 0.1s ease;
+}
+
+.transition-slow {
+    transition: all 0.6s ease;
+}
+
+/* -------------------------
+   19. Transform Utilities
+------------------------- */
+.transform-scale-100 {
+    transform: scale(1);
+}
+
+.transform-scale-110 {
+    transform: scale(1.1);
+}
+
+.transform-rotate-0 {
+    transform: rotate(0deg);
+}
+
+.transform-rotate-45 {
+    transform: rotate(45deg);
+}
+
+/* -------------------------
+   20. Aspect Ratio Utilities
+------------------------- */
+.aspect-ratio-16-9 {
+    aspect-ratio: 16 / 9;
+}
+
+.aspect-ratio-4-3 {
+    aspect-ratio: 4 / 3;
+}
+
+.aspect-ratio-1-1 {
+    aspect-ratio: 1 / 1;
+}
+
+.text-primary {
+    color: #007bff;
+}
+
+.text-secondary {
+    color: #6c757d;
+}
+
+.text-danger {
+    color: #dc3545;
+}
+
+.text-warning {
+    color: #ffc107;
+}
+
+.text-success {
+    color: #28a745;
+}
+
+.text-info {
+    color: #17a2b8;
+}
+
+.text-light {
+    color: #f8f9fa;
+}
+
+.text-dark {
+    color: #343a40;
+}
+
+.text-muted {
+    color: #6c757d;
+}
+
+.text-white {
+    color: #fff;
+}
+
+.text-black {
+    color: #000;
+}
+.flex1{
+    flex: 1;
+}

@@ -1,0 +1,121 @@
+.skill-container {
+    display: flex;
+    width: 100%;
+    margin: 20px auto;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.left-panel {
+    width: 30%;
+    border-right: 1px solid #ddd;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+.left-panel button {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #f5f5f5;
+    font-size: 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.left-panel button:hover {
+    background-color: #e9ecef;
+}
+
+.left-panel button.active {
+    background-color: #3382CC;
+    color: white;
+    border-color: #3382CC;
+    font-weight: bold;
+}
+
+.right-panel {
+    width: 70%;
+    padding: 20px;
+}
+
+.skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.skill-item {
+    width: calc(25% - 10px);
+    padding: 12px;
+    box-sizing: border-box;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+
+.skill-item label {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    padding: 5px 0;
+}
+
+.skill-item input {
+    margin-right: 12px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.skill-item:hover {
+    background-color: #f1f1f1;
+}
+
+.search-panel {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    width: 100%;
+    margin: 20px auto 0;
+    box-sizing: border-box;
+}
+
+.search-panel input {
+    width: 25%;
+    padding: 10px 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    margin-right: 10px;
+    transition: all 0.2s ease-in-out;
+}
+
+.search-panel input:focus {
+    border-color: #3382CC;
+    outline: none;
+}
+
+.search-panel button {
+    width: 12%;
+    padding: 10px 14px;
+    background-color: #3382CC;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.search-panel button:hover {
+    background-color: #3382CC;
+}

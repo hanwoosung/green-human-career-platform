@@ -1,0 +1,61 @@
+.modal-alert.on{
+    display: flex;
+}
+
+.modal-alert{
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(140, 140, 140, 0.5);
+    position: fixed;
+    left: 0;
+    top: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-alert-wrap{
+    width: 600px;
+    height: 400px;
+    background-color: white;
+    border: 1px solid #797979;
+    border-radius: 20px;
+    box-shadow: 10px 10px 10px #797979;
+}
+
+.modal-alert-title{
+    width: 100%;
+    height: 20%;
+    border-bottom: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+}
+
+.modal-alert-content{
+    width: 100%;
+    height: 65%;
+    border-bottom: 1px solid black;
+    word-break: break-all;
+    overflow-y: auto;
+}
+
+.modal-alert-btn{
+    width: 100%;
+    height: 15%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.modal-alert-btn button{
+    width: 100px;
+    height: 40px;
+    border-radius: 20px;
+    background-color: #6f6fff;
+    font-size: 19px;
+    color: white;
+    box-shadow: 4px 4px 4px #818181;
+}
+
