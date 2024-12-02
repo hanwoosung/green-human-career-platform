@@ -23,9 +23,9 @@ public class LoginServiceImpl extends AbstractService implements LoginService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public UserLoginDto login(String id, String pw) {
+    public UserLoginDto login(String id, String pw, String userGbnCd) {
 
-        UserLoginDto user = loginDao.findUserForLogin(id, pw);
+        UserLoginDto user = loginDao.findUserForLogin(id, pw, userGbnCd);
 
         if (id == null || id.trim().isEmpty()) {
             throw new BaseException(ResultType.VALIDATION_ERROR, "아이디는 필수 입력 항목입니다.");

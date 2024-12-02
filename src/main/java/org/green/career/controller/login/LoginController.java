@@ -35,13 +35,13 @@ public class LoginController extends AbstractController {
     @ResponseBody
     @PostMapping("/login")
     public ResponseDto<String> login(@RequestBody UserLoginDto loginDto, HttpSession session) {
-            UserLoginDto user = loginService.login(loginDto.getId(), loginDto.getPw());
-            session.setAttribute("userId", user.getId());
-            session.setAttribute("userName", user.getName());
-            session.setAttribute("userType", user.getUserGbnCd());
-            System.out.println(user.getId());
-            System.out.println(user.getUserGbnCd());
-            return ok("로그인 성공");
+        UserLoginDto user = loginService.login(loginDto.getId(), loginDto.getPw(), loginDto.getUserGbnCd());
+        session.setAttribute("userId", user.getId());
+        session.setAttribute("userName", user.getName());
+        session.setAttribute("userType", user.getUserGbnCd());
+        System.out.println(user.getId());
+        System.out.println(user.getUserGbnCd());
+        return ok("로그인 성공");
     }
 
     @GetMapping("/logout")

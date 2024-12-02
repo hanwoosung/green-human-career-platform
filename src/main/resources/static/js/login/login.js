@@ -4,13 +4,14 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     const id = document.getElementById('id').value;
     const pw = document.getElementById('pw').value;
     const userType = document.getElementById('userType').value;
+    console.log('userType: ', userType);
 
     console.log('로그인 요청 전:', { id: id, pw: pw });
 
     axios.post('/login', {
         id: id,
         pw: pw,
-        user_gbn_cd:userType
+        userGbnCd:userType
     })
         .then(function(response) {
             console.log('서버 응답:', response);  // 서버 응답 전체 출력
@@ -19,13 +20,9 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
 
             if (response.data.result.code === "200") {
                 console.log('로그인 성공:', response.data.result);
-                responseMessage.style.color = 'green';
-                responseMessage.textContent = response.data.result.message;
-
                 window.location.href = '/test';
             } else {
                 console.log('로그인 실패:', response.data.result);
-                responseMessage.style.color = 'red';
                 responseMessage.textContent = response.data.result.message;
             }
         })

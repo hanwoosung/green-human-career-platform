@@ -15,70 +15,114 @@
     <title>Login</title>
     <style>
         .login-container{
-            padding-top: 30px;
             margin: 60px auto;
+            padding-top: 60px;
             border-radius: 20px;
-            width: 1000px;
-            height: 1000px;
+            width: 800px;
+            height: 600px;
             display: flex;
             flex-direction: column;
             align-items: center;
             border: 1px solid var(--border-color);
         }
         .login-tap-box{
-            gap: 20px;
+            margin-bottom: 20px;
+            width: 300px;
             display: flex;
             justify-content: space-between;
         }
         .user-login-h3, .com-login-h3{
-
+            color: var(--text-a-color);
+            font-weight: bold;
+            padding: 10px;
             display: flex;
-            font-weight: 400;
             justify-content: center;
             align-items: center;
-            width: 200px;
-            height: 70px;
+            width: 130px;
+            height: 60px;
         }
         #loginForm{
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            /*background-color: #6c757d;*/
-            width: 700px;
-            height: 300px;
+            width: 400px;
+            height: 200px;
+            position: relative;
         }
+
         .input-group {
+            position: relative;
             display: flex;
             align-items: center;
             margin-bottom: 15px;
         }
+        .input-group input {
+            width: 200px;
+            padding: 12px;
+            padding-left: 40px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            color: #333;
+            background-color: #f9f9f9;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
         .input-group .icon {
-            padding: 15px;
-            color: var(--text-highlight-color);
-            border-radius: 5px 0 0 5px;
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
+            color: #bbb;
         }
         .input-group input {
-            flex: 1;
-            padding: 10px;
-            border-radius: 0 5px 5px 0;
-            border: 1px solid var(--border-color);
-        }
-        #login-button{
-            font-weight: 500;
-            width: 130px;
+            width: 300px;
             height: 50px;
-            border-radius: 50px;
+            padding: 10px;
+            padding-left: 35px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            color: #333;
+            background-color: #f9f9f9;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        #login-button {
+            margin-top: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            width: 300px;
+            height: 45px;
+            border-radius: 5px;
             color: #ffffff;
             background-color: var(--primary-color3);
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
         }
+
         .active {
-            background-color: var(--primary-color2);
-            color: #fff;
-            border-bottom: none;
+            border-bottom: 3px solid var(--primary-color2);
+            color: var(--primary-color2);
         }
         .user-login-h3, .com-login-h3 {
             cursor: pointer;
+        }
+        #responseMessage {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+            color: #d10000;
+            text-align: center;
+            width: 100%;
+        }
+        #goto-regist{
+            margin-top: 50px;
+            font-size: 0.7rem;
         }
     </style>
 </head>
@@ -88,12 +132,12 @@
         <div class="login-tap-box">
             <div class="user-login-tap" onclick="switchTab('jobseeker')">
                 <h3 id="jobseeker-tab" class="user-login-h3 active">
-                    구직자 로그인
+                    개인회원
                 </h3>
             </div>
             <div class="com-login-tap" onclick="switchTab('com')">
                 <h3 id="com-tab" class="com-login-h3">
-                    기업 로그인
+                    기업회원
                 </h3>
             </div>
         </div>
@@ -110,7 +154,9 @@
             <div id="responseMessage"></div>
             <button type="submit" value="로그인" id="login-button">로그인</button>
         </form>
+        <p id = "goto-regist">계정이 없으신가요? <a th:href="@{/regist}">회원가입</a></p>
     </div>
+
 
     <script src="/static/js/login/login.js"></script>
 </main>
