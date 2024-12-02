@@ -61,14 +61,14 @@
                         <!-- 처음 페이지 버튼 -->
                         <li th:class="${paging.firstPageBtn ? 'page-item' : 'page-item disabled'}">
                             <a class="page-link"
-                               th:href="${paging.firstPageBtn ? '/job-seeker/my-page/bookmark?page=1' : '#'}"
+                               th:href="${paging.firstPageBtn ? '/job-seeker/my-page/scrap?page=1' : '#'}"
                                aria-label="처음">&laquo;</a>
                         </li>
 
                         <!-- 이전 페이지 버튼 -->
                         <li th:class="${paging.prevBtn ? 'page-item' : 'page-item disabled'}">
                             <a class="page-link"
-                               th:href="${paging.prevBtn ? '/job-seeker/my-page/bookmark?page=' + (paging.startPage - 1) : '#'}"
+                               th:href="${paging.prevBtn ? '/job-seeker/my-page/scrap?page=' + (paging.startPage - 1) : '#'}"
                                aria-label="이전">&lt;</a>
                         </li>
 
@@ -82,14 +82,14 @@
                         <!-- 다음 페이지 버튼 -->
                         <li th:class="${paging.nextBtn ? 'page-item' : 'page-item disabled'}">
                             <a class="page-link"
-                               th:href="${paging.nextBtn ? '/job-seeker/my-page/bookmark?page=' + (paging.endPage + 1) : '#'}"
+                               th:href="${paging.nextBtn ? '/job-seeker/my-page/scrap?page=' + (paging.endPage + 1) : '#'}"
                                aria-label="다음">&gt;</a>
                         </li>
 
                         <!-- 마지막 페이지 버튼 -->
                         <li th:class="${paging.lastPageBtn ? 'page-item' : 'page-item disabled'}">
                             <a class="page-link"
-                               th:href="${paging.lastPageBtn ? '/job-seeker/my-page/bookmark?page=' + paging.totalPage : '#'}"
+                               th:href="${paging.lastPageBtn ? '/job-seeker/my-page/scrap?page=' + paging.totalPage : '#'}"
                                aria-label="마지막">&raquo;</a>
                         </li>
                     </ul>
