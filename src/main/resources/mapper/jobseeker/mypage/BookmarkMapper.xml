@@ -3,7 +3,7 @@
 
 <mapper namespace="org.green.career.dao.jobseeker.mypage.BookmarkDao">
 
-    <select id="getBookmarkList" resultType="org.green.career.dto.jobseeker.BookmarkDto">
+    <select id="getBookmarkList" resultType="org.green.career.dto.jobseeker.mypage.BookmarkDto">
         SELECT *,
                TRUNCATE((TO_DAYS(NOW()) - TO_DAYS(b.birth)) / 365, 0) AS age,
                c.file_id,
@@ -20,6 +20,7 @@
         AND b.use_yn = 'Y'
         LIMIT #{offset}, #{limit};
     </select>
+
     <select id="getTotalCnt">
         SELECT COUNT(*)
         FROM tbl_likes a

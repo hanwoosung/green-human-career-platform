@@ -39,8 +39,8 @@
                             <p class="link" th:text="${session.userName}">구직자 이름</p>
                         </span>
                 <span th:case="비회원">
-                            <a href="@{/login}" class="link">로그인</a>
-                            <a href="@{/regist}" class="link">회원가입</a>
+                            <a  th:href="@{/login}" class="link">로그인</a>
+                            <a  th:href="@{/regist}" class="link">회원가입</a>
                         </span>
             </div>
 

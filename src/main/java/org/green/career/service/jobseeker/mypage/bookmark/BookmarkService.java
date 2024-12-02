@@ -1,10 +1,5 @@
-package org.green.career.service.jobseeker.mypage;
+package org.green.career.service.jobseeker.mypage.bookmark;
 
-import org.green.career.dto.jobopen.JobOpeningDto;
-import org.green.career.dto.jobseeker.BookmarkDto;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 import java.util.Map;
 
 /**

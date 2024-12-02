@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 작성자: 한우성
@@ -32,10 +33,13 @@ public class MainController {
                            Model model) {
 
         JobSearchResult result = mainService.getJobOpeningsWithPaging(searchText, skills, page);
+        Map<String, Object> skillData = mainService.findSkillList();
+
+        model.addAttribute("skillList", skillData.get("skills"));
+        model.addAttribute("categories", skillData.get("categories"));
 
         model.addAttribute("jobList", result.getJobList());
         model.addAttribute("paging", result.getPaging());
-        model.addAttribute("skillList", mainService.findSkillList());
         model.addAttribute("searchText", searchText);
         model.addAttribute("skills", skills);
 
