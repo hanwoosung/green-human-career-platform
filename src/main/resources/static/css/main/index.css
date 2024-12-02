@@ -177,8 +177,10 @@
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+    justify-content: start;
+    width: 90%;
     max-width: 1600px;
-
+    margin-left: 80px;
     margin-top: 20px;
 }
 

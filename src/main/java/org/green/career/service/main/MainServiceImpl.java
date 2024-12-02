@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.green.career.dao.main.MainDao;
 import org.green.career.dto.common.CodeInfoDto;
+import org.green.career.dto.common.file.CategoryDto;
 import org.green.career.dto.jobopen.JobSearchResult;
 import org.green.career.dto.jobopen.requset.JobOpeningResponseDto;
 import org.green.career.service.AbstractService;
@@ -11,7 +12,11 @@ import org.green.career.utils.CodeMapper;
 import org.green.career.utils.PagingBtn;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 작성자: 한우성
@@ -29,35 +34,41 @@ public class MainServiceImpl extends AbstractService implements MainService {
      * 기술 리스트 조회
      */
     @Override
-    public Map<String, List<CodeInfoDto>> findSkillList() {
+    public Map<String, Object> findSkillList() {
         return returnData(() -> {
             List<CodeInfoDto> codeInfoList = mainDao.findSkillList();
-            Map<String, List<CodeInfoDto>> groupedMap = new HashMap<>();
-            groupedMap.put("back", new ArrayList<>());
-            groupedMap.put("front", new ArrayList<>());
 
-            for (CodeInfoDto codeInfo : codeInfoList) {
-                String category = "back_cd".equals(codeInfo.getUpCd()) ? "back" : "front";
-                groupedMap.get(category).add(codeInfo);
-            }
-            return groupedMap;
+            List<CodeInfoDto> distinctSkills = codeInfoList.stream()
+                    .distinct()
+                    .collect(Collectors.toList());
+
+
+            List<CategoryDto> categoryList = codeInfoList.stream()
+                    .map(CodeInfoDto::getUpCd)
+                    .distinct()
+                    .map(upCd -> new CategoryDto(upCd, CodeMapper.getDescription("upCd", upCd)))
+                    .collect(Collectors.toList());
+
+            Map<String, Object> result = new HashMap<>();
+            result.put("skills", distinctSkills);
+            result.put("categories", categoryList);
+            return result;
         });
     }
+
 
     /**
      * 채용 공고 리스트 조회
      */
     @Override
     public List<JobOpeningResponseDto> findJobOpeningList(int offset, int limit) {
-        return returnData(() -> {
-            List<JobOpeningResponseDto> jobList = mainDao.findJobOpeningList(offset, limit);
-            if (jobList.isEmpty()) {
-                log.info("조회된 채용 공고 없음.");
-                return Collections.emptyList();
-            }
-            processJobList(jobList);
-            return jobList;
-        });
+        List<JobOpeningResponseDto> jobList = mainDao.findJobOpeningList(offset, limit);
+        if (jobList.isEmpty()) {
+            log.info("조회된 채용 공고 없음.");
+            return Collections.emptyList();
+        }
+        processJobList(jobList);
+        return jobList;
     }
 
     /**

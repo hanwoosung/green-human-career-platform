@@ -7,14 +7,17 @@
     <select id="findSkillList" resultType="org.green.career.dto.common.CodeInfoDto">
         SELECT *
         FROM tbl_codeinfo
-        WHERE up_cd IN ('back_cd', 'front_cd');
+        WHERE up_cd IN (SELECT cd
+                        FROM tbl_codeinfo
+                        WHERE up_cd = 'stack_cd')
+           OR up_cd = 'stack_cd';
     </select>
 
     <!-- 채용 공고 리스트 조회 -->
     <select id="findJobOpeningList" resultType="org.green.career.dto.jobopen.requset.JobOpeningResponseDto">
         SELECT a.*,
                COALESCE(GROUP_CONCAT(DISTINCT b.stack_cd ORDER BY b.stack_cd SEPARATOR ','), '') AS skills,
-               COALESCE(f.file_url, '') AS fileUrl
+               COALESCE(f.file_url, '')                                                          AS fileUrl
         FROM tbl_job_open a
                  LEFT JOIN tbl_job_open_stack b ON a.j_no = b.j_no
                  LEFT JOIN tbl_file f ON a.id = f.file_ref_id AND f.file_gbn_cd = 100
@@ -46,7 +49,8 @@
 
     <!-- 전체 공고 개수 조회 -->
     <select id="countJobOpenings" resultType="int">
-        SELECT COUNT(*) FROM tbl_job_open;
+        SELECT COUNT(*)
+        FROM tbl_job_open;
     </select>
 
     <!-- 검색 조건에 따른 공고 개수 조회 -->
@@ -59,7 +63,8 @@
         <if test="skills != null and skills.size() > 0">
             AND b.stack_cd IN
             <foreach item="skill" collection="skills" open="(" close=")" separator=",">#{skill}</foreach>
-        </if>;
+        </if>
+        ;
     </select>
 
 </mapper>

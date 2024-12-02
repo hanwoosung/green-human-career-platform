@@ -14,8 +14,8 @@ body {
 }
 
 .job-registration-form {
-    width: 80%;
-    max-width: 1600px;
+    width: 100%;
+    max-width: 1800px;
     background: white;
     padding: 40px;
     margin-top: 20px;
@@ -68,10 +68,13 @@ textarea {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+    height: 300px;
+    overflow-y: auto;
+
 }
 
 .skill-button,
-.submit-button{
+.submit-button {
     background: linear-gradient(to right, #007bff, #4facfe);
     color: white;
     padding: 12px 20px;
@@ -84,7 +87,7 @@ textarea {
     box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
 }
 
-.upload-button{
+.upload-button {
     background: linear-gradient(to right, #007bff, #4facfe);
     color: white;
     padding: 12px 20px;
@@ -98,7 +101,7 @@ textarea {
     box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
 }
 
-.upload-label{
+.upload-label {
     display: flex;
     gap: 10px;
     margin-bottom: 10px;
@@ -107,7 +110,8 @@ textarea {
     color: #444;
     align-items: center;
 }
-.upload-hint{
+
+.upload-hint {
     display: flex;
     font-size: 1rem;
     color: #333;
@@ -138,7 +142,6 @@ textarea {
     flex-wrap: wrap;
     gap: 10px;
 }
-
 
 
 .skill-tag {
