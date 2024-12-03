@@ -48,6 +48,7 @@ const confirm_modal = {
                     ngCallback();
                 }
             }
+            confirm_modal.off();
         });
     },
 
