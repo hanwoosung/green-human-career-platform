@@ -1378,7 +1378,7 @@
 .w35 { width: 35px; }
 .w40 { width: 40px; }
 .w45 { width: 45px; }
-.w50 { width: 50px; }
+.w50 { width: 50px !important; }
 .w55 { width: 55px; }
 .w60 { width: 60px; }
 .w65 { width: 65px; }
