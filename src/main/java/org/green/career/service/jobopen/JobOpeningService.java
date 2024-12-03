@@ -1,6 +1,5 @@
 package org.green.career.service.jobopen;
 
-import org.apache.ibatis.annotations.Param;
 import org.green.career.dto.common.file.request.TblFileRequestDto;
 import org.green.career.dto.common.file.response.FileResponseDto;
 import org.green.career.dto.jobopen.JobOpeningDetailDto;
@@ -81,5 +80,10 @@ public interface JobOpeningService {
     int jobOpeningPass(int jrNo, String type);
 
     List<ResponseMyResume> myResumes(String id);
+
+    int resumeApply(int jNo, int rNo, String id);
+
+    int existsResume(int jNo, int rNo, String id);
+
 
 }

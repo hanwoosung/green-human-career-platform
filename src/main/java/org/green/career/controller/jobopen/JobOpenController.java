@@ -120,6 +120,7 @@ public class JobOpenController extends AbstractController {
     @GetMapping("/detail/{jNo}")
     public String getJobOpeningDetail(@PathVariable("jNo") int jNo, Model model) {
         JobOpeningDetailDto jobOpening = jobOpeningService.getJobOpening(jNo);
+
         model.addAttribute("jobItem", jobOpening);
         model.addAttribute("companyItem", jobOpeningService.getCompany(jobOpening.getId()));
         model.addAttribute("resumeList", jobOpeningService.getResumeList(jNo));
@@ -146,5 +147,11 @@ public class JobOpenController extends AbstractController {
         }
 
         return ok(jobOpeningService.myResumes(id));
+    }
+
+    @GetMapping("/resume-apply")
+    @ResponseBody
+    public ResponseDto<Integer> resumeApply(@RequestParam("rNo") int rNo, @RequestParam("jNo") int jNo, HttpSession session) {
+        return ResponseDto.ok(jobOpeningService.resumeApply(jNo, rNo, (String) session.getAttribute("userId")));
     }
 }
