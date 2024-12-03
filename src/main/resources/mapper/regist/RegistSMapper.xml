@@ -14,9 +14,11 @@
                      #{id}, #{pw}, #{name}, #{email}, 'S', #{birth}, #{phone}, #{addr}, #{addr2}, #{zipCd}, NOW()
                  )
     </insert>
-    <select id="existsById" parameterType="String" resultType="int">
-        SELECT COUNT(*)
-        FROM tbl_user
-        WHERE id = #{id}
+    <select id="existsById" parameterType="String" resultType="boolean">
+        SELECT EXISTS(
+            SELECT 1
+            FROM tbl_user
+            WHERE id = #{id}
+        )
     </select>
 </mapper>
