@@ -2,9 +2,11 @@ package org.green.career.dto.regist;
 
 import jakarta.validation.constraints.*;
 import lombok.Data;
-
-import java.time.LocalDateTime;
-
+/**
+ * 작성자: 구경림
+ * 작성일: 2024-12-03
+ * 구직자 회원가입 Dto
+ */
 @Data
 public class RegistSDto {
     @NotBlank(message = "아이디는 필수 입력 항목입니다.")
