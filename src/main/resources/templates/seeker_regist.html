@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout-test/layout/main_layout}"
+>
+<head>
+    <link href="/static/css/user/login_regist.css">
+    <meta charset="UTF-8">
+    <title>구직자회원가입</title>
+    <style>
+        .seeker-regist-container {
+
+            padding:60px;
+            margin: 60px auto;
+            border-radius: 20px;
+            width: 800px;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .seeker-regist-title-box {
+            border-bottom: 3px solid var(--primary-color2);
+            height: 70px;
+            margin-bottom: 20px;
+            width: 250px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #seeker-regist-title {
+            color: var(--primary-color2);
+            font-weight: bold;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 60px;
+        }
+
+        .input-box {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+            width: 90%;
+        }
+
+        .import-value {
+            color: red;
+        }
+
+        .input-box input,
+        .input-box select {
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .input-box label {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+<main layout:fragment="content">
+    <div class="seeker-regist-container">
+        <div class="seeker-regist-title-box">
+            <h3 id="seeker-regist-title">개인회원 회원가입</h3>
+        </div>
+
+        <div class="input-box">
+            <p><label for="id">아이디</label><span class="import-value">*</span></p>
+            <input type="text" id="id" name="id" required>
+            <button id ="id-dupCk">중복확인</button>
+        </div>
+
+        <div class="input-box">
+            <p><label for="pw">비밀번호</label><span class="import-value">*</span></p>
+            <input type="password" id="pw" name="pw" required>
+        </div>
+
+        <div class="input-box">
+            <p><label for="name">이름</label><span class="import-value">*</span></p>
+            <input type="text" id="name" name="name" required>
+        </div>
+
+        <div class="input-box">
+            <p><label for="email">이메일</label><span class="import-value">*</span></p>
+            <input type="email" id="email" name="email" required>
+        </div>
+
+        <div class="input-box">
+            <p><label for="birth">생년월일</label><span class="import-value">*</span></p>
+            <input type="date" id="birth" name="birth" required>
+        </div>
+
+        <div class="input-box">
+            <p><label for="phone">전화번호</label><span class="import-value">*</span></p>
+            <input type="tel" id="phone" name="phone" required>
+        </div>
+
+        <div class="input-box">
+            <p><label for="addr">주소</label><span class="import-value">*</span></p>
+            <input type="text" id="addr" name="addr" required>
+        </div>
+
+        <div class="input-box">
+            <p><label for="addr2">상세주소</label></p>
+            <input type="text" id="addr2" name="addr2">
+        </div>
+
+        <div class="input-box">
+            <p><label for="zipCd">우편번호</label><span class="import-value">*</span></p>
+            <input type="text" id="zipCd" name="zipCd" required>
+        </div>
+
+        <div class="input-box">
+            <button type="submit" style="padding: 10px 20px; font-size: 16px; background-color: var(--primary-color2); color: white; border: none; border-radius: 5px; cursor: pointer;">회원가입</button>
+        </div>
+    </div>
+</main>
+</body>
+</html>
