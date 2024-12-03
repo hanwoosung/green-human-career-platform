@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout-test/layout/mypage_layout}"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>이력서등록</title>
+</head>
+<body>
+<main layout:fragment="content">
+    <h3>이력서 등록</h3>
+        <form th:action="@{/resume/regist}" method="post">
+            <p>사용자 정보</p>
+            <hr>
+            <!--    수정하기  추가하기  -->
+            <p><span th:text="${userInfo.name}">이름</span></p>
+            <p><span th:text="${userInfo.email}">이메일</span></p>
+            <p><span th:text="${userInfo.phone}">전화번호</span></p>
+            <hr>
+            <!--  모달로 열려야함    -->
+            <div>
+                <p>학력 등록</p>
+                <p>
+                    <input type="text" name = "educations[0].schoolName" placeholder="학교이름">
+                    <input type="text" name = "educations[0].major" placeholder="전공">
+                    <input type="text" name = "educations[0].educationLevel" placeholder="학력구분">
+                    <input type="text" name = "educations[0].score" placeholder="학점/성적">
+                    <input type="text" name = "educations[0].admissionDate" placeholder="입학날짜">
+                    <input type="text" name = "educations[0].graduationDate" placeholder="졸업날짜">
+                    <input type="text" name = "educations[0].transferYn" placeholder="편입여부">
+                    <input type="text" name = "educations[0].region" placeholder="지역">
+                </p>
+            </div>
+        </form>
+</main>
+</body>
+</html>
