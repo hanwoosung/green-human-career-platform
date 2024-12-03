@@ -1,11 +1,11 @@
+const referer = document.referrer;
+console.log('referer: ', referer);
+
 document.getElementById('loginForm').addEventListener('submit', function(event) {
     event.preventDefault();  // 폼 제출 기본 동작을 막음
-
     const id = document.getElementById('id').value;
     const pw = document.getElementById('pw').value;
     const userType = document.getElementById('userType').value;
-    //리퍼러 12.3
-    const referer = document.referrer;
     console.log('userType: ', userType);
 
     axios.post('/login', {
