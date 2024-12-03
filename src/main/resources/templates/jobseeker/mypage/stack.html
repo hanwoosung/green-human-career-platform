@@ -64,7 +64,7 @@
                 <div class="main-list-wrapper">
                     <div class="main-list-container">
                         <th:block th:each="jobItem : ${jobList}">
-                            <div class="job-card" th:attr="data-cjNo=${jobItem.jNo}">
+                            <div class="job-card" th:attr="data-jNo=${jobItem.jNo}, data-id=${jobItem.id}">
                                 <div class="card-image">
                                     <div class="card-overlay">
                                         <span class="days-left" th:text="${jobItem.leftDate}">D-11</span>

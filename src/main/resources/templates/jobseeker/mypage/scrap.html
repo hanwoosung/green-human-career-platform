@@ -20,7 +20,7 @@
             <div class="main-list-wrapper">
                 <div class="main-list-container">
                     <th:block th:each="scrap : ${list}">
-                        <div class="job-card" th:attr="data-cjNo=${scrap.jNo}">
+                        <div class="job-card" th:attr="data-jNo=${scrap.jNo}, data-id=${scrap.id}">
                             <div class="card-image">
                                 <div class="card-overlay">
                                     <span class="days-left">D - [[${scrap.leftDt}]]</span>

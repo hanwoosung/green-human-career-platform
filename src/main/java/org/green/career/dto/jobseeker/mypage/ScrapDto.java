@@ -10,7 +10,6 @@ import java.util.List;
 public class ScrapDto {
 
     private String lNo;            // "l_no"
-    private String id;             // "id"
     private String lGbnCd;         // "l_gbn_cd"
     private String cjNo;           // "cj_no"
     private String jNo;           // "j_no"
@@ -26,6 +25,8 @@ public class ScrapDto {
     private String fileName;
     private String fileExt;
     private String fileUrl;
+
+    private String id;             // "job-open id"
 
     // scrapCnt
     private int scrapCnt;

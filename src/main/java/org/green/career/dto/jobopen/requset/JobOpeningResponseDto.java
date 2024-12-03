@@ -27,6 +27,8 @@ import java.util.stream.Collectors;
 public class JobOpeningResponseDto {
     // 채용공고 번호
     private Long jNo;
+    // 작성자 ID
+    private String id;
     // 공고명
     private String jTitle;
     // 서브타이틀

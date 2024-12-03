@@ -6,7 +6,7 @@
     <select id="getScrapList" resultType="org.green.career.dto.jobseeker.mypage.ScrapDto">
 
         SELECT a.l_no,
-               a.id,
+               b.id,
                a.l_gbn_cd,
                a.cj_no,
                b.j_no,
@@ -29,7 +29,7 @@
                  LEFT JOIN tbl_codeinfo e ON b.career_cd = e.cd AND e.up_cd = 'career_cd'
                  LEFT JOIN tbl_file f ON b.j_no = f.file_ref_id AND f.file_gbn_cd = '20'
                  LEFT JOIN tbl_likes g ON b.j_no = g.cj_no AND g.l_gbn_cd = 'S' AND g.id = #{id}
-                 LEFT JOIN tbl_likes h ON b.j_no = h.cj_no AND h.l_gbn_cd = 'B' AND h.id = #{id}
+                 LEFT JOIN tbl_likes h ON b.id = h.cj_no AND h.l_gbn_cd = 'B' AND h.id = #{id}
         WHERE d.use_yn = 'Y'
           AND a.l_gbn_cd = 'S'
           AND a.id = #{id}
