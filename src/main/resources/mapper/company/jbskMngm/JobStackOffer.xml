@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.green.career.dao.company.jbskMngm.JobStackOfferDao">
+
+    <select id="getStackList" resultType="org.green.career.dto.common.CodeInfoDto">
+        SELECT *
+        FROM tbl_codeinfo
+        WHERE up_cd IN (SELECT cd
+                        FROM tbl_codeinfo
+                        WHERE up_cd = 'stack_cd')
+        OR up_cd = 'stack_cd'
+        ORDER BY CASE
+                     WHEN up_cd = 'stack_cd' THEN 0
+                     ELSE 1
+                 END, up_cd DESC;
+    </select>
+
+</mapper>

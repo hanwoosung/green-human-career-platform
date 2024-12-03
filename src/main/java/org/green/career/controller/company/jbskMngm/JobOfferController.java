@@ -2,7 +2,7 @@ package org.green.career.controller.company.jbskMngm;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.green.career.service.company.jbskMngm.JobOfferService;
+import org.green.career.service.company.jbskMngm.joboffer.JobOfferService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

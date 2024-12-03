@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<!-- Default Layout Import-->
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout-test/layout/mypage_layout}"
+>
+    <head>
+        <meta charset="UTF-8">
+        <title>asd</title>
+        <link rel="stylesheet" href="/static/css/jobseeker/mypage/stack.css">
+        <link rel="stylesheet" href="/static/css/common/skillBox.css">
+        <link rel="stylesheet" href="/static/css/common/paging.css">
+    </head>
+    <body>
+        <main layout:fragment="content">
+            <div class="content-title font-bold">
+                <span>기술스택 기반 채용공고</span>
+            </div>
+            <div class="content-detail" style="width: 1100px">
+
+                <div class="skill-container w100p mt20">
+
+                    <!-- 왼쪽 패널 -->
+                    <div class="left-panel" id="categoryPanel">
+                        <button class="category-btn active" data-cd="" data-upcd="">
+                            전체
+                        </button>
+                        <th:block th:each="stack : ${stacks}">
+                            <button class="category-btn" th:text="${stack.cdNm}" th:attr="data-cd=${stack.cd}, data-upcd=${stack.upCd}"
+                                    th:if="${stack.upCd == 'stack_cd'}">
+                            </button>
+                        </th:block>
+                    </div>
+
+                    <!-- 오른쪽 패널 -->
+                    <div class="right-panel">
+                        <div class="skills-list">
+                            <!-- "전체 선택" 항목 -->
+                            <div class="skill-item select-all" data-upcd="" data-cd="">
+                                <label>
+                                    <input type="checkbox" value="all">
+                                    <sapn>전체</sapn>
+                                </label>
+                            </div>
+                            <th:block th:each="stack : ${stacks}">
+                                <th:block th:if="${stack.upCd != 'stack_cd'}">
+                                    <!-- 각 스킬 항목 -->
+                                    <div class="skill-item on" th:attr="data-upcd=${stack.upCd}, data-cd=${stack.cd}">
+                                        <label>
+                                            <input type="checkbox" name="skills" th:value="${stack.cd}">
+                                            <span th:text="${stack.cdNm}"></span>
+                                        </label>
+                                    </div>
+                                </th:block>
+                            </th:block>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="search-panel">
+                    <input type="text" id="search" placeholder="채용 검색">
+                    <button id="search-btn" class="mr20">확인</button>
+                    <button id="reset-btn">초기화</button>
+                </div>
+                <div class="selected-skills">
+                </div>
+
+                <div class="main-list-wrapper">
+                    <div class="main-list-container">
+                        <!-- Job Card 1 -->
+                        <div class="job-card" data-jNo="1" data-id="1001">
+                            <div class="card-image">
+                                <div class="card-overlay">
+                                    <span class="days-left">D-11</span>
+                                    <i class="bi bi-bookmark scrap-icon" id="bookmark-icon"></i>
+                                </div>
+                                <img src="/static/images/empty_company.png" alt="회사 이미지">
+                            </div>
+                            <div class="card-header">
+                                <div class="card-header-box">
+                                    <span class="company-name">삼성전자</span>
+                                    <i class="bi bi-heart heart-icon" id="heart-icon"></i>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="job-title">백엔드개발자 - 테크리드 (테크사업부)</h3>
+                                <h4 class="job-content">백엔드개발자 - 테크리드 (테크사업부)</h4>
+                                <div class="job-location">
+                                    <span>경기도</span> | <span>경력 3년</span>
+                                </div>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">Java</span>
+                                    <span class="skill-tag">Spring Boot</span>
+                                    <span class="skill-tag">AWS</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!--                <div class="pagination-wrapper">-->
+                <!--                    <nav class="pagination-nav">-->
+                <!--                        <ul class="pagination">-->
+                <!--                            &lt;!&ndash; 처음 페이지 버튼 &ndash;&gt;-->
+                <!--                            <li th:class="${paging.firstPageBtn ? 'page-item' : 'page-item disabled'}">-->
+                <!--                                <a class="page-link"-->
+                <!--                                   th:href="${paging.firstPageBtn ? '/job-seeker/my-page/stack?page=1' : '#'}"-->
+                <!--                                   aria-label="처음">&laquo;</a>-->
+                <!--                            </li>-->
+
+                <!--                            &lt;!&ndash; 이전 페이지 버튼 &ndash;&gt;-->
+                <!--                            <li th:class="${paging.prevBtn ? 'page-item' : 'page-item disabled'}">-->
+                <!--                                <a class="page-link"-->
+                <!--                                   th:href="${paging.prevBtn ? '/job-seeker/my-page/stack?page=' + (paging.startPage - 1) : '#'}"-->
+                <!--                                   aria-label="이전">&lt;</a>-->
+                <!--                            </li>-->
+
+                <!--                            &lt;!&ndash; 페이지 번호 리스트 &ndash;&gt;-->
+                <!--                            <li th:each="i : ${#numbers.sequence(paging.startPage, paging.endPage)}"-->
+                <!--                                th:class="${paging.currentPage == i ? 'page-item active' : 'page-item'}">-->
+                <!--                                <a class="page-link" th:href="@{/job-seeker/my-page/stack(page=${i})}"-->
+                <!--                                   th:text="${i}"></a>-->
+                <!--                            </li>-->
+
+                <!--                            &lt;!&ndash; 다음 페이지 버튼 &ndash;&gt;-->
+                <!--                            <li th:class="${paging.nextBtn ? 'page-item' : 'page-item disabled'}">-->
+                <!--                                <a class="page-link"-->
+                <!--                                   th:href="${paging.nextBtn ? '/job-seeker/my-page/stack?page=' + (paging.endPage + 1) : '#'}"-->
+                <!--                                   aria-label="다음">&gt;</a>-->
+                <!--                            </li>-->
+
+                <!--                            &lt;!&ndash; 마지막 페이지 버튼 &ndash;&gt;-->
+                <!--                            <li th:class="${paging.lastPageBtn ? 'page-item' : 'page-item disabled'}">-->
+                <!--                                <a class="page-link"-->
+                <!--                                   th:href="${paging.lastPageBtn ? '/job-seeker/my-page/stack?page=' + paging.totalPage : '#'}"-->
+                <!--                                   aria-label="마지막">&raquo;</a>-->
+                <!--                            </li>-->
+                <!--                        </ul>-->
+                <!--                    </nav>-->
+                <!--                </div>-->
+            </div>
+        </main>
+
+    </body>
+</html>
+
+<script src="/static/js/company/jbskMngm/job_stack_offer.js"></script>
+
