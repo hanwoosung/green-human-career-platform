@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    작성자: 구경림
+    작성일: 2024.12.01
+    파일 설명:
+    구직자 회원가입 관련 MyBatis 매퍼
+-->
+<mapper namespace="org.green.career.dao.regist.RegistSDao">
+    <insert id="insertSeeker" parameterType="org.green.career.dto.regist.RegistSDto">
+        INSERT INTO tbl_user (
+            id, pw, name, email, user_gbn_cd, birth, phone, addr, addr2, zip_cd, inst_dt
+        ) VALUES (
+                     #{id}, #{pw}, #{name}, #{email}, 'S', #{birth}, #{phone}, #{addr}, #{addr2}, #{zipCd}, NOW()
+                 )
+    </insert>
+    <select id="existsById" parameterType="String" resultType="int">
+        SELECT COUNT(*)
+        FROM tbl_user
+        WHERE id = #{id}
+    </select>
+</mapper>

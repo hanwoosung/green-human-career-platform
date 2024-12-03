@@ -1,0 +1,241 @@
+    <!DOCTYPE html>
+    <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{/layout-test/layout/main_layout}">
+
+    <head>
+        <link href="/static/css/user/login_regist.css">
+        <meta charset="UTF-8">
+        <title>구직자회원가입</title>
+        <style>
+            * {
+                margin: 0;
+            }
+
+            .seeker-regist-container {
+                padding: 60px;
+                margin: 60px auto;
+                border-radius: 20px;
+                width: 800px;
+                height: auto;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                border: 1px solid var(--border-color);
+            }
+
+            .seeker-regist-title-box {
+                border-bottom: 3px solid var(--primary-color2);
+                height: 70px;
+                margin-bottom: 20px;
+                width: 250px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            #seeker-regist-title {
+                color: var(--primary-color2);
+                font-weight: bold;
+                padding: 10px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 60px;
+            }
+
+            .input-box {
+                margin: 20px;
+                display: flex;
+                flex-direction: column;
+                height: 60px;
+                width: 400px;
+            }
+
+            .import-value {
+                font-size: 0.5rem;
+                color: red;
+                line-height: 20px;
+            }
+
+            .input-box input,
+            .input-box select {
+                padding: 5px;
+                border: none;
+                outline: none;
+                border-bottom: 2px solid var(--border-color);
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .input-box input:focus,
+            .input-box select:focus {
+                border: none;
+                outline: none;
+                border-bottom: 2px solid var(--primary-color3);
+            }
+
+            .input-box label {
+                font-size: 0.4rem;
+                margin-bottom: 5px;
+            }
+
+            .input-box-row {
+                gap: 20px;
+                display: grid;
+                grid-template-columns: 1fr 100px;
+            }
+
+            .input-box-row3 {
+                gap: 20px;
+                display: grid;
+                grid-template-columns: 100px 1fr 1fr;
+            }
+
+            #regist-button {
+                margin: 10px auto;
+                font-size: 16px;
+                font-weight: bold;
+                width: 200px;
+                height: 65px;
+                border-radius: 5px;
+                color: #ffffff;
+                background-color: var(--primary-color3);
+                border: none;
+                cursor: pointer;
+            }
+
+            .validation-message {
+                font-size: 0.5rem;
+                color: red;
+            }
+
+            .label-text {
+                font-size: 0.8rem;
+            }
+            .btn {
+                font-size: 0.5rem;
+                font-weight: 540;
+                color: #ffffff;
+                background-color: rgb(66, 96, 166);
+                border: none;
+                border-radius: 10px; 
+                cursor: pointer;
+            }
+
+            .checkbox-label {
+                display: flex;
+                align-items: center;
+                gap: 10px; /* 체크박스와 텍스트 간격 */
+            }
+
+            .checkbox-label input[type="checkbox"] {
+                margin: 0;
+                width: 20px; /* 체크박스 크기 조정 */
+                height: 20px;
+            }
+
+            .label-text {
+                font-size: 0.8rem;
+            }
+
+        </style>
+        <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    </head>
+
+    <body>
+        <main layout:fragment="content">
+            <form class="seeker-regist-container" id="regist-s-form" th:action="@{/regist/s}" method="post">
+                <div class="seeker-regist-title-box">
+                    <h3 id="seeker-regist-title">개인회원 회원가입</h3>
+                </div>
+
+                <div class="input-box">
+                    <p><label for="id" class="label-text">아이디</label><span class="import-value">*</span></p>
+                    <div class="input-box-row">
+                        <input type="text" id="id" name="id" >
+                        <button type="button" id="id-dupCk" value="false" class="btn" onclick="checkDuplicateId()">중복확인</button>
+                    </div>
+                    <span id="idValidationMessage" class="validation-message"></span>
+                </div>
+
+                <div class="input-box">
+                    <p><label for="pw" class="label-text">비밀번호</label><span class="import-value">*</span></p>
+                    <input type="password" id="pw" name="pw" >
+                    <span id="pwValidationMessage" class="validation-message"></span>
+                </div>
+
+                <div class="input-box">
+                    <p><label for="pwck" class="label-text">비밀번호 확인</label><span class="import-value">*</span></p>
+                    <input type="password" id="pwck" name="pwck" >
+                    <span id="pwCkValidationMessage" class="validation-message"></span>
+                </div>
+
+                <div class="input-box">
+                    <p><label for="name" class="label-text">이름</label><span class="import-value">*</span></p>
+                    <input type="text" id="name" name="name" >
+                    <span id="nameValidationMessage" class="validation-message"></span>
+                </div>
+
+                <div class="input-box">
+                    <p><label for="text" class="label-text">이메일</label><span class="import-value">*</span></p>
+                    <input type="email" id="email" name="email" placeholder="aaa@aaa.com" >
+                    <span id="emailValidationMessage" class="validation-message"></span>
+                </div>
+
+                <div class="input-box">
+                    <p><label for="birth" class="label-text">생년월일</label><span class="import-value">*</span></p>
+                    <div class="input-box-row3" id ="birth">
+                            <select id="birthYear" name="birthYear" >
+                                <option value="">년도</option>
+                            </select>
+                            <select id="birthMonth" name="birthMonth" >
+                                <option value="">월</option>
+                            </select>
+                            <select id="birthDay" name="birthDay" >
+                                <option value="">일</option>
+                            </select>
+                    </div>
+                    <span id="birthValidationMessage" class="validation-message"></span>
+                </div>
+
+                <div class="input-box">
+                    <p><label for="phone" class="label-text">전화번호</label><span class="import-value">*</span></p>
+                    <input type="text" id="phone" name="phone" placeholder="01012345678" >
+                    <span id="phoneValidationMessage" class="validation-message"></span>
+                </div>
+
+                <div class="input-box">
+                    <p><label for="addr" class="label-text">주소</label><span class="import-value">*</span></p>
+                    <div class="input-box-row">
+                        <input type="text" id="addr" name="addr"  readonly>
+                        <button type="button" class = "btn" onclick="openZipSearch()">검색</button>
+                        <span id="addrValidationMessage" class="validation-message"></span>
+                    </div>
+                </div>
+
+                <div class="input-box">
+                    <p><label for="zipCd" class="label-text">우편번호</label><span class="import-value">*</span></p>
+                    <input type="text" id="zipCd" name="zipCd"  readonly>
+                    <span id="zipValidationMessage" class="validation-message"></span>
+                </div>
+
+                <div class="input-box">
+                    <p><label for="addr2" class="label-text">상세주소</label></p>
+                    <input type="text" id="addr2" name="addr2">
+                    <span id="addr2ValidationMessage" class="validation-message"></span>
+                </div>
+                <div class="input-box">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="agreeTerms" name="agreeTerms">
+                        <span class="label-text">개인정보 약관에 동의합니다.</span>
+                    </label>
+                </div>
+                <div class="input-box">
+                    <button type="submit" id="regist-button" class="btn" >회원가입</button>
+                </div>
+            </form>
+            <script src="/static/js/regist/regist_s.js"></script>
+        </main>
+    </body>
+
+    </html>
