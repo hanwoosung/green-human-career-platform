@@ -3,7 +3,7 @@ $(document).ready(function () {
     $(".scrap-icon").click(function () {
 
         let param = {
-            cjNo: this.closest(".job-card").dataset.cjno,
+            cjNo: this.closest(".job-card").dataset.jno,
             flag: this.classList.contains("bi-bookmark"),
             lgbnCd: "S"
         }
@@ -36,7 +36,7 @@ $(document).ready(function () {
     $(".heart-icon").click(function () {
 
         let param = {
-            cjNo: this.closest(".job-card").dataset.cjno,
+            cjNo: this.closest(".job-card").dataset.id,
             flag: this.classList.contains("bi-heart"),
             lgbnCd: "B"
         }
