@@ -49,3 +49,10 @@
     color: #ccc;
     pointer-events: none;
 }
+
+.page-item{
+    cursor: pointer;
+}
+.page-item.disabled{
+    cursor: auto;
+}
