@@ -37,9 +37,10 @@ public class SeekerRegistController extends AbstractController {
         return ok("회원가입 성공");
     }
     @ResponseBody
-    @GetMapping("/s/check-duplicate-id/{id}")
+    @GetMapping("/s/ckDpId/{id}")
     public ResponseDto<Boolean> checkDuplicateId(@PathVariable String id) {
         boolean isDuplicate = registSService.isDuplicateId(id);
+        System.out.println(isDuplicate);
         return ok(isDuplicate);
     }
 }

@@ -1,6 +1,3 @@
-
-
-
 const yearSelect = document.getElementById('birthYear');
 const monthSelect = document.getElementById('birthMonth');
 const daySelect = document.getElementById('birthDay');
@@ -59,7 +56,6 @@ const populateDays = () => {
 yearSelect.addEventListener('change', populateDays);
 monthSelect.addEventListener('change', populateDays);
 
-
 //-----------유효성검사--------------
 let isIdValid = false;
 let isPwValid = false;
@@ -81,15 +77,23 @@ function checkDuplicateId() {
         return;
     }
 
-    axios.get(`/regist/s/check-duplicate-id/${id}`)
+    axios.get(`/regist/s/ckDpId/${id}`)
         .then(function (response) {
-            if (response.data.isDuplicate) {
-                $idValidationMessage.text('이미 사용 중인 아이디입니다.').css('color', 'red');
-                $dupCheckButton.val('false');
-            } else {
+            const isDuplicate = response.data.data; 
+            console.log('isDuplicate: ', isDuplicate);
+            if (!isDuplicate) {
                 $idValidationMessage.text('사용 가능한 아이디입니다.').css('color', 'green');
                 $dupCheckButton.val('true');
-                
+               
+                return;
+            } else if(isDuplicate){
+                $idValidationMessage.text('이미 사용 중인 아이디입니다.').css('color', 'red');
+                $dupCheckButton.val('false');
+                return;
+            } else {
+                $idValidationMessage.text('서버 응답이 올바르지 않습니다. 다시 시도해주세요.').css('color', 'orange');
+                $dupCheckButton.val('false');
+                return;
             }
         })
         .catch(function (error) {
@@ -98,8 +102,6 @@ function checkDuplicateId() {
             $dupCheckButton.val('false');
         });
 }
-
-
 //다음 주소 api
 function openZipSearch() {
     new daum.Postcode({
@@ -134,9 +136,6 @@ function openZipSearch() {
         }
     }).open();
 }
-
-
-
 //실시간 유효성검사
 $(document).ready(function () {
 
@@ -221,7 +220,6 @@ $(document).ready(function () {
 
     $('#birthYear, #birthMonth, #birthDay').on('change', validateBirthSelection);
 });
-
 // 빈값 및 유효성 검사 함수
 function validateField(fieldId, fieldName, messageId, isValid) {
     const $field = $(fieldId);
@@ -240,9 +238,6 @@ function validateField(fieldId, fieldName, messageId, isValid) {
         return true;
     }
 }
-
-
-
 //빈값 유효성 검사 및 axios로 post요청 
 $('#regist-s-form').on('submit',function(event){
     event.preventDefault();
@@ -282,7 +277,7 @@ $('#regist-s-form').on('submit',function(event){
         $birthMessage.text('');
     }
 
-        
+    console.log(`'$('#id-dupCk').val(): '`, $('#id-dupCk').val());
     if($('#id-dupCk').val() === 'false'){
         alert('아이디 중복검사를 완료해주세요.');
     }else if(!$termsCheckbox.is(':checked')){
