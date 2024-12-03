@@ -2,13 +2,23 @@ $(document).ready(function () {
     const urlParams = new URLSearchParams(window.location.search);
     const selectedSkills = urlParams.get('skills') ? urlParams.get('skills').split(",") : [];
 
-
     selectedSkills.forEach(function (skill) {
         $(`input[name='skills'][value='${skill}']`).prop("checked", true);
     });
 
-    updateSelectedSkill();
+    // 페이지 로드 시 첫 번째 카테고리 활성화
+    const firstCategory = $(".category-btn:first").data("category");
+    $(".category-btn:first").addClass("active");
 
+    // 모든 스킬 숨기기
+    $(".skill-item").hide();
+    $(".select-all").hide();
+
+    // 첫 번째 카테고리 스킬만 표시
+    $(`.skill-item[data-category="${firstCategory}"]`).show();
+    $(`.select-all[data-category="${firstCategory}"]`).show();
+
+    updateSelectedSkill();
     updateSelectAllCheckbox();
 
     $(".category-btn").click(function () {
@@ -35,16 +45,21 @@ $(document).ready(function () {
         }
         updateSelectAllCheckbox();
     });
-
     // 전체 선택 체크박스
-    $("#select-all").change(function () {
+    $(".select-all input[type='checkbox']").change(function () {
         const isChecked = $(this).prop("checked");
-        const activeCategory = $(".category-btn.active").data("category");
-        $(`.skill-item[data-category="${activeCategory}"] input[type="checkbox"]`).prop("checked", isChecked);
+        const category = $(this).closest(".select-all").data("category");
+
+        $(`.skill-item[data-category="${category}"] input[name='skills']`).prop("checked", isChecked);
         updateSelectedSkill();
     });
 
-    // 선택된 스킬 목록 업데이트
+    // 체크박스 상태 변경 시 선택된 스킬 목록 업데이트
+    $("input[name='skills']").change(function () {
+        updateSelectedSkill();
+        updateSelectAllCheckbox();
+    });
+
     function updateSelectedSkill() {
         const selectedSkills = $("input[name='skills']:checked").map(function () {
             return this.value;
@@ -84,34 +99,30 @@ $(document).ready(function () {
     // 전체 선택 체크박스 상태 업데이트
     function updateSelectAllCheckbox() {
         const activeCategory = $(".category-btn.active").data("category");
-        const totalCheckboxes = $(`.skill-item[data-category="${activeCategory}"] input[type="checkbox"]`).length;
-        const checkedCheckboxes = $(`.skill-item[data-category="${activeCategory}"] input[type="checkbox"]:checked`).length;
+        const totalCheckboxes = $(`.skill-item[data-category="${activeCategory}"] input[name='skills']`).length;
+        const checkedCheckboxes = $(`.skill-item[data-category="${activeCategory}"] input[name='skills']:checked`).length;
 
-        if (totalCheckboxes === checkedCheckboxes) {
-            $("#select-all").prop("checked", true);
-        } else {
-            $("#select-all").prop("checked", false);
-        }
+        $(`#select-all-${activeCategory}`).prop("checked", totalCheckboxes === checkedCheckboxes);
     }
+
 
     // 초기화 버튼
     $("#reset-btn").click(function () {
-
         $("input[type='checkbox']").prop("checked", false);
 
-        updateSelectedSkill();
+        $(".skill-item").hide();
+        $(".select-all").hide();
 
-        updateSelectAllCheckbox();
-
-        $(".skill-item").not(".select-all").hide();
-        $(".skill-item[data-category='frontend']").show();
-
+        const firstCategory = $(".category-btn:first").data("category");
         $(".category-btn").removeClass("active");
-        $(".category-btn[data-category='frontend']").addClass("active");
+        $(".category-btn:first").addClass("active");
 
-        $("#search").val("");
+        $(`.skill-item[data-category="${firstCategory}"]`).show();
+        $(`.select-all[data-category="${firstCategory}"]`).show();
 
+        updateSelectedSkill();
         updateSelectAllCheckbox();
+        $("#search").val("");
     });
 
 

@@ -1,12 +1,10 @@
 package org.green.career.controller.jobseeker.mypage;
 
 import lombok.RequiredArgsConstructor;
-import org.green.career.dto.jobseeker.BookmarkDto;
-import org.green.career.service.jobseeker.mypage.BookmarkService;
+import org.green.career.service.jobseeker.mypage.bookmark.BookmarkService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -34,10 +32,6 @@ public class BookmarkController {
 
         model.addAttribute("paging", result.get("paging"));
         model.addAttribute("list", result.get("list"));
-
-        for (BookmarkDto list : (List<BookmarkDto>) result.get("list")){
-            System.out.println(list);
-        }
 
         return "/jobseeker/mypage/bookmark";
     }

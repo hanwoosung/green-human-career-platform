@@ -7,7 +7,7 @@
 >
     <head>
         <meta charset="UTF-8">
-        <title>asd</title>
+        <title>북마크한 기업 목록</title>
         <link rel="stylesheet" href="/static/css/jobseeker/mypage/bookmark.css">
         <link rel="stylesheet" href="/static/css/common/paging.css">
     </head>
@@ -18,25 +18,28 @@
             </div>
             <div class="content-detail">
                 <div class="list-wrap">
-
-                    <div class="list" th:each="bookmark : ${list}" th:attr="data-id=${bookmark.cjNo}">
-                        <div class="list-img">
-                            <img th:src="${bookmark.fileUrl + '/' + bookmark.fileId + '.' + bookmark.fileExt}"
-                                 onerror="this.src='/static/images/default_profile.png'">
+                    <th:block th:each="bookmark : ${list}">
+                        <div class="list" th:attr="data-id=${bookmark.cjNo}">
+                            <div class="list-img">
+                                <img th:src="${bookmark.fileUrl + '/' + bookmark.fileId + '.' + bookmark.fileExt}"
+                                     onerror="this.src='/static/images/default_profile.png'">
+                            </div>
+                            <div class="list-content">
+                                <div>
+                                    <span class="font-bold fs-20">[[${bookmark.name}]]</span>
+                                    <span class="list-age">([[${bookmark.age}]])</span>
+                                    <i th:class="'bi ' + ${bookmark.bookmarkCnt == 0 ? 'bi-heart ' : 'bi-heart-fill '} + 'heart-icon'"
+                                       id="heart-icon"></i>
+                                </div>
+                                <div>
+                                    <span class="list-addr">([[${bookmark.zipCd}]]) [[${bookmark.addr}]] [[${bookmark.addr2}]]</span>
+                                </div>
+                                <div class="list-item">
+                                    <span>[[${bookmark.CBusiness}]]</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="list-content">
-                            <div>
-                                <span class="font-bold fs-20">[[${bookmark.name}]]</span>
-                                <span class="list-age">([[${bookmark.age}]])</span>
-                            </div>
-                            <div>
-                                <span class="list-addr">([[${bookmark.zipCd}]]) [[${bookmark.addr}]] [[${bookmark.addr2}]]</span>
-                            </div>
-                            <div class="list-item">
-                                <span>[[${bookmark.CBusiness}]]</span>
-                            </div>
-                        </div>
-                    </div>
+                    </th:block>
                 </div>
             </div>
 
@@ -85,3 +88,5 @@
 
     </body>
 </html>
+
+<script src="/static/js/jobseeker/mypage/bookmark.js"></script>

@@ -1,10 +1,10 @@
-package org.green.career.service.jobseeker.mypage;
+package org.green.career.service.jobseeker.mypage.bookmark;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.green.career.dao.jobseeker.mypage.BookmarkDao;
-import org.green.career.dto.jobseeker.BookmarkDto;
+import org.green.career.dto.jobseeker.mypage.BookmarkDto;
 import org.green.career.service.AbstractService;
 import org.green.career.utils.PagingBtn;
 import org.springframework.stereotype.Service;

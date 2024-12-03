@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    작성자: 구경림
+    작성일: 2024.12.01
+    파일 설명:
+    사용자 로그인 관련 MyBatis 매퍼
+-->
+<mapper namespace="org.green.career.dao.jobopen.JobOpeningDao">
+
+    <insert id="insertJobOpening">
+        INSERT INTO tbl_job_open (id,
+                                  j_title,
+                                  j_stitle,
+                                  j_content,
+                                  j_gbn_cd,
+                                  s_dt,
+                                  e_dt,
+                                  educat_cd,
+                                  career_cd,
+                                  preferences,
+                                  work_place,
+                                  work_time,
+                                  work_type,
+                                  inst_id)
+        VALUES (#{job.id},
+                #{job.jTitle},
+                #{job.jStitle},
+                #{job.jContent},
+                #{job.jGbnCd},
+                #{job.sDt},
+                #{job.eDt},
+                #{job.educatCd},
+                #{job.careerCd},
+                #{job.preferences},
+                #{job.workPlace},
+                #{job.workTime},
+                #{job.workType},
+                #{job.instId})
+    </insert>
+
+    <select id="selectMax" resultType="int">
+        SELECT MAX(j_no)
+        FROM tbl_job_open;
+    </select>
+
+    <insert id="insertSkills" parameterType="map">
+        INSERT INTO tbl_job_open_stack (j_no, stack_cd)
+        VALUES
+        <foreach collection="skills" item="skill" separator=",">
+            (#{jNo}, #{skill})
+        </foreach>
+    </insert>
+
+    <delete id="deleteSkills" parameterType="map">
+        DELETE FROM tbl_job_open_stack
+        WHERE j_no = #{jNo}
+        AND stack_cd IN
+        <foreach collection="skills" item="skill" open="(" separator="," close=")">
+            #{skill}
+        </foreach>
+    </delete>
+
+
+    <insert id="insertFiles" parameterType="map">
+        INSERT INTO tbl_file (file_gbn_cd, file_ref_id, file_name, file_ext, file_url, inst_id)
+        VALUES
+        <foreach collection="files" item="file" separator=",">
+            (#{file.fileGbnCd}, #{file.fileRefId}, #{file.fileName}, #{file.fileExt}, #{file.fileUrl},
+            #{file.fileRefId})
+        </foreach>
+    </insert>
+
+    <select id="getJobOpening">
+        SELECT a.*,
+               COALESCE(GROUP_CONCAT(DISTINCT b.stack_cd ORDER BY b.stack_cd SEPARATOR ','), '') AS skills
+        FROM tbl_job_open a
+                 LEFT JOIN tbl_job_open_stack b ON a.j_no = b.j_no
+        WHERE a.j_no = #{id}
+    </select>
+
+    <select id="getFile">
+        SELECT a.*
+        FROM tbl_file a
+                 left join tbl_job_open b ON a.file_ref_id = b.j_no
+        where a.file_ref_id = #{id};
+    </select>
+
+    <delete id="deleteFileDB" parameterType="map">
+        DELETE
+        FROM tbl_file
+        WHERE file_id = #{fileId}
+          AND file_ref_id = #{refId}
+    </delete>
+
+    <select id="getFileById" parameterType="long"
+            resultType="org.green.career.dto.common.file.response.FileResponseDto">
+        SELECT *
+        FROM tbl_file
+        WHERE file_id = #{fileId}
+    </select>
+
+    <!--TODO:UPDATEid 지정해줘야함 -->
+    <update id="updateJobOpening" parameterType="map">
+        UPDATE tbl_job_open
+        SET j_title     = #{job.jTitle},
+            j_stitle    = #{job.jStitle},
+            j_content   = #{job.jContent},
+            j_gbn_cd    = #{job.jGbnCd},
+            s_dt        = #{job.sDt},
+            e_dt        = #{job.eDt},
+            educat_cd   = #{job.educatCd},
+            career_cd   = #{job.careerCd},
+            preferences = #{job.preferences},
+            work_place  = #{job.workPlace},
+            work_time   = #{job.workTime},
+            work_type   = #{job.workType}
+        WHERE j_no = #{jNo}
+    </update>
+
+</mapper>

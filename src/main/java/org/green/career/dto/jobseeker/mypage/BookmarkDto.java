@@ -1,4 +1,4 @@
-package org.green.career.dto.jobseeker;
+package org.green.career.dto.jobseeker.mypage;
 
 import lombok.Data;
 
@@ -35,6 +35,9 @@ public class BookmarkDto {
     private String fileName;
     private String fileExt;
     private String fileUrl;
+
+    //bookmark 수
+    private String bookmarkCnt;
 
     private String CBusiness;
 

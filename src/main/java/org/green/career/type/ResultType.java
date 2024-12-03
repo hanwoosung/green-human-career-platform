@@ -16,7 +16,9 @@ public enum ResultType {
     ERROR("000", "오류"),
     VALIDATION_ERROR("400", "유효성 검증 실패"),
     AUTH_ERROR("401", "권한 없음"),
-    SERVER_ERROR("500", "서버 오류");
+    SERVER_ERROR("500", "서버 오류"),
+    SESSION_ERROR("455", "세션 없음");
+
     private final String code;
     private final String desc;
 }

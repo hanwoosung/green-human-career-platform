@@ -26,6 +26,19 @@ public class CodeMapper {
                 "A", "계약/정규직"
         );
         CATEGORY_MAP.put("workType", workTypeMap);
+
+        Map<String, String> upCdMap = Map.of(
+                "cloud_cd", "클라우드",
+                "mobile_cd", "모바일",
+                "devops_cd", "데브옵스",
+                "back_cd", "백엔드",
+                "front_cd", "프론트엔드",
+                "stack_cd", "기술 스택",
+                "data_cd", "데이터 분석",
+                "design_cd", "디자인",
+                "db_cd", "데이터베이스"
+        );
+        CATEGORY_MAP.put("upCd", upCdMap);
     }
 
     /**
