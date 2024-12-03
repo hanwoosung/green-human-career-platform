@@ -75,6 +75,9 @@ function checkDuplicateId() {
         $idValidationMessage.text('아이디를 입력해주세요.');
         $dupCheckButton.val('false');
         return;
+    }else if (!isIdValid) {
+        $dupCheckButton.val('false');
+        return;
     }
 
     axios.get(`/regist/s/ckDpId/${id}`)
@@ -225,8 +228,8 @@ function validateField(fieldId, fieldName, messageId, isValid) {
     const $field = $(fieldId);
     const $message = $(messageId);
 
-    if (isValid !== undefined && !isValid) {
-        $message.text(`${fieldName}이(가) 유효하지 않습니다.`).css('color', 'red');
+    if ((isValid !== undefined && !isValid)|| $('#id-dupCk').val() === 'false') {
+        // $message.text(`${fieldName}이(가) 유효하지 않습니다.`).css('color', 'red');
         $field.focus(); 
         return false;
     }else if($field.val().trim() === '') {
