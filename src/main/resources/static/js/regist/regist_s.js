@@ -229,7 +229,7 @@ function validateField(fieldId, fieldName, messageId, isValid) {
     const $message = $(messageId);
 
     if ((isValid !== undefined && !isValid)|| $('#id-dupCk').val() === 'false') {
-        // $message.text(`${fieldName}이(가) 유효하지 않습니다.`).css('color', 'red');
+        $message.text(`${fieldName}이(가) 유효하지 않습니다.`).css('color', 'red');
         $field.focus(); 
         return false;
     }else if($field.val().trim() === '') {
