@@ -168,5 +168,18 @@
         WHERE a.id = #{id};
     </select>
 
+    <insert id="resumeApply">
+        INSERT Into tbl_resume_job_open (j_no, r_no, jr_gbn_cd, inst_id)
+        values (#{jNo}, #{rNo}, 'N', #{id})
+    </insert>
+
+    <select id="existsResume">
+        SELECT COUNT(*) > 0
+        FROM tbl_resume_job_open
+        WHERE j_no = #{jNo}
+          AND r_no = #{rNo}
+          AND inst_id = #{id};
+    </select>
+
 
 </mapper>

@@ -205,6 +205,20 @@ public class JobOpeningServiceImpl extends AbstractService implements JobOpening
     }
 
     @Override
+    public int resumeApply(int jNo, int rNo, String id) {
+        if (existsResume(jNo, rNo, id) != 0) {
+            throw new BaseException(ResultType.EXISTS_ERROR);
+        }
+
+        return returnData(() -> jobOpeningDao.resumeApply(jNo, rNo, id));
+    }
+
+    @Override
+    public int existsResume(int jNo, int rNo, String id) {
+        return jobOpeningDao.existsResume(jNo, rNo, id);
+    }
+
+    @Override
     public void addFiles(int jNo, List<MultipartFile> companyImages) throws Exception {
         List<TblFileRequestDto> fileList = commonUtils.saveCompanyImages(companyImages, jNo);
         insertFiles(fileList);
