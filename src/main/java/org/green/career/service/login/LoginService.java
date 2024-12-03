@@ -13,7 +13,4 @@ import org.green.career.dto.login.UserLoginDto;
  */
 public interface LoginService {
     UserLoginDto login(String id, String pw, String userGbnCd);
-    int registCompany(CompanyDto company);
-
-    CompanyDto login(String id, String pw, String userGbnCd);
 }
