@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.green.career.dao.LikesDao;
+import org.green.career.dto.likes.response.ResponseLikesDto;
 import org.green.career.exception.BaseException;
 import org.green.career.service.AbstractService;
 import org.green.career.type.ResultType;
@@ -62,6 +63,18 @@ public class LikesServiceImpl extends AbstractService implements LikesService {
             return result;
         });
     }
+
+    @Override
+    public ResponseLikesDto getLikes(int jobId, String companyId) {
+        String id = (String) session.getAttribute("userId");
+
+        if (id == null) {
+            return new ResponseLikesDto(0, 0);
+        }
+
+        return likesDao.getLikes(jobId, id, companyId);
+    }
+
 
     /*
      * 현재 등록된 Likes에 구분자에 맞는 수 가져오기

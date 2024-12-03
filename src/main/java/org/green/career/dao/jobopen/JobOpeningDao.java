@@ -7,6 +7,9 @@ import org.green.career.dto.common.file.request.TblFileRequestDto;
 import org.green.career.dto.common.file.response.FileResponseDto;
 import org.green.career.dto.jobopen.JobOpeningDetailDto;
 import org.green.career.dto.jobopen.requset.JobOpeningRequestDto;
+import org.green.career.dto.jobopen.response.JobOpenCompanyDto;
+import org.green.career.dto.jobopen.response.JobRecordDto;
+import org.green.career.dto.jobopen.response.ResponseMyResume;
 
 import java.util.List;
 
@@ -37,5 +40,14 @@ public interface JobOpeningDao {
     FileResponseDto getFileById(@Param("fileId") Long fileId);
 
     int updateJobOpening(@Param("jNo") int jNo, @Param("job") JobOpeningRequestDto jobOpeningRequestDto);
+
+    JobOpenCompanyDto getCompany(String companyId);
+
+    List<JobRecordDto> getResumeList(int jNo);
+
+    int jobOpeningPass(@Param("jrNo") int jrNo, @Param("type") String type);
+
+    List<ResponseMyResume> myResumes(String id);
+
 
 }

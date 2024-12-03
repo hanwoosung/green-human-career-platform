@@ -118,4 +118,55 @@
         WHERE j_no = #{jNo}
     </update>
 
+    <select id="getCompany" resultType="org.green.career.dto.jobopen.response.JobOpenCompanyDto">
+        SELECT *,
+               (SELECT COUNT(*)
+                FROM tbl_job_open
+                where id = #{id}
+                group by id) as jobOpenCount
+        FROM tbl_user a
+                 LEFT JOIN tbl_company b ON a.id = b.id
+                 LEFT JOIN tbl_file c ON b.id = c.file_ref_id
+            AND c.file_gbn_cd = '10'
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="getResumeList">
+        SELECT a.j_no,
+               b.r_no,
+               b.jr_no,
+               d.name,
+               d.id,
+               d.addr,
+               c.r_title,
+               c.del_yn,
+               b.inst_dt,
+               c.career_cd,
+               b.jr_gbn_cd,
+               c.r_rep_yn,
+               d.use_yn
+        FROM tbl_job_open a
+                 LEFT JOIN tbl_resume_job_open b ON a.j_no = b.j_no
+                 LEFT JOIN tbl_resume c ON b.jr_no = c.r_no
+                 LEFT JOIN tbl_user d ON c.inst_id = d.id
+        WHERE a.j_no = #{id}
+          AND c.del_yn != 'Y'
+          AND b.jr_gbn_cd NOT IN ('F', 'P')
+          AND d.use_yn != 'N';
+    </select>
+
+    <update id="jobOpeningPass">
+        update tbl_resume_job_open
+        set jr_gbn_cd = #{type}
+        where jr_no = #{jrNo}
+    </update>
+
+    <select id="myResumes">
+        SELECT *
+        FROM tbl_user a
+                 LEFT JOIN tbl_resume b ON a.id = b.inst_id
+        WHERE a.id = #{id};
+    </select>
+
+
 </mapper>

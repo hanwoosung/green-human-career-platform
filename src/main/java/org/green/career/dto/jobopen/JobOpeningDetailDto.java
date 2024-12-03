@@ -17,6 +17,8 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class JobOpeningDetailDto {
 
+    private String id;
+    private int jNo;
     private String jTitle;
     private String jStitle;
     private String jContent;
