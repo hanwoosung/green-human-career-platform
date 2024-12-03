@@ -1,5 +1,6 @@
 package org.green.career.controller.regist;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +27,10 @@ public class SeekerRegistController extends AbstractController {
     private final RegistSService registSService;
 
     @GetMapping("/s")
-    public String regist() {
+    public String regist(HttpSession httpSession) {
+        if (httpSession.getAttribute("userId") != null) {
+            return "redirect:/test";
+        }
         return "seeker_regist";
     }
 
