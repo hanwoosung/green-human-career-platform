@@ -18,38 +18,44 @@
             </div>
 
             <div class="main-list-wrapper">
-                <div class="main-list-container" >
-                    <div class="job-card" th:each="scrap : ${list}">
-                        <div class="card-image">
-                            <div class="card-overlay">
-                                <span class="days-left">D - [[${scrap.leftDt}]]</span>
-<!--                                <i class="bi bi-bookmark scrap-icon" id="bookmark-icon"></i>-->
+                <div class="main-list-container">
+                    <th:block th:each="scrap : ${list}">
+                        <div class="job-card" th:attr="data-cjNo=${scrap.jNo}">
+                            <div class="card-image">
+                                <div class="card-overlay">
+                                    <span class="days-left">D - [[${scrap.leftDt}]]</span>
+                                    <!--                                <i class="bi bi-bookmark scrap-icon" id="bookmark-icon"></i>-->
+                                    <i th:class="'bi ' + ${scrap.scrapCnt == 0 ? 'bi-bookmark ' : 'bi-bookmark-fill '} + 'scrap-icon '"
+                                       id="bookmark-icon"></i>
+                                </div>
+                                <img alt="회사 이미지"
+                                     th:src="${scrap?.fileUrl + '/' + scrap?.fileId + '.' + scrap?.fileExt}"
+                                     onerror="this.src='/static/images/empty_company.png'">
                             </div>
-                            <img alt="회사 이미지"
-                                 th:src="${scrap?.fileUrl + '/' + scrap?.fileId + '.' + scrap?.fileExt}"
-                                 onerror="this.src='/static/images/empty_company.png'">
-                        </div>
-                        <div class="card-header">
-                            <div class="card-header-box">
-                                <span class="company-name">[[${scrap.name}]]</span>
-                                <i class="bi bi-heart heart-icon" id="heart-icon"></i>
+                            <div class="card-header">
+                                <div class="card-header-box">
+                                    <span class="company-name">[[${scrap.name}]]</span>
+                                    <!--                                <i class="bi bi-heart heart-icon" id="heart-icon"></i>-->
+                                    <i th:class="'bi ' + ${scrap.bookmarkCnt == 0 ? 'bi-heart ' : 'bi-heart-fill '} + 'heart-icon'"
+                                       id="heart-icon"></i>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="card-body">
-                            <h3 class="job-title">[[${scrap.jTitle}]]</h3>
-                            <h4 class="job-content">[[${scrap.jSTitle}]]</h4>
-                            <div class="job-location">
-                                <span>[[${scrap.workPlace}]]</span> | <span>[[${scrap.careerNm}]]</span>
-                            </div>
-                            <div class="skill-tags">
-                                <div class="skill-tags" th:if="${not #lists.isEmpty(scrap.stacks)}">
+                            <div class="card-body">
+                                <h3 class="job-title">[[${scrap.jTitle}]]</h3>
+                                <h4 class="job-content">[[${scrap.jSTitle}]]</h4>
+                                <div class="job-location">
+                                    <span>[[${scrap.workPlace}]]</span> | <span>[[${scrap.careerNm}]]</span>
+                                </div>
+                                <div class="skill-tags">
+                                    <div class="skill-tags" th:if="${not #lists.isEmpty(scrap.stacks)}">
                                     <span th:each="skill : ${scrap.stacks}" class="skill-tag"
                                           th:text="${skill.stackNm}"></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </th:block>
                 </div>
 
             </div>
@@ -96,6 +102,7 @@
                 </nav>
             </div>
         </main>
-
     </body>
 </html>
+
+<script src="/static/js/jobseeker/mypage/scrap.js"></script>
