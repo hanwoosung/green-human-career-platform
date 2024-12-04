@@ -18,7 +18,8 @@ public enum ResultType {
     AUTH_ERROR("401", "권한 없음"),
     SERVER_ERROR("500", "서버 오류"),
     SESSION_ERROR("455", "세션 없음"),
-    DUPLiCARTE_ERROR("1062", "중복 데이터 오류");
+    DUPLiCARTE_ERROR("1062", "중복 데이터 오류"),
+    EXISTS_ERROR("505", "중복 에러");
 
     private final String code;
     private final String desc;

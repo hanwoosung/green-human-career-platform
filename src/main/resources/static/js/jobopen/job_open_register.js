@@ -102,6 +102,7 @@ $(document).ready(function () {
     });
 });
 
+
 function regist(event) {
     event.preventDefault();
 
