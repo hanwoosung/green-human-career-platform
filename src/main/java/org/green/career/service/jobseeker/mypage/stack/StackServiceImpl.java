@@ -4,7 +4,6 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.green.career.dao.jobseeker.mypage.StackDao;
-import org.green.career.dao.main.MainDao;
 import org.green.career.dto.common.CodeInfoDto;
 import org.green.career.dto.common.file.CategoryDto;
 import org.green.career.dto.jobopen.JobSearchResult;
@@ -68,9 +67,10 @@ public class StackServiceImpl extends AbstractService implements StackService {
      */
     @Override
     public List<JobOpeningResponseDto> findJobOpeningList(int offset, int limit) {
-
-        String id = session.getAttribute("userId").toString();
-
+        String id = null;
+        if (session.getAttribute("userId") != null) {
+             id = session.getAttribute("userId").toString();
+        }
         List<JobOpeningResponseDto> jobList = stackDao.findJobOpeningList(offset, limit, id);
         if (jobList.isEmpty()) {
             log.info("조회된 채용 공고 없음.");

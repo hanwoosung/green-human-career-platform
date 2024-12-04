@@ -161,7 +161,7 @@
                             스킬 목록
                         </div>
                         <div class="skills-content">
-                            <span class="skill-tag" th:each="skill : ${jobItem.skills}" th:text="${skill}"></span>
+                            <span class="skill-tag" th:each="skill : ${mySkillList}" th:text="${skill.cdNm}"></span>
                         </div>
                     </div>
 
@@ -268,7 +268,7 @@
                                 <!-- 이력서가 없는 경우 메시지 -->
                                 <div class="empty-message" style="display: none;">이력서 정보가 없습니다.</div>
                             </div>
-                            <button class="apply-btn" id="applyBtn" disabled>지원하기</button>
+                            <button class="apply-btn2" id="applyBtn" disabled>지원하기</button>
                         </div>
                     </div>
 
@@ -398,7 +398,7 @@
             .then((res) => {
                 console.log(res);
 
-                if (res.data.result.code !== '000') {
+                if (res.data.result.code != '000' && res.data.result.code != 455) {
                     const popup = document.getElementById('resumePopup');
                     popup.style.display = 'flex';
 
@@ -446,7 +446,7 @@
                             document.getElementById('applyBtn').disabled = false;
                         });
                     });
-                } else if (res.data.result.code === '455') {
+                } else if (res.data.result.code == 455) {
                     alert_modal.on("로그인", "로그인 후 진행해주세요");
                 }
             })

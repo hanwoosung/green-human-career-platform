@@ -1,0 +1,132 @@
+.content-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.search-wrap {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.search-wrap .search-span {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-wrap input[type="text"] {
+    width: 200px;
+    height: 35px;
+    border: 1px solid #1e90ff;
+    border-radius: 5px;
+    padding: 0 10px;
+    outline: none;
+    font-size: 1rem;
+}
+
+.search-wrap input[type="text"]:focus {
+    border-color: #00bfff;
+}
+
+.search-wrap input[type="submit"] {
+    width: 80px;
+    height: 35px;
+    background-color: #1e90ff;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-wrap input[type="submit"]:hover {
+    background-color: #00bfff;
+}
+
+.content-detail .list-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+    justify-content: center;
+}
+
+.list-wrap.single-item {
+    justify-content: flex-start;
+}
+
+.list {
+    width: calc(40% - 20px);
+    border: 1px solid #1e90ff;
+    border-radius: 15px;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.list:hover {
+    transform: translateY(-5px);
+    box-shadow: 6px 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.list-img {
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.list-img img {
+    width: 50%;
+    height: auto;
+    border-radius: 50%;
+}
+
+.list-content {
+    width: 60%;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.contents {
+    margin-bottom: 10px;
+}
+
+.content-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #1e90ff;
+}
+
+.content-addr {
+    font-size: 1rem;
+    color: #333;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.content-resume {
+    margin-top: 10px;
+    background-color: #e6f7ff;
+    padding: 10px;
+    border-radius: 5px;
+    color: #1e90ff;
+    font-size: 1rem;
+}
+
+.content-date {
+    margin-top: 15px;
+    color: #555;
+    font-size: 0.9rem;
+}

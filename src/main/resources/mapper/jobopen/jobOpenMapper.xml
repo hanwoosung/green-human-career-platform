@@ -77,6 +77,7 @@
         FROM tbl_job_open a
                  LEFT JOIN tbl_job_open_stack b ON a.j_no = b.j_no
         WHERE a.j_no = #{id}
+
     </select>
 
     <select id="getFile">
@@ -147,7 +148,7 @@
                d.use_yn
         FROM tbl_job_open a
                  LEFT JOIN tbl_resume_job_open b ON a.j_no = b.j_no
-                 LEFT JOIN tbl_resume c ON b.jr_no = c.r_no
+                 LEFT JOIN tbl_resume c ON b.r_no = c.r_no
                  LEFT JOIN tbl_user d ON c.inst_id = d.id
         WHERE a.j_no = #{id}
           AND c.del_yn != 'Y'
@@ -187,5 +188,12 @@
         set del_yn = 'Y'
         where j_no = #{jNo}
     </update>
+
+    <select id="mySkill">
+        SELECT *
+        FROM tbl_codeinfo
+        WHERE cd IN (SELECT DISTINCT stack_cd FROM tbl_job_open_stack WHERE j_no = #{jNo});
+
+    </select>
 
 </mapper>
