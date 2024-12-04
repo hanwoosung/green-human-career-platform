@@ -8,8 +8,7 @@ import org.springframework.stereotype.Service;
 /**
  * 작성자: 구경림
  * 작성일: 2024-12-03
- * 구직자 이력서 인터페이스 구현체
- * TODO: 기업 회원가입과 통합필요, 서버측 유효성검사
+ * 이력서 서비스 인터페이스 구현체
  */
 @Service
 @RequiredArgsConstructor
