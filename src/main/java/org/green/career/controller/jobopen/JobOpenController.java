@@ -124,7 +124,7 @@ public class JobOpenController extends AbstractController {
 
         ifGoReferer(jobOpening.getDelYn().equals("Y"));
 
-        model.addAttribute("likes", isSessionCheck() ? new ResponseLikesDto(0, 0) : likesService.getLikes(jNo, jobOpening.getId()));
+        model.addAttribute("likes", isSessionCheck() == null ? new ResponseLikesDto(0, 0) : likesService.getLikes(jNo, jobOpening.getId()));
         model.addAttribute("jobItem", jobOpening);
         model.addAttribute("companyItem", jobOpeningService.getCompany(jobOpening.getId()));
         model.addAttribute("resumeList", jobOpeningService.getResumeList(jNo));
