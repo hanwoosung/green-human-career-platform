@@ -63,9 +63,9 @@ public class LikesServiceImpl extends AbstractService implements LikesService {
             return result;
         });
     }
-
     @Override
     public ResponseLikesDto getLikes(int jobId, String companyId) {
+        // 세션에서 userId를 확인
         String id = (String) session.getAttribute("userId");
 
         if (id == null) {

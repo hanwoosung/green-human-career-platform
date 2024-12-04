@@ -85,5 +85,7 @@ public interface JobOpeningService {
 
     int existsResume(int jNo, int rNo, String id);
 
+    int delete(int jNo);
+
 
 }

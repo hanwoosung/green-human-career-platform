@@ -219,6 +219,11 @@ public class JobOpeningServiceImpl extends AbstractService implements JobOpening
     }
 
     @Override
+    public int delete(int jNo) {
+        return  returnData(() -> jobOpeningDao.delete(jNo));
+    }
+
+    @Override
     public void addFiles(int jNo, List<MultipartFile> companyImages) throws Exception {
         List<TblFileRequestDto> fileList = commonUtils.saveCompanyImages(companyImages, jNo);
         insertFiles(fileList);

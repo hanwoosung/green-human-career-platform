@@ -30,6 +30,7 @@ public class JobOpeningDetailDto {
     private String workType;
     private String workPlace;
     private String workTime;
+    private String delYn;
     private List<String> skills;
     private List<FileResponseDto> files;
 

@@ -182,4 +182,10 @@
     </select>
 
 
+    <update id="delete">
+        update tbl_job_open
+        set del_yn = 'Y'
+        where j_no = #{jNo}
+    </update>
+
 </mapper>

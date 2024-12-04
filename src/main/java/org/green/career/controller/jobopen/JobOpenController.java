@@ -8,6 +8,7 @@ import org.green.career.dto.common.ResponseDto;
 import org.green.career.dto.jobopen.JobOpeningDetailDto;
 import org.green.career.dto.jobopen.requset.JobOpeningRequestDto;
 import org.green.career.dto.jobopen.response.ResponseMyResume;
+import org.green.career.dto.likes.response.ResponseLikesDto;
 import org.green.career.exception.BaseException;
 import org.green.career.service.jobopen.JobOpeningService;
 import org.green.career.service.likes.LikesService;
@@ -118,13 +119,15 @@ public class JobOpenController extends AbstractController {
     }
 
     @GetMapping("/detail/{jNo}")
-    public String getJobOpeningDetail(@PathVariable("jNo") int jNo, Model model) {
+    public String getJobOpeningDetail(@PathVariable("jNo") int jNo, Model model) throws Exception {
         JobOpeningDetailDto jobOpening = jobOpeningService.getJobOpening(jNo);
 
+        ifGoReferer(jobOpening.getDelYn().equals("Y"));
+
+        model.addAttribute("likes", isSessionCheck() ? new ResponseLikesDto(0, 0) : likesService.getLikes(jNo, jobOpening.getId()));
         model.addAttribute("jobItem", jobOpening);
         model.addAttribute("companyItem", jobOpeningService.getCompany(jobOpening.getId()));
         model.addAttribute("resumeList", jobOpeningService.getResumeList(jNo));
-        model.addAttribute("likes", likesService.getLikes(jNo, jobOpening.getId()));
         return "jobopen/job_open_detail";
     }
 
@@ -134,7 +137,7 @@ public class JobOpenController extends AbstractController {
             @RequestParam("jrNo") int jrNo,
             @RequestParam("type") String type) {
         jobOpeningService.jobOpeningPass(jrNo, type);
-        return ok("삭제성공");
+        return ok("성공");
     }
 
     @GetMapping("/my-resumes")
@@ -153,5 +156,12 @@ public class JobOpenController extends AbstractController {
     @ResponseBody
     public ResponseDto<Integer> resumeApply(@RequestParam("rNo") int rNo, @RequestParam("jNo") int jNo, HttpSession session) {
         return ResponseDto.ok(jobOpeningService.resumeApply(jNo, rNo, (String) session.getAttribute("userId")));
+    }
+
+    @PatchMapping("/{jNo}")
+    @ResponseBody
+    public ResponseDto<String> deleteJob(@PathVariable("jNo") int jNo) {
+        jobOpeningService.delete(jNo);
+        return ok("성공");
     }
 }
