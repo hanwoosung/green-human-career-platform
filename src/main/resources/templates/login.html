@@ -102,7 +102,6 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
-
         .active {
             border-bottom: 3px solid var(--primary-color2);
             color: var(--primary-color2);
@@ -124,6 +123,7 @@
             margin-top: 50px;
             font-size: 0.7rem;
         }
+
     </style>
 </head>
 <body>
@@ -154,10 +154,8 @@
             <div id="responseMessage"></div>
             <button type="submit" value="로그인" id="login-button">로그인</button>
         </form>
-        <p id = "goto-regist">계정이 없으신가요? <a th:href="@{/regist}">회원가입</a></p>
+        <p id = "goto-regist">계정이 없으신가요? <a th:href="@{/regist/s}">회원가입</a></p>
     </div>
-
-
     <script src="/static/js/login/login.js"></script>
 </main>
 </body>

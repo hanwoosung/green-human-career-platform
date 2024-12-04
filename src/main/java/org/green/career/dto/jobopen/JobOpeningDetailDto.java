@@ -17,6 +17,8 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class JobOpeningDetailDto {
 
+    private String id;
+    private int jNo;
     private String jTitle;
     private String jStitle;
     private String jContent;
@@ -28,6 +30,7 @@ public class JobOpeningDetailDto {
     private String workType;
     private String workPlace;
     private String workTime;
+    private String delYn;
     private List<String> skills;
     private List<FileResponseDto> files;
 

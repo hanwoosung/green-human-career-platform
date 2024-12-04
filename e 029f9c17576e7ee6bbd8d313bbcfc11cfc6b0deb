@@ -1,0 +1,221 @@
+[33mcommit de20a54a8df19c377f8d1488e749f7ba9eb10ad8[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mUSCK-61--채용공고등록[m[33m, [m[1;31morigin/USCK-61--채용공고등록[m[33m)[m
+Merge: 029f9c1 4585569
+Author: hanwoosung <yiok79@naver.com>
+Date:   Mon Dec 2 15:04:48 2024 +0900
+
+    Merge branch 'develop' into USCK-61--채용공고등록
+    
+    # Conflicts:
+    #       src/main/resources/templates/layout-test/parts/header_mypage.html
+
+[33mcommit 029f9c17576e7ee6bbd8d313bbcfc11cfc6b0deb[m
+Author: hanwoosung <yiok79@naver.com>
+Date:   Mon Dec 2 15:03:57 2024 +0900
+
+    채용ëê공고 등록 ì완료 + 메인 페이지 기ì술검ã색 페이징 긴ì기능 수정
+
+[33mcommit 4585569e6981fdf452791fbcf51d6cdd46b1631b[m[33m ([m[1;31morigin/USCK-22--로그인[m[33m, [m[1;31morigin/USCK-18--구직자회원가입[m[33m)[m
+Author: rim <mxmmxqq@gmail.com>
+Date:   Mon Dec 2 14:06:43 2024 +0900
+
+    로그인 기본 기능 구현
+
+[33mcommit 1334e2f300e68f3795d3fa251bc07e6d1ea54bc4[m
+Merge: c69077c 7b8217a
+Author: rim <mxmmxqq@gmail.com>
+Date:   Mon Dec 2 12:17:51 2024 +0900
+
+    Merge branch 'develop' into USCK-22--로그인
+    
+    # Conflicts:
+    #       src/main/java/org/green/career/controller/login/LoginController.java
+
+[33mcommit c69077ca7c1492a0b1fd73c960ad0cc85181a1a4[m
+Author: rim <mxmmxqq@gmail.com>
+Date:   Mon Dec 2 12:12:29 2024 +0900
+
+    login구현중passwordBcrypt암호화.적용
+
+[33mcommit 7b8217a43306707578df6d047362c9afc909223d[m[33m ([m[1;31morigin/USCK-68--마이페이지(관심기업-공고스크랩)[m[33m)[m
+Merge: 175a66c bf5ca6a
+Author: K-sangJun <148926360+K-sangJun@users.noreply.github.com>
+Date:   Mon Dec 2 11:41:56 2024 +0900
+
+    Merge pull request #4 from hanwoosung/USCK-67--마이페이지(관심기업-북마크)
+    
+    Usck 67  마이페이지(관심기업 북마크)
+
+[33mcommit bf5ca6aa651f66158866e389fe593f799072f440[m[33m ([m[1;31morigin/USCK-67--마이페이지(관심기업-북마크)[m[33m)[m
+Author: K-SangJun <tkdwns000817@gmail.com>
+Date:   Mon Dec 2 11:36:05 2024 +0900
+
+    bookmark 완성~~~~~
+
+[33mcommit db3d22a9aa5b7d13c622d9d5ffb577089929a234[m
+Merge: 815e1bd 175a66c
+Author: K-SangJun <tkdwns000817@gmail.com>
+Date:   Mon Dec 2 09:17:32 2024 +0900
+
+    Merge branch 'refs/heads/develop' into USCK-67--마이페이지(관심기업-북마크)
+
+[33mcommit c84a369702b15aa07983fef9a54721c0658a2eb8[m
+Merge: ff16cac 175a66c
+Author: hanwoosung <yiok79@naver.com>
+Date:   Mon Dec 2 09:03:18 2024 +0900
+
+    Merge branch 'develop' into USCK-61--채용공고등록
+
+[33mcommit ff16cacb021fd1b0f8b0d6d1fdaf1162cb860322[m
+Author: unknown <yiok79@naver.com>
+Date:   Mon Dec 2 01:54:32 2024 +0900
+
+    이력서 등록 진행 중
+
+[33mcommit 175a66c4c376e3d4591525f19c8252d156733624[m[33m ([m[1;31morigin/USCK-26--기업정보등록[m[33m, [m[1;31morigin/USCK-19-기업메인[m[33m)[m
+Author: rim <mxmmxqq@gmail.com>
+Date:   Sun Dec 1 23:47:47 2024 +0900
+
+    기ì기본 로그인 구현 및 ì공통템플릿 ì 주ì주 적용 및
+
+[33mcommit 815e1bd11295c8858ba7e10f02e94f3416093428[m
+Author: K-sangJun <tkdwns000817@gmail.com>
+Date:   Sun Dec 1 20:35:54 2024 +0900
+
+    bookmark 화면 디자인까지 구현
+
+[33mcommit ed5d5112a8ae44a011091884b2c122ae178b2d7d[m
+Author: rim <mxmmxqq@gmail.com>
+Date:   Sun Dec 1 19:50:09 2024 +0900
+
+    공통템플릿테스트2
+
+[33mcommit 7856fc70a53cd8093daa17239cd622146d8bf4a0[m
+Author: rim <mxmmxqq@gmail.com>
+Date:   Sun Dec 1 19:09:00 2024 +0900
+
+    공통 템플릿 테스트
+
+[33mcommit e7559d436556cf25e88eddc9a5b0a424bc522fe2[m
+Author: rim <mxmmxqq@gmail.com>
+Date:   Sun Dec 1 16:49:17 2024 +0900
+
+    공통 템플릿test
+
+[33mcommit 8dda7e5d7741053743ff58f225b9ec70ce6b6f52[m
+Merge: 7133950 bb9a74b
+Author: hanwoosung <104342837+hanwoosung@users.noreply.github.com>
+Date:   Sun Dec 1 13:14:50 2024 +0900
+
+    Merge pull request #2 from hanwoosung/USCK-97--구직자메인
+    
+    메인 완료 (디테일 필요 + 북마크 스크랩 기능 필요)
+
+[33mcommit bb9a74bdfabf7ebf0075ad110c38ef61d3d81126[m[33m ([m[1;31morigin/USCK-97--구직자메인[m[33m)[m
+Author: unknown <yiok79@naver.com>
+Date:   Sun Dec 1 13:13:44 2024 +0900
+
+    메인 완료 (디테일 필요 + 북마크 스크랩 기능 필요)
+
+[33mcommit 71339507e91ee9118953f290f93212238a8954f9[m
+Author: unknown <yiok79@naver.com>
+Date:   Fri Nov 29 23:50:32 2024 +0900
+
+    디비 테스트용 코드
+
+[33mcommit 692448fb5c1a247c171835e30c64aa28e99a5869[m
+Merge: 8649ce9 c3bdfe5
+Author: hanwoosung <yiok79@naver.com>
+Date:   Fri Nov 29 17:48:41 2024 +0900
+
+    Merge remote-tracking branch 'origin/develop' into develop
+
+[33mcommit 8649ce9d2ce6e1a78b73ea1fdb70a6045bcfe119[m
+Author: hanwoosung <yiok79@naver.com>
+Date:   Fri Nov 29 17:48:31 2024 +0900
+
+    공통 컨트롤러 제작
+
+[33mcommit c3bdfe53252ae4b91dad03909604bc12c082420e[m
+Author: K-SangJun <tkdwns000817@gmail.com>
+Date:   Fri Nov 29 17:39:11 2024 +0900
+
+    footer에 alert
+
+[33mcommit 2f43a95a23fe24ea9d71645247bb220f7ca10599[m
+Merge: d504a16 11d8db7
+Author: K-SangJun <tkdwns000817@gmail.com>
+Date:   Fri Nov 29 17:07:04 2024 +0900
+
+    Merge remote-tracking branch 'origin/develop' into develop
+
+[33mcommit d504a165138a8d2660dbbbf95543bee61623907f[m
+Author: K-SangJun <tkdwns000817@gmail.com>
+Date:   Fri Nov 29 17:06:28 2024 +0900
+
+    header에 axios jquery
+
+[33mcommit 11d8db76aae9cb6d053909c9511276be0d0cd5b7[m
+Author: hanwoosung <yiok79@naver.com>
+Date:   Fri Nov 29 16:55:28 2024 +0900
+
+     수정중
+
+[33mcommit eaa5707c855fcbee312cd7d4e7fa92d543b5a9bb[m
+Author: K-SangJun <tkdwns000817@gmail.com>
+Date:   Fri Nov 29 16:52:08 2024 +0900
+
+    user-side
+
+[33mcommit 66f79a613affc62a9d4ec578ad4f3fbe7fdcf1cf[m
+Author: hanwoosung <yiok79@naver.com>
+Date:   Fri Nov 29 16:47:34 2024 +0900
+
+    고민할것
+
+[33mcommit bdf97fc29e1c6110b25c07d782a25abc06e41c94[m
+Author: K-SangJun <tkdwns000817@gmail.com>
+Date:   Fri Nov 29 16:39:02 2024 +0900
+
+    user-side
+
+[33mcommit a5816f6ecc3971b83929e228aca0bcba90b9670b[m
+Author: K-SangJun <tkdwns000817@gmail.com>
+Date:   Fri Nov 29 16:32:58 2024 +0900
+
+    side
+
+[33mcommit fc4f4f1a510802b3c50d194e93cfd6fa1bad4d74[m
+Author: K-SangJun <tkdwns000817@gmail.com>
+Date:   Fri Nov 29 16:31:32 2024 +0900
+
+    side
+
+[33mcommit 9423d90e35052a10c626d279205770f745f7a040[m
+Author: K-SangJun <tkdwns000817@gmail.com>
+Date:   Fri Nov 29 15:55:20 2024 +0900
+
+    css
+
+[33mcommit 86e1878ea12ac8ea6dd4da0e3c5e8134c6d25edf[m
+Author: hanwoosung <yiok79@naver.com>
+Date:   Fri Nov 29 15:24:20 2024 +0900
+
+     logo 이미지 추가
+
+[33mcommit b687e3b523fc26289ef1b7b54a8bc53ffbdfa546[m
+Author: K-SangJun <tkdwns000817@gmail.com>
+Date:   Fri Nov 29 15:18:55 2024 +0900
+
+    .
+
+[33mcommit d72ba42999f5bac4b3cd94e63f7f9ecdf2bb4a56[m
+Author: kkkjh96 <licj672@naver.com>
+Date:   Fri Nov 29 14:37:54 2024 +0900
+
+    a
+
+[33mcommit 960aec8ebf610ca85620068644666dd84ca97d4d[m[33m ([m[1;32mmain[m[33m)[m
+Author: unknown <yiok79@naver.com>
+Date:   Mon Nov 25 21:06:46 2024 +0900
+
+    깃 셋팅
