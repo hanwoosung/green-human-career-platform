@@ -83,6 +83,7 @@ public abstract class AbstractController {
     /**
      * 세션 아이디 반환 없으면 null
      * 이걸로 조건체크
+     * TODO: 이거 없애고 sessionUserInfo 할거지만 다른곳에 사용중이기때문에 나중에 완성됐을 떄 변경 진행
      */
     public String isSessionCheck() {
         HttpServletRequest request = getRequest();
@@ -95,6 +96,20 @@ public abstract class AbstractController {
         return null;
     }
 
+
+    /**
+     * 세션 속성 반환. 속성이 없으면 null.
+     */
+    public String sessionUserInfo(String attributeName) {
+        HttpServletRequest request = getRequest();
+        if (request.getSession(false) != null) {
+            Object attributeValue = request.getSession().getAttribute(attributeName);
+            if (attributeValue != null && attributeValue instanceof String) {
+                return (String) attributeValue;
+            }
+        }
+        return null;
+    }
 
     /**
      * 세션 확인 후 이전 페이지로 리다이렉트 처리

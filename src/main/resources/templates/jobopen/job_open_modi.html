@@ -55,29 +55,25 @@
                     <!-- 파일 입력 -->
                     <input type="file" id="companyImage" name="companyImage" accept="image/*" multiple
                            style="display: none;">
-
-                    <!-- 미리보기 영역 -->
                     <div class="file-preview" id="filePreview">
-                        <!-- 서버에서 전달된 기존 파일 -->
-                        <div th:each="file : ${jobItem.files}" class="img-container">
-                            <img th:src="@{${file.fileUrl}}" th:alt="${file.fileName}"
-                                 th:data-file-id="${file.fileId}" th:data-file-name="${file.fileName}" />
-                            <span class="delete-img" th:data-file-id="${file.fileId}">x</span>
-                        </div>
-
-                        <!-- 빈 슬롯 (이미지가 3개 미만일 때만 표시) -->
-                        <div th:if="${jobItem.files != null and jobItem.files.size() < 3}">
-                            <div th:each="slot : ${#numbers.sequence(1, 3 - jobItem.files.size())}" class="default-img">
-                                이미지 없음
+                        <!-- 서버에서 전달된 기존 파일과 빈 슬롯을 함께 처리 -->
+                        <div th:if="${jobItem.files != null}" th:each="file, iterStat : ${jobItem.files}">
+                            <div class="img-container">
+                                <img th:src="@{${file.fileUrl}}" th:alt="${file.fileName}"
+                                     th:data-file-id="${file.fileId}" th:data-file-name="${file.fileName}" />
+                                <span class="delete-img" th:data-file-id="${file.fileId}">x</span>
                             </div>
                         </div>
+
+                        <!-- 빈 슬롯을 이미지 수에 맞게 추가 -->
+                        <div th:if="${jobItem.files != null}" th:each="slot : ${#numbers.sequence(1, 3 - (jobItem.files != null ? jobItem.files.size() : 0))}" class="img-container default-img">
+                            이미지 없음
+                        </div>
                     </div>
-
-
                 </div>
 
 
-                <!-- 내용 -->
+                    <!-- 내용 -->
                 <div class="form-group">
                     <label for="jobDescription">내용</label>
                     <textarea id="jobDescription" name="jobDescription" placeholder="공고 상세 내용을 입력하세요"
@@ -136,8 +132,7 @@
                     <label>기술 스택</label>
                     <div class="skills-options">
                         <button type="button" class="skill-button" th:each="skill : ${skillList}"
-                                th:data-skill="${skill.cdNm}"
-                                th:text="${skill.cdNm}">
+                                th:data-skill-cd="${skill.cd}" th:text="${skill.cdNm}">
                             Default Skill
                         </button>
                     </div>
@@ -145,17 +140,17 @@
                     <div class="selected-skills">
                         <p>선택된 스킬:</p>
                         <div class="selected-skill-list">
-
-                            <div th:each="skill : ${jobItem.skills}"
+                            <!-- 선택된 스킬 리스트 -->
+                            <div th:each="skill : ${mySkillList}"
                                  class="skill-tag"
-                                 th:data-skill="${skill}">
-                                <span class="skill-text" th:text="${skill}"></span>
-                                <span class="remove-skill" th:data-skill="${skill}">x</span>
+                                 th:data-skill="${skill.cd}">
+                                <span class="skill-text" th:text="${skill.cdNm}"></span>
+                                <span class="remove-skill" th:data-skill="${skill.cd}">x</span>
                             </div>
-
                         </div>
                     </div>
                 </div>
+
 
                 <!-- 우대 사항 -->
                 <div class="form-group">
@@ -193,7 +188,7 @@
                 </div>
                 <!-- 등록 버튼 -->
                 <div class="form-actions">
-                    <button type="submit" class="submit-button">공고 등록</button>
+                    <button type="submit" class="submit-button" th:data-job-jno="${jobItem.JNo}">공고 수정</button>
                 </div>
 
 

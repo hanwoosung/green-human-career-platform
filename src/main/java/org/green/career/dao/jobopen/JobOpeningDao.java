@@ -3,6 +3,7 @@ package org.green.career.dao.jobopen;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.green.career.dto.common.CodeInfoDto;
 import org.green.career.dto.common.file.request.TblFileRequestDto;
 import org.green.career.dto.common.file.response.FileResponseDto;
 import org.green.career.dto.jobopen.JobOpeningDetailDto;
@@ -54,5 +55,6 @@ public interface JobOpeningDao {
     int existsResume(@Param("jNo") int jNo, @Param("rNo") int rNo, @Param("id") String id);
 
     int delete(int jNo);
+    List<CodeInfoDto> mySkill(int jNo);
 
 }

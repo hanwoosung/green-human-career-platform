@@ -3,6 +3,7 @@ package org.green.career.service.jobopen;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.green.career.dao.jobopen.JobOpeningDao;
+import org.green.career.dto.common.CodeInfoDto;
 import org.green.career.dto.common.file.request.TblFileRequestDto;
 import org.green.career.dto.common.file.response.FileResponseDto;
 import org.green.career.dto.jobopen.JobOpeningDetailDto;
@@ -221,6 +222,11 @@ public class JobOpeningServiceImpl extends AbstractService implements JobOpening
     @Override
     public int delete(int jNo) {
         return  returnData(() -> jobOpeningDao.delete(jNo));
+    }
+
+    @Override
+    public List<CodeInfoDto> mySkill(int jNo) {
+        return jobOpeningDao.mySkill(jNo);
     }
 
     @Override

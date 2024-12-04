@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 작성자: 한우성
@@ -38,7 +39,9 @@ public class JobOpenController extends AbstractController {
     private final LikesService likesService;
 
     @GetMapping("/register")
-    public String getJobOpenRegisterPage(Model model) {
+    public String getJobOpenRegisterPage(Model model) throws Exception {
+        sessionGoLogin();
+        ifGoReferer((!Objects.equals(sessionUserInfo("userType"), "C")));
         Map<String, Object> skillData = mainService.findSkillList();
 
         model.addAttribute("skillList", skillData.get("skills"));
@@ -50,14 +53,13 @@ public class JobOpenController extends AbstractController {
 
     @PostMapping
     @ResponseBody
-    public ResponseDto<Void> jobOpeningRegister(@ModelAttribute JobOpeningRequestDto formData) {
+    public ResponseDto<Integer> jobOpeningRegister(@ModelAttribute JobOpeningRequestDto formData) {
 
         log.info("데이터: {}", formData);
 
         if (formData.getSkillList() != null) {
             log.info("Skill List: {}", formData.getSkillList());
         }
-
         if (formData.getCompanyImages() != null && !formData.getCompanyImages().isEmpty()) {
             for (MultipartFile file : formData.getCompanyImages()) {
                 log.info("파일이름: {}", file.getName());
@@ -67,15 +69,17 @@ public class JobOpenController extends AbstractController {
             log.warn("파일 없음");
         }
 
-        jobOpeningService.insertJobOpening(formData);
 
-        return ResponseDto.ok();
+        return ResponseDto.ok(jobOpeningService.insertJobOpening(formData));
     }
 
     @GetMapping("/{jNo}")
-    public String getJobOpeningModi(@PathVariable("jNo") int jNo, Model model) {
+    public String getJobOpeningModi(@PathVariable("jNo") int jNo, Model model) throws Exception {
         Map<String, Object> skillData = mainService.findSkillList();
+
+        sessionGoLogin();
         model.addAttribute("skillList", skillData.get("skills"));
+        model.addAttribute("mySkillList", jobOpeningService.mySkill(jNo));
         model.addAttribute("jobItem", jobOpeningService.getJobOpening(jNo));
         System.out.println(jobOpeningService.getJobOpening(jNo));
         return "jobopen/job_open_modi";
@@ -83,7 +87,7 @@ public class JobOpenController extends AbstractController {
 
     @PutMapping("/{jNo}")
     @ResponseBody
-    public ResponseDto<Void> modifyJobOpening(
+    public ResponseDto<Integer> modifyJobOpening(
             @PathVariable("jNo") int jNo,
             @ModelAttribute JobOpeningRequestDto formData,
             @RequestParam(value = "filesToDelete", required = false) List<Long> filesToDelete,
@@ -115,7 +119,7 @@ public class JobOpenController extends AbstractController {
                 jobOpeningService.removeSkills(jNo, removedSkills);
             }
         }
-        return ResponseDto.ok();
+        return ResponseDto.ok(jobOpeningService.selectMax());
     }
 
     @GetMapping("/detail/{jNo}")
@@ -123,9 +127,9 @@ public class JobOpenController extends AbstractController {
         JobOpeningDetailDto jobOpening = jobOpeningService.getJobOpening(jNo);
 
         ifGoReferer(jobOpening.getDelYn().equals("Y"));
-
         model.addAttribute("likes", isSessionCheck() == null ? new ResponseLikesDto(0, 0) : likesService.getLikes(jNo, jobOpening.getId()));
         model.addAttribute("jobItem", jobOpening);
+        model.addAttribute("mySkillList", jobOpeningService.mySkill(jNo));
         model.addAttribute("companyItem", jobOpeningService.getCompany(jobOpening.getId()));
         model.addAttribute("resumeList", jobOpeningService.getResumeList(jNo));
         return "jobopen/job_open_detail";
@@ -144,10 +148,7 @@ public class JobOpenController extends AbstractController {
     @ResponseBody
     public ResponseDto<List<ResponseMyResume>> myResumes(HttpSession session) {
         String id = (String) session.getAttribute("userId");
-
-        if (id == null) {
-            throw new BaseException(ResultType.ERROR, "로그인 하세요!");
-        }
+        sessionApiError();
 
         return ok(jobOpeningService.myResumes(id));
     }

@@ -117,14 +117,21 @@
                                     <label>기술 스택</label>
                                     <div class="skills-options">
                                         <button type="button" class="skill-button" th:each="skill : ${skillList}"
-                                                th:data-skill="${skill.cdNm}"
+                                                th:data-skill="${skill.cd}"
                                                 th:text="${skill.cdNm}">
                                             Default Skill
                                         </button>
                                     </div>
                                     <div class="selected-skills">
                                         <p>선택된 스킬:</p>
-                                        <div class="selected-skill-list"></div>
+                                        <div class="selected-skill-list">
+                                            <div th:each="skill : ${jobItem.skills} "
+                                                 class="skill-tag"
+                                                 th:data-skillCd="${skill.cd}"  <!-- 서버로 전송할 때 사용할 cd 값 -->
+                                            th:text="${skill.cdNm}">     <!-- 사용자에게 보여줄 cdNm 값 -->
+                                            <span class="skill-text" th:text="${skill.cdNm}"></span>
+                                            <span class="remove-skill" th:data-skillCd="${skill.cd}">x</span>
+                                        </div>
                                     </div>
                                 </div>
 
