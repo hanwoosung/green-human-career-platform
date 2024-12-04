@@ -26,4 +26,19 @@ public class EducationDto {
     //지역
     private String region;
 
+    @Override
+    public String toString() {
+        return "EducationDto {" +
+                "\n  educationId='" + educationId + '\'' +
+                ",\n  resumeId='" + resumeId + '\'' +
+                ",\n  educationLevel='" + educationLevel + '\'' +
+                ",\n  schoolName='" + schoolName + '\'' +
+                ",\n  major='" + major + '\'' +
+                ",\n  score=" + (score != null ? score : "N/A") +
+                ",\n  admissionDate=" + (admissionDate != null ? admissionDate : "N/A") +
+                ",\n  graduationDate=" + (graduationDate != null ? graduationDate : "N/A") +
+                ",\n  transferYn='" + (transferYn != null ? (transferYn.equals("Y") ? "편입" : "비편입") : "N/A") + '\'' +
+                ",\n  region='" + region + '\'' +
+                "\n}";
+    }
 }

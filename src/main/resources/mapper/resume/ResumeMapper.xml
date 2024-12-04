@@ -9,7 +9,7 @@
 <mapper namespace="org.green.career.dao.resume.ResumeDao">
     <select id="getUserInfo" parameterType="String" resultType="org.green.career.dto.resume.ResumeDto">
         SELECT
-            name, birth, email,phone
+            name, birth, email,phone, addr
         FROM
             tbl_user
         WHERE

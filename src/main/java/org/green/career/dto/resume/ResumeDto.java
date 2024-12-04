@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -25,10 +26,10 @@ public class ResumeDto {
     private String updatedBy;
     private LocalDateTime updatedDate;
 
-    private List<EducationDto> educations;
-    private List<CareerDto> careers;
-    private List<QualificationDto> qualifications;
-    private List<PortfolioDto> portfolios;
-    private List<TechnicalStackDto> technicalStacks;
+    private List<EducationDto> educations  = new ArrayList<>(); ;
+    private List<CareerDto> careers  = new ArrayList<>();;
+    private List<QualificationDto> qualifications  = new ArrayList<>();;
+    private List<PortfolioDto> portfolios  = new ArrayList<>();;
+    private List<TechnicalStackDto> technicalStacks  = new ArrayList<>();;
 
 }

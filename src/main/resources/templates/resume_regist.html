@@ -1,170 +1,168 @@
 <!DOCTYPE html>
-
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{/layout-test/layout/mypage_layout}"
->
+      layout:decorate="~{/layout-test/layout/mypage_layout}">
 <head>
     <meta charset="UTF-8">
-    <title>이력서등록</title>
+    <title>이력서 등록</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <style>
-        body {
-            font-size: 0.7rem;
-        }
-        .title {
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
-        .resume{
-            margin: 0 auto;
-            width: 1200px;
-            min-height: 1000px;
-            display: grid;
-            grid-template-columns: 1fr  250px;
-        }
-        .resume-right-side{
-            background-color: var(--border-color2);
-        }
-        .resume-container{
-            margin-top: 20px;
-            display: flex;
-            flex-direction: column;
-        }
-        .resume-basic {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between; /* 왼쪽 정보와 오른쪽 사진 사이 여백 균형 */
-        }
+    <link href="/static/css/resume/resume_regist.css" rel="stylesheet">
 
-        .resume-photo {
-            width: 100%;
-            display: flex;
-        }
-        .resume-photo img {
-            width: 110px;
-            height: 150px;
-            border-radius: 20px;
-            border: 1px solid var(--border-color); /* 테두리 추가 */
-        }
-        .resume-view {
-            display: grid;
-            grid-template-columns: 1fr 200px;
-            margin: 5px;
-            height: fit-content;
-            width: 100%;
-        }
-        .resume-container-top {
-            height: 60px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .user_desc {
-            font-size: 0.7rem;
-            color: var(--text-color2);
-        }
-        .resume-user-career select {
-            width: 130px;
-            border: 1px solid var(--border-color2);
-            border-radius: 5px;
-            font-size: 0.65rem;
-            color: var(--border-color2);
-            padding: 5px 4px 4px 4px;
-        }
-
-        .user-name {
-            font-size: 1rem;
-            font-weight: 500;
-        }
-        .resume-basic ul {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 300px));
-            list-style: none;
-            padding: 0;
-        }
-        .resume-basic ul li {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 5px 5px 5px 0px;
-        }
-        .resume-basic ul li i {
-            color: var(--border-color2);
-        }
-
-    </style>
 </head>
 <body>
 <main layout:fragment="content">
-    <form th:object="${resumeDto}" method="post">
+    <form th:object="${userInfo}" th:action="@{/resume/regist}" id = "resume-form" method="post">
         <div class="resume">
             <div class="resume-container">
-            <div class="title">이력서 등록</div>
+                <div class="title">이력서 등록</div>
                 <div class="resume-basic">
                     <div class="resume-view">
                         <div class="resume-content">
                             <div class="resume-container-top">
-                                <div class="user-name"><span th:text="${userInfo.name}">구경림</span></div>
+                                <div class="user-name">
+                                    <span th:text="${userInfo.name}">구경림</span>
+                                </div>
                                 <div class="resume-user-career">
-                                    <select>
-                                        <option>신입</option>
-                                        <option>경력</option>
+                                    <select th:field="${userInfo.careerCode}">
+                                        <option value="S" th:text="'신입'" th:selected="${userInfo.careerCode} == null"></option>
+                                        <option value="G" th:text="'경력'"></option>
+                                        <option value="SG" th:text="'신입/경력'"></option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="user_desc">1996 (27세)✔️</div>
+                            <div class="user_desc" th:text="${userInfo.birth}">1996 (27세)✔️</div>
                             <ul>
-                                <li><i class="fas fa-envelope"></i> face30@naver.com✔️</li>
-                                <li><i class="fas fa-phone"></i> 010-2061-3487✔️</li>
-                                <li><i class="fas fa-map-marker-alt"></i> 경남 김해시 능동로 114✔️</li>
+                                <li><i class="fas fa-envelope"></i> <span th:text="${userInfo.email}">face30@naver.com</span></li>
+                                <li><i class="fas fa-phone"></i> <span th:text="${userInfo.phone}">010-2061-3487</span></li>
+                                <li><i class="fas fa-map-marker-alt"></i> <span th:text="${userInfo.addr}">경남 김해시 능동로 114</span></li>
                             </ul>
                         </div>
                         <div class="resume-photo">
-                            <img src="/mnt/data/image.png" alt="사진">
+                            <img th:src="@{/static/images/default_profile.png}" alt="사진">
                         </div>
                     </div>
+                    <input type="hidden" id="userName" name="name" th:field="${userInfo.name}" />
+                    <input type="hidden" id="userEmail" name="email" th:field="${userInfo.email}" />
+                    <input type="hidden" id="userPhone" name="phone" th:field="${userInfo.phone}" />
+                    <input type="hidden" id="userBirth" name="birth" th:field="${userInfo.birth}" />
+                    <input type="hidden" id="userAddr" name="addr" th:field="${userInfo.addr}" />
                 </div>
-                <style>
-                    .user-edu-info{
-                        width: 900px;
-                        padding: 10px;
-                        min-height: 200px;
-                    }
-                    .form-top{
-                        border-bottom: 1px  solid var(--text-color);
-                        padding: 5px;
-                        display: flex;
-                        justify-content: space-between;
-                    }
-                    .form-title{
-                        font-size: 1rem;
-                        font-weight: 500;
-                        color: var(--text-color2);
-                    }
-                    .important-value-text{
-                        margin: 10px;
-                        font-size: 0.5rem;
-                        color: red;
-                    }
-                </style>
-                <div class="user-edu-info">
-                        <div class="form-top">
-                            <div class="form-title">학력<span class="important-value-text">필수</span></div>
-                            <button id = "add-edu-info" onclick="" >추가</button>
-                        </div>
-                        <div class="form-content-list" id = "form-content-list">
-                            <!--        동적으로 추가        -->
-                        </div>
-                </div>
-            </div>
-            <div class="resume-right-side">
 
+                <div class="user-edu-info">
+                    <div class="form-top">
+                        <div class="form-title">학력<span class="important-value-text">필수</span></div>
+                        <button id="add-edu-info" type="button">추가</button>
+                    </div>
+                    <div class="form-content-list" id="form-content-list">
+                        <div th:each="educations, iterStat : ${userInfo.educations}">
+                            <!-- 학력 정보를 동적으로 렌더링 -->
+                        </div>
+
+                        <div id="template-form" class="education-entry" style="display: none;">
+                            <div class="education-form">
+                                <!-- 학력 구분 -->
+                                <select class="education-level" name="educationLevel">
+                                    <option value="" disabled selected>학력 선택</option>
+                                    <option value="H">고등학교</option>
+                                    <option value="U">대학교 이상</option>
+                                </select>
+
+                                <!-- 고등학교 관련 필드 -->
+                                <div class="highschool-fields" style="display: none;">
+                                    <div class="input-group">
+                                        <i class="fas fa-school"></i>
+                                        <input type="text" name="schoolName" placeholder="학교 이름" />
+                                    </div>
+                                    <div class="input-group">
+                                        <i class="fas fa-book"></i>
+                                        <select name="major">
+                                            <option value="" disabled selected>문/이과 선택</option>
+                                            <option value="문과">문과</option>
+                                            <option value="이과">이과</option>
+                                        </select>
+                                    </div>
+                                    <div class="input-group">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <select name="region">
+                                            <option value="" disabled selected>지역 선택</option>
+                                            <option value="서울">서울</option>
+                                            <option value="경기">경기</option>
+                                            <option value="부산">부산</option>
+                                            <option value="기타">기타</option>
+                                        </select>
+                                    </div>
+                                    <div class="input-group">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        <input type="month" name="admissionDate" placeholder="입학 연월" />
+                                    </div>
+                                    <div class="input-group">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        <input type="month" name="graduationDate" placeholder="졸업 연월" />
+                                    </div>
+                                    <div class="score-section">
+                                        <button type="button" class="add-score"><i class="fas fa-plus"></i> 성적 추가</button>
+                                    </div>
+                                </div>
+
+                                <!-- 대학교 이상 관련 필드 -->
+                                <div class="university-fields" style="display: none;">
+                                    <div class="input-group">
+                                        <i class="fas fa-graduation-cap"></i>
+                                        <select name="degreeType">
+                                            <option value="" disabled selected>학위 구분 선택</option>
+                                            <option value="4년제">4년제</option>
+                                            <option value="전문대">전문대</option>
+                                            <option value="석사">석사</option>
+                                            <option value="박사">박사</option>
+                                        </select>
+                                    </div>
+                                    <div class="input-group">
+                                        <i class="fas fa-book"></i>
+                                        <input type="text" name="major" placeholder="전공" />
+                                    </div>
+                                    <div class="input-group">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <select name="region">
+                                            <option value="" disabled selected>지역 선택</option>
+                                            <option value="서울">서울</option>
+                                            <option value="경기">경기</option>
+                                            <option value="부산">부산</option>
+                                            <option value="기타">기타</option>
+                                        </select>
+                                    </div>
+                                    <div class="input-group">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        <input type="month" name="admissionDate" placeholder="입학 연월" />
+                                    </div>
+                                    <div class="input-group">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        <input type="month" name="graduationDate" placeholder="졸업 연월" />
+                                    </div>
+                                    <div class="score-section">
+                                        <button type="button" class="add-score"><i class="fas fa-plus"></i> 성적 추가</button>
+                                    </div>
+                                    <div class="input-group">
+                                        <input type="checkbox" name="transferYn" value="Y" /> <span>편입</span>
+                                    </div>
+                                </div>
+
+                                <!-- 확인 및 취소 버튼 -->
+                                <div class="buttons">
+                                    <button type="button" class="confirm-education"><i class="fas fa-save"></i> 저장</button>
+                                    <button type="button" class="cancel-education"><i class="fas fa-times"></i> 취소</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <button id="submit-resume" type="submit">이력서 제출</button>
+                </div>
             </div>
+            <div class="resume-right-side"></div>
         </div>
     </form>
+    <script src="/static/js/resume/resume_regist.js"></script>
 </main>
 </body>
 </html>

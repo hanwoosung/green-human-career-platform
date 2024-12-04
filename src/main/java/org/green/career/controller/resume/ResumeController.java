@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.green.career.controller.AbstractController;
 import org.green.career.dto.common.ResponseDto;
-import org.green.career.dto.regist.RegistSDto;
 import org.green.career.dto.resume.ResumeDto;
 import org.green.career.service.resume.ResumeService;
 import org.springframework.stereotype.Controller;
@@ -35,8 +34,8 @@ public class ResumeController extends AbstractController {
     }
     @ResponseBody
     @PostMapping("/regist")
-    public ResponseDto<String> resume(@RequestBody @Valid ResumeDto resumeDto) {
-        
-        return ok();
+    public ResponseDto<Void> postResume(@RequestBody ResumeDto resumeDto) {
+        log.info("Received resume data: {}", resumeDto);
+        return ResponseDto.ok();
     }
 }
