@@ -1,0 +1,172 @@
+.resume-name-wrapper {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+}
+
+.resume-name {
+    font-size: 1.4rem;
+    color: #333;
+    font-weight: bold;
+    text-align: center;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.rating-button {
+    padding: 10px 20px;
+    background: linear-gradient(45deg, deepskyblue, #fad0c4);
+    border: none;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    color: white;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s, filter 0.3s;
+}
+
+.rating-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2), 0 0 10px 2px rgba(255, 255, 255, 0.6);
+    filter: brightness(1.1);
+}
+
+.rating-button:active {
+    transform: scale(1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    filter: brightness(1);
+}
+
+
+.card-header-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.card-header .matching-status {
+    font-size: 1rem;
+    padding: 5px 10px;
+    border-radius: 3px;
+}
+
+.recruiting {
+    color: #28a745;
+    background-color: #d4edda;
+}
+
+.paused {
+    color: #ffc107;
+    background-color: #fff3cd;
+}
+
+.closed {
+    color: #dc3545;
+    background-color: #f8d7da;
+}
+
+.rejected {
+    color: #6c757d;
+    background-color: #e2e3e5;
+}
+
+.heart-icon, .scrap-icon {
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.heart-icon:hover, .scrap-icon:hover {
+    transform: scale(1.1);
+}
+
+.rating_box {
+    display: flex;
+}
+
+.rating {
+    position: relative;
+    color: #ddd;
+    font-size: 30px;
+    text-align: center;
+}
+
+.rating input {
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.rating_star {
+    width: 0;
+    color: #ffc107;
+    position: absolute;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.rating-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    z-index: 1000;
+}
+
+.rating-popup.on {
+    display: block;
+}
+
+.popup-content {
+    text-align: center;
+}
+
+#confirm-rating {
+    margin-top: 15px;
+}
+
+.rate {
+    position: relative;
+    color: gray;
+}
+
+.active_rate {
+    position: absolute;
+    color: yellow;
+    filter: drop-shadow(0 0 0.1rem #aaa);
+    top: 0;
+    left: 0;
+    font-size: 30px;
+    width: 0;
+    overflow: hidden;
+}
+
+.rate_range {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+}
