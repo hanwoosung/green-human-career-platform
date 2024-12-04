@@ -33,7 +33,7 @@ public class RegistSServiceImpl implements RegistSService {
     }
     @Override
     public boolean isDuplicateId(String id) {
-        return registSDao.existsById(id) > 0;
+        return registSDao.existsById(id);
     }
     private void validateRegistSDto(RegistSDto registSDto) {
         if (registSDto.getId() == null || registSDto.getId().trim().isEmpty()) {

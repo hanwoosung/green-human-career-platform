@@ -10,5 +10,5 @@ import org.green.career.dto.regist.RegistSDto;
 @Mapper
 public interface RegistSDao {
     void insertSeeker(RegistSDto registSDto);
-    int existsById(String id);
+    boolean existsById(String id);
 }
