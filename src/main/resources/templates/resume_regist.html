@@ -60,6 +60,7 @@
                         </div>
 
                         <!-- 모달 -->
+                        <!-- 학력 정보 입력 폼 -->
                         <div id="education-modal" class="modal" style="display: none;">
                             <div class="modal-content">
                                 <span id="close-modal" class="close">&times;</span>
@@ -67,48 +68,79 @@
                                 <form id="education-form">
                                     <label>학력 구분</label>
                                     <select id="educationLevel" name="educationLevel" required>
+                                        <option value="" selected disabled>선택해주세요</option>
                                         <option value="H">고등학교</option>
                                         <option value="U">대학교 이상</option>
                                     </select>
 
-                                    <label>학교 이름</label>
-                                    <input type="text" id="schoolName" name="schoolName" required />
+                                    <!-- 고등학교 입력 필드 -->
+                                    <div id="highSchoolFields" style="display: none;">
+                                        <label>학교 이름</label>
+                                        <input type="text" id="schoolNameHS" name="schoolNameHS"  />
 
-                                    <label>전공</label>
-                                    <input type="text" id="major" name="major" />
+                                        <label>문/이과</label>
+                                        <select id="majorHS" name="majorHS">
+                                            <option value="문과">문과</option>
+                                            <option value="이과">이과</option>
+                                        </select>
 
-                                    <label>지역</label>
-                                    <select id="region" name="region" required>
-                                        <option value="서울">서울</option>
-                                        <option value="경기">경기</option>
-                                        <option value="부산">부산</option>
-                                        <option value="기타">기타</option>
-                                    </select>
+                                        <label>지역</label>
+                                        <select id="regionHS" name="regionHS" >
+                                            <option value="서울">서울</option>
+                                            <option value="경기">경기</option>
+                                            <option value="부산">부산</option>
+                                            <option value="기타">기타</option>
+                                        </select>
 
-                                    <label>입학 연월</label>
-                                    <input type="month" id="admissionDate" name="admissionDate" required />
+                                        <label>입학 연월</label>
+                                        <input type="month" id="admissionDateHS" name="admissionDateHS"  />
 
-                                    <label>졸업 연월</label>
-                                    <input type="month" id="graduationDate" name="graduationDate" required />
+                                        <label>졸업 연월</label>
+                                        <input type="month" id="graduationDateHS" name="graduationDateHS"  />
 
-                                    <label>성적</label>
-                                    <input type="text" id="score" name="score" />
+                                        <button id="addScoreHS" type="button">성적 추가</button>
+                                        <div id="scoreContainerHS"></div>
+                                    </div>
 
-                                    <label>편입 여부</label>
-                                    <input type="checkbox" id="transferYn" name="transferYn" value="Y" />
+                                    <!-- 대학교 이상 입력 필드 -->
+                                    <div id="universityFields" style="display: none;">
+                                        <label>학교 이름</label>
+                                        <input type="text" id="schoolNameU" name="schoolNameU"  />
 
-                                    <label>학위 구분 (대학교 이상)</label>
-                                    <select id="degreeType" name="degreeType">
-                                        <option value="4년제">4년제</option>
-                                        <option value="전문대">전문대</option>
-                                        <option value="석사">석사</option>
-                                        <option value="박사">박사</option>
-                                    </select>
+                                        <label>학위 구분</label>
+                                        <select id="degreeTypeU" name="degreeTypeU">
+                                            <option value="4년제">4년제</option>
+                                            <option value="전문대">전문대</option>
+                                            <option value="석사">석사</option>
+                                            <option value="박사">박사</option>
+                                        </select>
+
+                                        <label>전공</label>
+                                        <input type="text" id="majorU" name="majorU"  />
+
+                                        <label>지역</label>
+                                        <select id="regionU" name="regionU" >
+                                            <option value="서울">서울</option>
+                                            <option value="경기">경기</option>
+                                            <option value="부산">부산</option>
+                                            <option value="기타">기타</option>
+                                        </select>
+
+                                        <label>입학 연월</label>
+                                        <input type="month" id="admissionDateU" name="admissionDateU"  />
+
+                                        <label>졸업 연월</label>
+                                        <input type="month" id="graduationDateU" name="graduationDateU"  />
+
+                                        <label>편입 여부</label>
+                                        <input type="checkbox" id="transferYnU" name="transferYnU" value="Y" />
+                                    </div>
 
                                     <button type="button" id="save-education" class="btn btn-primary">저장</button>
                                 </form>
                             </div>
                         </div>
+
                     </div>
                     <button id="submit-resume" type="submit">이력서 제출</button>
                 </div>
@@ -120,3 +152,4 @@
 </main>
 </body>
 </html>
+ㅋ
