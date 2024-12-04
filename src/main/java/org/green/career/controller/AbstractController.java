@@ -123,8 +123,6 @@ public abstract class AbstractController {
                 } else {
                     response.sendRedirect("/");
                 }
-            } else {
-                log.warn("Response is already committed; cannot redirect.");
             }
         }
     }
