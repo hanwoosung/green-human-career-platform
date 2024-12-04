@@ -43,6 +43,7 @@ public class LoginController extends AbstractController {
         UserLoginDto user = loginService.login(loginDto.getId(), loginDto.getPw(), loginDto.getUserGbnCd());
         session.setAttribute("userId", user.getId());
         session.setAttribute("userName", user.getName());
+        session.setAttribute("userId", user.getId());
         session.setAttribute("userType", user.getUserGbnCd());
 
         session.setMaxInactiveInterval(30 * 60);

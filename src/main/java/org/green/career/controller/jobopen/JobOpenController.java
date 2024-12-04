@@ -1,12 +1,19 @@
 package org.green.career.controller.jobopen;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.green.career.controller.AbstractController;
 import org.green.career.dto.common.ResponseDto;
+import org.green.career.dto.jobopen.JobOpeningDetailDto;
 import org.green.career.dto.jobopen.requset.JobOpeningRequestDto;
+import org.green.career.dto.jobopen.response.ResponseMyResume;
+import org.green.career.dto.likes.response.ResponseLikesDto;
+import org.green.career.exception.BaseException;
 import org.green.career.service.jobopen.JobOpeningService;
+import org.green.career.service.likes.LikesService;
 import org.green.career.service.main.MainService;
+import org.green.career.type.ResultType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +35,7 @@ public class JobOpenController extends AbstractController {
 
     private final JobOpeningService jobOpeningService;
     private final MainService mainService;
+    private final LikesService likesService;
 
     @GetMapping("/register")
     public String getJobOpenRegisterPage(Model model) {
@@ -82,7 +90,6 @@ public class JobOpenController extends AbstractController {
             @RequestParam(value = "addedSkills", required = false) List<String> addedSkills,
             @RequestParam(value = "removedSkills", required = false) List<String> removedSkills) throws Exception {
 
-
         int result = jobOpeningService.updateJobOpening(jNo, formData);
         if (result != 0) {
             //TODO: 로그 필요없을 때 제거
@@ -107,8 +114,54 @@ public class JobOpenController extends AbstractController {
                 log.info("삭제된 스킬: {}", removedSkills);
                 jobOpeningService.removeSkills(jNo, removedSkills);
             }
-
         }
         return ResponseDto.ok();
+    }
+
+    @GetMapping("/detail/{jNo}")
+    public String getJobOpeningDetail(@PathVariable("jNo") int jNo, Model model) throws Exception {
+        JobOpeningDetailDto jobOpening = jobOpeningService.getJobOpening(jNo);
+
+        ifGoReferer(jobOpening.getDelYn().equals("Y"));
+
+        model.addAttribute("likes", isSessionCheck() ? new ResponseLikesDto(0, 0) : likesService.getLikes(jNo, jobOpening.getId()));
+        model.addAttribute("jobItem", jobOpening);
+        model.addAttribute("companyItem", jobOpeningService.getCompany(jobOpening.getId()));
+        model.addAttribute("resumeList", jobOpeningService.getResumeList(jNo));
+        return "jobopen/job_open_detail";
+    }
+
+    @PostMapping("/pass")
+    @ResponseBody
+    public ResponseDto<String> jobOpeningPass(
+            @RequestParam("jrNo") int jrNo,
+            @RequestParam("type") String type) {
+        jobOpeningService.jobOpeningPass(jrNo, type);
+        return ok("성공");
+    }
+
+    @GetMapping("/my-resumes")
+    @ResponseBody
+    public ResponseDto<List<ResponseMyResume>> myResumes(HttpSession session) {
+        String id = (String) session.getAttribute("userId");
+
+        if (id == null) {
+            throw new BaseException(ResultType.ERROR, "로그인 하세요!");
+        }
+
+        return ok(jobOpeningService.myResumes(id));
+    }
+
+    @GetMapping("/resume-apply")
+    @ResponseBody
+    public ResponseDto<Integer> resumeApply(@RequestParam("rNo") int rNo, @RequestParam("jNo") int jNo, HttpSession session) {
+        return ResponseDto.ok(jobOpeningService.resumeApply(jNo, rNo, (String) session.getAttribute("userId")));
+    }
+
+    @PatchMapping("/{jNo}")
+    @ResponseBody
+    public ResponseDto<String> deleteJob(@PathVariable("jNo") int jNo) {
+        jobOpeningService.delete(jNo);
+        return ok("성공");
     }
 }
