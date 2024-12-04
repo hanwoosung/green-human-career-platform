@@ -59,102 +59,56 @@
                             <!-- 학력 정보를 동적으로 렌더링 -->
                         </div>
 
-                        <div id="template-form" class="education-entry" style="display: none;">
-                            <div class="education-form">
-                                <!-- 학력 구분 -->
-                                <select class="education-level" name="educationLevel">
-                                    <option value="" disabled selected>학력 선택</option>
-                                    <option value="H">고등학교</option>
-                                    <option value="U">대학교 이상</option>
-                                </select>
+                        <!-- 모달 -->
+                        <div id="education-modal" class="modal" style="display: none;">
+                            <div class="modal-content">
+                                <span id="close-modal" class="close">&times;</span>
+                                <h3>학력 정보 입력</h3>
+                                <form id="education-form">
+                                    <label>학력 구분</label>
+                                    <select id="educationLevel" name="educationLevel" required>
+                                        <option value="H">고등학교</option>
+                                        <option value="U">대학교 이상</option>
+                                    </select>
 
-                                <!-- 고등학교 관련 필드 -->
-                                <div class="highschool-fields" style="display: none;">
-                                    <div class="input-group">
-                                        <i class="fas fa-school"></i>
-                                        <input type="text" name="schoolName" placeholder="학교 이름" />
-                                    </div>
-                                    <div class="input-group">
-                                        <i class="fas fa-book"></i>
-                                        <select name="major">
-                                            <option value="" disabled selected>문/이과 선택</option>
-                                            <option value="문과">문과</option>
-                                            <option value="이과">이과</option>
-                                        </select>
-                                    </div>
-                                    <div class="input-group">
-                                        <i class="fas fa-map-marker-alt"></i>
-                                        <select name="region">
-                                            <option value="" disabled selected>지역 선택</option>
-                                            <option value="서울">서울</option>
-                                            <option value="경기">경기</option>
-                                            <option value="부산">부산</option>
-                                            <option value="기타">기타</option>
-                                        </select>
-                                    </div>
-                                    <div class="input-group">
-                                        <i class="fas fa-calendar-alt"></i>
-                                        <input type="month" name="admissionDate" placeholder="입학 연월" />
-                                    </div>
-                                    <div class="input-group">
-                                        <i class="fas fa-calendar-alt"></i>
-                                        <input type="month" name="graduationDate" placeholder="졸업 연월" />
-                                    </div>
-                                    <div class="score-section">
-                                        <button type="button" class="add-score"><i class="fas fa-plus"></i> 성적 추가</button>
-                                    </div>
-                                </div>
+                                    <label>학교 이름</label>
+                                    <input type="text" id="schoolName" name="schoolName" required />
 
-                                <!-- 대학교 이상 관련 필드 -->
-                                <div class="university-fields" style="display: none;">
-                                    <div class="input-group">
-                                        <i class="fas fa-graduation-cap"></i>
-                                        <select name="degreeType">
-                                            <option value="" disabled selected>학위 구분 선택</option>
-                                            <option value="4년제">4년제</option>
-                                            <option value="전문대">전문대</option>
-                                            <option value="석사">석사</option>
-                                            <option value="박사">박사</option>
-                                        </select>
-                                    </div>
-                                    <div class="input-group">
-                                        <i class="fas fa-book"></i>
-                                        <input type="text" name="major" placeholder="전공" />
-                                    </div>
-                                    <div class="input-group">
-                                        <i class="fas fa-map-marker-alt"></i>
-                                        <select name="region">
-                                            <option value="" disabled selected>지역 선택</option>
-                                            <option value="서울">서울</option>
-                                            <option value="경기">경기</option>
-                                            <option value="부산">부산</option>
-                                            <option value="기타">기타</option>
-                                        </select>
-                                    </div>
-                                    <div class="input-group">
-                                        <i class="fas fa-calendar-alt"></i>
-                                        <input type="month" name="admissionDate" placeholder="입학 연월" />
-                                    </div>
-                                    <div class="input-group">
-                                        <i class="fas fa-calendar-alt"></i>
-                                        <input type="month" name="graduationDate" placeholder="졸업 연월" />
-                                    </div>
-                                    <div class="score-section">
-                                        <button type="button" class="add-score"><i class="fas fa-plus"></i> 성적 추가</button>
-                                    </div>
-                                    <div class="input-group">
-                                        <input type="checkbox" name="transferYn" value="Y" /> <span>편입</span>
-                                    </div>
-                                </div>
+                                    <label>전공</label>
+                                    <input type="text" id="major" name="major" />
 
-                                <!-- 확인 및 취소 버튼 -->
-                                <div class="buttons">
-                                    <button type="button" class="confirm-education"><i class="fas fa-save"></i> 저장</button>
-                                    <button type="button" class="cancel-education"><i class="fas fa-times"></i> 취소</button>
-                                </div>
+                                    <label>지역</label>
+                                    <select id="region" name="region" required>
+                                        <option value="서울">서울</option>
+                                        <option value="경기">경기</option>
+                                        <option value="부산">부산</option>
+                                        <option value="기타">기타</option>
+                                    </select>
+
+                                    <label>입학 연월</label>
+                                    <input type="month" id="admissionDate" name="admissionDate" required />
+
+                                    <label>졸업 연월</label>
+                                    <input type="month" id="graduationDate" name="graduationDate" required />
+
+                                    <label>성적</label>
+                                    <input type="text" id="score" name="score" />
+
+                                    <label>편입 여부</label>
+                                    <input type="checkbox" id="transferYn" name="transferYn" value="Y" />
+
+                                    <label>학위 구분 (대학교 이상)</label>
+                                    <select id="degreeType" name="degreeType">
+                                        <option value="4년제">4년제</option>
+                                        <option value="전문대">전문대</option>
+                                        <option value="석사">석사</option>
+                                        <option value="박사">박사</option>
+                                    </select>
+
+                                    <button type="button" id="save-education" class="btn btn-primary">저장</button>
+                                </form>
                             </div>
                         </div>
-
                     </div>
                     <button id="submit-resume" type="submit">이력서 제출</button>
                 </div>
