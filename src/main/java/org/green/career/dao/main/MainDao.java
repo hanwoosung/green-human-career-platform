@@ -29,4 +29,8 @@ public interface MainDao {
     int countJobOpenings();
 
     int countSearchJobOpenings(@Param("searchText") String searchText, @Param("skills") List<String> skills);
+
+    List<JobOpeningResponseDto> companyJobOpeningList(@Param("offset") int offset, @Param("limit") int limit, @Param("id") String id);
+
+    int countCompanyJobOpenings(@Param("id") String id);
 }
