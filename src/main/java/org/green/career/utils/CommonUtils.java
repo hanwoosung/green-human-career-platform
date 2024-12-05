@@ -63,6 +63,29 @@ public class CommonUtils {
         return fileList;
     }
 
+    public TblFileRequestDto saveCompanyImage(MultipartFile companyImages, String id) throws Exception {
+        String originalFilename = companyImages.getOriginalFilename();
+        String fileName = originalFilename != null ? originalFilename : "unknown";
+        String fileExt = fileName.substring(fileName.lastIndexOf(".") + 1);
+        String baseName = fileName.substring(0, fileName.lastIndexOf("."));
+
+        String timestamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        String uniqueFileName = baseName + "_" + timestamp + "." + fileExt;
+
+        Path path = Paths.get(uploadDir, uniqueFileName);
+        Files.createDirectories(path.getParent());
+        companyImages.transferTo(path.toFile());
+
+        TblFileRequestDto fileDto = new TblFileRequestDto();
+        fileDto.setFileGbnCd("10");
+        fileDto.setFileRefId(id);
+        fileDto.setFileName(uniqueFileName);
+        fileDto.setFileExt(fileExt);
+        fileDto.setFileUrl("/static/uploads/company/" + uniqueFileName);
+
+        return fileDto;
+    }
+
     /**
      * 주어진 경로의 파일을 삭제
      * @param filePath 삭제할 파일의 경로

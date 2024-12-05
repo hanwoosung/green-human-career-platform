@@ -22,75 +22,76 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       th:fragment="header(userType)">
-<head>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-</head>
+    <head>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    </head>
 
-<header>
-    <div class="header-wrap">
-        <div class="header">
-            <!-- 사용자 유형별 로고 -->
-            <div class="left-header">
-                <a th:if="${userType == 'C'}" th:href="@{/company}">
-                    <img class="header-logo" src="/static/images/logo_company.png" alt="Company Logo">
-                </a>
-                <a th:if="${userType == 'S'}" th:href="@{/}">
-                    <img class="header-logo" src="/static/images/logo_user.png" alt="User Logo">
-                </a>
-                <a th:if="${userType == '비회원'}" th:href="@{/}">
-                    <img class="header-logo" src="/static/images/logo.png" alt="Default Logo">
-                </a>
-                <!-- 검색창 -->
-                <div class="search-bar">
-                    <input type="text" placeholder="채용 정보를 검색하세요!" />
-                    <button type="submit">
-                        <i class="bi bi-search"></i>
-                    </button>
+    <header>
+        <div class="header-wrap">
+            <div class="header">
+                <!-- 사용자 유형별 로고 -->
+                <div class="left-header">
+                    <a th:if="${userType == 'C'}" th:href="@{/company}">
+                        <img class="header-logo" src="/static/images/logo_company.png" alt="Company Logo">
+                    </a>
+                    <a th:if="${userType == 'S'}" th:href="@{/}">
+                        <img class="header-logo" src="/static/images/logo_user.png" alt="User Logo">
+                    </a>
+                    <a th:if="${userType == '비회원'}" th:href="@{/}">
+                        <img class="header-logo" src="/static/images/logo.png" alt="Default Logo">
+                    </a>
+                    <!-- 검색창 -->
+                    <div class="search-bar">
+                        <input type="text" placeholder="채용 정보를 검색하세요!" />
+                        <button type="submit">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
                 </div>
-            </div>
-            <!-- 사용자 유형별 컨텐츠 -->
-            <div class="utility">
-                <div class="user-info" th:attr="data-userType=${userType}" onclick="toggleProfileDropdown(event)">
-                    <div class="user-type" th:switch="${userType}">
+                <!-- 사용자 유형별 컨텐츠 -->
+                <div class="utility">
+                    <div class="user-info" th:attr="data-userType=${userType}" onclick="toggleProfileDropdown(event)">
+                        <div class="user-type" th:switch="${userType}">
                         <span th:case="C">
-                            <a class="link" th:text = "${session.userName}"> </a>
+                            <a class="link" th:text="${session.userName}"> </a>
                         </span>
-                        <span th:case="S">
-                            <p class="link" th:text = "${session.userName}" ></p>
+                            <span th:case="S">
+                            <p class="link" th:text="${session.userName}"></p>
                         </span>
-                        <span th:case="비회원">
+                            <span th:case="비회원">
                             <a th:href="@{/login}" class="link">로그인</a>
                             <a th:href="@{/regist}" class="link">회원가입</a>
                         </span>
-                    </div>
-                    <!-- 프로필 아이콘 -->
-                    <div class="profile" th:switch="${userType}">
-                        <img class="profile-icon" src="/static/images/default_profile.png" alt="Profile">
-                        <div class="profile-dropdown-menu">
-                            <ul th:case="S">
-                                <li><a th:href="@{/test/mypage-empty}">MY 홈</a></li>
-                                <li><a th:href="@{/}">이력서/자소서 관리</a></li>
-                                <li><a th:href="@{/}">스크랩</a></li>
-                                <li><a th:href="@{/logout}">로그아웃</a></li>
-                            </ul>
-                            <ul th:case="C">
-                                <li><a th:href="@{/test/mypage-empty}">MY 홈</a></li>
-                                <li><a th:href="@{/}">구직자 정보</a></li>
-                                <li><a th:href="@{/}">채용 공고</a></li>
-                                <li><a th:href="@{/logout}">로그아웃</a></li>
-                            </ul>
-                            <ul th:case="비회원">
-                                <li><a th:href="@{/login}">로그인</a></li>
-                                <li><a th:href="@{/register}">회원가입</a></li>
-                            </ul>
+                        </div>
+                        <!-- 프로필 아이콘 -->
+                        <div class="profile" th:switch="${userType}">
+                            <img class="profile-icon" src="/static/images/default_profile.png" alt="Profile">
+                            <div class="profile-dropdown-menu">
+                                <ul th:case="S">
+                                    <li><a th:href="@{/test/mypage-empty}">MY 홈</a></li>
+                                    <li><a th:href="@{/}">이력서/자소서 관리</a></li>
+                                    <li><a th:href="@{/job-seeker/my-page/scrap}">스크랩</a></li>
+                                    <li><a th:href="@{/logout}">로그아웃</a></li>
+                                </ul>
+                                <ul th:case="C">
+                                    <li><a th:href="@{/test/mypage-empty}">MY 홈</a></li>
+                                    <li><a th:href="@{/job-seeker/my-page/bookmark}">구직자 정보</a></li>
+                                    <li><a th:href="@{/company/jbsk-mngm/job-offer}">입사 제안 현황</a></li>
+                                    <li><a th:href="@{/job-open/register}">채용 공고 등록</a></li>
+                                    <li><a th:href="@{/logout}">로그아웃</a></li>
+                                </ul>
+                                <ul th:case="비회원">
+                                    <li><a th:href="@{/login}">로그인</a></li>
+                                    <li><a th:href="@{/register}">회원가입</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <script src="/static/js/header.js"></script>
-</header>
+        <script src="/static/js/header.js"></script>
+    </header>
 </html>

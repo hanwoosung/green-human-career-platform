@@ -1,5 +1,6 @@
 package org.green.career.service.jobopen;
 
+import org.green.career.dto.common.CodeInfoDto;
 import org.green.career.dto.common.file.request.TblFileRequestDto;
 import org.green.career.dto.common.file.response.FileResponseDto;
 import org.green.career.dto.jobopen.JobOpeningDetailDto;
@@ -21,7 +22,7 @@ public interface JobOpeningService {
     /**
      * 채용 공고 등록
      */
-    int insertJobOpening(JobOpeningRequestDto jobOpeningRequestDto);
+    int insertJobOpening(JobOpeningRequestDto jobOpeningRequestDto, String id);
 
     /**
      * 최대 채용 공고 번호 조회
@@ -87,5 +88,6 @@ public interface JobOpeningService {
 
     int delete(int jNo);
 
+    List<CodeInfoDto> mySkill(int jNo);
 
 }

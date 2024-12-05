@@ -545,7 +545,7 @@
     padding: 20px;
 }
 
-.apply-btn {
+.apply-btn2 {
     display: block;
     width: 100%;
     background-color: #007bff;
@@ -559,11 +559,11 @@
     transition: background-color 0.3s;
 }
 
-.apply-btn:hover {
+.apply-btn2:hover {
     background-color: #218838;
 }
 
-.apply-btn:disabled {
+.apply-btn2:disabled {
     background-color: #ccc;
     cursor: not-allowed;
 }

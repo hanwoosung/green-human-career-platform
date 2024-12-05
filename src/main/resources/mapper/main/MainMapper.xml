@@ -16,12 +16,22 @@
     <!-- 채용 공고 리스트 조회 -->
     <select id="findJobOpeningList" resultType="org.green.career.dto.jobopen.requset.JobOpeningResponseDto">
         SELECT a.*,
-               COALESCE(GROUP_CONCAT(DISTINCT b.stack_cd ORDER BY b.stack_cd SEPARATOR ','), '') AS skills,
-               COALESCE(f.file_url, '')                                                          AS fileUrl
+               d.name,
+               COALESCE(GROUP_CONCAT(DISTINCT c2.cd_nm ORDER BY c2.cd_nm SEPARATOR ','), '') AS skills,
+               COALESCE(f.file_url, '')                                                      AS fileUrl,
+               COUNT(g.l_no)                                                                 AS scrapCnt,
+               COUNT(h.l_no)                                                                 AS bookmarkCnt
         FROM tbl_job_open a
                  LEFT JOIN tbl_job_open_stack b ON a.j_no = b.j_no
                  LEFT JOIN tbl_file f ON a.id = f.file_ref_id AND f.file_gbn_cd = 100
+                 LEFT JOIN tbl_likes g ON a.j_no = g.cj_no AND g.l_gbn_cd = 'S' AND g.id = #{id}
+                 LEFT JOIN tbl_likes h ON a.id = h.cj_no AND h.l_gbn_cd = 'B' AND h.id = #{id}
+                 LEFT JOIN tbl_codeinfo c2 ON c2.cd = b.stack_cd
+            AND (c2.up_cd = 'stack_cd' OR c2.up_cd IN (SELECT cd FROM tbl_codeinfo WHERE up_cd = 'stack_cd'))
+                 LEFT JOIN tbl_user d on a.id = d.id
+        where a.j_gbn_cd = 'O'
         GROUP BY a.j_no
+        ORDER BY a.inst_dt DESC
             LIMIT #{offset}, #{limit};
     </select>
 
@@ -29,23 +39,39 @@
     <select id="searchJobOpenings" resultType="org.green.career.dto.jobopen.requset.JobOpeningResponseDto">
         SELECT
         a.*,
-        COALESCE((SELECT GROUP_CONCAT(DISTINCT b1.stack_cd ORDER BY b1.stack_cd SEPARATOR ',')
+        d.name,
+        COALESCE(
+        (SELECT GROUP_CONCAT(DISTINCT c.cd_nm ORDER BY c.cd_nm SEPARATOR ',')
         FROM tbl_job_open_stack b1
-        WHERE b1.j_no = a.j_no), '') AS skills,
-        COALESCE(f.file_url, '') AS fileUrl
+        LEFT JOIN tbl_codeinfo c ON c.cd = b1.stack_cd
+        WHERE b1.j_no = a.j_no
+        AND (c.up_cd = 'stack_cd' OR c.up_cd IN (SELECT cd FROM tbl_codeinfo WHERE up_cd = 'stack_cd'))
+        ),
+        '') AS skills,
+        COALESCE(f.file_url, '') AS fileUrl,
+        COUNT(g.l_no) AS scrapCnt,
+        COUNT(h.l_no) AS bookmarkCnt
         FROM tbl_job_open a
+        LEFT JOIN tbl_user d on a.id = d.id
+        LEFT JOIN tbl_likes g ON a.j_no = g.cj_no AND g.l_gbn_cd = 'S' AND g.id = #{id}
+        LEFT JOIN tbl_likes h ON a.id = h.cj_no AND h.l_gbn_cd = 'B' AND h.id = #{id}
         LEFT JOIN tbl_file f ON a.id = f.file_ref_id AND f.file_gbn_cd = 100
         WHERE
         (a.j_title LIKE CONCAT('%', #{searchText}, '%') OR a.j_content LIKE CONCAT('%', #{searchText}, '%'))
         <if test="skills != null and skills.size() > 0">
             AND EXISTS (
-            SELECT 1 FROM tbl_job_open_stack b2 WHERE b2.j_no = a.j_no AND b2.stack_cd IN
+            SELECT 1 FROM tbl_job_open_stack b2
+            WHERE b2.j_no = a.j_no
+            AND b2.stack_cd IN
             <foreach item="skill" collection="skills" open="(" close=")" separator=",">#{skill}</foreach>
             )
         </if>
+        and a.j_gbn_cd = 'O'
         GROUP BY a.j_no
+        ORDER BY a.inst_dt DESC
         LIMIT #{offset}, #{limit};
     </select>
+
 
     <!-- 전체 공고 개수 조회 -->
     <select id="countJobOpenings" resultType="int">
@@ -65,6 +91,32 @@
             <foreach item="skill" collection="skills" open="(" close=")" separator=",">#{skill}</foreach>
         </if>
         ;
+    </select>
+
+    <!-- 기업 채용 공고 리스트 조회 -->
+    <select id="companyJobOpeningList" resultType="org.green.career.dto.jobopen.requset.JobOpeningResponseDto">
+        SELECT a.*,
+               COALESCE(GROUP_CONCAT(DISTINCT b.stack_cd ORDER BY b.stack_cd SEPARATOR ','), '') AS skills,
+               COALESCE(f.file_url, '') AS fileUrl,
+               c.name
+        FROM tbl_job_open a
+                 LEFT JOIN tbl_job_open_stack b ON a.j_no = b.j_no
+                 LEFT JOIN tbl_file f ON a.id = f.file_ref_id AND f.file_gbn_cd = 100
+                 LEFT JOIN tbl_user c ON a.id = c.id
+        WHERE a.id = #{id}
+        GROUP BY a.j_no, a.id, c.id
+            LIMIT #{offset}, #{limit};
+    </select>
+
+    <!-- 전체 기업 공고 개수 조회 -->
+    <select id="countCompanyJobOpenings" resultType="int">
+
+        SELECT COUNT(*)
+        FROM tbl_job_open
+        WHERE id = #{id}
+        AND del_yn = 'N'
+        AND (e_dt &lt;= CURDATE())
+
     </select>
 
 </mapper>

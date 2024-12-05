@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<!--
+    작성자: 김상준
+    작성일: 2024.12.03
+    게시판 상세
+-->
+
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout-test/layout/mypage_layout}"
+>
+    <head>
+        <meta charset="UTF-8">
+        <title>게시판</title>
+        <link rel="stylesheet" href="/static/css/board/edit.css">
+        <link rel="stylesheet" href="/static/css/common/paging.css">
+        <script src="https://cdn.tiny.cloud/1/ew7piiy29vrtyqnbl3bvhnzncge4t7oxaxlx2uvus2rw4f35/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    </head>
+
+    <body>
+        <main layout:fragment="content">
+            <div class="content-title font-bold">
+                <span>게시판</span>
+
+            </div>
+            <div class="content-detail">
+                <div class="edit-wrap">
+
+                    <input type="hidden" name="bNo" th:value="${board?.bNo}">
+
+                    <div class="edit-title edit-line">
+                        <input type="text" name="title" placeholder="제목을 입력해 주세요" th:text="${board?.title}">
+                    </div>
+
+                    <div class="edit-detail edit-line">
+                        <textarea id="textarea" th:text="${board?.content}"></textarea>
+                    </div>
+
+                    <div class="edit-line edit-btn" th:if="${board?.bNo == null}">
+                        <button id="save-btn">저장</button>
+                    </div>
+
+                    <div class="edit-line edit-btn" th:unless="${board?.bNo == null}">
+                        <button id="edit-btn">수정</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </body>
+</html>
+
+<script type="module" src="/static/js/board/edit.js"></script>

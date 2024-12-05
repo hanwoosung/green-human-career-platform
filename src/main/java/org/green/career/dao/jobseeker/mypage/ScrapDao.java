@@ -13,7 +13,7 @@ public interface ScrapDao {
 
     int getTotalCnt(String id);
 
-    List<ScrapStackDto> getStacks(String jNos);
+    <T> List<T> getStacks(String jNos);
 
 
 

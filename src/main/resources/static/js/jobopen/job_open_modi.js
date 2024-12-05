@@ -1,13 +1,13 @@
 let selectedFiles = []; // 새로 추가된 파일
 let existingFiles = []; // 기존 파일
 let filesToDelete = []; // 삭제 요청된 기존 파일 ID
-let existingSkills = []; // 기존에 서버에서 받아온 스킬
-let addedSkills = []; // 새로 추가된 스킬
-let removedSkills = []; // 삭제 요청된 스킬
+let existingSkills = []; // 기존에 서버에서 받아온 스킬 코드
+let addedSkillCodes = []; // 새로 추가된 스킬 코드
+let removedSkillCodes = []; // 삭제 요청된 스킬 코드
 
 $(document).ready(function () {
     const maxFiles = 3;
-
+    updatePreviewOrder();
     // 서버에서 받아온 기존 파일 초기화
     $("#filePreview .img-container img").each(function () {
         const fileId = $(this).data("file-id");
@@ -23,8 +23,9 @@ $(document).ready(function () {
     $("#companyImage").on("change", function () {
         const filePreview = $("#filePreview");
         const newFiles = Array.from(this.files);
+        const currentFileCount = filePreview.find(".img-container:not(.default-img)").length; // 실제 이미지 개수만 확인
 
-        if (filePreview.find(".img-container").length + newFiles.length > maxFiles) {
+        if (currentFileCount + newFiles.length > maxFiles) {
             alert(`이미지는 최대 ${maxFiles}개 업로드할 수 있습니다.`);
             this.value = "";
             return;
@@ -82,59 +83,76 @@ $(document).ready(function () {
 
     function updatePreviewOrder() {
         const filePreview = $("#filePreview");
-        const imgContainers = filePreview.find(".img-container");
+        const imgContainers = filePreview.find(".img-container:not(.default-img)"); // 실제 이미지만 선택
         const emptySlots = maxFiles - imgContainers.length;
 
+        // 기존 이미지 슬롯을 다시 추가
         filePreview.empty();
         imgContainers.each((_, container) => filePreview.append(container));
 
-        for (let i = 0; i < emptySlots; i++) {
-            filePreview.append('<div class="default-img">이미지 없음</div>');
+        // 빈 슬롯을 필요한 만큼 추가
+        if (emptySlots > 0) {
+            for (let i = 0; i < emptySlots; i++) {
+                filePreview.append('<div class="img-container default-img">이미지 없음</div>');
+            }
         }
     }
 
-    // 기존 스킬 초기화
+
     $(".selected-skill-list .skill-tag").each(function () {
-        const skill = $(this).data("skill");
-        existingSkills.push(skill);
+        const skillCd = $(this).data("skill");
+        existingSkills.push(skillCd);
     });
+
 
     // 스킬 추가 처리
     $(".skill-button").on("click", function () {
-        const skill = $(this).data("skill");
-        if (!existingSkills.includes(skill) && !addedSkills.includes(skill)) {
-            addedSkills.push(skill);
+        const skillCd = $(this).data("skillCd");
+        const skillName = $(this).text().trim();
+
+        if (!existingSkills.includes(skillCd) && !addedSkillCodes.includes(skillCd)) {
+            addedSkillCodes.push(skillCd);
         }
 
-        if (removedSkills.includes(skill)) {
-            removedSkills = removedSkills.filter((s) => s !== skill);
+        if (removedSkillCodes.includes(skillCd)) {
+            removedSkillCodes = removedSkillCodes.filter((s) => s !== skillCd);
         }
 
-        if (!$(`.selected-skill-list .skill-tag[data-skill="${skill}"]`).length) {
+        if (!$(`.selected-skill-list .skill-tag[data-skill="${skillCd}"]`).length) {
             const skillTag = `
-                <div class="skill-tag" data-skill="${skill}">
-                    <span class="skill-text">${skill}</span>
-                    <span class="remove-skill" data-skill="${skill}">x</span>
-                </div>`;
+            <div class="skill-tag" data-skill="${skillCd}">
+                <span class="skill-text">${skillName}</span>
+                <span class="remove-skill" data-skill="${skillCd}">x</span>
+            </div>`;
             $(".selected-skill-list").append(skillTag);
         }
     });
 
-    // 스킬 제거 처리
     $(document).on("click", ".remove-skill", function () {
-        const skill = $(this).data("skill");
+        const skillCd = $(this).data("skill");
+        console.log("클릭된 스킬 코드:", skillCd);
+        console.log("기존 스킬 코드 배열:", existingSkills);
 
-        if (existingSkills.includes(skill) && !removedSkills.includes(skill)) {
-            removedSkills.push(skill);
+        // 기존 스킬 중 제거된 스킬에 추가
+        if (existingSkills.includes(skillCd) && !removedSkillCodes.includes(skillCd)) {
+            removedSkillCodes.push(skillCd);
+            console.log("기존 스킬이므로 removedSkillCodes에 추가:", skillCd);
+        } else {
+            console.log("기존 스킬이 아니므로 removedSkillCodes에 추가하지 않음.");
         }
 
-        if (addedSkills.includes(skill)) {
-            addedSkills = addedSkills.filter((s) => s !== skill);
+        // 새로 추가된 스킬 코드 리스트에서 제거
+        if (addedSkillCodes.includes(skillCd)) {
+            addedSkillCodes = addedSkillCodes.filter((s) => s !== skillCd);
+            console.log("새로 추가된 스킬에서 제거:", skillCd);
         }
 
+        // 삭제된 스킬을 화면에서 제거
         $(this).closest(".skill-tag").remove();
     });
+
 });
+
 
 function modify(event) {
     event.preventDefault();
@@ -156,24 +174,22 @@ function modify(event) {
     formData.append("workTime", document.querySelector("input[name='workTime']").value);
     formData.append("workType", document.querySelector("select[name='employmentType']").value);
 
-    // 추가된 스킬
-    if (addedSkills.length > 0) {
-        addedSkills.forEach((skill) => {
-            formData.append("addedSkills[]", skill);
-            console.log("추가된 스킬:", skill);
+
+    // 추가된 스킬 코드 전송
+    if (addedSkillCodes.length > 0) {
+        addedSkillCodes.forEach((skillCd) => {
+            formData.append("addedSkills[]", skillCd);
+            console.log("추가된 스킬 코드:", skillCd);
         });
-    } else {
-        console.log("추가된 스킬 없음");
     }
 
-    // 삭제된 스킬
-    if (removedSkills.length > 0) {
-        removedSkills.forEach((skill) => {
-            formData.append("removedSkills[]", skill);
-            console.log("제거된 스킬:", skill);
+    // 삭제된 스킬 코드 전송
+    if (removedSkillCodes.length > 0) {
+        console.log("삭제된 스킬 코드 리스트:", removedSkillCodes);
+        removedSkillCodes.forEach((skillCd) => {
+            formData.append("removedSkills[]", skillCd);
+            console.log("제거된 스킬 코드:", skillCd);
         });
-    } else {
-        console.log("삭제된 스킬 없음");
     }
 
 
@@ -193,15 +209,18 @@ function modify(event) {
         console.log("삭제할 파일이 없습니다.");
     }
 
-    // TODO: 고정값 수정해야함
-    axios.put("/job-open/49", formData, {
+
+    const jobJno = document.querySelector(".submit-button").getAttribute("data-job-jno");
+
+    axios.put(`/job-open/${jobJno}`, formData, {
         headers: {
             "Content-Type": "multipart/form-data",
         },
     })
         .then((response) => {
-            if (response.data.result.code !== 500) {
-                alert("공고 수정 완료.");
+            if (response.data.data != null) {
+                alert("공고 수정이 완료되었습니다." + response.data.result.code);
+                window.location.href = '/job-open/detail/' + jobJno;
             }
         })
         .catch((error) => {

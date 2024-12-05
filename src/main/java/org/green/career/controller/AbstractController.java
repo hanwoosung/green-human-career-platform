@@ -68,6 +68,7 @@ public abstract class AbstractController {
         }
     }
 
+
     /**
      * 세션 확인 후 예외 (ResponseBody 전용)
      * 455 코드로 처리하면 로그인하세요 처리가능
@@ -80,13 +81,35 @@ public abstract class AbstractController {
     }
 
     /**
-     * 세션이 있는 경우에만 특정 동작을 수행
+     * 세션 아이디 반환 없으면 null
+     * 이걸로 조건체크
+     * TODO: 이거 없애고 sessionUserInfo 할거지만 다른곳에 사용중이기때문에 나중에 완성됐을 떄 변경 진행
      */
-    public boolean isSessionCheck() {
+    public String isSessionCheck() {
         HttpServletRequest request = getRequest();
-        return request.getSession(false) != null && request.getSession().getAttribute("userId") != null;
+        if (request.getSession(false) != null) {
+            Object userId = request.getSession().getAttribute("userId");
+            if (userId != null && userId instanceof String) {
+                return (String) userId;
+            }
+        }
+        return null;
     }
 
+
+    /**
+     * 세션 속성 반환. 속성이 없으면 null.
+     */
+    public String sessionUserInfo(String attributeName) {
+        HttpServletRequest request = getRequest();
+        if (request.getSession(false) != null) {
+            Object attributeValue = request.getSession().getAttribute(attributeName);
+            if (attributeValue != null && attributeValue instanceof String) {
+                return (String) attributeValue;
+            }
+        }
+        return null;
+    }
 
     /**
      * 세션 확인 후 이전 페이지로 리다이렉트 처리

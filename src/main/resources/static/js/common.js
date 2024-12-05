@@ -92,7 +92,19 @@ export let common = {
             const minutes = String(date.getMinutes()).padStart(2, '0');
             const seconds = String(date.getSeconds()).padStart(2, '0');
             return `${hours}:${minutes}:${seconds}`;
-        }
+        },
+
+        dateTimeMillSecond: (inputDate) => { // 20001212121212 형식으로 변환
+            const date = common.format.dateObject(inputDate);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            const seconds = String(date.getSeconds()).padStart(2, '0');
+            const mill = String(date.getMilliseconds()).padStart(2, '0');
+            return `${year}${month}${day}${hours}${minutes}${seconds}${mill}`;
+        },
 
     },
 

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.green.career.dao.jobseeker.mypage.SendResultDao">
+
+    <select id="selectSendResult">
+        SELECT a.*,
+               e.cd_nm                  AS career_nm,
+               COALESCE(f.file_url, '') AS fileUrl,
+               c.jr_gbn_cd,
+               c.*,
+               d.*,
+               z.*,
+               z.r_title                as resumeTitle,
+               DATEDIFF(a.e_dt, NOW())  AS `leftDt`,
+               COUNT(g.l_no)            AS scrapCnt,
+               COUNT(h.l_no)            AS bookmarkCnt
+        FROM tbl_job_open a
+                 LEFT JOIN tbl_job_open_stack b ON a.j_no = b.j_no
+                 LEFT JOIN tbl_user d ON a.id = d.id
+                 LEFT JOIN tbl_codeinfo e ON a.career_cd = e.cd AND e.up_cd = 'career_cd'
+                 LEFT JOIN tbl_file f ON a.id = f.file_ref_id AND f.file_gbn_cd = 100
+                 LEFT JOIN tbl_resume_job_open c ON a.j_no = c.j_no
+                 LEFT JOIN tbl_resume z ON c.r_no = z.r_no
+                 LEFT JOIN tbl_likes g ON a.j_no = g.cj_no AND g.l_gbn_cd = 'S' AND g.id = #{id}
+                 LEFT JOIN tbl_likes h ON a.id = h.cj_no AND h.l_gbn_cd = 'B' AND h.id = #{id}
+        WHERE c.inst_id = #{id}
+          AND a.del_yn = 'N'
+          AND z.del_yn = 'N'
+        GROUP BY c.jr_no
+            LIMIT #{offset}, #{limit};
+    </select>
+    <select id="sendResultTotalCount">
+        SELECT COUNT(*)
+        FROM tbl_job_open a
+                 LEFT JOIN tbl_job_open_stack b ON a.j_no = b.j_no
+                 LEFT JOIN tbl_resume_job_open c ON a.j_no = c.j_no
+                 LEFT JOIN tbl_resume z ON c.r_no = z.r_no
+        WHERE c.inst_id = #{id}
+          AND a.del_yn = 'N'
+          AND z.del_yn = 'N';
+    </select>
+
+    <insert id="giveRating">
+        insert into tbl_resume_job_open_star (j_no, r_no, jr_star, inst_id)
+        values (#{rating.jNo}, #{rating.rNo}, #{rating.rating}, #{rating.id})
+    </insert>
+
+</mapper>

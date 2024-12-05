@@ -32,14 +32,14 @@ public class LayoutTestController {
                            @RequestParam(value = "skills", required = false) List<String> skills,
                            Model model) {
 
-        JobSearchResult result = mainService.getJobOpeningsWithPaging(searchText, skills, page);
+    /*    JobSearchResult result = mainService.getJobOpeningsWithPaging(searchText, skills, page,);
         Map<String, Object> skillData = mainService.findSkillList();
 
         model.addAttribute("skillList", skillData.get("skills"));
         model.addAttribute("categories", skillData.get("categories"));
 
         model.addAttribute("jobList", result.getJobList());
-        model.addAttribute("paging", result.getPaging());
+        model.addAttribute("paging", result.getPaging());*/
         model.addAttribute("searchText", searchText);
         model.addAttribute("skills", skills);
         return "layout-test/main_sample";

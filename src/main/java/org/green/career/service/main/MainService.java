@@ -15,15 +15,19 @@ public interface MainService {
 
     Map<String, Object> findSkillList();
 
-    List<JobOpeningResponseDto> findJobOpeningList(int offset, int limit);
+    List<JobOpeningResponseDto> findJobOpeningList(int offset, int limit,String id);
 
-    List<JobOpeningResponseDto> searchJobOpenings(String searchText, List<String> skills, int offset, int limit);
+    List<JobOpeningResponseDto> searchJobOpenings(String searchText, List<String> skills, int offset, int limit,String id);
 
-    JobSearchResult getJobOpeningsWithPaging(String searchText, List<String> skills, int page);
+    JobSearchResult getJobOpeningsWithPaging(String searchText, List<String> skills, int page,String id);
 
     int countJobOpenings();
 
     int countSearchJobOpenings(String searchText, List<String> skills);
 
+    List<JobOpeningResponseDto> companyJobOpeningList(int offset, int limit,String id);
 
+    JobSearchResult getCompanyOpeningsWithPaging(int page, String userId);
+
+    int countCompanyJobOpenings(String userId);
 }
