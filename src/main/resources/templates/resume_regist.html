@@ -16,140 +16,235 @@
         <div class="resume">
             <div class="resume-container">
                 <div class="title">이력서 등록</div>
+                <div></div>
                 <div class="resume-basic">
                     <div class="resume-view">
                         <div class="resume-content">
+                          <div class="title-input">
+                              <input id="resume-title" type="text" placeholder="이력서 제목을 입력하세요">
+                          </div>
                             <div class="resume-container-top">
                                 <div class="user-name">
-                                    <span th:text="${userInfo.name}">구경림</span>
+                                    <span th:text="${userInfo.name}"></span>
                                 </div>
                                 <div class="resume-user-career">
-                                    <select th:field="${userInfo.careerCode}">
+                                    <select th:field="${userInfo.careerCode}" id = "careerCode">
                                         <option value="S" th:text="'신입'" th:selected="${userInfo.careerCode} == null"></option>
                                         <option value="G" th:text="'경력'"></option>
                                         <option value="SG" th:text="'신입/경력'"></option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="user_desc" th:text="${userInfo.birth}">1996 (27세)✔️</div>
+                            <div class="user_desc" th:text="${userInfo.birth}"></div>
                             <ul>
-                                <li><i class="fas fa-envelope"></i> <span th:text="${userInfo.email}">face30@naver.com</span></li>
-                                <li><i class="fas fa-phone"></i> <span th:text="${userInfo.phone}">010-2061-3487</span></li>
-                                <li><i class="fas fa-map-marker-alt"></i> <span th:text="${userInfo.addr}">경남 김해시 능동로 114</span></li>
+                                <li><i class="fas fa-envelope"></i> <span th:text="${userInfo.email}"></span></li>
+                                <li><i class="fas fa-phone"></i> <span th:text="${userInfo.phone}"></span></li>
+                                <li><i class="fas fa-map-marker-alt"></i> <span th:text="${userInfo.addr}"></span></li>
                             </ul>
                         </div>
                         <div class="resume-photo">
-                            <img th:src="@{/static/images/default_profile.png}" alt="사진">
+                            <img id="resumePhotoPreview" th:src="@{/static/images/default_profile2.png}" alt="사진">
+                            <input type="file" id="photoUploadInput" style="display: none;" accept="image/*">
+                            <i id="photoEditIcon" class="fas fa-edit" title="사진 수정"></i>
                         </div>
                     </div>
-                    <input type="hidden" id="userName" name="name" th:field="${userInfo.name}" />
+                    <input type="hidden" id="userId" name="name" th:field="${userInfo.id}" />
                     <input type="hidden" id="userEmail" name="email" th:field="${userInfo.email}" />
                     <input type="hidden" id="userPhone" name="phone" th:field="${userInfo.phone}" />
                     <input type="hidden" id="userBirth" name="birth" th:field="${userInfo.birth}" />
                     <input type="hidden" id="userAddr" name="addr" th:field="${userInfo.addr}" />
                 </div>
 
-                <div class="user-edu-info">
+                <!-- 학력 정보 -->
+                <div class="user-educations-info">
                     <div class="form-top">
                         <div class="form-title">학력<span class="important-value-text">필수</span></div>
-                        <button id="add-edu-info" type="button">추가</button>
+                        <button class="open-button" data-form-type="educations">추가</button>
                     </div>
-                    <div class="form-content-list" id="form-content-list">
+                    <div class="form-content-list">
                         <div th:each="educations, iterStat : ${userInfo.educations}">
                             <!-- 학력 정보를 동적으로 렌더링 -->
                         </div>
+                    </div>
+                </div>
+                <!-- 경력 정보 -->
+                <div class="user-careers-info">
+                    <div class="form-top">
+                        <div class="form-title">경력<span class="important-value-text">필수</span></div>
+                        <button class="open-button" data-form-type="careers">추가</button>
+                    </div>
+                    <div class="form-content-list" >
+                        <div th:each="educations, iterStat : ${userInfo.careers}">
+                            <!-- 경력 정보를 동적으로 렌더링 -->
+                        </div>
+                    </div>
+                    <style>
+                        /* 카테고리 버튼 스타일 */
+                        .category-button {
+                            margin: 5px;
+                            padding: 10px;
+                            border: none;
+                            background-color: #f0f0f0;
+                            cursor: pointer;
+                            border-radius: 5px;
+                        }
 
-                        <!-- 모달 -->
-                        <!-- 학력 정보 입력 폼 -->
-                        <div id="education-modal" class="modal" style="display: none;">
-                            <div class="modal-content">
-                                <span id="close-modal" class="close">&times;</span>
-                                <h3>학력 정보 입력</h3>
-                                <form id="education-form">
-                                    <label>학력 구분</label>
-                                    <select id="educationLevel" name="educationLevel" required>
-                                        <option value="" selected disabled>선택해주세요</option>
-                                        <option value="H">고등학교</option>
-                                        <option value="U">대학교 이상</option>
-                                    </select>
+                        .category-button.active {
+                            background-color: #007bff;
+                            color: white;
+                        }
 
-                                    <!-- 고등학교 입력 필드 -->
-                                    <div id="highSchoolFields" style="display: none;">
-                                        <label>학교 이름</label>
-                                        <input type="text" id="schoolNameHS" name="schoolNameHS"  />
+                        /* 기술 스택 목록 스타일 */
+                        .technical-stack-selection {
+                            display: flex;
+                            flex-wrap: wrap;
+                            margin-top: 10px;
+                        }
 
-                                        <label>문/이과</label>
-                                        <select id="majorHS" name="majorHS">
-                                            <option value="문과">문과</option>
-                                            <option value="이과">이과</option>
-                                        </select>
+                        .category-content {
+                            display: flex;
+                            flex-wrap: wrap;
+                            gap: 10px;
+                        }
 
-                                        <label>지역</label>
-                                        <select id="regionHS" name="regionHS" >
-                                            <option value="서울">서울</option>
-                                            <option value="경기">경기</option>
-                                            <option value="부산">부산</option>
-                                            <option value="기타">기타</option>
-                                        </select>
+                        label {
+                            margin: 5px;
+                            padding: 10px;
+                            border: 1px solid #ccc;
+                            border-radius: 5px;
+                            background-color: #f9f9f9;
+                            cursor: pointer;
+                            display: inline-flex;
+                            align-items: center;
+                        }
 
-                                        <label>입학 연월</label>
-                                        <input type="month" id="admissionDateHS" name="admissionDateHS"  />
-
-                                        <label>졸업 연월</label>
-                                        <input type="month" id="graduationDateHS" name="graduationDateHS"  />
-
-                                        <button id="addScoreHS" type="button">성적 추가</button>
-                                        <div id="scoreContainerHS"></div>
-                                    </div>
-
-                                    <!-- 대학교 이상 입력 필드 -->
-                                    <div id="universityFields" style="display: none;">
-                                        <label>학교 이름</label>
-                                        <input type="text" id="schoolNameU" name="schoolNameU"  />
-
-                                        <label>학위 구분</label>
-                                        <select id="degreeTypeU" name="degreeTypeU">
-                                            <option value="4년제">4년제</option>
-                                            <option value="전문대">전문대</option>
-                                            <option value="석사">석사</option>
-                                            <option value="박사">박사</option>
-                                        </select>
-
-                                        <label>전공</label>
-                                        <input type="text" id="majorU" name="majorU"  />
-
-                                        <label>지역</label>
-                                        <select id="regionU" name="regionU" >
-                                            <option value="서울">서울</option>
-                                            <option value="경기">경기</option>
-                                            <option value="부산">부산</option>
-                                            <option value="기타">기타</option>
-                                        </select>
-
-                                        <label>입학 연월</label>
-                                        <input type="month" id="admissionDateU" name="admissionDateU"  />
-
-                                        <label>졸업 연월</label>
-                                        <input type="month" id="graduationDateU" name="graduationDateU"  />
-
-                                        <label>편입 여부</label>
-                                        <input type="checkbox" id="transferYnU" name="transferYnU" value="Y" />
-                                    </div>
-
-                                    <button type="button" id="save-education" class="btn btn-primary">저장</button>
-                                </form>
-                            </div>
+                    </style>
+                </div>
+                    <!-- 기술 정보 -->
+                    <!-- 기술 스택 섹션 -->
+                <div class="user-technicalStacks-info">
+                        <div class="form-top">
+                            <div class="form-title">기술 스택<span class="important-value-text">필수</span></div>
+                        </div>
+                        <div class="technical-stack-buttons">
+                            <button type="button" class="category-button" data-category="back_cd">백엔드</button>
+                            <button type="button" class="category-button" data-category="front_cd">프론트엔드</button>
+                            <button type="button" class="category-button" data-category="design_cd">디자인</button>
+                            <button type="button" class="category-button" data-category="mobile_cd">모바일</button>
                         </div>
 
+                        <div class="technical-stack-selection">
+                            <div class="category-content" id="category-back_cd" style="display: none;">
+                                <h4>백엔드 기술 스택</h4>
+                                <div th:each="technicalStack : ${technicalStacks['back_cd']}">
+                                    <label th:for="${technicalStack.stackCode}">
+                                        <input type="checkbox" th:id="${technicalStack.stackCode}" th:name="technicalStacks"
+                                               th:value="${technicalStack.stackCode}" class="tech-stack-checkbox">
+                                        <span th:text="${technicalStack.stackName}"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="category-content" id="category-front_cd" style="display: none;">
+                                <h4>프론트엔드 기술 스택</h4>
+                                <div th:each="technicalStack : ${technicalStacks['front_cd']}">
+                                    <label th:for="${technicalStack.stackCode}">
+                                        <input type="checkbox" th:id="${technicalStack.stackCode}" th:name="technicalStacks"
+                                               th:value="${technicalStack.stackCode}" class="tech-stack-checkbox">
+                                        <span th:text="${technicalStack.stackName}"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="category-content" id="category-design_cd" style="display: none;">
+                                <h4>디자인 기술 스택</h4>
+                                <div th:each="technicalStack : ${technicalStacks['design_cd']}">
+                                    <label th:for="${technicalStack.stackCode}">
+                                        <input type="checkbox" th:id="${technicalStack.stackCode}" th:name="technicalStacks"
+                                               th:value="${technicalStack.stackCode}" class="tech-stack-checkbox">
+                                        <span th:text="${technicalStack.stackName}"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="category-content" id="category-mobile_cd" style="display: none;">
+                                <h4>모바일 기술 스택</h4>
+                                <div th:each="technicalStack : ${technicalStacks['mobile_cd']}">
+                                    <label th:for="${technicalStack.stackCode}">
+                                        <input type="checkbox" th:id="${technicalStack.stackCode}" th:name="technicalStacks"
+                                               th:value="${technicalStack.stackCode}" class="tech-stack-checkbox">
+                                        <span th:text="${technicalStack.stackName}"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <button id="submit-resume" type="submit">이력서 제출</button>
+                <!-- 포트폴리오 -->
+                <div class="user-portfolios-info">
+                    <div class="form-top">
+                        <div class="form-title">포트폴리오<span class="important-value-text">필수</span></div>
+                        <button class="open-button" data-form-type="portfolios">추가</button>
+                    </div>
+                    <div class="form-content-list" >
+
+                    </div>
                 </div>
-            </div>
-            <div class="resume-right-side"></div>
+                <!-- 자기소개서 -->
+                <div class="user-introduces-info">
+                    <div class="form-top">
+                        <div class="form-title">자기소개서<span class="important-value-text">필수</span></div>
+                        <button class="open-button" data-form-type="introduces">추가</button>
+                    </div>
+                    <div class="form-content-list">
+
+
+                    </div>
+                </div>
+                <!-- 자격증 -->
+                <div class="user-qualifications-info">
+                    <div class="form-top">
+                        <div class="form-title">자격증<span class="important-value-text">필수</span></div>
+                        <button class="open-button" data-form-type= "qualifications">추가</button>
+                    </div>
+                    <div class="form-content-list" >
+
+                    </div>
+                </div>
+                <!-- 우대사항 -->
+                <div class="user-treats-info">
+                    <div class="form-top">
+                        <div class="form-title">우대사항<span class="important-value-text">필수</span></div>
+                        <button class="open-button"  data-form-type = "treats">추가</button>
+                    </div>
+                    <div class="form-content-list" >
+
+                    </div>
+                </div>
+
+
+
+                <button class="submit-resume" type="submit">이력서 제출</button>
+<!--            추후 구현-->
+<!--            <div class="resume-right-side"></div>-->
         </div>
     </form>
+
+    <!-- 모달 -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h2 id="modal-title">폼 제목</h2>
+            <form id="dynamic-form">
+                <!-- 동적으로 변경될 입력 필드 -->
+                <div id="form-fields"></div>
+                <div class="modal-buttons">
+                    <button type="submit" id="modal-submit">저장</button>
+                    <button type="button" id="modal-cancel">취소</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script src="/static/js/resume/resume_regist.js"></script>
 </main>
 </body>
 </html>
-ㅋ

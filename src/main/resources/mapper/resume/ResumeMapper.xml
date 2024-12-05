@@ -7,16 +7,171 @@
     이력서 관련 MyBatis 매퍼
 -->
 <mapper namespace="org.green.career.dao.resume.ResumeDao">
-    <select id="getUserInfo" parameterType="String" resultType="org.green.career.dto.resume.ResumeDto">
-        SELECT
-            name, birth, email,phone, addr
-        FROM
-            tbl_user
-        WHERE
-            id = #{id}
+
+    <!-- 유저 정보 조회 -->
+    <select id="getUserInfo" resultType="org.green.career.dto.resume.ResumeDto">
+        SELECT id AS id, name, email, phone, birth, addr
+        FROM tbl_user
+        WHERE id = #{id};
     </select>
 
-    <insert id = "regist">
+    <!-- 특정 유저의 모든 이력서 조회 -->
+    <select id="getResumesByUserId" resultType="org.green.career.dto.resume.ResumeDto">
+        SELECT r_no AS resumeId, name, email, phone, birth, addr, title, representative_yn AS representativeYn, career_code AS careerCode, created_date AS createdDate
+        FROM tbl_resume
+        WHERE created_by = #{userId};
+    </select>
 
+    <!-- 이력서 저장 -->
+<!--    대표여부는 리스트에서 지정하기 -->
+    <insert id="saveResume" parameterType="org.green.career.dto.resume.ResumeDto" useGeneratedKeys="true" keyProperty="resumeId">
+        INSERT INTO tbl_resume (
+        r_title, r_rep_yn, career_cd, inst_id, inst_dt
+        ) VALUES (
+        #{title}, 'N' , #{careerCode}, #{createdBy}, CURRENT_TIMESTAMP()
+        );
     </insert>
+<!--        #{title}, #{representativeYn}, #{careerCode}, #{createdBy}, CURRENT_TIMESTAMP()-->
+
+    <!-- 학력 저장 -->
+    <insert id="saveEducation">
+        INSERT INTO tbl_resume_educat (r_no, re_gbn_cd, re_school_nm, re_major, re_score, re_indt, re_outdt, re_resion, re_transfer_yn)
+        VALUES (#{resumeId}, #{educationType}, #{schoolName}, #{major}, #{score}, #{admissionDate}, #{graduationDate},#{region}, #{transferYn});
+    </insert>
+
+    <!-- 경력 저장 -->
+    <insert id="saveCareer">
+        INSERT INTO tbl_resume_career (r_no, rc_company_nm, rc_pstn, rc_dmpt, rc_join_dt, rc_out_dt, rc_duties)
+        VALUES (#{resumeId}, #{companyName}, #{position}, #{department}, #{joinDate}, #{outDate}, #{duties});
+    </insert>
+
+    <!-- 자격증 저장 -->
+    <insert id="saveQualification">
+        INSERT INTO tbl_resume_qual (r_no, rq_nm, rq_dt, rq_place, rq_gbn_cd)
+        VALUES (#{resumeId}, #{qualificationName}, #{acquisitionDate}, #{issuingBody}, #{qualificationType});
+    </insert>
+
+    <!-- 기술스택 가져오기 -->
+    <select id="getTechnicalStacks" resultType="org.green.career.dto.resume.TechnicalStackDto">
+        SELECT cd AS stackCode,
+        cd_nm AS stackName,
+        up_cd AS stackCategory
+        FROM tbl_codeinfo
+        WHERE up_cd IN (
+        'back_cd',
+        'front_cd',
+        'cloud_cd',
+        'data_cd',
+        'db_cd',
+        'design_cd',
+        'devops_cd',
+        'mobile_cd'
+        )
+    </select>
+
+    <!-- 기술 스택을 카테고리별로 조회하는 SQL -->
+    <select id="getTechnicalStacksByCategory" parameterType="String" resultType="org.green.career.dto.resume.TechnicalStackDto">
+        SELECT
+        cd AS stackCode,
+        cd_nm AS stackName
+        FROM
+        tbl_codeinfo
+        WHERE
+        up_cd = #{categoryCode}
+    </select>
+
+    <select id="getCodeByCategory" parameterType="string" resultType="org.green.career.dto.common.CodeInfoDto">
+        SELECT cd,
+        cd_nm
+        FROM tbl_codeinfo
+        WHERE up_cd = #{upCd}
+    </select>
+
+
+
+    <!-- 기술 스택 저장 -->
+    <insert id="saveTechnicalStack">
+        INSERT INTO tbl_resume_stack (r_no, stack_cd)
+        VALUES (#{resumeId}, #{stackCode});
+    </insert>
+
+    <!-- 우대사항 저장 -->
+    <insert id="saveTreat">
+        INSERT INTO tbl_resume_prf (r_no, prf_cd, rpr_content)
+        VALUES (#{resumeId}, #{preferenceCode}, #{details});
+    </insert>
+
+    <!-- 포트폴리오 저장 -->
+    <insert id="savePortfolio">
+        INSERT INTO tbl_resume_prtf (r_no, rp_str_dt, rp_end_dt, rp_url, rp_cnt, rp_content)
+        VALUES (#{resumeId}, #{startDate}, #{endDate}, #{portfolioUrl}, #{teamSize}, #{description});
+    </insert>
+
+    <!-- 자기소개서 저장 -->
+    <insert id="saveIntroduce">
+        INSERT INTO tbl_resume_me (r_no, rm_title, rm_content)
+        VALUES (#{resumeId}, #{title}, #{content});
+    </insert>
+
+    <!-- 이력서 업데이트 -->
+    <update id="updateResume">
+        UPDATE tbl_resume
+        SET title = #{title}, representative_yn = #{representativeYn}, updated_by = #{updatedBy}, updated_date = CURRENT_TIMESTAMP()
+        WHERE r_no = #{resumeId};
+    </update>
+
+    <!-- 이력서 삭제 -->
+    <delete id="deleteResume">
+        DELETE FROM tbl_resume
+        WHERE r_no = #{resumeId};
+    </delete>
+
+
+
+
+
+
+
+
+
+
+
+    <!-- 파일 저장 -->
+    <insert id="saveFile" parameterType="org.green.career.dto.resume.ResumeFileDto" useGeneratedKeys="true" keyProperty="fileId">
+        INSERT INTO tbl_file (
+        file_gbn_cd,
+        file_ref_id,
+        file_name,
+        file_ext,
+        file_url,
+        inst_id,
+        inst_dt
+        ) VALUES (
+        #{fileGbnCd},
+        #{fileRefId},
+        #{fileName},
+        #{fileExt},
+        #{fileUrl},
+        #{instId},
+        CURRENT_TIMESTAMP()
+        );
+    </insert>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </mapper>
