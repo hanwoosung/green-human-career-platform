@@ -2,6 +2,7 @@ package org.green.career.controller.main;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.green.career.controller.AbstractController;
 import org.green.career.dto.jobopen.JobSearchResult;
 import org.green.career.service.main.MainService;
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 작성자: 한우성
@@ -21,7 +23,7 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-public class MainController {
+public class MainController extends AbstractController {
 
     private final MainService mainService;
 
@@ -31,11 +33,19 @@ public class MainController {
                            @RequestParam(value = "skills", required = false) List<String> skills,
                            Model model) {
 
-        JobSearchResult result = mainService.getJobOpeningsWithPaging(searchText, skills, page);
+        log.info("userMian" + skills);
+
+
+        JobSearchResult result = mainService.getJobOpeningsWithPaging(searchText, skills, page, sessionUserInfo("userId"));
+        Map<String, Object> skillData = mainService.findSkillList();
+
+        log.info("main" + result);
+
+        model.addAttribute("skillList", skillData.get("skills"));
+        model.addAttribute("categories", skillData.get("categories"));
 
         model.addAttribute("jobList", result.getJobList());
         model.addAttribute("paging", result.getPaging());
-        model.addAttribute("skillList", mainService.findSkillList());
         model.addAttribute("searchText", searchText);
         model.addAttribute("skills", skills);
 

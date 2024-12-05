@@ -8,5 +8,5 @@ import org.green.career.dto.login.UserLoginDto;
  * 로그인 서비스 인터페이스
  */
 public interface LoginService {
-    UserLoginDto login(String id, String pw);
+    UserLoginDto login(String id, String pw, String userGbnCd);
 }

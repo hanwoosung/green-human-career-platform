@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<!-- Default Layout Import-->
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout-test/layout/mypage_layout}"
+>
+    <head>
+        <meta charset="UTF-8">
+        <title>북마크한 기업 목록</title>
+        <link rel="stylesheet" href="/static/css/jobseeker/mypage/bookmark.css">
+        <link rel="stylesheet" href="/static/css/common/paging.css">
+    </head>
+    <body>
+        <main layout:fragment="content">
+            <div class="content-title font-bold">
+                <span>북마크한 기업 목록</span>
+            </div>
+            <div class="content-detail">
+                <div class="list-wrap">
+                    <th:block th:each="bookmark : ${list}">
+                        <div class="list" th:attr="data-id=${bookmark.cjNo}">
+                            <div class="list-img">
+                                <img th:src="${bookmark.fileUrl + '/' + bookmark.fileId + '.' + bookmark.fileExt}"
+                                     onerror="this.src='/static/images/default_profile.png'">
+                            </div>
+                            <div class="list-content">
+                                <div>
+                                    <span class="font-bold fs-20">[[${bookmark.name}]]</span>
+                                    <span class="list-age">([[${bookmark.age}]])</span>
+                                    <i th:class="'bi ' + ${bookmark.bookmarkCnt == 0 ? 'bi-heart ' : 'bi-heart-fill '} + 'heart-icon'"
+                                       id="heart-icon"></i>
+                                </div>
+                                <div>
+                                    <span class="list-addr">([[${bookmark.zipCd}]]) [[${bookmark.addr}]] [[${bookmark.addr2}]]</span>
+                                </div>
+                                <div class="list-item">
+                                    <span>[[${bookmark.CBusiness}]]</span>
+                                </div>
+                            </div>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+
+            <!-- 페이징 -->
+            <div class="pagination-wrapper">
+                <nav class="pagination-nav">
+                    <ul class="pagination">
+                        <!-- 처음 페이지 버튼 -->
+                        <li th:class="${paging.firstPageBtn ? 'page-item' : 'page-item disabled'}">
+                            <a class="page-link"
+                               th:href="${paging.firstPageBtn ? '/job-seeker/my-page/bookmark?page=1' : '#'}"
+                               aria-label="처음">&laquo;</a>
+                        </li>
+
+                        <!-- 이전 페이지 버튼 -->
+                        <li th:class="${paging.prevBtn ? 'page-item' : 'page-item disabled'}">
+                            <a class="page-link"
+                               th:href="${paging.prevBtn ? '/job-seeker/my-page/bookmark?page=' + (paging.startPage - 1) : '#'}"
+                               aria-label="이전">&lt;</a>
+                        </li>
+
+                        <!-- 페이지 번호 리스트 -->
+                        <li th:each="i : ${#numbers.sequence(paging.startPage, paging.endPage)}"
+                            th:class="${paging.currentPage == i ? 'page-item active' : 'page-item'}">
+                            <a class="page-link" th:href="@{/job-seeker/my-page/bookmark(page=${i})}"
+                               th:text="${i}"></a>
+                        </li>
+
+                        <!-- 다음 페이지 버튼 -->
+                        <li th:class="${paging.nextBtn ? 'page-item' : 'page-item disabled'}">
+                            <a class="page-link"
+                               th:href="${paging.nextBtn ? '/job-seeker/my-page/bookmark?page=' + (paging.endPage + 1) : '#'}"
+                               aria-label="다음">&gt;</a>
+                        </li>
+
+                        <!-- 마지막 페이지 버튼 -->
+                        <li th:class="${paging.lastPageBtn ? 'page-item' : 'page-item disabled'}">
+                            <a class="page-link"
+                               th:href="${paging.lastPageBtn ? '/job-seeker/my-page/bookmark?page=' + paging.totalPage : '#'}"
+                               aria-label="마지막">&raquo;</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </main>
+
+    </body>
+</html>
+
+<script src="/static/js/jobseeker/mypage/bookmark.js"></script>

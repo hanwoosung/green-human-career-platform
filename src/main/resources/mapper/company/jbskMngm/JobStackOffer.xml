@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.green.career.dao.company.jbskMngm.JobStackOfferDao">
+
+    <select id="getStackList" resultType="org.green.career.dto.common.CodeInfoDto">
+        SELECT *
+        FROM tbl_codeinfo
+        WHERE up_cd IN (SELECT cd
+                        FROM tbl_codeinfo
+                        WHERE up_cd = 'stack_cd')
+        OR up_cd = 'stack_cd'
+        ORDER BY CASE
+                     WHEN up_cd = 'stack_cd' THEN 0
+                     ELSE 1
+                 END, up_cd DESC;
+    </select>
+
+    <select id="getStackListCount" resultType="Integer">
+        SELECT COUNT(*)
+        FROM (SELECT a.r_no,
+                     c.name,
+                     a.r_title,
+                     IFNULL(ROUND(DATEDIFF(IFNULL(f.rc_out_dt, NOW()), f.rc_join_dt) / 365, 0), 0) AS career,
+                     c.addr,
+                     IFNULL(e.file_id, '') AS file_id,
+                     IFNULL(e.file_name, '') AS file_name,
+                     IFNULL(e.file_ext, '') AS file_ext,
+                     IFNULL(e.file_url, '') AS afile_url
+              FROM tbl_resume a
+              LEFT JOIN tbl_resume_stack b ON a.r_no = b.r_no
+              LEFT JOIN tbl_user c ON a.inst_id = c.id
+              LEFT JOIN tbl_file e ON a.r_no = e.file_ref_id AND e.file_gbn_cd = '50'
+              LEFT JOIN tbl_resume_career f ON a.r_no = f.r_no
+              WHERE c.use_yn = 'Y'
+        <choose>
+            <when test="stacks != null and stacks.size > 0">
+                AND b.stack_cd IN
+                <foreach item="stack" collection="stacks" open="(" separator="," close=")">
+                    #{stack}
+                </foreach>
+            </when>
+        </choose>
+        AND a.r_title LIKE CONCAT('%', #{search}, '%')
+        GROUP BY a.r_no) temp
+    </select>
+
+    <select id="getJobStackOfferList" resultType="org.green.career.dto.company.jbskMngm.JobStackOfferDto">
+
+        SELECT a.r_no,
+               c.name,
+               c.id,
+               a.r_title,
+               IFNULL(ROUND(DATEDIFF(IFNULL(f.rc_out_dt, NOW()), f.rc_join_dt) / 365, 0), 0) AS career,
+               c.addr,
+               IFNULL(e.file_id, '') AS file_id,
+               IFNULL(e.file_name, '') AS file_name,
+               IFNULL(e.file_ext, '') AS file_ext,
+               IFNULL(e.file_url, '') AS afile_url
+        FROM tbl_resume a
+        LEFT JOIN tbl_resume_stack b ON a.r_no = b.r_no
+        LEFT JOIN tbl_user c ON a.inst_id = c.id
+        LEFT JOIN tbl_file e ON a.r_no = e.file_ref_id AND e.file_gbn_cd = '20'
+        LEFT JOIN tbl_resume_career f ON a.r_no = f.r_no
+        WHERE c.use_yn = 'Y'
+        <choose>
+            <when test="stacks != null and stacks.size > 0">
+                AND b.stack_cd IN
+                <foreach item="stack" collection="stacks" open="(" separator="," close=")">
+                    #{stack}
+                </foreach>
+            </when>
+        </choose>
+        AND a.r_title LIKE CONCAT('%', #{search}, '%')
+        GROUP BY a.r_no
+        LIMIT #{offset}, #{limit};
+    </select>
+
+    <select id="getJobStackOfferStackList" resultType="org.green.career.dto.company.jbskMngm.JobStackOfferStackDto">
+        SELECT a.*, b.cd_nm AS stack_nm
+        FROM tbl_resume_stack a
+        LEFT JOIN tbl_codeinfo b ON a.stack_cd = b.cd AND up_cd IN (SELECT cd FROM tbl_codeinfo WHERE up_cd = 'stack_cd')
+        <choose>
+            <when test="jNos != null and jNos.size > 0">
+                WHERE a.r_no IN
+                <foreach item="jNo" collection="jNos" open="(" separator="," close=")">
+                    #{jNo}
+                </foreach>
+            </when>
+        </choose>
+    </select>
+
+    <insert id="saveOffer">
+        INSERT INTO tbl_offer(
+            c_id,
+            u_id,
+            o_dt,
+            o_gbn_cd,
+            inst_id,
+            inst_dt,
+            updt_id,
+            updt_dt
+        )VALUES (
+             #{id},
+             #{uId},
+             NOW(),
+             'S',
+             #{id},
+             NOW(),
+             #{id},
+             NOW()
+        );
+    </insert>
+
+</mapper>

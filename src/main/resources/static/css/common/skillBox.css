@@ -1,18 +1,21 @@
 .skill-container {
     display: flex;
-    width: 100%;
+    width: 90%;
+    height: 300px;
     margin: 20px auto;
     background: white;
     border: 1px solid #ddd;
     border-radius: 8px;
     overflow: hidden;
+    max-width: 1800px;
 }
 
 .left-panel {
     width: 30%;
-    border-right: 1px solid #ddd;
-    padding: 20px;
+    padding: 10px 30px 10px 30px;
     background-color: #f9f9f9;
+    border-right: 1px solid #ddd;
+    overflow-y: auto;
 }
 
 .left-panel button {
@@ -41,31 +44,83 @@
 
 .right-panel {
     width: 70%;
+    height: 100%;
     padding: 20px;
+    overflow-y: auto;
+    background: white;
 }
 
 .skills-list {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-top: 10px;
+    margin-bottom: 50px;
 }
 
 .skill-item {
-    width: calc(25% - 10px);
-    padding: 12px;
+    min-width: 150px;
+    padding: 10px;
     box-sizing: border-box;
-    background-color: #f8f9fa;
     border: 1px solid #ddd;
     border-radius: 6px;
+    background: #f8f9fa;
+    font-size: 14px;
+    text-align: center;
+    white-space: nowrap;
+    transition: background 0.2s ease-in-out;
+}
+
+.skill-item.off {
+    display: none;
+}
+
+.skill-item:hover {
+    background-color: #f1f1f1;
+}
+
+.skill-item label {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.skill-item input {
+    margin-left: 10px;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
 }
 
 
-.skill-item label {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    font-size: 16px;
-    padding: 5px 0;
+.skill-container {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.skill-container::-webkit-scrollbar {
+    display: none;
+}
+
+.left-panel {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.left-panel::-webkit-scrollbar {
+    display: none;
+}
+
+.right-panel {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.right-panel::-webkit-scrollbar {
+    display: none;
 }
 
 .skill-item input {
@@ -83,7 +138,7 @@
     display: flex;
     justify-content: end;
     align-items: center;
-    width: 100%;
+    width: 90%;
     margin: 20px auto 0;
     box-sizing: border-box;
 }

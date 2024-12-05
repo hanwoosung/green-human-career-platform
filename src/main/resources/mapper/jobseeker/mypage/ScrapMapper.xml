@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.green.career.dao.jobseeker.mypage.ScrapDao">
+
+    <select id="getScrapList" resultType="org.green.career.dto.jobseeker.mypage.ScrapDto">
+
+        SELECT a.l_no,
+               b.id,
+               a.l_gbn_cd,
+               a.cj_no,
+               b.j_no,
+               d.`name`,
+               b.j_title,
+               b.j_stitle,
+               b.work_place,
+               b.career_cd,
+               e.cd_nm                 AS career_nm,
+               DATEDIFF(b.e_dt, NOW()) AS `left_dt`,
+               IFNULL(f.file_id, '')   AS file_id,
+               IFNULL(f.file_name, '') AS file_name,
+               IFNULL(f.file_ext, '')  AS file_ext,
+               IFNULL(f.file_url, '')  AS afile_url,
+               COUNT(g.l_no)           AS scrapCnt,
+               COUNT(h.l_no)           AS bookmarkCnt
+        FROM tbl_likes a
+                 LEFT JOIN tbl_job_open b ON a.cj_no = b.j_no
+                 LEFT JOIN tbl_user d ON b.id = d.id
+                 LEFT JOIN tbl_codeinfo e ON b.career_cd = e.cd AND e.up_cd = 'career_cd'
+                 LEFT JOIN tbl_file f ON b.j_no = f.file_ref_id AND f.file_gbn_cd = '20'
+                 LEFT JOIN tbl_likes g ON b.j_no = g.cj_no AND g.l_gbn_cd = 'S' AND g.id = #{id}
+                 LEFT JOIN tbl_likes h ON b.id = h.cj_no AND h.l_gbn_cd = 'B' AND h.id = #{id}
+        WHERE d.use_yn = 'Y'
+          AND a.l_gbn_cd = 'S'
+          AND a.id = #{id}
+        GROUP BY b.j_no
+        LIMIT #{offset}, #{limit};
+    </select>
+
+    <select id="getTotalCnt">
+        SELECT COUNT(*)
+        FROM (SELECT a.*
+              FROM tbl_likes a
+                       LEFT JOIN tbl_job_open b ON a.cj_no = b.j_no
+                       LEFT JOIN tbl_user c ON b.id = c.id
+              WHERE c.use_yn = 'Y'
+                AND a.l_gbn_cd = 'S'
+                AND a.id = 'user1'
+              GROUP BY a.cj_no) temp;
+    </select>
+
+    <select id="getStacks" resultType="org.green.career.dto.jobseeker.mypage.ScrapStackDto">
+        SELECT a.*, b.cd_nm AS stack_nm
+        FROM tbl_job_open_stack a
+                 LEFT JOIN tbl_codeinfo b ON a.stack_cd = b.cd AND up_cd IN (SELECT cd FROM tbl_codeinfo WHERE up_cd = 'stack_cd')
+        WHERE a.j_no IN (${jNos})
+    </select>
+
+</mapper>

@@ -1,123 +1,147 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>구직자 메인</title>
-    <link rel="stylesheet" href="/static/css/main/index.css">
-    <link rel="stylesheet" href="/static/css/common/skillBox.css">
-    <link rel="stylesheet" href="/static/css/common/paging.css">
+<!--
+    작성자: 구경림
+    작성일: 2024.12.01
+    파일 설명:
+        기존의 user_main 페이지를 레이아웃 적용해보기위해 따로 만든 페이지
+        <main layout:fragment="content"></main> 안의 내용은 user_main.html의 내용을 복붙함.
+-->
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout-test/layout/main_layout}"
+>
+    <head>
+        <meta charset="UTF-8">
+        <title>구직자 메인</title>
+        <link rel="stylesheet" href="/static/css/main/index.css">
+        <link rel="stylesheet" href="/static/css/common/skillBox.css">
+        <link rel="stylesheet" href="/static/css/common/paging.css">
 
-</head>
-<body>
-
-<div class="flex-column main-container">
-    <div th:insert="~{layout/header_user}"></div>
-
-    <div class="flex1 mt70 mar-center">
-        <div class="skill-container">
-
-            <div class="left-panel" id="categoryPanel">
-                <button class="category-btn active" data-category="frontend">프론트엔드</button>
-                <button class="category-btn" data-category="backend">백엔드</button>
-            </div>
-
-            <div class="right-panel">
-                <div class="skills-list">
-                    <div class="skill-item select-all">
-                        <label><input type="checkbox" id="select-all" value="all"> 전체 선택</label>
+    </head>
+    <body>
+        <main layout:fragment="content">
+            <div class="flex1 mt70 mar-center">
+                <div class="skill-container">
+                    <!-- 왼쪽 패널 -->
+                    <div class="left-panel" id="categoryPanel">
+                        <button class="category-btn" th:each="category : ${categories}"
+                                th:data-category="${category.upCd}"
+                                th:text="${category.categoryName}"
+                                th:if="${category.upCd} != 'stack_cd'">
+                        </button>
                     </div>
 
-                    <!-- 프론트 -->
-                    <div th:each="skill : ${skillList.front}" class="skill-item" data-category="frontend">
-                        <label><input type="checkbox" name="skills" class="frontend-skill" th:value="${skill.cdNm}"
-                                      th:text="${skill.cdNm}"></label>
-                    </div>
+                    <!-- 오른쪽 패널 -->
+                    <div class="right-panel">
+                        <div class="skills-list">
+                            <th:block th:each="category : ${categories}">
+                                <!-- "전체 선택" 항목 -->
+                                <div class="skill-item select-all" th:data-category="${category.upCd}"
+                                     style="display: none;">
+                                    <label>
+                                        <input type="checkbox" th:id="'select-all-' + ${category.upCd}" value="all"> 전체
+                                                                                                                     선택
+                                    </label>
+                                </div>
 
-                    <!-- 백 -->
-                    <div th:each="skill : ${skillList.back}" class="skill-item" data-category="backend"
-                         style="display: none;">
-                        <label><input type="checkbox" name="skills" class="backend-skill" th:value="${skill.cdNm}"
-                                      th:text="${skill.cdNm}"></label>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-        <div class="search-panel">
-            <input type="text" id="search" placeholder="채용 검색">
-            <button id="search-btn" class="mr20">확인</button>
-            <button id="reset-btn">초기화</button>
-        </div>
-        <div class="selected-skills">
-        </div>
-
-        <div class="main-list-wrapper">
-            <div class="main-list-container">
-                <div class="job-card" th:each="jobItem : ${jobList}">
-                    <div class="card-image">
-                        <div class="card-overlay">
-                            <span class="days-left" th:text="${jobItem.leftDate}">D-11</span>
-                            <i class="bi bi-bookmark scrap-icon" id="bookmark-icon"></i>
-                        </div>
-                        <img th:src="@{${jobItem.fileUrl != null and !jobItem.fileUrl.isEmpty() ? jobItem.fileUrl : '/static/images/empty_company.png'}}"
-                             alt="회사 이미지">
-
-                    </div>
-                    <div class="card-header">
-                        <div class="card-header-box">
-                            <span class="company-name">삼성전자</span>
-                            <i class="bi bi-heart heart-icon" id="heart-icon"></i>
-                        </div>
-                    </div>
-
-                    <div class="card-body">
-                        <h3 class="job-title" th:text="${jobItem.JTitle}">백엔드개발자 - 테크리드 (테크사업부)</h3>
-                        <h4 class="job-content" th:text="${jobItem.JContent}">백엔드개발자 - 테크리드 (테크사업부)</h4>
-                        <div class="job-location">
-                            <span th:text="${jobItem.workPlace}">경기도</span> | <span
-                                th:text="${jobItem.workType}">경력 3년</span>
-                        </div>
-                        <div class="skill-tags" th:if="${not #lists.isEmpty(jobItem.skills)}">
-                            <span th:each="skill : ${jobItem.skills}" class="skill-tag" th:text="${skill}"></span>
+                                <!-- 각 스킬 항목 -->
+                                <div th:each="skill : ${skillList}" th:data-category="${skill.upCd}"
+                                     th:if="${skill.upCd == category.upCd}" class="skill-item">
+                                    <label>
+                                        <input type="checkbox" name="skills" th:value="${skill.cd}">
+                                        <span th:text="${skill.cdNm}"></span>
+                                    </label>
+                                </div>
+                            </th:block>
                         </div>
                     </div>
                 </div>
+                <div class="search-panel">
+                    <input type="text" id="search" placeholder="채용 검색">
+                    <button id="search-btn" class="mr20">확인</button>
+                    <button id="reset-btn">초기화</button>
+                </div>
+                <div class="selected-skills">
+                </div>
+
+                <div class="main-list-wrapper">
+                    <div class="main-list-container">
+                        <div class="job-card" th:each="jobItem : ${jobList}"
+                             th:attr="data-jNo=${jobItem.JNo}, data-id=${jobItem.id}">
+                            <div class="card-image">
+                                <div class="card-overlay">
+                                    <span class="days-left" th:text="${jobItem.leftDate}">D-11</span>
+                                    <i th:class="'bi ' + ${jobItem.scrapCnt == 0 ? 'bi-bookmark ' : 'bi-bookmark-fill '} + 'scrap-icon '"
+                                       id="bookmark-icon"></i>
+                                </div>
+                                <a th:href="@{/job-open/detail/{jNo}(jNo=${jobItem?.JNo})}">
+
+                                <img th:src="@{${jobItem.fileUrl != null and !jobItem.fileUrl.isEmpty() ? jobItem.fileUrl : '/static/images/empty_company.png'}}"
+                                     alt="회사 이미지">
+                                </a>
+                            </div>
+                            <div class="card-header">
+                                <div class="card-header-box">
+                                    <span class="company-name" th:text="${jobItem.name}">삼성전자</span>
+                                    <i th:class="'bi ' + ${jobItem.bookmarkCnt == 0 ? 'bi-heart ' : 'bi-heart-fill '} + 'heart-icon'"
+                                       id="heart-icon"></i>
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+                                <h3 class="job-title" th:text="${jobItem.JTitle}">백엔드개발자 - 테크리드 (테크사업부)</h3>
+                                <div class="job-location">
+                                    <span th:text="${jobItem.workPlace}">경기도</span> | <span
+                                        th:text="${jobItem.workType}">경력 3년</span>
+                                </div>
+                                <div class="skill-tags" th:if="${not #lists.isEmpty(jobItem.skills)}">
+                                    <span th:each="skill : ${jobItem.skills}" class="skill-tag"
+                                          th:text="${skill}"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pagination-wrapper">
+                    <nav class="pagination-nav">
+                        <ul class="pagination">
+                            <!-- 처음 버튼 -->
+                            <li th:classappend="${paging.firstPageBtn ? '' : 'disabled'}">
+                                <a class="page-link" th:href="@{|/?page=1|}" aria-label="처음">&laquo;</a>
+                            </li>
+
+                            <!-- 이전 버튼 -->
+                            <li th:classappend="${paging.prevBtn ? '' : 'disabled'}">
+                                <a class="page-link" th:href="@{|/?page=${paging.startPage - 1}|}"
+                                   aria-label="이전">&lt;</a>
+                            </li>
+
+                            <!-- 페이지 번호 -->
+                            <li th:each="i : ${#numbers.sequence(paging.startPage, paging.endPage)}"
+                                th:classappend="${paging.currentPage == i ? 'active' : ''}">
+                                <a class="page-link" th:href="@{|/?page=${i}|}" th:text="${i}"></a>
+                            </li>
+
+                            <!-- 다음 버튼 -->
+                            <li th:classappend="${paging.nextBtn ? '' : 'disabled'}">
+                                <a class="page-link" th:href="@{|/?page=${paging.endPage + 1}|}"
+                                   aria-label="다음">&gt;</a>
+                            </li>
+
+                            <!-- 마지막 버튼 -->
+                            <li th:classappend="${paging.lastPageBtn ? '' : 'disabled'}">
+                                <a class="page-link" th:href="@{|/?page=${paging.totalPage}|}"
+                                   aria-label="마지막">&raquo;</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
             </div>
-        </div>
 
-        <!-- 페이징 -->
-        <div class="pagination-wrapper">
-            <nav class="pagination-nav">
-                <ul class="pagination">
-                    <li th:classappend="${paging.firstPageBtn ? '' : 'disabled'}">
-                        <a class="page-link" th:href="@{/?page=1}" aria-label="처음">&laquo;</a>
-                    </li>
-                    <li th:classappend="${paging.prevBtn ? '' : 'disabled'}">
-                        <a class="page-link" th:href="@{/?page=${paging.startPage - 1}}" aria-label="이전">&lt;</a>
-                    </li>
-                    <li th:each="i : ${#numbers.sequence(paging.startPage, paging.endPage)}"
-                        th:classappend="${paging.currentPage == i ? 'active' : ''}">
-                        <a class="page-link" th:href="@{/?page=${i}}" th:text="${i}"></a>
-                    </li>
-                    <li th:classappend="${paging.nextBtn ? '' : 'disabled'}">
-                        <a class="page-link" th:href="@{/?page=${paging.endPage + 1}}" aria-label="다음">&gt;</a>
-                    </li>
-                    <li th:classappend="${paging.lastPageBtn ? '' : 'disabled'}">
-                        <a class="page-link" th:href="@{/?page=${paging.totalPage}}" aria-label="마지막">&raquo;</a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </div>
-
-    <footer th:insert="~{layout/footer}"></footer>
-</div>
-
-<script src="/static/js/main/user_main.js"></script>
-
-</body>
+            <script src="/static/js/main/user_main.js"></script>
+            <!--    <button onclick="alert_modal.on('알림', '홈페이지에 오신 것을 환영합니다.')">모달 열기</button>-->
+        </main>
+    </body>
 </html>
-
-
-

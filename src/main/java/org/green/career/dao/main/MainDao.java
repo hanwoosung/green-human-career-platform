@@ -4,7 +4,7 @@ package org.green.career.dao.main;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.green.career.dto.common.CodeInfoDto;
-import org.green.career.dto.jobopen.*;
+import org.green.career.dto.jobopen.requset.JobOpeningResponseDto;
 
 import java.util.List;
 
@@ -16,15 +16,17 @@ import java.util.List;
 @Mapper
 public interface MainDao {
 
-      List<CodeInfoDto> findSkillList();
+    List<CodeInfoDto> findSkillList();
 
-      List<JobOpeningDto.JobOpeningResponseDto> findJobOpeningList(@Param("offset") int offset, @Param("limit") int limit);
+    List<JobOpeningResponseDto> findJobOpeningList(@Param("offset") int offset, @Param("limit") int limit, @Param("id") String id);
 
-      List<JobOpeningDto.JobOpeningResponseDto> searchJobOpenings(@Param("searchText") String searchText,
-                                                                  @Param("skills") List<String> skills,
-                                                                  @Param("offset") int offset,
-                                                                  @Param("limit") int limit);
-      int countJobOpenings();
+    List<JobOpeningResponseDto> searchJobOpenings(@Param("searchText") String searchText,
+                                                  @Param("skills") List<String> skills,
+                                                  @Param("offset") int offset,
+                                                  @Param("limit") int limit,
+                                                  @Param("id") String id);
 
-      int countSearchJobOpenings(@Param("searchText") String searchText, @Param("skills") List<String> skills);
-   }
+    int countJobOpenings();
+
+    int countSearchJobOpenings(@Param("searchText") String searchText, @Param("skills") List<String> skills);
+}

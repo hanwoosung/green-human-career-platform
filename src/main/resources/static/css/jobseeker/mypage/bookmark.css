@@ -1,0 +1,91 @@
+/**
+ * 작성자: 김상준
+ * 작성일: 2024-12-01
+ * 구직자 마이페이지 북마크 css
+ */
+
+.content-title{
+    width: 100%;
+}
+
+.content-title span{
+    font-size: 2rem;
+}
+
+.content-detail .list-wrap{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.content-detail .list-wrap .list{
+    border-radius: 20px;
+    border: 1px solid #aaadad;
+    box-shadow: 5px 5px 5px rgba(192, 192, 192, 0.7);
+    display: flex;
+    flex-direction: row;
+    width: 300px;
+    height: 125px;
+    margin-right: 20px;
+    margin-top: 20px;
+}
+.content-detail .list-wrap .list .list-img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+}
+
+.content-detail .list-wrap .list .list-img img{
+    border: 1px solid #aaadad;
+    border-radius: 100%;
+    width: 70%;
+    height: 70%;
+}
+
+.content-detail .list-wrap .list .list-content {
+    margin: 5%;
+    width: 55%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    flex-grow: 1;
+}
+
+.content-detail .list-wrap .list .list-content .list-item{
+    display: flex;
+    align-items: center;
+    border-radius: 20px;
+    height: 20%;
+    width: 100%;
+    background-color: #aaadad;
+}
+
+.content-detail .list-wrap .list .list-content .list-item span{
+    margin: 10px;
+}
+
+.heart-icon {
+    font-size: 16px;
+    color: red;
+    cursor: pointer;
+    margin-left: 5px;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.heart-icon.active {
+    color: #e63946;
+}
+
+
+
+
+
+
+
+
+
+
+
