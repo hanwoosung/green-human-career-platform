@@ -57,6 +57,8 @@ public class JobOpenController extends AbstractController {
 
         log.info("데이터: {}", formData);
 
+        String id = sessionUserInfo("userId");
+
         if (formData.getSkillList() != null) {
             log.info("Skill List: {}", formData.getSkillList());
         }
@@ -69,8 +71,7 @@ public class JobOpenController extends AbstractController {
             log.warn("파일 없음");
         }
 
-
-        return ResponseDto.ok(jobOpeningService.insertJobOpening(formData));
+        return ResponseDto.ok(jobOpeningService.insertJobOpening(formData,id));
     }
 
     @GetMapping("/{jNo}")

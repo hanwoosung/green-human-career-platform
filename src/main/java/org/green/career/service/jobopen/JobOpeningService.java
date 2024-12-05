@@ -22,7 +22,7 @@ public interface JobOpeningService {
     /**
      * 채용 공고 등록
      */
-    int insertJobOpening(JobOpeningRequestDto jobOpeningRequestDto);
+    int insertJobOpening(JobOpeningRequestDto jobOpeningRequestDto, String id);
 
     /**
      * 최대 채용 공고 번호 조회
