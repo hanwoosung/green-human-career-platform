@@ -13,6 +13,7 @@ import org.green.career.dto.company.NormalCompanyDto;
 import org.green.career.dto.company.response.*;
 import org.green.career.service.AbstractService;
 import org.green.career.utils.CommonUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

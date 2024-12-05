@@ -93,4 +93,30 @@
         ;
     </select>
 
+    <!-- 기업 채용 공고 리스트 조회 -->
+    <select id="companyJobOpeningList" resultType="org.green.career.dto.jobopen.requset.JobOpeningResponseDto">
+        SELECT a.*,
+               COALESCE(GROUP_CONCAT(DISTINCT b.stack_cd ORDER BY b.stack_cd SEPARATOR ','), '') AS skills,
+               COALESCE(f.file_url, '') AS fileUrl,
+               c.name
+        FROM tbl_job_open a
+                 LEFT JOIN tbl_job_open_stack b ON a.j_no = b.j_no
+                 LEFT JOIN tbl_file f ON a.id = f.file_ref_id AND f.file_gbn_cd = 100
+                 LEFT JOIN tbl_user c ON a.id = c.id
+        WHERE a.id = #{id}
+        GROUP BY a.j_no, a.id, c.id
+            LIMIT #{offset}, #{limit};
+    </select>
+
+    <!-- 전체 기업 공고 개수 조회 -->
+    <select id="countCompanyJobOpenings" resultType="int">
+
+        SELECT COUNT(*)
+        FROM tbl_job_open
+        WHERE id = #{id}
+        AND del_yn = 'N'
+        AND (e_dt &lt;= CURDATE())
+
+    </select>
+
 </mapper>

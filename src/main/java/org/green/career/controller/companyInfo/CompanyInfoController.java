@@ -6,8 +6,7 @@ import org.green.career.controller.AbstractController;
 import org.green.career.dto.common.file.request.FileDto;
 import org.green.career.dto.company.CompanyRegistDto;
 import org.green.career.dto.company.response.*;
-import org.green.career.service.companyInfo.CompanyInfoRServiceImpl;
-import org.green.career.service.main.MainService;
+import org.green.career.service.companyInfo.CompanyInfoRService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,13 +14,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/company")
+//@RequestMapping("/company")
 @RequiredArgsConstructor
 @Slf4j
 public class CompanyInfoController extends AbstractController {
 
-    private final CompanyInfoRServiceImpl companyInfoRservice;
-    private final MainService mainService;
+    private final CompanyInfoRService companyInfoRservice;
 
     @GetMapping("/companyRegist/{user_id}")
     public String companyIR(@PathVariable("user_id") String user_id, Model model) {
@@ -47,6 +45,7 @@ public class CompanyInfoController extends AbstractController {
         List<CompanySalesResponseDto> slist = companyInfoRservice.getCompanySales(user_id);
         List<CompanyHistoryResponseDto> hlist = companyInfoRservice.getCompanyHistory(user_id);
         FileDto fdto = companyInfoRservice.getCompanyFileP(user_id);
+
         List<FileDto> flist = companyInfoRservice.getCompanyFileS(user_id);
         FileDto pdto = companyInfoRservice.getCompanyFilePr(user_id);
         CompanyUserResponseDto udto = companyInfoRservice.getCompanyUser(user_id);

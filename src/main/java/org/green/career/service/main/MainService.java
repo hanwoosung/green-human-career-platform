@@ -25,5 +25,9 @@ public interface MainService {
 
     int countSearchJobOpenings(String searchText, List<String> skills);
 
+    List<JobOpeningResponseDto> companyJobOpeningList(int offset, int limit,String id);
 
+    JobSearchResult getCompanyOpeningsWithPaging(int page, String userId);
+
+    int countCompanyJobOpenings(String userId);
 }
