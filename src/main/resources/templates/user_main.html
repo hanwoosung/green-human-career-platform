@@ -75,9 +75,11 @@
                                     <i th:class="'bi ' + ${jobItem.scrapCnt == 0 ? 'bi-bookmark ' : 'bi-bookmark-fill '} + 'scrap-icon '"
                                        id="bookmark-icon"></i>
                                 </div>
+                                <a th:href="@{/job-open/detail/{jNo}(jNo=${jobItem?.JNo})}">
+
                                 <img th:src="@{${jobItem.fileUrl != null and !jobItem.fileUrl.isEmpty() ? jobItem.fileUrl : '/static/images/empty_company.png'}}"
                                      alt="회사 이미지">
-
+                                </a>
                             </div>
                             <div class="card-header">
                                 <div class="card-header-box">

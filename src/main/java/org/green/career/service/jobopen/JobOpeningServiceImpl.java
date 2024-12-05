@@ -37,9 +37,9 @@ public class JobOpeningServiceImpl extends AbstractService implements JobOpening
     private final CommonUtils commonUtils;
 
     @Override
-    public int insertJobOpening(JobOpeningRequestDto jobOpeningRequestDto) {
+    public int insertJobOpening(JobOpeningRequestDto jobOpeningRequestDto, String id) {
         return returnData(() -> {
-            JobOpeningRequestDto jobRequestDto = buildJobOpeningRequestDto(jobOpeningRequestDto);
+            JobOpeningRequestDto jobRequestDto = buildJobOpeningRequestDto(jobOpeningRequestDto, id);
             int result;
 
             try {
@@ -82,9 +82,9 @@ public class JobOpeningServiceImpl extends AbstractService implements JobOpening
         });
     }
 
-    private JobOpeningRequestDto buildJobOpeningRequestDto(JobOpeningRequestDto requestDto) {
+    private JobOpeningRequestDto buildJobOpeningRequestDto(JobOpeningRequestDto requestDto, String id) {
         return JobOpeningRequestDto.builder()
-                .id("company2") //TODO: 추후 세션 아이디로
+                .id(id)
                 .jTitle(requestDto.getJTitle())
                 .jStitle(requestDto.getJStitle())
                 .jContent(requestDto.getJContent())
@@ -221,7 +221,7 @@ public class JobOpeningServiceImpl extends AbstractService implements JobOpening
 
     @Override
     public int delete(int jNo) {
-        return  returnData(() -> jobOpeningDao.delete(jNo));
+        return returnData(() -> jobOpeningDao.delete(jNo));
     }
 
     @Override

@@ -173,11 +173,14 @@
                         </div>
                         <div class="company-info-content">
                             <div class="company-info-left">
-                                <!--
-                                                            <img src="/static/images/default_profile.png" alt="Company Logo" class="company-logo">
-                                -->
+<!--
+                             <img src="/static/images/default_profile.png" alt="Company Logo" class="company-logo">
+-->
+<!--
                                 <img class="company-logo" th:src="${companyItem.fileUrl}" />
-
+-->
+                                <img class="company-logo" th:src="@{${companyItem.fileUrl != null and !companyItem.fileUrl.isEmpty() ? companyItem.fileUrl : '/static/images/default_profile.png'}}"
+                                     alt="회사 이미지">
                             </div>
                             <div class="company-info-right">
                                 <h4 class="company-name">동서석유화학(주)</h4>
