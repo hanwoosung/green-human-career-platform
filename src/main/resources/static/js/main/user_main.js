@@ -1,17 +1,6 @@
 $(document).ready(function () {
 
 
-    const userId = sessionStorage.getItem('userId');
-    if (userId) {
-        const eventSource = new EventSource(`/sse/${userId}`);
-        eventSource.onmessage = function (event) {
-            console.log('SSE 메시지:', event.data);
-        };
-        eventSource.onerror = function (error) {
-            console.error('SSE 오류:', error);
-        };
-    }
-
     const urlParams = new URLSearchParams(window.location.search);
     const selectedSkills = urlParams.get('skills') ? urlParams.get('skills').split(",") : [];
 
