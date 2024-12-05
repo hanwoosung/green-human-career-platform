@@ -46,8 +46,8 @@ public class StackServiceImpl extends AbstractService implements StackService {
                     .distinct()
                     .collect(Collectors.toList());
 
-
             List<CategoryDto> categoryList = codeInfoList.stream()
+                    .filter(code -> !code.getUpCd().equals("stack_cd"))
                     .map(CodeInfoDto::getUpCd)
                     .distinct()
                     .map(upCd -> new CategoryDto(upCd, CodeMapper.getDescription("upCd", upCd)))
@@ -69,7 +69,7 @@ public class StackServiceImpl extends AbstractService implements StackService {
     public List<JobOpeningResponseDto> findJobOpeningList(int offset, int limit) {
         String id = null;
         if (session.getAttribute("userId") != null) {
-             id = session.getAttribute("userId").toString();
+            id = session.getAttribute("userId").toString();
         }
         List<JobOpeningResponseDto> jobList = stackDao.findJobOpeningList(offset, limit, id);
         if (jobList.isEmpty()) {
@@ -148,7 +148,7 @@ public class StackServiceImpl extends AbstractService implements StackService {
      * 공고 단일 데이터 가공
      */
     private void processJob(JobOpeningResponseDto job) {
-        job.setLeftDate(JobOpeningResponseDto.calculateLeftDate(job.getEDt()));
+        job.setLeftDate(JobOpeningResponseDto.calculateLeftDate(job.getSDt(), job.getEDt()));
         job.setJGbnCd(CodeMapper.getDescription("jobStatus", job.getJGbnCd()));
         job.setWorkType(CodeMapper.getDescription("workType", job.getWorkType()));
         job.setSkills(String.valueOf(job.getSkills()));

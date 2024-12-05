@@ -191,9 +191,9 @@
 
     <select id="mySkill">
         SELECT *
-        FROM tbl_codeinfo
-        WHERE cd IN (SELECT DISTINCT stack_cd FROM tbl_job_open_stack WHERE j_no = #{jNo});
-
+        FROM tbl_codeinfo c
+        WHERE c.cd IN (SELECT DISTINCT stack_cd FROM tbl_job_open_stack WHERE j_no = #{jNo})
+          AND (c.up_cd = 'stack_cd' OR c.up_cd IN (SELECT cd FROM tbl_codeinfo WHERE up_cd = 'stack_cd'));
     </select>
 
 </mapper>
