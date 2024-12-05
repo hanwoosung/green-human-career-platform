@@ -8,15 +8,15 @@
     Content 영역은 각 페이지에서 layout:fragment="content"를 통해 작성
 
     1. Sidebar:
-       - 사용자 유형에 따라 동적 사이드바를 로드.
-       - 비회원인 경우 기본 사이드바 표시.
+      - 사용자 유형에 따라 동적 사이드바를 로드.
+      - 비회원인 경우 기본 사이드바 표시.
     2. Header:
-       - 마이페이지 전용 헤더를 동적으로 로드.
-       - 사용자 유형에 따라 헤더 내용 변경.
+      - 마이페이지 전용 헤더를 동적으로 로드.
+      - 사용자 유형에 따라 헤더 내용 변경.
     3. Content:
-       - 개별 페이지에서 layout:fragment="content"로 대체.
+      - 개별 페이지에서 layout:fragment="content"로 대체.
     4. Footer:
-       - 공통 푸터를 로드.
+      - 공통 푸터를 로드.
     공통 스타일은 common.css와 theme.css를 통해 관리
 -->
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
@@ -43,6 +43,7 @@
     </div>
     <!-- Content 영역 -->
     <div class="mypage-content" layout:fragment="content">
+
     </div>
   </div>
 </div>
