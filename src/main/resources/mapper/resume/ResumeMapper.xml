@@ -88,6 +88,18 @@
     </select>
 
 
+    <!-- 우대사항 코드 목록 조회 -->
+    <select id="getAllTreatCodes" resultType="org.green.career.dto.resume.TreatDto">
+        SELECT
+        cd AS preferenceCode,
+        cd_nm AS preferenceName
+        FROM
+        tbl_codeinfo
+        WHERE
+        up_cd = 'prf_cd'
+    </select>
+
+
 
     <!-- 기술 스택 저장 -->
     <insert id="saveTechnicalStack">

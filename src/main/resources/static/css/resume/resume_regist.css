@@ -8,9 +8,13 @@ body {
 }
 
 .title-input input{
+    text-align: center;
+    font-size: 1rem;
+    padding: 5px;
     border: none;
-    border-bottom: 3px solid var(--primary-color2);
-    font-size: 20px;
+    /*border-radius: 20px;*/
+    border-bottom: 2px solid var(--primary-color2);
+    margin-bottom: 20px;
     height: 50px;
     width: 90%;
 }
@@ -19,7 +23,7 @@ body {
     width: 1200px;
     min-height: 1000px;
     display: grid;
-    grid-template-columns: 1fr 250px;
+    grid-template-columns: 1fr 300px;
 }
 .resume-right-side {
     background-color: var(--border-color2);
@@ -43,12 +47,11 @@ body {
     width: 130px;
     object-fit: cover;
     height: 160px;
-    border-radius: 20px;
-    border: 1px solid var(--border-color);
+    border-radius: 10px;
 }
 .resume-view {
     display: grid;
-    grid-template-columns: 1fr 200px;
+    grid-template-columns: 1fr 300px;
     margin: 5px;
     height: fit-content;
     width: 100%;
@@ -92,12 +95,12 @@ body {
 }
 .user-educations-info, .user-careers-info, .user-technicalStacks-info, .user-portfolios-info,
 .user-introduces-info, .user-treats-info, .user-qualifications-info{
-    width: 850px;
+    width: 750px;
     padding: 10px;
     min-height: 200px;
 }
 .form-top{
-    border-bottom: 3px  solid #737481;
+    border-bottom: 1px  solid var(--text-a-color);
     padding: 5px;
     display: flex;
     justify-content: space-between;
@@ -112,60 +115,136 @@ body {
     font-size: 0.5rem;
     color: red;
 }
-
 .modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
+    display: none; /* 기본적으로 숨김 */
+    position: fixed; /* 화면 고정 */
+    z-index: 1022220; /* 모달 내용이 가장 위에 오도록 */
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    justify-content: center;
-    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명 검은 배경 */
+    justify-content: center; /* 중앙 정렬 */
+    align-items: center; /* 중앙 정렬 */
 }
-
+/* Modal content */
 .modal-content {
-    background: white;
+    margin: 5% auto;
+    background: #ffffff;
+    border-radius: 15px;
+    width: 500px;
+    max-width: 90%;
     padding: 20px;
-    border-radius: 10px;
-    width: 400px;
-    text-align: center;
-}
-
-.form-group {
-    margin-bottom: 15px;
     text-align: left;
+    position: relative;
 }
 
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
+/* Modal header */
+.modal-content h2 {
+    margin: 0 0 20px 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+    color: #333;
+}
+
+/* Close button */
+.modal-content .close-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #666;
+}
+
+.modal-content .close-button:hover {
+    color: #000;
+}
+
+
+
+/* Form fields */
+.form-group {
+    padding:20px;
+    margin-bottom: 20px;
 }
 
 .form-group input,
+.form-group textarea,
 .form-group select {
+    padding: 5px;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid var(--border-color);
     width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
+    box-sizing: border-box;
+}.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+     border: none;
+     outline: none;
+     border-bottom: 2px solid var(--primary-color3);
 }
 
+
+
+input[type="date"] {
+    font-family: 'Pretendard', sans-serif;
+    font-size: 16px;
+    color: #333;
+}
+
+
+
+
+
+/* File upload button */
+.file-upload {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.file-upload label {
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.file-upload input[type="file"] {
+    display: none; /* Hide the actual file input */
+}
+
+/* Modal buttons */
 .modal-buttons {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
+    gap: 10px;
 }
 
 .modal-buttons button {
     padding: 10px 20px;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
 }
 
-.open-button {
-    margin: 10px;
-    padding: 10px 20px;
-    cursor: pointer;
+.modal-buttons button#modal-submit {
+    background-color: #092850;
+    color: white;
 }
+
+.modal-buttons button#modal-cancel {
+    background-color: #ddd;
+    color: #333;
+}
+
 
 .form-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
 
@@ -174,20 +253,176 @@ body {
 .form-title .important-value-text { font-size: 12px; color: #d9534f; margin-left: 5px; }
 
 .open-button {
+    font-weight: bold;
     padding: 8px 12px;
-    color: #1b1b1b; border: none;
-    border-radius: 4px; font-size: 14px;
+    color: #1b1b1b;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: white;
     cursor: pointer;
 }
 
-.form-content-list { margin-top: 10px; background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #eee; }
+.form-content-list {
 
-.content-item { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+}
 
-.content-item p { font-size: 14px; color: #555; margin: 5px 0; }
+/* 렌더링된 데이터 카드 스타일 */
+/* 데이터 항목을 수평 정렬하고, 주요 정보와 부속 정보를 구분하여 스타일링 */
+.data-item {
+    display: flex;
+    flex-direction: column;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border: 1px solid #d1d5db; /* 연한 회색 테두리 */
+    background-color: #f9fafc; /* 밝은 배경 */
+    color: #374151; /* 어두운 회색 텍스트 */
+}
 
-.edit-button, .delete-button { padding: 6px 10px; font-size: 12px; border: none; border-radius: 4px; cursor: pointer; }
+.data-item .main-info {
+    font-size: 1.1em; /* 주요 정보는 더 크게 */
+    font-weight: bold;
+    color: #1f2937; /* 더 어두운 색상으로 강조 */
+}
 
-.edit-button { background: #ffc107; color: #fff; }
+.data-item .sub-info {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+    color: #6b7280; /* 부속 정보는 중간 회색 */
+    font-size: 0.9em; /* 부속 정보는 작게 */
+}
 
-.delete-button { background: #dc3545; color: #fff; }
+.data-item .sub-info span {
+    margin-right: 10px; /* 각 필드 간 간격 */
+}
+
+.data-item .sub-info span:after {
+    content: "|";
+    margin-left: 10px;
+    color: #9ca3af; /* 구분 기호 색상 */
+}
+
+.data-item .sub-info span:last-child:after {
+    content: ""; /* 마지막 요소 뒤에는 구분 기호를 없앰 */
+}
+
+.edit-button, .delete-button {
+    align-self: flex-end; /* 수정 버튼은 오른쪽 상단 */
+    background: none;
+    border: none;
+    color: #6b7280; /* 중간 회색 */
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.edit-button:hover {
+    color: #374151; /* 호버 시 어두운 색상 */
+}
+/* 파일명을 동그란 배경에 표시 */
+.file-item {
+    font-size: 0.5rem;
+    display: inline-block;
+    background-color: #001335; /* 밝은 파란색 배경 */
+    color: #ffffff; /* 어두운 파란색 텍스트 */
+    padding: 5px;
+    margin: 5px;
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.file-item:hover {
+    background-color: #bae6fd; /* 호버 시 더 밝은 배경 */
+}
+
+.file-container {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.submit-resume{
+    width: 100%;
+    margin: 0 auto;
+    background-color: #06284e; /* 기본 배경색 */
+    color: white; /* 텍스트 색상 */
+    font-size: 1rem; /* 폰트 크기 */
+    padding: 12px 24px; /* 여백 */
+    border: none; /* 테두리 제거 */
+    border-radius: 8px; /* 모서리를 둥글게 */
+    cursor: pointer; /* 마우스 포인터 변경 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+    transition: all 0.3s ease; /* 부드러운 전환 효과 */
+    margin-top: 20px; /* 위쪽 여백 추가 */
+}
+
+
+
+
+
+
+
+
+
+
+
+.resume-right-side {
+    top: 100px;
+    right: 20px;
+    height: fit-content;
+    width: 300px;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    z-index: 1000;
+}
+
+.progress-title {
+    font-weight: 500;
+    font-size: 0.96rem;
+    margin-bottom: 20px;
+}
+
+.progress-bar {
+    background-color: #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 20px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.progress-bar-inner {
+    background-color: #06284e;
+    height: 100%;
+    color: white;
+    text-align: center;
+    line-height: 20px;
+    width: 0%;
+    transition: width 0.3s ease-in-out;
+}
+
+.user-info {
+    margin-bottom: 20px;
+    color: #666;
+}
+
+.resume-section-list {
+    margin-bottom: 20px;
+}
+
+.section-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+}
+
+.section-item .required-tag {
+    color: #ff6347;
+    font-size: 0.8rem;
+}

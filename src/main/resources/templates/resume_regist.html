@@ -58,8 +58,8 @@
                 <!-- 학력 정보 -->
                 <div class="user-educations-info">
                     <div class="form-top">
-                        <div class="form-title">학력<span class="important-value-text">필수</span></div>
-                        <button class="open-button" data-form-type="educations">추가</button>
+                        <div class="form-title">학력</div>
+                        <button class="open-button" data-form-type="educations">+</button>
                     </div>
                     <div class="form-content-list">
                         <div th:each="educations, iterStat : ${userInfo.educations}">
@@ -70,8 +70,8 @@
                 <!-- 경력 정보 -->
                 <div class="user-careers-info">
                     <div class="form-top">
-                        <div class="form-title">경력<span class="important-value-text">필수</span></div>
-                        <button class="open-button" data-form-type="careers">추가</button>
+                        <div class="form-title">경력</div>
+                        <button class="open-button" data-form-type="careers">+</button>
                     </div>
                     <div class="form-content-list" >
                         <div th:each="educations, iterStat : ${userInfo.careers}">
@@ -81,6 +81,7 @@
                     <style>
                         /* 카테고리 버튼 스타일 */
                         .category-button {
+                            font-size: 0.7rem;
                             margin: 5px;
                             padding: 10px;
                             border: none;
@@ -90,7 +91,7 @@
                         }
 
                         .category-button.active {
-                            background-color: #007bff;
+                            background-color: #06284e;
                             color: white;
                         }
 
@@ -102,17 +103,18 @@
                         }
 
                         .category-content {
+                            padding: 20px;
                             display: flex;
                             flex-wrap: wrap;
                             gap: 10px;
                         }
 
                         label {
+                            color: var(--border-color2);
+
                             margin: 5px;
                             padding: 10px;
-                            border: 1px solid #ccc;
-                            border-radius: 5px;
-                            background-color: #f9f9f9;
+
                             cursor: pointer;
                             display: inline-flex;
                             align-items: center;
@@ -124,7 +126,7 @@
                     <!-- 기술 스택 섹션 -->
                 <div class="user-technicalStacks-info">
                         <div class="form-top">
-                            <div class="form-title">기술 스택<span class="important-value-text">필수</span></div>
+                            <div class="form-title">기술 스택</div>
                         </div>
                         <div class="technical-stack-buttons">
                             <button type="button" class="category-button" data-category="back_cd">백엔드</button>
@@ -135,7 +137,6 @@
 
                         <div class="technical-stack-selection">
                             <div class="category-content" id="category-back_cd" style="display: none;">
-                                <h4>백엔드 기술 스택</h4>
                                 <div th:each="technicalStack : ${technicalStacks['back_cd']}">
                                     <label th:for="${technicalStack.stackCode}">
                                         <input type="checkbox" th:id="${technicalStack.stackCode}" th:name="technicalStacks"
@@ -146,7 +147,6 @@
                             </div>
 
                             <div class="category-content" id="category-front_cd" style="display: none;">
-                                <h4>프론트엔드 기술 스택</h4>
                                 <div th:each="technicalStack : ${technicalStacks['front_cd']}">
                                     <label th:for="${technicalStack.stackCode}">
                                         <input type="checkbox" th:id="${technicalStack.stackCode}" th:name="technicalStacks"
@@ -157,7 +157,6 @@
                             </div>
 
                             <div class="category-content" id="category-design_cd" style="display: none;">
-                                <h4>디자인 기술 스택</h4>
                                 <div th:each="technicalStack : ${technicalStacks['design_cd']}">
                                     <label th:for="${technicalStack.stackCode}">
                                         <input type="checkbox" th:id="${technicalStack.stackCode}" th:name="technicalStacks"
@@ -168,7 +167,6 @@
                             </div>
 
                             <div class="category-content" id="category-mobile_cd" style="display: none;">
-                                <h4>모바일 기술 스택</h4>
                                 <div th:each="technicalStack : ${technicalStacks['mobile_cd']}">
                                     <label th:for="${technicalStack.stackCode}">
                                         <input type="checkbox" th:id="${technicalStack.stackCode}" th:name="technicalStacks"
@@ -182,8 +180,8 @@
                 <!-- 포트폴리오 -->
                 <div class="user-portfolios-info">
                     <div class="form-top">
-                        <div class="form-title">포트폴리오<span class="important-value-text">필수</span></div>
-                        <button class="open-button" data-form-type="portfolios">추가</button>
+                        <div class="form-title">포트폴리오</div>
+                        <button class="open-button" data-form-type="portfolios">+</button>
                     </div>
                     <div class="form-content-list" >
 
@@ -192,8 +190,8 @@
                 <!-- 자기소개서 -->
                 <div class="user-introduces-info">
                     <div class="form-top">
-                        <div class="form-title">자기소개서<span class="important-value-text">필수</span></div>
-                        <button class="open-button" data-form-type="introduces">추가</button>
+                        <div class="form-title">자기소개서</div>
+                        <button class="open-button" data-form-type="introduces">+</button>
                     </div>
                     <div class="form-content-list">
 
@@ -203,8 +201,8 @@
                 <!-- 자격증 -->
                 <div class="user-qualifications-info">
                     <div class="form-top">
-                        <div class="form-title">자격증<span class="important-value-text">필수</span></div>
-                        <button class="open-button" data-form-type= "qualifications">추가</button>
+                        <div class="form-title">자격증</div>
+                        <button class="open-button" data-form-type= "qualifications">+</button>
                     </div>
                     <div class="form-content-list" >
 
@@ -213,21 +211,75 @@
                 <!-- 우대사항 -->
                 <div class="user-treats-info">
                     <div class="form-top">
-                        <div class="form-title">우대사항<span class="important-value-text">필수</span></div>
-                        <button class="open-button"  data-form-type = "treats">추가</button>
+                        <div class="form-title">우대사항</div>
+                        <button class="open-button"  data-form-type = "treats">+</button>
                     </div>
                     <div class="form-content-list" >
-
+                        <div class="form-content-list" style="display: none">
+                            <div class="treat-options" >
+                                <select id="treatOptionsSelect">
+                                    <div th:each="treatCodes : ${treatCodes}">
+                                        <option th:value="${treatCodes.preferenceCode}" th:text="${treatCodes.preferenceName}"></option>
+                                    </div>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
 
 
-                <button class="submit-resume" type="submit">이력서 제출</button>
+
 <!--            추후 구현-->
-<!--            <div class="resume-right-side"></div>-->
         </div>
     </form>
+
+
+
+    <!-- 오른쪽 이력서 작성 가이드 섹션 -->
+    <div class="resume-right-side">
+        <div class="resume-progress-container">
+            <div class="progress-title">이력서 완성도</div>
+            <div class="progress-bar">
+                <div id="progress-bar-inner" class="progress-bar-inner" style="width: 0%;">0%</div>
+            </div>
+            <div class="user-info">
+                <span id="user-name" th:text="${userInfo.name}"></span>님의 이력서가 진행 중입니다!
+            </div>
+            <div class="resume-section-list">
+                <div class="section-item required" data-form-type="educations">
+                    학력
+                    <button class="open-button small-plus-button" data-form-type="educations"><i class="fas fa-plus"></i></button>
+                </div>
+                <div class="section-item" data-form-type="careers">
+                    경력
+                    <button class="open-button small-plus-button" data-form-type="careers"><i class="fas fa-plus"></i></button>
+                </div>
+                <div class="section-item" data-form-type="portfolios">
+                    포트폴리오 및 기타 문서
+                    <button class="open-button small-plus-button" data-form-type="portfolios"><i class="fas fa-plus"></i></button>
+                </div>
+                <div class="section-item" data-form-type="qualifications">
+                    자격증
+                    <button class="open-button small-plus-button" data-form-type="qualifications"><i class="fas fa-plus"></i></button>
+                </div>
+                <div class="section-item" data-form-type="introduces">
+                    자기소개서
+                    <button class="open-button small-plus-button" data-form-type="introduces"><i class="fas fa-plus"></i></button>
+                </div>
+                <div class="section-item" data-form-type="treats">
+                    취업우대사항
+                    <button class="open-button small-plus-button" data-form-type="treats"><i class="fas fa-plus"></i></button>
+                </div>
+            </div>
+            <button class="submit-resume" type="submit">이력서 제출</button>
+        </div>
+    </div>
+
+
+
+
+
 
     <!-- 모달 -->
     <div id="modal" class="modal">

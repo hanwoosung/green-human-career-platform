@@ -24,13 +24,15 @@ public class ResumeServiceImpl extends AbstractService implements ResumeService 
 
     private final ResumeDao resumeDao;
 
-    @Override
+
     public ResumeDto getUserInfo(String id) {
         // AbstractService의 returnData 사용
         return returnData(() -> resumeDao.getUserInfo(id));
     }
-
-    @Override
+    public List<ResumeDto> getAllResumes() {
+        // AbstractService의 returnData 사용
+        return returnData(() -> resumeDao.getAllResumes());
+    }
     public Map<String, List<TechnicalStackDto>> getAllTechnicalStacks() {
         // 카테고리별로 기술 스택을 맵 형태로 반환
         Map<String, List<TechnicalStackDto>> stacksByCategory = new HashMap<>();
@@ -39,6 +41,13 @@ public class ResumeServiceImpl extends AbstractService implements ResumeService 
         stacksByCategory.put("mobile_cd", resumeDao.getTechnicalStacksByCategory("mobile_cd"));
         stacksByCategory.put("front_cd", resumeDao.getTechnicalStacksByCategory("front_cd"));
         return stacksByCategory;
+    }
+    public List<TreatDto> getAllTreatCodes() {
+        return returnData(() -> resumeDao.getAllTreatCodes());
+    }
+    public void deleteResume(String resumeId) {
+        // AbstractService의 executeSafely 사용
+        executeSafely(() -> resumeDao.deleteResume(resumeId), "이력서 삭제 실패");
     }
 
     @Transactional
@@ -110,19 +119,9 @@ public class ResumeServiceImpl extends AbstractService implements ResumeService 
         }
     }   // 특정 코드 카테고리에 해당하는 코드 가져오기
 
-    public List<TechnicalStackDto> getTechnicalStacksByCategory(String categoryCode) {
-        return resumeDao.getTechnicalStacksByCategory(categoryCode);
-    }
-    public List<ResumeDto> getAllResumes() {
-        // AbstractService의 returnData 사용
-        return returnData(() -> resumeDao.getAllResumes());
-    }
-
-    public void deleteResume(String resumeId) {
-        // AbstractService의 executeSafely 사용
-        executeSafely(() -> resumeDao.deleteResume(resumeId), "이력서 삭제 실패");
-    }
-
+    /*
+    * 파일 관련
+    * */
     public ResumeFileDto saveProfilePicture(MultipartFile profilePicture, String userId, Long generatedResumeId) throws IOException {
         String filePath = saveFile(profilePicture, userId, "profile");
         System.out.println(filePath);
@@ -140,17 +139,13 @@ public class ResumeServiceImpl extends AbstractService implements ResumeService 
 
         return resumeFileDto;
     }
-
-    // 파일 확장자 추출
     private String getFileExtension(String fileName) {
         return fileName.substring(fileName.lastIndexOf('.') + 1);
     }
-
     public String saveFile(MultipartFile file, String userId, String directory) throws IOException {
         // 사용자별 경로를 추가
         return saveFileInternal(file, userId, directory);
     }
-
     private String saveFileInternal(MultipartFile file, String userId, String directory) throws IOException {
         // 사용자 ID 기반 디렉토리 경로 구성
         String baseDirectory = "src/main/resources/static/uploads/user/";
@@ -178,7 +173,6 @@ public class ResumeServiceImpl extends AbstractService implements ResumeService 
         // 저장된 파일 경로 반환
         return filePath.toString();
     }
-
     public void savePortfolioFiles(String userId, List<MultipartFile> portfolioFiles, Long generatedResumeId) throws IOException {
         List<PortfolioDto> portfolios = new ArrayList<>();
 
@@ -202,7 +196,6 @@ public class ResumeServiceImpl extends AbstractService implements ResumeService 
             portfolios.add(portfolioDto);
         }
     }
-
     public void saveIntroduceMeFiles(String userId, List<MultipartFile> introduceMeFiles, Long generatedResumeId) throws IOException {
         List<IntroduceMeDto> introduces = new ArrayList<>();
 
@@ -230,14 +223,9 @@ public class ResumeServiceImpl extends AbstractService implements ResumeService 
         }
     }
 
-    public void deleteFile(String filePath) throws IOException {
-        Path path = Paths.get(filePath);
-        if (Files.exists(path)) {
-            Files.delete(path);
-        }
-    }
-
-    // AbstractService를 활용한 안전 실행 메서드
+    /*
+    * 오류확인
+    * */
     private void executeSafely(Runnable action, String errorMessage) {
         try {
             action.run();

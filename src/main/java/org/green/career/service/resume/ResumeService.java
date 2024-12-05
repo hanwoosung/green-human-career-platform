@@ -3,6 +3,7 @@ package org.green.career.service.resume;
 import org.green.career.dto.resume.ResumeFileDto;
 import org.green.career.dto.resume.ResumeDto;
 import org.green.career.dto.resume.TechnicalStackDto;
+import org.green.career.dto.resume.TreatDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -10,16 +11,14 @@ import java.util.List;
 import java.util.Map;
 
 public interface ResumeService {
-
     ResumeDto getUserInfo(String id);
+
+    List<TreatDto> getAllTreatCodes();
 
     List<ResumeDto> getAllResumes();
 
     // 카테고리별로 기술 스택을 반환하는 메서드
     Map<String, List<TechnicalStackDto>> getAllTechnicalStacks();
-
-    // 특정 카테고리의 기술 스택을 반환하는 메서드
-    List<TechnicalStackDto> getTechnicalStacksByCategory(String categoryCode);
 
     void deleteResume(String resumeId);
 
@@ -33,5 +32,4 @@ public interface ResumeService {
 
     void saveIntroduceMeFiles(String userId, List<MultipartFile> introduceMeFiles, Long generatedResumeId) throws IOException;
 
-    void deleteFile(String filePath) throws IOException;
 }

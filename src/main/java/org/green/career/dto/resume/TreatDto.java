@@ -16,4 +16,7 @@ public class TreatDto {
 
     @JsonProperty("rpr_content")
     private String details;
+
+    @JsonProperty("preference_name")
+    private String preferenceName;  // 코드명을 저장하는 필드
 }

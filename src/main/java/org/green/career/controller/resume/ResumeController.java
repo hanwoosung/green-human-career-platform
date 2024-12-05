@@ -10,6 +10,7 @@ import org.green.career.dto.common.ResponseDto;
 import org.green.career.dto.resume.ResumeFileDto;
 import org.green.career.dto.resume.ResumeDto;
 import org.green.career.dto.resume.TechnicalStackDto;
+import org.green.career.dto.resume.TreatDto;
 import org.green.career.service.resume.ResumeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,6 +44,9 @@ public class ResumeController extends AbstractController {
             // 기술 스택 목록을 카테고리별로 가져오기
             Map<String, List<TechnicalStackDto>> technicalStacks = resumeService.getAllTechnicalStacks();
             model.addAttribute("technicalStacks", technicalStacks);
+            // 우대사항 코드 목록 가져오기
+            List<TreatDto> treatCodes = resumeService.getAllTreatCodes();
+            model.addAttribute("treatCodes", treatCodes);
 
             return "resume_regist";
         }

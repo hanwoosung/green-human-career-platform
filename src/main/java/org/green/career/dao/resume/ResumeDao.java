@@ -6,7 +6,7 @@ import org.green.career.dto.common.CodeInfoDto;
 import org.green.career.dto.resume.*;
 
 import java.util.List;
- 
+
 /**
  * 작성자: 구경림
  * 작성일: 2024-12-04
@@ -14,6 +14,9 @@ import java.util.List;
  */
 @Mapper
 public interface ResumeDao {
+
+    List<TreatDto> getAllTreatCodes();
+
     void saveResume(ResumeDto resumeDto);
 
     void saveEducation(EducationDto educationDto);
