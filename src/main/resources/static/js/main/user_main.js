@@ -60,16 +60,19 @@ $(document).ready(function () {
         updateSelectAllCheckbox();
     });
 
+    // 체크박스 상태 변경 시 선택된 스킬 목록 업데이트
     function updateSelectedSkill() {
         const selectedSkills = $("input[name='skills']:checked").map(function () {
-            return this.value;
+            return {
+                cd: this.value, // cd 값
+                upNm: $(this).siblings("span").text()
+            };
         }).get();
 
-        // 선택된 스킬을 표시
         $(".selected-skills").empty();
         selectedSkills.forEach(function (skill) {
             $(".selected-skills").append(
-                `<div class="selected-skill">${skill}<span class="close">&times;</span></div>`
+                `<div class="selected-skill">${skill.upNm}<span class="close">&times;</span></div>`
             );
         });
 
@@ -126,18 +129,6 @@ $(document).ready(function () {
     });
 
 
-    // 즐겨찾기 아이콘
-    $(".scrap-icon").click(function () {
-        $(this).toggleClass("bi-bookmark");
-        $(this).toggleClass("bi-bookmark-fill");
-    });
-
-    // 하트 아이콘
-    $(".heart-icon").click(function () {
-        $(this).toggleClass("bi-heart");
-        $(this).toggleClass("bi-heart-fill");
-    });
-
     // 검색 버튼
     $("#search-btn").click(function () {
         const searchText = $("#search").val();
@@ -146,5 +137,65 @@ $(document).ready(function () {
         }).get();
 
         window.location.href = "/?search=" + encodeURIComponent(searchText) + "&skills=" + encodeURIComponent(selectedSkills.join(","));
+    });
+    // 스크랩 아이콘
+    $(".scrap-icon").click(function () {
+
+        let param = {
+            cjNo: this.closest(".job-card").dataset.jno,
+            flag: this.classList.contains("bi-bookmark"),
+            lgbnCd: "S"
+        }
+
+        console.log(param);
+
+        axios.post("/likes", param, {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        }).then((res) => {
+            console.log(res);
+            if (res.data.result.code == 200) {
+                $(this).toggleClass("bi-bookmark");
+                $(this).toggleClass("bi-bookmark-fill");
+            } else if (res.data.result.code == 455) {
+                alert_modal.on("로그인", "로그인후 진행해주세요");
+            }
+        }).catch((error) => {
+            alert("스크랩 실패했습니다.");
+            console.log(error)
+        });
+
+
+    });
+
+    // 하트 아이콘
+    $(".heart-icon").click(function () {
+
+        let param = {
+            cjNo: this.closest(".job-card").dataset.id,
+            flag: this.classList.contains("bi-heart"),
+            lgbnCd: "B"
+        }
+
+        console.log(param);
+
+        axios.post("/likes", param, {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        }).then((res) => {
+            console.log(res);
+            if (res.data.result.code == 200) {
+                $(this).toggleClass("bi-heart");
+                $(this).toggleClass("bi-heart-fill");
+                window.location.reload();
+            } else if (res.data.result.code == 455) {
+                alert_modal.on("로그인", "로그인후 진행해주세요");
+            }
+        }).catch((error) => {
+            alert("북마크 실패했습니다.");
+            console.log(error)
+        });
     });
 });

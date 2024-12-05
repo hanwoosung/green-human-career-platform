@@ -18,12 +18,13 @@ public interface MainDao {
 
     List<CodeInfoDto> findSkillList();
 
-    List<JobOpeningResponseDto> findJobOpeningList(@Param("offset") int offset, @Param("limit") int limit);
+    List<JobOpeningResponseDto> findJobOpeningList(@Param("offset") int offset, @Param("limit") int limit, @Param("id") String id);
 
     List<JobOpeningResponseDto> searchJobOpenings(@Param("searchText") String searchText,
                                                   @Param("skills") List<String> skills,
                                                   @Param("offset") int offset,
-                                                  @Param("limit") int limit);
+                                                  @Param("limit") int limit,
+                                                  @Param("id") String id);
 
     int countJobOpenings();
 

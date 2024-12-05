@@ -39,9 +39,9 @@ public class MainServiceImpl extends AbstractService implements MainService {
             List<CodeInfoDto> codeInfoList = mainDao.findSkillList();
 
             List<CodeInfoDto> distinctSkills = codeInfoList.stream()
+                    .filter(code -> !code.getUpCd().equals("stack_cd"))
                     .distinct()
                     .collect(Collectors.toList());
-
 
             List<CategoryDto> categoryList = codeInfoList.stream()
                     .map(CodeInfoDto::getUpCd)
@@ -61,8 +61,8 @@ public class MainServiceImpl extends AbstractService implements MainService {
      * 채용 공고 리스트 조회
      */
     @Override
-    public List<JobOpeningResponseDto> findJobOpeningList(int offset, int limit) {
-        List<JobOpeningResponseDto> jobList = mainDao.findJobOpeningList(offset, limit);
+    public List<JobOpeningResponseDto> findJobOpeningList(int offset, int limit, String id) {
+        List<JobOpeningResponseDto> jobList = mainDao.findJobOpeningList(offset, limit, id);
         if (jobList.isEmpty()) {
             log.info("조회된 채용 공고 없음.");
             return Collections.emptyList();
@@ -75,9 +75,9 @@ public class MainServiceImpl extends AbstractService implements MainService {
      * 검색 조건에 따른 채용 공고 조회
      */
     @Override
-    public List<JobOpeningResponseDto> searchJobOpenings(String searchText, List<String> skills, int offset, int limit) {
+    public List<JobOpeningResponseDto> searchJobOpenings(String searchText, List<String> skills, int offset, int limit, String id) {
         try {
-            List<JobOpeningResponseDto> jobList = mainDao.searchJobOpenings(searchText, skills, offset, limit);
+            List<JobOpeningResponseDto> jobList = mainDao.searchJobOpenings(searchText, skills, offset, limit, id);
 
             if (jobList == null || jobList.isEmpty()) {
                 log.info("검색 조건에 맞는 채용 공고 없음.");
@@ -97,8 +97,8 @@ public class MainServiceImpl extends AbstractService implements MainService {
      * 페이징 정보와 함께 채용 공고 조회
      */
     @Override
-    public JobSearchResult getJobOpeningsWithPaging(String searchText, List<String> skills, int page) {
-        int pageSize = 16;
+    public JobSearchResult getJobOpeningsWithPaging(String searchText, List<String> skills, int page, String id) {
+        int pageSize = 15;
         int offset = (page - 1) * pageSize;
 
         List<JobOpeningResponseDto> jobList;
@@ -107,10 +107,10 @@ public class MainServiceImpl extends AbstractService implements MainService {
         boolean isSearch = (searchText != null && !searchText.isEmpty()) || (skills != null && !skills.isEmpty());
 
         if (isSearch) {
-            jobList = searchJobOpenings(searchText, skills, offset, pageSize);
+            jobList = searchJobOpenings(searchText, skills, offset, pageSize, id);
             totalCount = countSearchJobOpenings(searchText, skills);
         } else {
-            jobList = findJobOpeningList(offset, pageSize);
+            jobList = findJobOpeningList(offset, pageSize, id);
             totalCount = countJobOpenings();
         }
 
@@ -136,7 +136,7 @@ public class MainServiceImpl extends AbstractService implements MainService {
      * 공고 단일 데이터 가공
      */
     private void processJob(JobOpeningResponseDto job) {
-        job.setLeftDate(JobOpeningResponseDto.calculateLeftDate(job.getEDt()));
+        job.setLeftDate(JobOpeningResponseDto.calculateLeftDate(job.getSDt(), job.getEDt()));
         job.setJGbnCd(CodeMapper.getDescription("jobStatus", job.getJGbnCd()));
         job.setWorkType(CodeMapper.getDescription("workType", job.getWorkType()));
         job.setSkills(String.valueOf(job.getSkills()));
