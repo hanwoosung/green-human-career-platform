@@ -8,6 +8,7 @@ import org.green.career.service.main.MainService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -50,5 +51,22 @@ public class MainController extends AbstractController {
         model.addAttribute("skills", skills);
 
         return "user_main";
+    }
+
+    @GetMapping("/company/1")
+    public String companyMain(@RequestParam(value = "page", defaultValue = "1") int page, Model model) throws Exception {
+//        sessionGoLogin();
+//        String id = sessionUserInfo("userId");
+//        String id = sessionUserInfo("userType");
+        log.info("userMian" + page);
+
+//        JobSearchResult result = mainService.getCompanyOpeningsWithPaging(page, sessionUserInfo("id"));
+        JobSearchResult result = mainService.getCompanyOpeningsWithPaging(page, "user2");
+        log.info("main" + result);
+
+        model.addAttribute("jobList", result.getJobList());
+        model.addAttribute("paging", result.getPaging());
+
+        return "company_main";
     }
 }

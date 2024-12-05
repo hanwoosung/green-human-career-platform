@@ -56,7 +56,6 @@ public class MainServiceImpl extends AbstractService implements MainService {
         });
     }
 
-
     /**
      * 채용 공고 리스트 조회
      */
@@ -163,4 +162,45 @@ public class MainServiceImpl extends AbstractService implements MainService {
     public int countSearchJobOpenings(String searchText, List<String> skills) {
         return mainDao.countSearchJobOpenings(searchText, skills);
     }
+
+    @Override
+    public List<JobOpeningResponseDto> companyJobOpeningList(int offset, int limit, String id) {
+        List<JobOpeningResponseDto> jobList = mainDao.companyJobOpeningList(offset, limit, id);
+        if (jobList.isEmpty()) {
+            log.info("조회된 채용 공고 없음.");
+            return Collections.emptyList();
+        }
+        processJobList(jobList);
+        return jobList;
+    }
+
+    /**
+     * 기업 채용 건수 조회
+     */
+    @Override
+    public int countCompanyJobOpenings(String id) {
+        return mainDao.countCompanyJobOpenings(id);
+    }
+
+    /**
+     * 기업 채용 공고 조회
+     */
+    @Override
+    public JobSearchResult getCompanyOpeningsWithPaging(int page, String userId) {
+        int pageSize = 15;
+        int offset = (page - 1) * pageSize;
+
+        List<JobOpeningResponseDto> jobList;
+        int totalCount;
+        jobList = companyJobOpeningList(offset, pageSize, userId);
+        totalCount = countCompanyJobOpenings(userId);
+
+        PagingBtn paging = totalCount > 0
+                ? new PagingBtn(totalCount, page, pageSize, 10)
+                : new PagingBtn(0, 1, pageSize, 10);
+
+        return new JobSearchResult(jobList, paging);
+    }
+
+
 }
