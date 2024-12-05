@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/common/common.css">
+    <link rel="stylesheet" href="/css/main/index.css">
+    <style>
+    </style>
+</head>
+<body>
+
+<div class="flex-row">
+    <div class="w300" th:insert="~{layout/user_side}"></div>
+    <div class="flex-column flex1">
+        <div th:insert="~{layout/header_no_logo}"></div>
+        <div class="content">
+            <form th:action="@{/mypage/myInfo/{user_id}(user_id='qwer1')}" method="post">
+                <p>
+                    <input type="hidden" name="id" value="qwer1">
+                    <input type="text" name="pw">
+                </p>
+                <p>
+                    <input type="submit" value="확인">
+                </p>
+            </form>
+        </div>
+    </div>
+</div>
+<footer th:insert="~{layout/footer}"></footer>
+</body>
+</html>
