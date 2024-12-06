@@ -23,11 +23,23 @@ public class SseController {
 
     @GetMapping("/sse/{userId}")
     public SseEmitter subscribe(@PathVariable("userId") String userId) {
-        SseEmitter emitter = new SseEmitter();
+        SseEmitter emitter = new SseEmitter(0L);
         userEmitters.put(userId, emitter);
 
-        emitter.onCompletion(() -> userEmitters.remove(userId));
-        emitter.onTimeout(() -> userEmitters.remove(userId));
+        emitter.onCompletion(() -> {
+            log.info("SSE 연결 완료: {}", userId);
+            userEmitters.remove(userId);
+        });
+
+        emitter.onTimeout(() -> {
+            log.warn("SSE 연결 타임아웃: {}", userId);
+            userEmitters.remove(userId);
+        });
+
+        emitter.onError(e -> {
+            log.error("SSE 연결 오류: {}", userId);
+            userEmitters.remove(userId);
+        });
 
         return emitter;
     }

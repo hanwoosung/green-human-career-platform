@@ -57,7 +57,17 @@
     border-top: 1px solid #ddd;
 }
 
-.modal-alert-btn button {
+.modal-alert-btn2 {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 15px 20px;
+    background-color: #f4f4f4;
+    border-top: 1px solid #ddd;
+}
+
+
+.modal-alert-btn button, .modal-alert-btn2 button {
     width: 120px;
     height: 40px;
     border-radius: 5px;
@@ -70,7 +80,7 @@
     transition: background-color 0.3s;
 }
 
-.modal-alert-btn button:hover {
+.modal-alert-btn button:hover, .modal-alert-btn2 button:hover {
     background-color: #0053a4;
 }
 
