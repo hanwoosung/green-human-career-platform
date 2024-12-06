@@ -136,7 +136,11 @@ public class CompanyInfoRServiceImpl extends AbstractService implements CompanyI
     public FileDto getCompanyFileP(String id) {
 
         FileDto file = companyDetailDao.getCompanyFileP(id);
-        
+        if(file == null){
+            file = new FileDto();
+            file.setFileName("empty_company.png");
+            file.setFileUrl("/images/empty_company.png");
+        }
         return file;
     }
 
@@ -145,7 +149,10 @@ public class CompanyInfoRServiceImpl extends AbstractService implements CompanyI
     public List<FileDto> getCompanyFileS(String id) {
 
         List<FileDto> flist = companyDetailDao.getCompanyFileS(id);
-
+        if(flist == null){
+            flist = new ArrayList<>();
+            flist.set(0, new FileDto("empty_company.png", "/images/empty_company.png"));
+        }
         return flist;
     }
 
@@ -154,6 +161,11 @@ public class CompanyInfoRServiceImpl extends AbstractService implements CompanyI
     public FileDto getCompanyFilePr(String id) {
 
         FileDto file = companyDetailDao.getCompanyFilePr(id);
+        if(file == null){
+            file = new FileDto();
+            file.setFileName("logo_company.png");
+            file.setFileUrl("/images/logo_company.png");
+        }
 
         return file;
     }
@@ -165,6 +177,44 @@ public class CompanyInfoRServiceImpl extends AbstractService implements CompanyI
         CompanyUserResponseDto rdto = companyDetailDao.getCompanyUser(id);
 
         return rdto;
+    }
+
+    @Override
+    public int checkCompanyInfo(CompanyRegistDto company, int size) throws Exception {
+
+        if(company.getFileUrl() == null){
+            insertCompanyFile(company);
+        }
+
+        if(company.getFileUrls().size() < size && company.getSImage() != null){
+            insertCompanyFile(company);
+        }
+
+        insertCompanyHistory(company);
+
+        insertCompanySales(company);
+
+        insertCompanyInfo(company);
+
+        return 0;
+    }
+
+    // 기업 매출 조회
+    @Override
+    public List<CompanySalesResponseDto> getSales(String id) {
+
+        List<CompanySalesResponseDto> slist = companyDetailDao.getSales(id);
+
+        return slist;
+    }
+
+    // 기업 연혁 조회
+    @Override
+    public List<CompanyHistoryResponseDto> getHistory(String id) {
+
+        List<CompanyHistoryResponseDto> hlist = companyDetailDao.getHistory(id);
+
+        return hlist;
     }
 
 }

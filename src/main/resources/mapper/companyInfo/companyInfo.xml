@@ -8,7 +8,7 @@
 -->
 <mapper namespace="org.green.career.dao.company.CompanyDetailDao">
     <select id="getCompanyInfo" resultType="org.green.career.dto.company.response.CompanyInfoResponseDto">
-        SELECT c.id AS id, c.homepage AS homepage,
+        SELECT c.id AS id, c.homepage AS homepage, c.c_no AS cNo, c.c_gbn_cd AS cGbnCd,
             c.c_detail AS cDetail, c.c_cnt AS cCnt, c.c_business AS cBusiness,
             cd.cd_nm AS gbn
         FROM tbl_company c
@@ -18,10 +18,23 @@
     <select id="getCompanySales" resultType="org.green.career.dto.company.response.CompanySalesResponseDto">
         SELECT DATE_FORMAT(c_sale_dt, '%Y') AS cSaleDt, c_pay AS cPay
             FROM tbl_company_sales
-        WHERE id = #{id};
+        WHERE id = #{id}
+        ORDER BY c_sale_dt DESC;
     </select>
     <select id="getCompanyHistory" resultType="org.green.career.dto.company.response.CompanyHistoryResponseDto">
         SELECT DATE_FORMAT(c_history, '%Y-%m') AS cHistory, c_content AS cContent
+        FROM tbl_company_history
+        WHERE id = #{id}
+        ORDER BY c_history DESC;
+    </select>
+    <select id="getSales" resultType="org.green.career.dto.company.response.CompanySalesResponseDto">
+        SELECT c_sale_dt AS cSaleDt, c_pay AS cPay
+        FROM tbl_company_sales
+        WHERE id = #{id}
+        ORDER BY c_sale_dt DESC;
+    </select>
+    <select id="getHistory" resultType="org.green.career.dto.company.response.CompanyHistoryResponseDto">
+        SELECT c_history AS cHistory, c_content AS cContent
         FROM tbl_company_history
         WHERE id = #{id}
         ORDER BY c_history DESC;

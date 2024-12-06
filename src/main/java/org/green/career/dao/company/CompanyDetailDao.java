@@ -20,4 +20,7 @@ public interface CompanyDetailDao {
     FileDto getCompanyFilePr(String id);
     CompanyUserResponseDto getCompanyUser(String id);
 
+    List<CompanySalesResponseDto> getSales(String id);
+    List<CompanyHistoryResponseDto> getHistory(String id);
+
 }
