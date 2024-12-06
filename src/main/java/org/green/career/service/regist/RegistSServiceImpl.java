@@ -27,8 +27,8 @@ public class RegistSServiceImpl implements RegistSService {
 
         String encodedPassword = passwordEncoder.encode(registSDto.getPw());
         registSDto.setPw(encodedPassword);
+       registSDao.insertSeeker(registSDto);
 
-        registSDao.insertSeeker(registSDto);
         log.info("회원가입 성공: {}", registSDto.getId());
     }
     @Override

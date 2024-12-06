@@ -208,7 +208,6 @@
                     <div class="card-image">
                       <div class="card-overlay">
                         <span class="days-left" th:text="${jobItem.leftDate}">D-11</span>
-                        <i class="bi bi-bookmark scrap-icon" id="bookmark-icon"></i>
                       </div>
                       <img th:src="@{${jobItem.fileUrl != null and !jobItem.fileUrl.isEmpty() ? jobItem.fileUrl : '/static/images/empty_company.png'}}"
                            alt="회사 이미지">

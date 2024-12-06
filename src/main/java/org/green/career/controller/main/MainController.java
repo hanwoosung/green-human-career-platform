@@ -58,9 +58,10 @@ public class MainController extends AbstractController {
         String id = sessionUserInfo("userId");
         String type = sessionUserInfo("userType");
         log.info("userMian" + page);
-
+        System.out.println("userId" + id);
+        System.out.println("usert" + type);
 //        JobSearchResult result = mainService.getCompanyOpeningsWithPaging(page, sessionUserInfo("id"));
-        JobSearchResult result = mainService.getCompanyOpeningsWithPaging(page, "id");
+        JobSearchResult result = mainService.getCompanyOpeningsWithPaging(page, id);
         log.info("main" + result);
 
         model.addAttribute("jobList", result.getJobList());
