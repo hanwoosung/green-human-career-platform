@@ -108,6 +108,21 @@ export let common = {
 
     },
 
+    chk: {
+
+        empty: (data) => {
+            //빈값이면 false 반환
+            let result = true;
+
+            if (data == null || data == undefined || data == ""){
+                result = false;
+            }
+
+            return result;
+        }
+
+    }
+
 
 
 
