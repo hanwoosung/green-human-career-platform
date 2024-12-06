@@ -1,28 +1,23 @@
 package org.green.career.dto.login;
 
-import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * 작성자: 구경림
- * 작성일: 2024-12-01
- * UserLogin Dto
- */
+import java.time.LocalDate;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserLoginDto {
-    @NotEmpty(message = "아이디는 필수 입력 항목입니다.")
+public class CompanyDto {
+
     private String id;
-    @NotEmpty(message = "비밀번호는 필수 입력 항목입니다.")
     private String pw;
     private String name;
     private String email;
-    private String userGbnCd;
+    private String user_gbn_cd = "C";
     private String birth;
     private String phone;
     private String addr;
