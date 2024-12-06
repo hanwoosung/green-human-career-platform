@@ -89,5 +89,5 @@ public interface JobOpeningService {
     int delete(int jNo);
 
     List<CodeInfoDto> mySkill(int jNo);
-
+    int viewCountUp(int jNo);
 }

@@ -9,11 +9,9 @@ import org.green.career.dto.jobopen.JobOpeningDetailDto;
 import org.green.career.dto.jobopen.requset.JobOpeningRequestDto;
 import org.green.career.dto.jobopen.response.ResponseMyResume;
 import org.green.career.dto.likes.response.ResponseLikesDto;
-import org.green.career.exception.BaseException;
 import org.green.career.service.jobopen.JobOpeningService;
 import org.green.career.service.likes.LikesService;
 import org.green.career.service.main.MainService;
-import org.green.career.type.ResultType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -71,7 +69,7 @@ public class JobOpenController extends AbstractController {
             log.warn("파일 없음");
         }
 
-        return ResponseDto.ok(jobOpeningService.insertJobOpening(formData,id));
+        return ResponseDto.ok(jobOpeningService.insertJobOpening(formData, id));
     }
 
     @GetMapping("/{jNo}")
@@ -125,7 +123,9 @@ public class JobOpenController extends AbstractController {
 
     @GetMapping("/detail/{jNo}")
     public String getJobOpeningDetail(@PathVariable("jNo") int jNo, Model model) throws Exception {
+        jobOpeningService.viewCountUp(jNo);
         JobOpeningDetailDto jobOpening = jobOpeningService.getJobOpening(jNo);
+        log.info(jobOpening.toString());
 
         ifGoReferer(jobOpening.getDelYn().equals("Y"));
         model.addAttribute("likes", isSessionCheck() == null ? new ResponseLikesDto(0, 0) : likesService.getLikes(jNo, jobOpening.getId()));

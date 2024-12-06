@@ -18,10 +18,73 @@
         <link rel="stylesheet" href="/static/css/common/skillBox.css">
         <link rel="stylesheet" href="/static/css/common/paging.css">
 
+        <style>
+            .promo-banner {
+                width: 100%;
+                height: 250px;
+                background-color: #f0f0f0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                overflow: hidden;
+                margin-bottom: 80px;
+                position: relative;
+            }
+
+            /* Adjust swiper styles if needed */
+            .swiper-container {
+                width: 100%;
+                height: 100%;
+            }
+
+            .swiper-slide img {
+                width: 100%;
+                height: auto;
+            }
+
+            .swiper-button-next, .swiper-button-prev {
+                color: rgba(0, 0, 0, 0.7);
+                font-size: 30px;
+                padding: 10px;
+                border-radius: 50%;
+                transition: all 0.3s ease;
+            }
+
+            .swiper-button-next:hover, .swiper-button-prev:hover {
+            }
+        </style>
+
+        <link rel="stylesheet" href="https://unpkg.com/swiper@10/swiper-bundle.min.css"/>
+        <script src="https://unpkg.com/swiper@10/swiper-bundle.min.js"></script>
+
     </head>
     <body>
         <main layout:fragment="content">
             <div class="flex1 mt70 mar-center">
+
+
+
+
+                <div class="promo-banner">
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <img src="https://greenart.co.kr/upimage/mainBanner/20240903115448.jpg" alt="Job Promotion Banner 1" />
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="https://greenart.co.kr/upimage/mainBanner/20240903113925.jpg" alt="Job Promotion Banner 2" />
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="https://greenart.co.kr/upimage/mainBanner/20241122102205.jpg" alt="Job Promotion Banner 3" />
+                            </div>
+                        </div>
+
+                        <!-- Swiper Navigation Arrows -->
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div>
+                </div>
+
                 <div class="skill-container">
                     <!-- 왼쪽 패널 -->
                     <div class="left-panel" id="categoryPanel">
@@ -145,3 +208,16 @@
         </main>
     </body>
 </html>
+<script>
+    const swiper = new Swiper('.swiper-container', {
+        loop: true,
+        slidesPerView: 1,
+        spaceBetween: 0,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        speed: 1000,
+    });
+
+</script>
