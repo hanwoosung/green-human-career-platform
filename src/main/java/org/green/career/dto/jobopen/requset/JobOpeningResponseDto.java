@@ -46,6 +46,7 @@ public class JobOpeningResponseDto {
     private String workPlace;
     // 근무형태 (C: 계약직, F: 정규직, A: 계약/정규직)
     private String workType;
+    private int vCnt;
     //스킬
     private List<String> skills;
     // 파일 URL (예: 이미지 파일)
