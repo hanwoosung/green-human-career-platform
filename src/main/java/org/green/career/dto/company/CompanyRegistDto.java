@@ -31,7 +31,7 @@ public class CompanyRegistDto {
     // 기업 소개
     private String cDetail;
     // 기업 사원수
-    private int cCnt;
+    private String cCnt;
     // 기업 사업분야
     private String cBusiness;
 
@@ -39,6 +39,11 @@ public class CompanyRegistDto {
     private MultipartFile pImage;
     // 기업 이미지
     private List<MultipartFile> sImage;
+
+    private String fileName;
+    private String fileUrl;
+    private List<String> fileUrls;
+    private List<String> fileNames;
 
     // 기업 연혁 연/월
     private List<String> historyYear;

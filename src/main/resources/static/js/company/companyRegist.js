@@ -21,7 +21,7 @@ function addHistory() {
     let newGroup = document.createElement("div");
     newGroup.className = "dynamic-group";
     newGroup.innerHTML = `
-            <input type="text" placeholder="연-월" oninput="addDate(event)" class="firstInput">
+            <input type="text" placeholder="연-월" oninput="addDate(event)" class="firstInput historyY">
             <input type="hidden" name="historyYear">
             <input type="text" name="historyTxt" placeholder="연혁 내용" class="secondInput">
             <button type="button" onclick="removeHistory(this);"><span>삭제</span></button>
@@ -34,7 +34,7 @@ function addRevnue() {
     let newGroup = document.createElement("div");
     newGroup.className = "dynamic-group";
     newGroup.innerHTML = `
-            <input type="text" placeholder="연도" oninput="addSales(event)" class="firstInput">
+            <input type="text" placeholder="연도" oninput="addSales(event)" class="firstInput saleY">
             <input type="hidden" name="salesYear">
             <input type="text" name='salesTxt' placeholder="매출액" class="secondInput">
             <button type="button" onclick="removeSales(this);"><span>삭제</span></button>
@@ -50,7 +50,7 @@ function addImage() {
     let fileDiv = document.createElement("div");
     fileDiv.innerHTML = `
                 <div class="form-group">
-                    <input type="file" name="sImage" id="sImage" onchange="ImageInfo(event)" accept="image/*">
+                    <input type="file" name="sImage" class="sImage" onchange="ImageInfo(event)" accept="image/*">
                     <button type="button" onclick="removeImage(this);"><span>삭제</span></button>
                     <div class="previewContainer"></div>
                 </div>

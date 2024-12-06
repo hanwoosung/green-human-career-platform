@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 public class CompanyInfoResponseDto {
 
     private String id;
+    private String cno;
+    private String cGbnCd;
     private String homepage;
     private String cDetail;
     private String cCnt;

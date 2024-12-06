@@ -18,9 +18,15 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
             const responseMessage = document.getElementById('responseMessage');
             if (response.data.result.code === "200") {
                 console.log('로그인 성공:', response.data.result);
-                // window.location.href = '/test';
+                // window.location.href = '/';
                 sessionStorage.setItem('userId', id);
-                window.location.href = referer;
+                if(userType === "S") {
+                    window.location.href = referer;
+                }
+                if(userType === "C") {
+                    window.location.href = '/company';
+                }
+
             } else {
                 console.log('로그인 실패:', response.data.result);
                 responseMessage.textContent = response.data.result.message;
