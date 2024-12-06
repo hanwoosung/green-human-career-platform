@@ -64,36 +64,5 @@ public class LoginController extends AbstractController {
         return "redirect:/";
     }
 
-
-    @GetMapping("/signUp")
-    public String signUp(Model model) {
-        model.addAttribute("company", new UserLoginDto());
-        return "/login/registCompany";
-    }
-
-    @PostMapping("/registCompany")
-    public String registCompany(@ModelAttribute("company") UserLoginDto company) {
-        System.out.println("company : " + company);
-        registCompanyService.registCompany(company);
-        return "redirect:/";
-    }
-
-    @GetMapping("/checkId")
-    @ResponseBody
-    public Map<String, Object> checkId(@RequestParam("id") String id) {
-        int result = companyDao.checkId(id);
-        Map<String, Object> map = new HashMap<>();
-        System.out.println(result+" a1");
-        if(result == 0) {
-            map.put("code", "200");
-            map.put("message", "사용가능한 아이디 입니다.");
-            return map;
-        } else {
-            map.put("code", "400");
-            map.put("message", "중복된 아이디 입니다.");
-            return map;
-        }
-    }
-
 }
 

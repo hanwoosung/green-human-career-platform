@@ -1,32 +1,37 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<!--
+    작성자: 구경림
+    작성일: 2024.12.01
+    파일 설명:
+    메인 페이지 템플릿의 기본 구조로, 모든 페이지가 공통으로 사용하는 레이아웃을 정의하는 부분
+    이 템플릿을 기반으로 각 팀원은 필요한 내용을 추가하여 개별 페이지를 생성
+    이 템플릿은 Thymeleaf와 Layout Dialect를 사용하여 레이아웃을 적용하는 구조
+-->
+
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout-test/layout/main_layout}"
+>
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="/css/common/common.css">
-    <link rel="stylesheet" href="/css/main/index.css">
-    <style>
-    </style>
+    <!-- 페이지의 제목, 이 제목은 팀원들이 각자 수정하여 사용합니다. -->
+    <title>페이지제목</title>
 </head>
 <body>
-
-<div class="flex-row">
-    <div class="w300" th:insert="~{layout/user_side}"></div>
-    <div class="flex-column flex1">
-        <div th:insert="~{layout/header_no_logo}"></div>
-        <div class="content">
-            <form th:action="@{/mypage/myInfo/{user_id}(user_id='qwer1')}" method="post">
-                <p>
-                    <input type="hidden" name="id" th:value="${user_id}">
-                    <input type="text" name="pw">
-                </p>
-                <p>
-                    <input type="submit" value="확인">
-                </p>
-            </form>
-        </div>
-    </div>
-</div>
-<footer th:insert="~{layout/footer}"></footer>
+<main layout:fragment="content">
+    <!-- layout:fragment="content"는 main_layout에서 정의된 content 프래그먼트에 해당하는 부분으로
+         여기에 각 페이지 별로 다른 내용이 들어가게 됩니다.
+         팀원들은 이 부분을 각자의 페이지 내용에 맞게 수정하여 사용하면 될듯합니다. -->
+    <form th:action="@{/mypage/myInfo/{user_id}(user_id=${session.userId})}" method="post">
+        <p>
+            <input type="hidden" name="id" th:value="${session.userId}">
+            <input type="password" name="pw">
+        </p>
+        <p>
+            <input type="submit" value="확인">
+        </p>
+    </form>
+</main>
 </body>
 </html>

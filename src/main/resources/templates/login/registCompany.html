@@ -114,7 +114,7 @@
     <div th:insert="~{layout/header_user}"></div>
     <div>
         <h1>회원가입(기업)</h1>
-        <form th:action="@{/registCompany}" method="post" th:object="${company}" id="registrationForm">
+        <form th:action="@{/regist/company}" method="post" th:object="${company}" id="registrationForm">
             <p>아이디</p>
             <span>
                 <input type="text" th:field="*{id}" id="id"></input>
