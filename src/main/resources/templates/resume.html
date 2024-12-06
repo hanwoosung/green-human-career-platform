@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout-test/layout/mypage_layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>이력서 목록</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="/static/css/resume/resume_list.css" rel="stylesheet">
+    <style>
+        /* 전체 컨테이너 */
+        .resume-list-container {
+            width: 900px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* 각 이력서 항목 */
+        .resume-item {
+            padding: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* 이력서 제목 */
+        .resume-title {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--primary-color2);
+        }
+
+        .resume-title a {
+            text-decoration: none;
+            color: var(--primary-color2);
+        }
+
+        /* 사용자 정보 */
+        .resume-info {
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            font-size: 0.8rem;
+            color: #555;
+        }
+
+        /* 아이콘 스타일 */
+        .resume-item i {
+            color: var(--primary-color2);
+        }
+
+        /* 사진 */
+        .resume-photo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .resume-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* 경력 상태 */
+        .resume-career {
+            font-size: 14px;
+            font-weight: bold;
+            color: rgba(168, 112, 37, 0.35);
+        }
+
+        .add-resume-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #fff;
+            background-color: var(--primary-color2);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+    </style>
+</head>
+<body>
+<main layout:fragment="content">
+
+    <div class="resume-list-container">
+    <h4>MY 이력서 목록</h4>
+    <button class="add-resume-btn" onclick="location.href='/resume/regist'">이력서 등록하기</button>
+        <div th:each="resume : ${resumes}" class="resume-item">
+            <div class="resume-title">
+                <a th:href="@{'/resume/' + ${resume.resumeId}}">
+                    <span th:text="${resume.title}"></span>
+                </a>
+            </div>
+
+            <div class="resume-info">
+                <div class="">
+                <span th:text="${resume.careerCode == 'S' ? '신입' : (resume.careerCode == 'G' ? '경력' : '신입/경력')}"></span>
+                </div>
+                <div class="right-box">
+                    <span th:text="${resume.getCreatedDate()}"></span>
+                    <i class="fas fa-trash-alt" th:attr="onclick='deleteResume(' + ${resume.resumeId} + ')'" title="삭제"></i>
+                </div>
+            </div>
+
+        </div>
+    </div><script>
+    function deleteResume(resumeId) {
+        if (confirm('이 이력서를 정말로 삭제하시겠습니까?')) {
+            axios.delete(`/resume/${resumeId}`)
+                .then(response => {
+                    if (response.status === 200) {
+                        alert('이력서가 삭제되었습니다.');
+                        window.location.reload(); // 페이지 새로고침
+                    } else {
+                        alert('이력서 삭제에 실패했습니다.');
+                    }
+                })
+                .catch(error => {
+                    console.error('삭제 요청 중 오류가 발생했습니다:', error);
+                    alert('오류가 발생했습니다. 다시 시도해주세요.');
+                });
+        }
+    }
+</script>
+
+</main>
+</body>
+</html>
