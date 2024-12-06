@@ -32,7 +32,7 @@
                 </div>
                 <div class="list-wrap">
                     <th:block th:each="offer : ${list}">
-                        <div class="list" th:attr="data-id=${offer.cjNo}">
+                        <div class="list" th:attr="data-id=${offer.cjNo}, data-rno=${offer.rNo}">
                             <div class="list-img">
                                 <img th:src="${offer.fileUrl + '/' + offer.fileId + '.' + offer.fileExt}"
                                      onerror="this.src='/static/images/default_profile.png'">

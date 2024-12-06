@@ -23,7 +23,9 @@ public class BookmarkSeekerController extends AbstractController {
     @GetMapping
     public String jobOffer(Model model,
                            @RequestParam(value = "page", defaultValue = "1") int page,
-                           @RequestParam(value = "search", defaultValue = "") String search) {
+                           @RequestParam(value = "search", defaultValue = "") String search) throws Exception {
+
+        sessionGoLogin();
 
         String id = sessionUserInfo("userId");
 

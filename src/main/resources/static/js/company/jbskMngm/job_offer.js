@@ -9,4 +9,12 @@ $(function (){
     });
 
 
+    $(document).on("click", ".list", function (){
+
+        let rno = this.dataset.rno;
+
+        location.href = "/resume/" + rno;
+
+    })
+
 });

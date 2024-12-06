@@ -28,7 +28,9 @@ public class JobStackOfferController extends AbstractController {
     public String jobStackOffer(@RequestParam(value = "page", defaultValue = "1") int page,
                                 @RequestParam(value = "search", defaultValue = "") String search,
                                 @RequestParam(value = "stacks", required = false) List<String> stacks,
-                                Model model) {
+                                Model model) throws Exception {
+
+        sessionGoLogin();
 
         Map<String, Object> jobStackOfferList = jobStackOfferService.getJobStackOfferList(page, search, stacks);
 
