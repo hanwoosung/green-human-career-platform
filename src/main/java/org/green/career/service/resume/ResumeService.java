@@ -14,8 +14,6 @@ public interface ResumeService {
 
     ResumeDto getResumeById(Long id);
 
-
-
     /*
     * Get
     * */
@@ -43,4 +41,5 @@ public interface ResumeService {
 
     String saveFile(MultipartFile file, String userId, String directory) throws IOException;
 
+    void setRepresentativeResume(Long resumeId, String loginedUser);
 }

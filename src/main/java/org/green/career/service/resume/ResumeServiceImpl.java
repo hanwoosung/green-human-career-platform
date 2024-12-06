@@ -141,6 +141,14 @@ public class ResumeServiceImpl extends AbstractService implements ResumeService 
         resumeDto.setResumeId(1L);  // 예시로 수정된 이력서 ID를 반환
         return resumeDto;
     }
+    @Transactional
+    public void setRepresentativeResume(Long resumeId, String userId) {
+        // 기존의 모든 대표 이력서를 'N'으로 변경
+        resumeDao.updateAllResumesToNonRepresentative(userId);
+        // 특정 이력서를 대표 이력서로 설정
+        resumeDao.updateResumeToRepresentative(resumeId);
+    }
+
 
 
     /*

@@ -114,6 +114,7 @@ body {
     font-size: 0.5rem;
     color: red;
 }
+
 .modal {
     display: none; /* 기본적으로 숨김 */
     position: fixed; /* 화면 고정 */
@@ -126,6 +127,7 @@ body {
     justify-content: center; /* 중앙 정렬 */
     align-items: center; /* 중앙 정렬 */
 }
+
 /* Modal content */
 .modal-content {
     margin: 5% auto;
