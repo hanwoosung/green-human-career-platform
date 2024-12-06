@@ -54,7 +54,61 @@
                     <input type="hidden" id="userBirth" name="birth" th:field="${userInfo.birth}" />
                     <input type="hidden" id="userAddr" name="addr" th:field="${userInfo.addr}" />
                 </div>
+                <!-- 기술 정보 -->
+                <!-- 기술 스택 섹션 -->
+                <div class="user-technicalStacks-info">
+                    <div class="form-top">
+                        <div class="form-title">기술 스택</div>
+                    </div>
+                    <div class="technical-stack-buttons">
+                        <button type="button" class="category-button" data-category="back_cd">백엔드</button>
+                        <button type="button" class="category-button" data-category="front_cd">프론트엔드</button>
+                        <button type="button" class="category-button" data-category="design_cd">디자인</button>
+                        <button type="button" class="category-button" data-category="mobile_cd">모바일</button>
+                    </div>
 
+                    <div class="technical-stack-selection">
+                        <div class="category-content" id="category-back_cd" style="display: none;">
+                            <div th:each="technicalStack : ${technicalStacks['back_cd']}">
+                                <label th:for="${technicalStack.stackCode}">
+                                    <input type="checkbox" th:id="${technicalStack.stackCode}" th:name="technicalStacks"
+                                           th:value="${technicalStack.stackCode}" class="tech-stack-checkbox">
+                                    <span th:text="${technicalStack.stackName}"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="category-content" id="category-front_cd" style="display: none;">
+                            <div th:each="technicalStack : ${technicalStacks['front_cd']}">
+                                <label th:for="${technicalStack.stackCode}">
+                                    <input type="checkbox" th:id="${technicalStack.stackCode}" th:name="technicalStacks"
+                                           th:value="${technicalStack.stackCode}" class="tech-stack-checkbox">
+                                    <span th:text="${technicalStack.stackName}"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="category-content" id="category-design_cd" style="display: none;">
+                            <div th:each="technicalStack : ${technicalStacks['design_cd']}">
+                                <label th:for="${technicalStack.stackCode}">
+                                    <input type="checkbox" th:id="${technicalStack.stackCode}" th:name="technicalStacks"
+                                           th:value="${technicalStack.stackCode}" class="tech-stack-checkbox">
+                                    <span th:text="${technicalStack.stackName}"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="category-content" id="category-mobile_cd" style="display: none;">
+                            <div th:each="technicalStack : ${technicalStacks['mobile_cd']}">
+                                <label th:for="${technicalStack.stackCode}">
+                                    <input type="checkbox" th:id="${technicalStack.stackCode}" th:name="technicalStacks"
+                                           th:value="${technicalStack.stackCode}" class="tech-stack-checkbox">
+                                    <span th:text="${technicalStack.stackName}"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <!-- 학력 정보 -->
                 <div class="user-educations-info">
                     <div class="form-top">
@@ -122,61 +176,7 @@
 
                     </style>
                 </div>
-                    <!-- 기술 정보 -->
-                    <!-- 기술 스택 섹션 -->
-                <div class="user-technicalStacks-info">
-                        <div class="form-top">
-                            <div class="form-title">기술 스택</div>
-                        </div>
-                        <div class="technical-stack-buttons">
-                            <button type="button" class="category-button" data-category="back_cd">백엔드</button>
-                            <button type="button" class="category-button" data-category="front_cd">프론트엔드</button>
-                            <button type="button" class="category-button" data-category="design_cd">디자인</button>
-                            <button type="button" class="category-button" data-category="mobile_cd">모바일</button>
-                        </div>
 
-                        <div class="technical-stack-selection">
-                            <div class="category-content" id="category-back_cd" style="display: none;">
-                                <div th:each="technicalStack : ${technicalStacks['back_cd']}">
-                                    <label th:for="${technicalStack.stackCode}">
-                                        <input type="checkbox" th:id="${technicalStack.stackCode}" th:name="technicalStacks"
-                                               th:value="${technicalStack.stackCode}" class="tech-stack-checkbox">
-                                        <span th:text="${technicalStack.stackName}"></span>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="category-content" id="category-front_cd" style="display: none;">
-                                <div th:each="technicalStack : ${technicalStacks['front_cd']}">
-                                    <label th:for="${technicalStack.stackCode}">
-                                        <input type="checkbox" th:id="${technicalStack.stackCode}" th:name="technicalStacks"
-                                               th:value="${technicalStack.stackCode}" class="tech-stack-checkbox">
-                                        <span th:text="${technicalStack.stackName}"></span>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="category-content" id="category-design_cd" style="display: none;">
-                                <div th:each="technicalStack : ${technicalStacks['design_cd']}">
-                                    <label th:for="${technicalStack.stackCode}">
-                                        <input type="checkbox" th:id="${technicalStack.stackCode}" th:name="technicalStacks"
-                                               th:value="${technicalStack.stackCode}" class="tech-stack-checkbox">
-                                        <span th:text="${technicalStack.stackName}"></span>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="category-content" id="category-mobile_cd" style="display: none;">
-                                <div th:each="technicalStack : ${technicalStacks['mobile_cd']}">
-                                    <label th:for="${technicalStack.stackCode}">
-                                        <input type="checkbox" th:id="${technicalStack.stackCode}" th:name="technicalStacks"
-                                               th:value="${technicalStack.stackCode}" class="tech-stack-checkbox">
-                                        <span th:text="${technicalStack.stackName}"></span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 <!-- 포트폴리오 -->
                 <div class="user-portfolios-info">
                     <div class="form-top">

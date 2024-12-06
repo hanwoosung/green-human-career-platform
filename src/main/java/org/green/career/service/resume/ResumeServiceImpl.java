@@ -24,15 +24,14 @@ public class ResumeServiceImpl extends AbstractService implements ResumeService 
 
     private final ResumeDao resumeDao;
 
-
     public ResumeDto getUserInfo(String id) {
         // AbstractService의 returnData 사용
         return returnData(() -> resumeDao.getUserInfo(id));
     }
-    public List<ResumeDto> getAllResumes() {
-        // AbstractService의 returnData 사용
-        return returnData(() -> resumeDao.getAllResumes());
+    public List<ResumeDto> getAllResumes(String id) {
+        return returnData(() -> resumeDao.getResumesByUserId(id));
     }
+
     public Map<String, List<TechnicalStackDto>> getAllTechnicalStacks() {
         // 카테고리별로 기술 스택을 맵 형태로 반환
         Map<String, List<TechnicalStackDto>> stacksByCategory = new HashMap<>();
@@ -119,6 +118,31 @@ public class ResumeServiceImpl extends AbstractService implements ResumeService 
         }
     }   // 특정 코드 카테고리에 해당하는 코드 가져오기
 
+
+
+    public ResumeDto getResumeById(Long id) {
+        return resumeDao.getResumeById(id);
+    }
+
+
+    // 이력서 조회
+    public ResumeDto getResumeById(String id) {
+        // 데이터베이스에서 해당 id의 이력서를 조회하여 반환하는 로직
+        // 예시로 임시 객체 반환
+        ResumeDto resumeDto = new ResumeDto();
+
+        return resumeDto;
+    }
+
+    // 이력서 수정
+    public ResumeDto updateResume(String id, ResumeDto resumeDto) {
+        // 데이터베이스에서 id를 기준으로 해당 이력서를 수정하는 로직
+        // 수정된 이력서를 반환
+        resumeDto.setResumeId(1L);  // 예시로 수정된 이력서 ID를 반환
+        return resumeDto;
+    }
+
+
     /*
     * 파일 관련
     * */
@@ -139,6 +163,57 @@ public class ResumeServiceImpl extends AbstractService implements ResumeService 
 
         return resumeFileDto;
     }
+
+    public void savePortfolioFiles(String userId, List<MultipartFile> portfolioFiles, Long generatedResumeId) throws IOException {
+        List<PortfolioDto> portfolios = new ArrayList<>();
+
+        for (MultipartFile file : portfolioFiles) {
+            String portfolioFilePath = saveFile(file, userId, "portfolio");
+
+            ResumeFileDto resumeFileDto = new ResumeFileDto();
+            resumeFileDto.setFileGbnCd("40"); // 포트폴리오 코드
+            resumeFileDto.setFileRefId(generatedResumeId); // 이력서 ID를 참조 ID로 설정
+            resumeFileDto.setInstId(userId);
+            resumeFileDto.setFileExt(getFileExtension(file.getOriginalFilename()));
+            resumeFileDto.setFileName(file.getOriginalFilename());
+            resumeFileDto.setFileUrl(portfolioFilePath);
+
+            // 파일 정보를 DB에 저장
+            resumeDao.saveFile(resumeFileDto);
+
+            PortfolioDto portfolioDto = new PortfolioDto();
+            portfolioDto.setPortfolioUrl(portfolioFilePath);
+            portfolioDto.setDescription(file.getOriginalFilename());
+            portfolios.add(portfolioDto);
+        }
+    }
+    public void saveIntroduceMeFiles(String userId, List<MultipartFile> introduceMeFiles, Long generatedResumeId) throws IOException {
+        List<IntroduceMeDto> introduces = new ArrayList<>();
+
+        for (MultipartFile file : introduceMeFiles) {
+            // 사용자별 디렉토리와 자기소개서 저장 경로 설정
+            String introduceFilePath = saveFile(file, userId, "introduceMe");
+
+            // 파일 정보 생성 및 DB 저장
+            ResumeFileDto resumeFileDto = new ResumeFileDto();
+            resumeFileDto.setFileGbnCd("35"); // 자기소개서 파일 코드
+            resumeFileDto.setFileRefId(generatedResumeId); // 이력서 ID를 참조 ID로 설정
+            resumeFileDto.setInstId(userId);
+            resumeFileDto.setFileExt(getFileExtension(file.getOriginalFilename()));
+            resumeFileDto.setFileName(file.getOriginalFilename());
+            resumeFileDto.setFileUrl(introduceFilePath);
+
+            // 파일 정보를 DB에 저장
+            resumeDao.saveFile(resumeFileDto);
+
+            // 자기소개서 DTO 생성 및 데이터 설정
+            IntroduceMeDto introduceDto = new IntroduceMeDto();
+            introduceDto.setContent(introduceFilePath);
+            introduceDto.setTitle(file.getOriginalFilename());
+            introduces.add(introduceDto);
+        }
+    }
+
     private String getFileExtension(String fileName) {
         return fileName.substring(fileName.lastIndexOf('.') + 1);
     }
@@ -172,55 +247,6 @@ public class ResumeServiceImpl extends AbstractService implements ResumeService 
 
         // 저장된 파일 경로 반환
         return filePath.toString();
-    }
-    public void savePortfolioFiles(String userId, List<MultipartFile> portfolioFiles, Long generatedResumeId) throws IOException {
-        List<PortfolioDto> portfolios = new ArrayList<>();
-
-        for (MultipartFile file : portfolioFiles) {
-            String portfolioFilePath = saveFile(file, userId, "portfolio");
-
-            ResumeFileDto resumeFileDto = new ResumeFileDto();
-            resumeFileDto.setFileGbnCd("60"); // 포트폴리오 코드
-            resumeFileDto.setFileRefId(generatedResumeId); // 이력서 ID를 참조 ID로 설정
-            resumeFileDto.setInstId(userId);
-            resumeFileDto.setFileExt(getFileExtension(file.getOriginalFilename()));
-            resumeFileDto.setFileName(file.getOriginalFilename());
-            resumeFileDto.setFileUrl(portfolioFilePath);
-
-            // 파일 정보를 DB에 저장
-            resumeDao.saveFile(resumeFileDto);
-
-            PortfolioDto portfolioDto = new PortfolioDto();
-            portfolioDto.setPortfolioUrl(portfolioFilePath);
-            portfolioDto.setDescription(file.getOriginalFilename());
-            portfolios.add(portfolioDto);
-        }
-    }
-    public void saveIntroduceMeFiles(String userId, List<MultipartFile> introduceMeFiles, Long generatedResumeId) throws IOException {
-        List<IntroduceMeDto> introduces = new ArrayList<>();
-
-        for (MultipartFile file : introduceMeFiles) {
-            // 사용자별 디렉토리와 자기소개서 저장 경로 설정
-            String introduceFilePath = saveFile(file, userId, "introduceMe");
-
-            // 파일 정보 생성 및 DB 저장
-            ResumeFileDto resumeFileDto = new ResumeFileDto();
-            resumeFileDto.setFileGbnCd("70"); // 자기소개서 파일 코드
-            resumeFileDto.setFileRefId(generatedResumeId); // 이력서 ID를 참조 ID로 설정
-            resumeFileDto.setInstId(userId);
-            resumeFileDto.setFileExt(getFileExtension(file.getOriginalFilename()));
-            resumeFileDto.setFileName(file.getOriginalFilename());
-            resumeFileDto.setFileUrl(introduceFilePath);
-
-            // 파일 정보를 DB에 저장
-            resumeDao.saveFile(resumeFileDto);
-
-            // 자기소개서 DTO 생성 및 데이터 설정
-            IntroduceMeDto introduceDto = new IntroduceMeDto();
-            introduceDto.setContent(introduceFilePath);
-            introduceDto.setTitle(file.getOriginalFilename());
-            introduces.add(introduceDto);
-        }
     }
 
     /*

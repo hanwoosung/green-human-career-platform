@@ -611,6 +611,7 @@ $('.submit-resume').on('click', function (e) {
             console.log(cleanedData);
             alert('이력서가 저장되었습니다.');
             console.log('응답 데이터:', response.data);
+            window.location.href = '/resume';
         })
         .catch(function (error) {
             console.log(formData);

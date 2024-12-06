@@ -7,7 +7,7 @@ body {
     font-weight: 600;
 }
 
-.title-input input{
+.title-input input, .title-input div{
     text-align: center;
     font-size: 1rem;
     padding: 5px;
@@ -19,7 +19,6 @@ body {
     width: 90%;
 }
 .resume {
-    margin: 0 auto;
     width: 1200px;
     min-height: 1000px;
     display: grid;
@@ -139,93 +138,6 @@ body {
     position: relative;
 }
 
-/* Modal header */
-.modal-content h2 {
-    margin: 0 0 20px 0;
-    font-size: 1.5rem;
-    font-weight: 600;
-    text-align: center;
-    color: #333;
-}
-
-/* Close button */
-.modal-content .close-button {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: none;
-    border: none;
-    font-size: 1.2rem;
-    cursor: pointer;
-    color: #666;
-}
-
-.modal-content .close-button:hover {
-    color: #000;
-}
-
-
-
-/* Form fields */
-.form-group {
-    padding:20px;
-    margin-bottom: 20px;
-}
-
-.form-group input,
-.form-group textarea,
-.form-group select {
-    padding: 5px;
-    border: none;
-    outline: none;
-    border-bottom: 2px solid var(--border-color);
-    width: 100%;
-    box-sizing: border-box;
-}.form-group input:focus,
-.form-group textarea:focus,
-.form-group select:focus {
-     border: none;
-     outline: none;
-     border-bottom: 2px solid var(--primary-color3);
-}
-
-
-
-input[type="date"] {
-    font-family: 'Pretendard', sans-serif;
-    font-size: 16px;
-    color: #333;
-}
-
-
-
-
-
-/* File upload button */
-.file-upload {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 10px;
-}
-
-.file-upload label {
-    color: white;
-    padding: 8px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.file-upload input[type="file"] {
-    display: none; /* Hide the actual file input */
-}
-
-/* Modal buttons */
-.modal-buttons {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-}
 
 .modal-buttons button {
     padding: 10px 20px;
@@ -405,7 +317,7 @@ input[type="date"] {
 }
 
 .user-info {
-    margin-bottom: 20px;
+    /*margin-bottom: 20px;*/
     color: #666;
 }
 

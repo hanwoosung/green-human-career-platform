@@ -28,6 +28,24 @@ import java.util.Map;
 public class ResumeController extends AbstractController {
     private final ResumeService resumeService;
 
+
+    // 이력서 목록 페이지
+    @GetMapping
+    public String resume(Model model, HttpSession session) {
+        // 세션에서 로그인된 사용자 정보 가져오기
+        String loginedUser = (String) session.getAttribute("userId");
+        System.out.println(loginedUser);
+        if (loginedUser == null) {
+            return "mypage_login";
+        } else {
+
+            List<ResumeDto> resumes = resumeService.getAllResumes(loginedUser);
+            model.addAttribute("resumes", resumes);
+            return "resume";
+        }
+    }
+
+
     @GetMapping("/regist")
     public String resume(HttpSession session, Model model) {
         // 세션에서 로그인된 사용자 정보 가져오기
@@ -52,9 +70,6 @@ public class ResumeController extends AbstractController {
         }
     }
 
-
-
-
     @ResponseBody
     @PostMapping("/regist")
     public ResponseDto<Void> postResume(
@@ -67,13 +82,37 @@ public class ResumeController extends AbstractController {
         ObjectMapper objectMapper = new ObjectMapper();
         ResumeDto resumeDto = objectMapper.readValue(resumeData, ResumeDto.class);
         String userId = resumeDto.getCreatedBy();
-
         log.info("이력서 저장 요청: {}", resumeData);
-
         // 이력서 저장
-        resumeService.saveResumeToDatabase(resumeDto, profilePhoto, portfolioFiles,introduceMeFiles);
+        resumeService.saveResumeToDatabase(resumeDto, profilePhoto, portfolioFiles, introduceMeFiles);
+        return ok();
+    }
+    // 이력서 상세 조회 (GET)
+    @GetMapping("/{id}")
+    public String resuem(@PathVariable("id") Long id, Model model) {
+        ResumeDto resume = resumeService.getResumeById(id);
+        model.addAttribute("resume", resume);
+        System.out.println(resume);
+        // id로 이력서 조회
+        return  "resume_detail";
+    }
+
+    // 이력서 삭제 (DELETE)
+    @ResponseBody
+    @DeleteMapping("/{resumeId}")
+    public ResponseDto<Void> deleteResume(@PathVariable String resumeId) {
+        resumeService.deleteResume(resumeId);
         return ok();
     }
 
-}
 
+
+//    // 이력서 수정 (PUT)
+//    @ResponseBody
+//    @PutMapping("/api/{id}")
+//    public ResponseDto<Void>  updateResume(@PathVariable("id") String id, @RequestBody ResumeDto resumeDto) {
+////        resumeService.updateResume(id, resumeDto);
+//        return ok();
+//    }
+
+}

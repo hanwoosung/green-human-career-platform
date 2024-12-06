@@ -14,16 +14,307 @@
         FROM tbl_user
         WHERE id = #{id};
     </select>
+    <!-- 이력서 조회 (조인 쿼리) -->
+    <select id="getResumesByUserId" resultMap="resumeResultMap">
+        SELECT
+        -- 기본 이력서 정보
+        r.r_no AS resumeId,
+        r.inst_id AS createdBy,
+        u.id AS id,
+        u.name AS name,
+        u.email AS email,
+        u.phone AS phone,
+        u.addr AS addr,
+        r.r_title AS title,
+        r.r_rep_yn AS representativeYn,
+        r.career_cd AS careerCode,
+        r.del_yn AS deleteYn,
+        r.inst_dt AS createdDate,
+        r.updt_id AS updatedBy,
+        r.updt_dt AS updatedDate,
 
-    <!-- 특정 유저의 모든 이력서 조회 -->
-    <select id="getResumesByUserId" resultType="org.green.career.dto.resume.ResumeDto">
-        SELECT r_no AS resumeId, name, email, phone, birth, addr, title, representative_yn AS representativeYn, career_code AS careerCode, created_date AS createdDate
-        FROM tbl_resume
-        WHERE created_by = #{userId};
+        -- 이력서 파일 정보 (프로필 사진 등)
+        f.file_id AS fileId,
+        f.file_gbn_cd AS fileGbnCd,
+        f.file_name AS fileName,
+        f.file_ext AS fileExt,
+        f.file_url AS fileUrl,
+
+        -- 학력 정보
+        e.re_no AS educationId,
+        e.re_gbn_cd AS educationType,
+        e.re_school_nm AS schoolName,
+        e.re_major AS major,
+        e.re_score AS score,
+        e.re_indt AS admissionDate,
+        e.re_outdt AS graduationDate,
+        e.re_transfer_yn AS transferYn,
+        e.re_resion AS region,
+
+        -- 경력 정보
+        c.rc_no AS careerId,
+        c.rc_company_nm AS companyName,
+        c.rc_join_dt AS joinDate,
+        c.rc_out_dt AS outDate,
+        c.rc_dmpt AS department,
+        c.rc_pstn AS position,
+        c.rc_duties AS duties,
+
+        -- 자격증 정보
+        q.rq_no AS qualificationId,
+        q.rq_dt AS acquisitionDate,
+        q.rq_nm AS qualificationName,
+        q.rq_place AS issuingBody,
+        q.rq_gbn_cd AS qualificationType,
+
+        -- 기술 스택 정보 (코드 테이블 조인)
+        s.rs_no AS stackId,
+        s.stack_cd AS stackCode,
+        tc.cd_nm AS stackName,        <!-- 코드 테이블에서 stack_name 가져오기 -->
+        tc.up_cd AS stackCategory,
+
+        -- 자기소개서 정보
+        m.rm_no AS introductionId,
+        m.rm_title AS title,
+        m.rm_content AS content,
+
+        -- 포트폴리오 정보
+        p.rp_no AS portfolioId,
+        p.rp_str_dt AS startDate,
+        p.rp_end_dt AS endDate,
+        p.rp_url AS portfolioUrl,
+        p.rp_cnt AS teamSize,
+        p.rp_content AS description
+
+        FROM tbl_resume r
+        -- 사용자 정보
+        LEFT JOIN tbl_user u ON u.id = r.inst_id
+        -- 이력서 파일 (프로필 사진 등)
+        LEFT JOIN tbl_file f ON f.file_ref_id = r.r_no AND f.file_gbn_cd = '50'
+        -- 학력 정보
+        LEFT JOIN tbl_resume_educat e ON e.r_no = r.r_no
+        -- 경력 정보
+        LEFT JOIN tbl_resume_career c ON c.r_no = r.r_no
+        -- 자격증 정보
+        LEFT JOIN tbl_resume_qual q ON q.r_no = r.r_no
+        -- 기술 스택 정보
+        LEFT JOIN tbl_resume_stack s ON s.r_no = r.r_no
+        LEFT JOIN tbl_codeinfo tc ON s.stack_cd = tc.cd AND tc.up_cd = 'stack_cd'  <!-- 코드 테이블과 조인 (tc로 변경) -->
+        -- 자기소개서 정보
+        LEFT JOIN tbl_resume_me m ON m.r_no = r.r_no
+        -- 포트폴리오 정보
+        LEFT JOIN tbl_resume_prtf p ON p.r_no = r.r_no
+        WHERE r.inst_id = #{userId};
     </select>
 
+    <!-- 이력서 조회 (조인 쿼리) -->
+    <select id="getResumeById" resultMap="resumeResultMap">
+        SELECT
+        -- 기본 이력서 정보
+        r.r_no AS resumeId,
+        r.inst_id AS createdBy,
+        u.id AS id,
+        u.name AS name,
+        u.email AS email,
+        u.phone AS phone,
+        u.addr AS addr,
+        r.r_title AS title,
+        r.r_rep_yn AS representativeYn,
+        r.career_cd AS careerCode,
+        r.del_yn AS deleteYn,
+        r.inst_dt AS createdDate,
+        r.updt_id AS updatedBy,
+        r.updt_dt AS updatedDate,
+
+        -- 이력서 파일 정보 (프로필 사진 등)
+        f.file_id AS fileId,
+        f.file_gbn_cd AS fileGbnCd,
+        f.file_name AS fileName,
+        f.file_ext AS fileExt,
+        f.file_url AS fileUrl,
+
+        -- 학력 정보
+        e.re_no AS educationId,
+        e.re_gbn_cd AS educationType,
+        e.re_school_nm AS schoolName,
+        e.re_major AS major,
+        e.re_score AS score,
+        e.re_indt AS admissionDate,
+        e.re_outdt AS graduationDate,
+        e.re_transfer_yn AS transferYn,
+        e.re_resion AS region,
+
+        -- 경력 정보
+        c.rc_no AS careerId,
+        c.rc_company_nm AS companyName,
+        c.rc_join_dt AS joinDate,
+        c.rc_out_dt AS outDate,
+        c.rc_dmpt AS department,
+        c.rc_pstn AS position,
+        c.rc_duties AS duties,
+
+        -- 자격증 정보
+        q.rq_no AS qualificationId,
+        q.rq_dt AS acquisitionDate,
+        q.rq_nm AS qualificationName,
+        q.rq_place AS issuingBody,
+        q.rq_gbn_cd AS qualificationType,
+
+        -- 기술 스택 정보 (코드 테이블 조인)
+        s.rs_no AS stackId,
+        s.stack_cd AS stackCode,
+        tc.cd_nm AS stackName,        <!-- 코드 테이블에서 stack_name 가져오기 -->
+        tc.up_cd AS stackCategory,
+
+        -- 자기소개서 정보
+        m.rm_no AS introductionId,
+        m.rm_title AS title,
+        m.rm_content AS content,
+
+        -- 포트폴리오 정보
+        p.rp_no AS portfolioId,
+        p.rp_str_dt AS startDate,
+        p.rp_end_dt AS endDate,
+        p.rp_url AS portfolioUrl,
+        p.rp_cnt AS teamSize,
+        p.rp_content AS description
+
+        FROM tbl_resume r
+        -- 사용자 정보
+        LEFT JOIN tbl_user u ON u.id = r.inst_id
+        -- 이력서 파일 (프로필 사진 등)
+        LEFT JOIN tbl_file f ON f.file_ref_id = r.r_no AND f.file_gbn_cd = '50'
+        -- 학력 정보
+        LEFT JOIN tbl_resume_educat e ON e.r_no = r.r_no
+        -- 경력 정보
+        LEFT JOIN tbl_resume_career c ON c.r_no = r.r_no
+        -- 자격증 정보
+        LEFT JOIN tbl_resume_qual q ON q.r_no = r.r_no
+        -- 기술 스택 정보
+        LEFT JOIN tbl_resume_stack s ON s.r_no = r.r_no
+        LEFT JOIN tbl_codeinfo tc ON s.stack_cd = tc.cd AND tc.up_cd = 'stack_cd'  <!-- 코드 테이블과 조인 (tc로 변경) -->
+        -- 자기소개서 정보
+        LEFT JOIN tbl_resume_me m ON m.r_no = r.r_no
+        -- 포트폴리오 정보
+        LEFT JOIN tbl_resume_prtf p ON p.r_no = r.r_no
+        WHERE r.r_no = #{resumeId}
+    </select>
+
+    <resultMap id="resumeResultMap" type="org.green.career.dto.resume.ResumeDto">
+        <id property="resumeId" column="resumeId"/>
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="email" column="email"/>
+        <result property="phone" column="phone"/>
+        <result property="addr" column="addr"/>
+        <result property="title" column="title"/>
+        <result property="representativeYn" column="representativeYn"/>
+        <result property="careerCode" column="careerCode"/>
+        <result property="deleteYn" column="deleteYn"/>
+        <result property="createdDate" column="createdDate"/>
+        <result property="updatedBy" column="updatedBy"/>
+        <result property="updatedDate" column="updatedDate"/>
+
+        <association property="profilePhoto" javaType="org.green.career.dto.resume.ResumeFileDto">
+            <id property="fileId" column="fileId"/>
+            <result property="fileGbnCd" column="fileGbnCd"/>
+            <result property="fileName" column="fileName"/>
+            <result property="fileExt" column="fileExt"/>
+            <result property="fileUrl" column="fileUrl"/>
+        </association>
+
+        <collection property="educations" ofType="org.green.career.dto.resume.EducationDto">
+            <id property="educationId" column="educationId"/>
+            <result property="educationType" column="educationType"/>
+            <result property="schoolName" column="schoolName"/>
+            <result property="major" column="major"/>
+            <result property="score" column="score"/>
+            <result property="admissionDate" column="admissionDate"/>
+            <result property="graduationDate" column="graduationDate"/>
+            <result property="transferYn" column="transferYn"/>
+            <result property="region" column="region"/>
+        </collection>
+
+        <collection property="careers" ofType="org.green.career.dto.resume.CareerDto">
+            <id property="careerId" column="careerId"/>
+            <result property="companyName" column="companyName"/>
+            <result property="joinDate" column="joinDate"/>
+            <result property="outDate" column="outDate"/>
+            <result property="department" column="department"/>
+            <result property="position" column="position"/>
+            <result property="duties" column="duties"/>
+        </collection>
+
+        <collection property="qualifications" ofType="org.green.career.dto.resume.QualificationDto">
+            <id property="qualificationId" column="qualificationId"/>
+            <result property="acquisitionDate" column="acquisitionDate"/>
+            <result property="qualificationName" column="qualificationName"/>
+            <result property="issuingBody" column="issuingBody"/>
+            <result property="qualificationType" column="qualificationType"/>
+        </collection>
+
+        <collection property="technicalStacks" ofType="org.green.career.dto.resume.TechnicalStackDto">
+            <id property="stackId" column="stackId"/>
+            <result property="stackCode" column="stackCode"/>
+            <result property="stackName" column="stackName"/>
+            <result property="stackCategory" column="stackCategory"/>
+        </collection>
+
+        <collection property="treats" ofType="org.green.career.dto.resume.TreatDto">
+            <id property="treatId" column="treatId"/>
+            <result property="preferenceCode" column="preferenceCode"/>
+            <result property="details" column="details"/>
+            <result property="preferenceName" column="preferenceName"/>
+        </collection>
+
+        <collection property="introduces" ofType="org.green.career.dto.resume.IntroduceMeDto">
+            <id property="introductionId" column="introductionId"/>
+            <result property="title" column="title"/>
+            <result property="content" column="content"/>
+        </collection>
+
+        <collection property="portfolios" ofType="org.green.career.dto.resume.PortfolioDto">
+            <id property="portfolioId" column="portfolioId"/>
+            <result property="startDate" column="startDate"/>
+            <result property="endDate" column="endDate"/>
+            <result property="portfolioUrl" column="portfolioUrl"/>
+            <result property="teamSize" column="teamSize"/>
+            <result property="description" column="description"/>
+        </collection>
+    </resultMap>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <!-- 이력서 저장 -->
-<!--    대표여부는 리스트에서 지정하기 -->
+    <!--    대표여부는 리스트에서 지정하기 -->
     <insert id="saveResume" parameterType="org.green.career.dto.resume.ResumeDto" useGeneratedKeys="true" keyProperty="resumeId">
         INSERT INTO tbl_resume (
         r_title, r_rep_yn, career_cd, inst_id, inst_dt
@@ -31,7 +322,6 @@
         #{title}, 'N' , #{careerCode}, #{createdBy}, CURRENT_TIMESTAMP()
         );
     </insert>
-<!--        #{title}, #{representativeYn}, #{careerCode}, #{createdBy}, CURRENT_TIMESTAMP()-->
 
     <!-- 학력 저장 -->
     <insert id="saveEducation">

@@ -15,6 +15,11 @@ import java.util.List;
 @Mapper
 public interface ResumeDao {
 
+
+    ResumeDto getResumeById(Long id);
+
+
+
     List<TreatDto> getAllTreatCodes();
 
     void saveResume(ResumeDto resumeDto);
@@ -43,8 +48,6 @@ public interface ResumeDao {
     ResumeDto getUserInfo(String id);
 
     List<ResumeDto> getResumesByUserId(String userId);
-
-    List<ResumeDto> getAllResumes();
 
     void updateResume(ResumeDto resumeDto);
 
