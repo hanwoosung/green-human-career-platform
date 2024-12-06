@@ -62,4 +62,16 @@ public interface CompanyInfoRService {
      */
     CompanyUserResponseDto getCompanyUser(String id);
 
+    int checkCompanyInfo(CompanyRegistDto company, int size) throws Exception;
+
+    /**
+     *   기업정보 조회(매출 테이블)
+     */
+    List<CompanySalesResponseDto> getSales(String id);
+
+    /**
+     *   기업정보 조회(연혁 테이블)
+     */
+    List<CompanyHistoryResponseDto> getHistory(String id);
+
 }

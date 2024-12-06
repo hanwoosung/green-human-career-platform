@@ -26,4 +26,7 @@ public interface CompanyDetailDao {
 
     CompanyUserResponseDto getCompanyUser(String id);
 
+    List<CompanySalesResponseDto> getSales(String id);
+    List<CompanyHistoryResponseDto> getHistory(String id);
+
 }

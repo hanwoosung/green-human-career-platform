@@ -166,7 +166,13 @@
               <td class="td1">주요 업무</td>
               <td class="td2" th:text="${company.cBusiness}">대/중/소</td>
               <td class="td1">매출액</td>
-              <td class="td2" th:text="${sales.getLast().cPay + '억 (' + sales.getLast().cSaleDt + '년)'}">대/중/소</td>
+              <th:block th:if="${sales.getLast().cPay != null}">
+                <td class="td2" th:text="${sales.getLast().cPay + '억 (' + sales.getLast().cSaleDt + '년)'}">대/중/소</td>
+              </th:block>
+              <th:block th:if="${sales.getLast().cPay == null || sales.getLast().cSaleDt == ''}">
+                <td class="td2">------</td>
+              </th:block>
+
             </tr>
             <tr>
               <td class="td1">홈페이지</td>
@@ -177,53 +183,56 @@
           </table>
         </div>
 
-        <div class="history">
-          <h2>연혁</h2>
-          <div class="history-content">
-            <th:block th:each="history : ${histories}">
-              <p>
-                <span th:text="${history.cHistory}"></span>
-                <span th:text="${history.cContent}"></span>
-              </p>
-            </th:block>
+        <th:block th:if="${histories != null}">
+          <div class="history">
+            <h2>연혁</h2>
+            <div class="history-content">
+              <th:block th:each="history : ${histories}">
+                <p>
+                  <span th:text="${history.cHistory}"></span>
+                  <span th:text="${history.cContent}"></span>
+                </p>
+              </th:block>
+            </div>
           </div>
-        </div>
+        </th:block>
 
-        <div class="jobOpen">
-          <h2>채용 공고</h2>
-          <div class="jobOpen-content">
-            <div class="main-list-wrapper">
-              <div class="main-list-container">
+        <th:block th:if="${jobList != null}">
+          <div class="jobOpen">
+            <h2>채용 공고</h2>
+            <div class="jobOpen-content">
+              <div class="main-list-wrapper">
+                <div class="main-list-container">
 
-                <div class="job-card" th:each="jobItem : ${jobList}">
-                  <div class="card-image">
-                    <div class="card-overlay">
-                      <span class="days-left" th:text="${jobItem.leftDate}">D-11</span>
-                      <i class="bi bi-bookmark scrap-icon" id="bookmark-icon"></i>
+                  <div class="job-card" th:each="jobItem : ${jobList}">
+                    <div class="card-image">
+                      <div class="card-overlay">
+                        <span class="days-left" th:text="${jobItem.leftDate}">D-11</span>
+                        <i class="bi bi-bookmark scrap-icon" id="bookmark-icon"></i>
+                      </div>
+                      <img th:src="@{${jobItem.fileUrl != null and !jobItem.fileUrl.isEmpty() ? jobItem.fileUrl : '/static/images/empty_company.png'}}"
+                           alt="회사 이미지">
                     </div>
-                    <img th:src="@{${jobItem.fileUrl != null and !jobItem.fileUrl.isEmpty() ? jobItem.fileUrl : '/static/images/empty_company.png'}}"
-                         alt="회사 이미지">
-                  </div>
-                  <div class="card-header">
-                    <div class="card-header-box">
-                      <span class="company-name">삼성전자</span>
-                      <i class="bi bi-heart heart-icon" id="heart-icon"></i>
+                    <div class="card-header">
+                      <div class="card-header-box">
+                        <span class="company-name">삼성전자</span>
+                        <i class="bi bi-heart heart-icon" id="heart-icon"></i>
+                      </div>
                     </div>
-                  </div>
-                  <div class="card-body">
-                    <h3 class="job-title" th:text="${jobItem.JTitle}">백엔드개발자 - 테크리드 (테크사업부)</h3>
-                    <h4 class="job-content" th:text="${jobItem.JContent}">백엔드개발자 - 테크리드 (테크사업부)</h4>
-                    <div class="job-location">
-                      <span th:text="${jobItem.workPlace}">경기도</span> | <span
-                            th:text="${jobItem.workType}">경력 3년</span>
-                    </div>
-                    <div class="skill-tags" th:if="${not #lists.isEmpty(jobItem.skills)}">
+                    <div class="card-body">
+                      <h3 class="job-title" th:text="${jobItem.JTitle}">백엔드개발자 - 테크리드 (테크사업부)</h3>
+                      <h4 class="job-content" th:text="${jobItem.JContent}">백엔드개발자 - 테크리드 (테크사업부)</h4>
+                      <div class="job-location">
+                        <span th:text="${jobItem.workPlace}">경기도</span> | <span
+                              th:text="${jobItem.workType}">경력 3년</span>
+                      </div>
+                      <div class="skill-tags" th:if="${not #lists.isEmpty(jobItem.skills)}">
                                     <span th:each="skill : ${jobItem.skills}" class="skill-tag"
                                           th:text="${skill}"></span>
+                      </div>
                     </div>
                   </div>
                 </div>
-
               </div>
             </div>
           </div>
@@ -263,7 +272,12 @@
             </nav>
           </div>
 
-        </div>
+        </th:block>
+
+        <th:block th:if="${session.userId == company.id}">
+          <button><a href="'/companyModi?userId=' + session.userId">수정</a></button>
+        </th:block>
+
       </div>
     </div>
 
