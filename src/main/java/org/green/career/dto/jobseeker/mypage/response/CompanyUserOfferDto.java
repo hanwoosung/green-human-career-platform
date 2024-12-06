@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class CompanyUserOfferDto {
     private String cId;           // 회사 ID
     private String uId;           // 사용자 ID
+    private String jNo;
     private String oDt;           // 오퍼 날짜
     private String name;          // 사용자 이름
     private String addr;          // 주소

@@ -2,6 +2,7 @@ package org.green.career.controller.company;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.green.career.controller.AbstractController;
 import org.green.career.dto.common.file.request.TblFileRequestDto;
 import org.green.career.dto.company.mypage.CompanyModiDto;
 import org.green.career.dto.company.mypage.CompanyUserDto;
@@ -18,13 +19,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/mypage")
 @RequiredArgsConstructor
 @Slf4j
-public class CompanyMypageController {
+public class CompanyMypageController extends AbstractController {
 
     private final CompanyMypageService companyMypageService;
     private final CommonUtils utils;
 
     @GetMapping("/check/{user_id}")
-    public String check(@PathVariable String user_id) {
+    public String check(@PathVariable String user_id, Model model) {
+        model.addAttribute("user_id", user_id);
         return "/company/check";
     }
 
@@ -39,11 +41,11 @@ public class CompanyMypageController {
             return "redirect:/company/check/" + user_id;
         } else {
             model.addAttribute("user", dto);
-//            if("기업이면"){
-//                return "/company/mypage";
-//            } else if("구직자면"){
-//                return "/normal/mypage";
-//            }
+            if(sessionUserInfo("userType").equals("C")) {
+                return "/company/mypage";
+            } else if(sessionUserInfo("userType").equals("S")){
+                return "/normal/mypage";
+            }
             return "/company/mypage";
         }
     }
@@ -58,6 +60,6 @@ public class CompanyMypageController {
         }
         companyMypageService.updateMypageInfo(user);
 
-        return "redirect:/company";
+        return "redirect:/";
     }
 }

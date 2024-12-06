@@ -101,15 +101,19 @@
                 </a>
             </div>
 
+            <!-- 대표 이력서 설정 버튼 추가 -->
             <div class="resume-info">
-                <div class="">
-                <span th:text="${resume.careerCode == 'S' ? '신입' : (resume.careerCode == 'G' ? '경력' : '신입/경력')}"></span>
+                <div>
+                    <span th:text="${resume.careerCode == 'S' ? '신입' : (resume.careerCode == 'G' ? '경력' : '신입/경력')}"></span>
                 </div>
                 <div class="right-box">
                     <span th:text="${resume.getCreatedDate()}"></span>
                     <i class="fas fa-trash-alt" th:attr="onclick='deleteResume(' + ${resume.resumeId} + ')'" title="삭제"></i>
+                    <button class="set-rep-btn" th:onclick="'setRepresentative(' + ${resume.resumeId} + ')'" th:if="${resume.representativeYn != 'Y'}">대표 설정</button>
+                    <span th:if="${resume.representativeYn == 'Y'}">대표 이력서</span>
                 </div>
             </div>
+
 
         </div>
     </div><script>
@@ -130,6 +134,26 @@
                 });
         }
     }
+    function setRepresentative(resumeId) {
+        const url = `/resume/${resumeId}/representative`;
+        console.log("Axios PUT 요청 URL:", url);
+
+        axios.put(url)
+            .then(response => {
+                console.log("응답 데이터:", response);  // 응답 확인
+                if (response.status === 200) {
+                    alert('대표 이력서가 설정되었습니다.');
+                    window.location.reload(); // 페이지 새로고침
+                } else {
+                    alert('대표 이력서 설정에 실패했습니다.');
+                }
+            })
+            .catch(error => {
+                console.error('대표 이력서 설정 중 오류가 발생했습니다:', error);
+                alert('오류가 발생했습니다. 다시 시도해주세요.');
+            });
+    }
+
 </script>
 
 </main>

@@ -76,7 +76,7 @@
                                     <li><a th:href="@{/logout}">로그아웃</a></li>
                                 </ul>
                                 <ul th:case="C">
-                                    <li><a th:href="@{/test/mypage-empty}">MY 홈</a></li>
+                                    <li><a th:href="@{/companyRegist/{user_id}(user_id=${session.userId})}"></a></li>
                                     <li><a th:href="@{/job-seeker/my-page/bookmark}">구직자 정보</a></li>
                                     <li><a th:href="@{/company/jbsk-mngm/job-offer}">입사 제안 현황</a></li>
                                     <li><a th:href="@{/job-open/register}">채용 공고 등록</a></li>

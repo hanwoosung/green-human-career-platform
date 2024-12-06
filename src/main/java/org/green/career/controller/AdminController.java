@@ -45,8 +45,6 @@ public class AdminController extends AbstractController {
         model.addAttribute("search", search);
         model.addAttribute("toggle", toggle);
 
-        System.out.println(result.get("list"));
-
         return "admin/main";
     }
 

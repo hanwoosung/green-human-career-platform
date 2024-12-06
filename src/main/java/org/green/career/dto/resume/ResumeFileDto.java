@@ -26,4 +26,23 @@ public class ResumeFileDto {
 
     @JsonProperty("file_url")
     private String fileUrl;     // 파일 URL
+
+    public String getNormalizedFileUrl() {
+        if (this.fileUrl != null) {
+            // 파일 시스템 경로를 브라우저에서 접근 가능한 경로로 변환
+            String normalizedUrl = this.fileUrl.replace("src\\main\\resources\\static\\", "/static/")
+                    .replace("src/main/resources/static/", "/static/")
+                    .replace("\\", "/");
+
+            // 파일 이름이 이미 포함되어 있지 않다면 추가
+            if (this.fileName != null && !normalizedUrl.endsWith(this.fileName)) {
+                normalizedUrl = normalizedUrl.endsWith("/") ? normalizedUrl + this.fileName
+                        : normalizedUrl + "/" + this.fileName;
+            }
+            return normalizedUrl;
+        }
+        return "/static/images/default_profile2.png"; // 기본 이미지 경로 반환
+    }
+
+
 }

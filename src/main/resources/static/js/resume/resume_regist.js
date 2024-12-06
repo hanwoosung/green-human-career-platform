@@ -560,6 +560,14 @@ $('.submit-resume').on('click', function (e) {
     const formData = new FormData();
     temporaryDataStore.title = $('#resume-title').val();
 
+    const resumeTitle = $('#resume-title').val();
+    if (!resumeTitle || resumeTitle.trim() === '') {
+        alert('이력서 제목은 필수 항목입니다. 제목을 입력해주세요.');
+        return; // 검증 실패 시 함수 종료
+    }
+
+
+
     // 사용자 정보를 제출 전에 갱신
     temporaryDataStore.careerCode = $('#careerCode').val();
 

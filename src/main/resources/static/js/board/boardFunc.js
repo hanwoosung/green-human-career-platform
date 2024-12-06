@@ -123,7 +123,7 @@ export const boardFunc = {
                     },
                 }).then((res) => {
                 if (res.data.result.code == 200) {
-                    location.href = "/company/board";
+                    location.href = "/board";
                 } else {
                     alert_modal.on("게시글", res.data.result.message);
                 }
@@ -165,6 +165,11 @@ export const boardFunc = {
                 bno: document.querySelector(".content-detail").dataset.bno,
                 delYn: 'N'
             };
+
+            if (param.cmContent == ''){
+                alert_modal.on("빈값체크", "댓글을 입력하세요");
+                return
+            }
 
             axios.post("/board/comment",
                 param, {

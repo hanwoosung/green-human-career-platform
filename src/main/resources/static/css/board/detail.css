@@ -129,6 +129,7 @@ input{
 }
 
 .comment-text{
+    overflow-y: auto;
     width: 100%;
 }
 
