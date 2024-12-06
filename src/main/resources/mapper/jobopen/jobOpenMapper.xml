@@ -52,12 +52,153 @@
         </foreach>
     </insert>
 
+    <delete id="deleteSkills" parameterType="map">
+        DELETE FROM tbl_job_open_stack
+        WHERE j_no = #{jNo}
+        AND stack_cd IN
+        <foreach collection="skills" item="skill" open="(" separator="," close=")">
+            #{skill}
+        </foreach>
+    </delete>
+
+
     <insert id="insertFiles" parameterType="map">
         INSERT INTO tbl_file (file_gbn_cd, file_ref_id, file_name, file_ext, file_url, inst_id)
         VALUES
         <foreach collection="files" item="file" separator=",">
-            (#{file.fileGbnCd}, #{file.fileRefId}, #{file.fileName}, #{file.fileExt}, #{file.fileUrl}, #{file.fileRefId})
+            (#{file.fileGbnCd}, #{file.fileRefId}, #{file.fileName}, #{file.fileExt}, #{file.fileUrl},
+            #{file.fileRefId})
         </foreach>
     </insert>
+
+    <select id="getJobOpening">
+        SELECT a.*,
+               COALESCE(GROUP_CONCAT(DISTINCT b.stack_cd ORDER BY b.stack_cd SEPARATOR ','), '') AS skills
+        FROM tbl_job_open a
+                 LEFT JOIN tbl_job_open_stack b ON a.j_no = b.j_no
+        WHERE a.j_no = #{id}
+
+    </select>
+
+    <select id="getFile">
+        SELECT a.*
+        FROM tbl_file a
+                 left join tbl_job_open b ON a.file_ref_id = b.j_no
+        where a.file_ref_id = #{id};
+    </select>
+
+    <delete id="deleteFileDB" parameterType="map">
+        DELETE
+        FROM tbl_file
+        WHERE file_id = #{fileId}
+          AND file_ref_id = #{refId}
+    </delete>
+
+    <select id="getFileById" parameterType="long"
+            resultType="org.green.career.dto.common.file.response.FileResponseDto">
+        SELECT *
+        FROM tbl_file
+        WHERE file_id = #{fileId}
+    </select>
+
+    <!--TODO:UPDATEid 지정해줘야함 -->
+    <update id="updateJobOpening" parameterType="map">
+        UPDATE tbl_job_open
+        SET j_title     = #{job.jTitle},
+            j_stitle    = #{job.jStitle},
+            j_content   = #{job.jContent},
+            j_gbn_cd    = #{job.jGbnCd},
+            s_dt        = #{job.sDt},
+            e_dt        = #{job.eDt},
+            educat_cd   = #{job.educatCd},
+            career_cd   = #{job.careerCd},
+            preferences = #{job.preferences},
+            work_place  = #{job.workPlace},
+            work_time   = #{job.workTime},
+            work_type   = #{job.workType}
+        WHERE j_no = #{jNo}
+    </update>
+
+    <select id="getCompany" resultType="org.green.career.dto.jobopen.response.JobOpenCompanyDto">
+        SELECT *,
+               (SELECT COUNT(*)
+                FROM tbl_job_open
+                where id = #{id}
+                group by id) as jobOpenCount
+        FROM tbl_user a
+                 LEFT JOIN tbl_company b ON a.id = b.id
+                 LEFT JOIN tbl_file c ON b.id = c.file_ref_id
+            AND c.file_gbn_cd = '10'
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="getResumeList">
+        SELECT a.j_no,
+               b.r_no,
+               b.jr_no,
+               d.name,
+               d.id,
+               d.addr,
+               c.r_title,
+               c.del_yn,
+               b.inst_dt,
+               c.career_cd,
+               b.jr_gbn_cd,
+               c.r_rep_yn,
+               d.use_yn
+        FROM tbl_job_open a
+                 LEFT JOIN tbl_resume_job_open b ON a.j_no = b.j_no
+                 LEFT JOIN tbl_resume c ON b.r_no = c.r_no
+                 LEFT JOIN tbl_user d ON c.inst_id = d.id
+        WHERE a.j_no = #{id}
+          AND c.del_yn != 'Y'
+          AND b.jr_gbn_cd NOT IN ('F', 'P')
+          AND d.use_yn != 'N';
+    </select>
+
+    <update id="jobOpeningPass">
+        update tbl_resume_job_open
+        set jr_gbn_cd = #{type}
+        where jr_no = #{jrNo}
+    </update>
+
+    <select id="myResumes">
+        SELECT *
+        FROM tbl_user a
+                 LEFT JOIN tbl_resume b ON a.id = b.inst_id
+        WHERE a.id = #{id};
+    </select>
+
+    <insert id="resumeApply">
+        INSERT Into tbl_resume_job_open (j_no, r_no, jr_gbn_cd, inst_id)
+        values (#{jNo}, #{rNo}, 'N', #{id})
+    </insert>
+
+    <select id="existsResume">
+        SELECT COUNT(*) > 0
+        FROM tbl_resume_job_open
+        WHERE j_no = #{jNo}
+          AND r_no = #{rNo}
+          AND inst_id = #{id};
+    </select>
+
+
+    <update id="delete">
+        update tbl_job_open
+        set del_yn = 'Y'
+        where j_no = #{jNo}
+    </update>
+
+    <select id="mySkill">
+        SELECT *
+        FROM tbl_codeinfo c
+        WHERE c.cd IN (SELECT DISTINCT stack_cd FROM tbl_job_open_stack WHERE j_no = #{jNo})
+          AND (c.up_cd = 'stack_cd' OR c.up_cd IN (SELECT cd FROM tbl_codeinfo WHERE up_cd = 'stack_cd'));
+    </select>
+
+    <update id="viewCountUp">
+        update tbl_job_open set v_cnt = v_cnt+1
+        where j_no = #{jNo}
+    </update>
 
 </mapper>

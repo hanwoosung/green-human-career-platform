@@ -7,11 +7,16 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
+/**
+ * 작성자: 한우성
+ * 작성일: 2024-12-01
+ * 채용공고 대부분의 파일 리스폰 담당 중
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public  class FileResponseDto {
+public class FileResponseDto {
     // 파일 ID
     private Long fileId;
     // 파일구분

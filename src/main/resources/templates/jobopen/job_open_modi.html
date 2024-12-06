@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>채용 공고 등록</title>
+    <link rel="stylesheet" href="/static/css/common/common.css">
+    <link rel="stylesheet" href="/static/css/jobopen/register.css">
+</head>
+<body>
+
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout-test/layout/mypage_layout}"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>채용 공고 등록</title>
+</head>
+<body>
+<main layout:fragment="content">
+    <div class="content">
+        <div class="job-registration-form">
+            <header class="form-header">
+                <h1>채용 공고 등록</h1>
+            </header>
+            <form id="jobForm" enctype="multipart/form-data" onsubmit="modify(event)">
+
+                <!-- 공고명 -->
+                <div class="form-group">
+                    <label for="jobTitle">공고명</label>
+                    <input type="text" id="jobTitle" name="jobTitle" placeholder="예: 프론트엔드 개발자 모집"
+                           th:value="${jobItem.JTitle}"
+                           required>
+                </div>
+
+                <!-- 서브타이틀 -->
+                <div class="form-group">
+                    <label for="jobSubtitle">서브타이틀</label>
+                    <input type="text" id="jobSubtitle" name="jobSubtitle"
+                           placeholder="예: 혁신적인 팀에서 함께할 인재를 찾습니다!"
+                           th:value="${jobItem.JStitle}"
+                    >
+                </div>
+
+                <!-- 기업 이미지 -->
+                <div class="form-group">
+                    <div class="upload-label">
+                        <span class="label-title">이미지 등록</span>
+                        <!-- 파일 업로드 버튼을 input[type="file"]과 연결 -->
+                        <label for="companyImage" class="upload-button">파일 업로드</label>
+                        <span class="upload-hint ml20">*최대 3장까지 업로드 가능합니다.</span>
+                    </div>
+                    <!-- 파일 입력 -->
+                    <input type="file" id="companyImage" name="companyImage" accept="image/*" multiple
+                           style="display: none;">
+                    <div class="file-preview" id="filePreview">
+                        <!-- 서버에서 전달된 기존 파일과 빈 슬롯을 함께 처리 -->
+                        <div th:if="${jobItem.files != null}" th:each="file, iterStat : ${jobItem.files}">
+                            <div class="img-container">
+                                <img th:src="@{${file.fileUrl}}" th:alt="${file.fileName}"
+                                     th:data-file-id="${file.fileId}" th:data-file-name="${file.fileName}" />
+                                <span class="delete-img" th:data-file-id="${file.fileId}">x</span>
+                            </div>
+                        </div>
+
+                        <!-- 빈 슬롯을 이미지 수에 맞게 추가 -->
+                        <div th:if="${jobItem.files != null}" th:each="slot : ${#numbers.sequence(1, 3 - (jobItem.files != null ? jobItem.files.size() : 0))}" class="img-container default-img">
+                            이미지 없음
+                        </div>
+                    </div>
+                </div>
+
+
+                    <!-- 내용 -->
+                <div class="form-group">
+                    <label for="jobDescription">내용</label>
+                    <textarea id="jobDescription" name="jobDescription" placeholder="공고 상세 내용을 입력하세요"
+                              rows="5"
+                              th:text="${jobItem.JContent}"
+                    ></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>채용 기간</label>
+                    <div class="date-range-group">
+                        <!-- 시작 날짜 -->
+                        <div class="date-field">
+                            <label for="startDate">시작 날짜</label>
+                            <input type="datetime-local" id="startDate" name="startDate"
+                                   th:value="${jobItem.SDt}"
+                                   required>
+                        </div>
+
+                        <!-- 마감 날짜 -->
+                        <div class="date-field">
+                            <label for="endDate">마감 날짜</label>
+                            <input type="datetime-local" id="endDate" name="endDate"
+                                   th:value="${jobItem.EDt}"
+                                   required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 학력 -->
+                <div class="form-group">
+                    <label for="education">학력</label>
+                    <select id="education" name="education" th:value="${jobItem.educatCd}" required>
+                        <option value="" th:selected="${jobItem.educatCd == ''}">선택하세요</option>
+                        <option value="H" th:selected="${jobItem.educatCd == 'H'}">고졸</option>
+                        <option value="U" th:selected="${jobItem.educatCd == 'U'}">대졸</option>
+                        <option value="J" th:selected="${jobItem.educatCd == 'J'}">전문대</option>
+                        <option value="S" th:selected="${jobItem.educatCd == 'S'}">석사</option>
+                        <option value="D" th:selected="${jobItem.educatCd == 'D'}">박사</option>
+                    </select>
+                </div>
+
+                <!-- 경력 -->
+                <div class="form-group">
+                    <label for="experience">경력</label>
+                    <select id="experience" name="experience" th:value="${jobItem.careerCd}" required>
+                        <option value="" th:selected="${jobItem.careerCd == ''}">선택하세요</option>
+                        <option value="S" th:selected="${jobItem.careerCd == 'S'}">신입</option>
+                        <option value="G" th:selected="${jobItem.careerCd == 'G'}">경력</option>
+                        <option value="SG" th:selected="${jobItem.careerCd == 'SG'}">신입/경력</option>
+                    </select>
+                </div>
+
+                <!-- 기술 스택 -->
+                <div class="form-group">
+                    <label>기술 스택</label>
+                    <div class="skills-options">
+                        <button type="button" class="skill-button" th:each="skill : ${skillList}"
+                                th:data-skill-cd="${skill.cd}" th:text="${skill.cdNm}">
+                            Default Skill
+                        </button>
+                    </div>
+
+                    <div class="selected-skills">
+                        <p>선택된 스킬:</p>
+                        <div class="selected-skill-list">
+                            <!-- 선택된 스킬 리스트 -->
+                            <div th:each="skill : ${mySkillList}"
+                                 class="skill-tag"
+                                 th:data-skill="${skill.cd}">
+                                <span class="skill-text" th:text="${skill.cdNm}"></span>
+                                <span class="remove-skill" th:data-skill="${skill.cd}">x</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- 우대 사항 -->
+                <div class="form-group">
+                    <label for="preferred">우대 사항</label>
+                    <textarea id="preferred" name="preferred"
+                              th:text="${jobItem.preferences}"
+                              placeholder="우대 조건을 입력하세요"
+                              rows="3"
+                    > </textarea>
+                </div>
+
+                <!-- 근무 형태 -->
+                <div class="form-group">
+                    <label for="employmentType">근무 형태</label>
+                    <select id="employmentType" name="employmentType" required>
+                        <option value="" th:selected="${jobItem.workType == ''}">선택하세요</option>
+                        <option value="C" th:selected="${jobItem.workType == 'C'}">계약직</option>
+                        <option value="F" th:selected="${jobItem.workType == 'F'}">정규직</option>
+                        <option value="A" th:selected="${jobItem.workType == 'A'}">계약/정규직</option>
+                    </select>
+                </div>
+
+                <!-- 근무 위치 -->
+                <div class="form-group">
+                    <label for="workLocation">근무 위치</label>
+                    <input type="text" id="workLocation" name="workLocation" placeholder="예: 서울특별시 강남구"
+                           th:value="${jobItem.workPlace}">
+                </div>
+
+                <!-- 근무 위치 -->
+                <div class="form-group">
+                    <label for="workTime">근무 시간</label>
+                    <input type="text" id="workTime" name="workTime" placeholder="월~금 몇시 ~ 몇시까지 "
+                           th:value="${jobItem.workTime}">
+                </div>
+                <!-- 등록 버튼 -->
+                <div class="form-actions">
+                    <button type="submit" class="submit-button" th:data-job-jno="${jobItem.JNo}">공고 수정</button>
+                </div>
+
+
+            </form>
+
+        </div>
+    </div>
+</main>
+</body>
+</html>
+
+<script src="/static/js/jobopen/job_open_modi.js"></script>

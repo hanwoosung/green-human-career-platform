@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<!--
+    작성자: 김상준
+    작성일: 2024.12.03
+    입사 제안 현황 (기업)
+-->
+
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout-test/layout/mypage_layout}"
+>
+    <head>
+        <meta charset="UTF-8">
+        <title>입사제안 현황</title>
+        <link rel="stylesheet" href="/static/css/company/jbskMngm/job_offer.css">
+        <link rel="stylesheet" href="/static/css/common/paging.css">
+    </head>
+    <body>
+        <main layout:fragment="content">
+            <button onclick="confirm_modal.on('ㅎㅇ', 'ㅎㅇㅎㅇ', aaa)"></button>
+            <div class="content-title font-bold">
+                <span>입사제안 현황</span>
+            </div>
+            <div class="content-detail">
+                <div class="search-wrap">
+                    <form action="/company/jbsk-mngm/job-offer" method="get">
+                        <span class="search-span">
+                            <input type="text" name="search" placeholder="이름으로 검색" th:value="${search}">
+                            <input class="w50" type="submit" id="search-btn" value="검색">
+                        </span>
+                    </form>
+                </div>
+                <div class="list-wrap">
+                    <th:block th:each="offer : ${list}">
+                        <div class="list" th:attr="data-id=${offer.uId}, data-rno=${offer.rNo}">
+                            <div class="list-img">
+                                <img th:src="${offer.fileUrl + '/' + offer.fileId + '.' + offer.fileExt}"
+                                     onerror="this.src='/static/images/default_profile.png'">
+                            </div>
+                            <div class="list-content">
+                                <div class="content-wrap">
+                                    <div class="contents">
+                                        <span class="content-name">[[${offer.name}]]</span>
+                                        <span class="content-age">([[${offer.age}]])</span>
+                                    </div>
+                                    <div class="contents">
+                                        <span class="content-addr">&nbsp;[[${offer.zipCd}]]</span><br>
+                                        <span class="content-addr">&nbsp;[[${offer.addr}]]</span><br>
+                                        <span class="content-addr">&nbsp;[[${offer.addr2}]]</span>
+                                    </div>
+                                    <div class="contents">
+                                        <div class="content-resume">
+                                            <span th:attr="data-rno=${offer.rNo}">[[${offer.rTitle}]]</span>
+                                        </div>
+                                    </div>
+                                    <div class="content-date">
+                                        <span>제안일 ( </span>
+                                        <span>[[${offer.oDt}]] )</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+
+            <!-- 페이징 -->
+            <div class="pagination-wrapper">
+                <nav class="pagination-nav">
+                    <ul class="pagination">
+                        <!-- 처음 페이지 버튼 -->
+                        <li th:class="${paging.firstPageBtn ? 'page-item' : 'page-item disabled'}">
+                            <a class="page-link"
+                               th:attr="data-href=${paging.firstPageBtn ? '/company/jbsk-mngm/job-offer?page=1' : '#'}"
+                               aria-label="처음">&laquo;</a>
+                        </li>
+
+                        <!-- 이전 페이지 버튼 -->
+                        <li th:class="${paging.prevBtn ? 'page-item' : 'page-item disabled'}">
+                            <a class="page-link"
+                               th:attr="data-href=${paging.prevBtn ? '/company/jbsk-mngm/job-offer?page=' + (paging.startPage - 1) : '#'}"
+                               aria-label="이전">&lt;</a>
+                        </li>
+
+                        <!-- 페이지 번호 리스트 -->
+                        <li th:each="i : ${#numbers.sequence(paging.startPage, paging.endPage)}"
+                            th:class="${paging.currentPage == i ? 'page-item active' : 'page-item'}">
+                            <a class="page-link"
+                               th:attr="data-href=@{/company/jbsk-mngm/job-offer(page=${i})}"
+                               th:text="${i}"></a>
+                        </li>
+
+                        <!-- 다음 페이지 버튼 -->
+                        <li th:class="${paging.nextBtn ? 'page-item' : 'page-item disabled'}">
+                            <a class="page-link"
+                               th:attr="data-href=${paging.nextBtn ? '/company/jbsk-mngm/job-offer?page=' + (paging.endPage + 1) : '#'}"
+                               aria-label="다음">&gt;</a>
+                        </li>
+
+                        <!-- 마지막 페이지 버튼 -->
+                        <li th:class="${paging.lastPageBtn ? 'page-item' : 'page-item disabled'}">
+                            <a class="page-link"
+                               th:attr="data-href=${paging.lastPageBtn ? '/company/jbsk-mngm/job-offer?page=' + paging.totalPage : '#'}"
+                               aria-label="마지막">&raquo;</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </main>
+    </body>
+</html>
+
+<script src="/static/js/company/jbskMngm/job_offer.js"></script>
+
+<script>
+    function aaa(){
+        alert("ㅎㅇ");
+    }
+</script>

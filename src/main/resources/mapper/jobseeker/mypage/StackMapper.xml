@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.green.career.dao.jobseeker.mypage.StackDao">
+
+    <!-- 스킬 목록 조회 -->
+    <select id="findSkillList" resultType="org.green.career.dto.common.CodeInfoDto">
+        SELECT *
+        FROM tbl_codeinfo
+        WHERE up_cd IN (SELECT cd
+                        FROM tbl_codeinfo
+                        WHERE up_cd = 'stack_cd')
+           OR up_cd = 'stack_cd';
+    </select>
+
+    <!-- 채용 공고 리스트 조회 -->
+    <select id="findJobOpeningList" resultType="org.green.career.dto.jobopen.requset.JobOpeningResponseDto">
+        SELECT a.*,
+               d.name,
+               COALESCE(GROUP_CONCAT(DISTINCT c2.cd_nm ORDER BY c2.cd_nm SEPARATOR ','), '') AS skills,
+               COALESCE(f.file_url, '')                                                      AS fileUrl,
+               COUNT(g.l_no)                                                                 AS scrapCnt,
+               COUNT(h.l_no)                                                                 AS bookmarkCnt
+        FROM tbl_job_open a
+                 LEFT JOIN tbl_job_open_stack b ON a.j_no = b.j_no
+                 LEFT JOIN tbl_file f ON a.id = f.file_ref_id AND f.file_gbn_cd = 100
+                 LEFT JOIN tbl_likes g ON a.j_no = g.cj_no AND g.l_gbn_cd = 'S' AND g.id = #{id}
+                 LEFT JOIN tbl_likes h ON a.id = h.cj_no AND h.l_gbn_cd = 'B' AND h.id = #{id}
+                 LEFT JOIN tbl_codeinfo c2 ON c2.cd = b.stack_cd
+            AND (c2.up_cd = 'stack_cd' OR c2.up_cd IN (SELECT cd FROM tbl_codeinfo WHERE up_cd = 'stack_cd'))
+                 LEFT JOIN tbl_user d on a.id = d.id
+        where a.j_gbn_cd = 'O'
+        GROUP BY a.j_no
+        ORDER BY a.inst_dt DESC
+            LIMIT #{offset}, #{limit};
+    </select>
+
+    <!-- 검색 조건에 따른 공고 리스트 조회 -->
+    <select id="searchJobOpenings" resultType="org.green.career.dto.jobopen.requset.JobOpeningResponseDto">
+        SELECT
+        a.*,
+        d.name,
+        COALESCE(
+        (SELECT GROUP_CONCAT(DISTINCT c.cd_nm ORDER BY c.cd_nm SEPARATOR ',')
+        FROM tbl_job_open_stack b1
+        LEFT JOIN tbl_codeinfo c ON c.cd = b1.stack_cd
+        WHERE b1.j_no = a.j_no
+        AND (c.up_cd = 'stack_cd' OR c.up_cd IN (SELECT cd FROM tbl_codeinfo WHERE up_cd = 'stack_cd'))
+        ),
+        '') AS skills,
+        COALESCE(f.file_url, '') AS fileUrl,
+        COUNT(g.l_no) AS scrapCnt,
+        COUNT(h.l_no) AS bookmarkCnt
+        FROM tbl_job_open a
+        LEFT JOIN tbl_user d on a.id = d.id
+        LEFT JOIN tbl_likes g ON a.j_no = g.cj_no AND g.l_gbn_cd = 'S' AND g.id = #{id}
+        LEFT JOIN tbl_likes h ON a.id = h.cj_no AND h.l_gbn_cd = 'B' AND h.id = #{id}
+        LEFT JOIN tbl_file f ON a.id = f.file_ref_id AND f.file_gbn_cd = 100
+        WHERE
+        (a.j_title LIKE CONCAT('%', #{searchText}, '%') OR a.j_content LIKE CONCAT('%', #{searchText}, '%'))
+        <if test="skills != null and skills.size() > 0">
+            AND EXISTS (
+            SELECT 1 FROM tbl_job_open_stack b2
+            WHERE b2.j_no = a.j_no
+            AND b2.stack_cd IN
+            <foreach item="skill" collection="skills" open="(" close=")" separator=",">#{skill}</foreach>
+            )
+        </if>
+        and a.j_gbn_cd = 'O'
+        GROUP BY a.j_no
+        ORDER BY a.inst_dt DESC
+        LIMIT #{offset}, #{limit};
+    </select>
+
+    <!-- 전체 공고 개수 조회 -->
+    <select id="countJobOpenings" resultType="int">
+        SELECT COUNT(*)
+        FROM tbl_job_open
+        where j_gbn_cd ='O'
+          and del_yn ='N';
+    </select>
+
+    <!-- 검색 조건에 따른 공고 개수 조회 -->
+    <select id="countSearchJobOpenings" resultType="int">
+        SELECT COUNT(DISTINCT a.j_no)
+        FROM tbl_job_open a
+        LEFT JOIN tbl_job_open_stack b ON a.j_no = b.j_no
+        WHERE
+        (a.j_title LIKE CONCAT('%', #{searchText}, '%') OR a.j_content LIKE CONCAT('%', #{searchText}, '%'))
+        <if test="skills != null and skills.size() > 0">
+            AND b.stack_cd IN
+            <foreach item="skill" collection="skills" open="(" close=")" separator=",">#{skill}</foreach>
+        </if>
+        ;
+    </select>
+
+</mapper>

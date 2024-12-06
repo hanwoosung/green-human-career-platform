@@ -1,3 +1,12 @@
+
+.content-title{
+    width: 100%;
+}
+
+.content-title span{
+    font-size: 2rem;
+}
+
 .main-list-wrapper {
     width: 100%;
     display: flex;
@@ -49,7 +58,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 90%;
+    width: 98%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -146,7 +155,7 @@
 .skill-tag {
     flex: 0 0 calc(33% - 10px);
     padding: 5px 10px;
-    height: 23px;
+    height: 21px;
     overflow: hidden;
     text-overflow: ellipsis;
     background-color: #f4f4f4;

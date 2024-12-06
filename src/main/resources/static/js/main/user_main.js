@@ -1,4 +1,6 @@
 $(document).ready(function () {
+
+
     const urlParams = new URLSearchParams(window.location.search);
     const selectedSkills = urlParams.get('skills') ? urlParams.get('skills').split(",") : [];
 
@@ -60,16 +62,19 @@ $(document).ready(function () {
         updateSelectAllCheckbox();
     });
 
+    // 체크박스 상태 변경 시 선택된 스킬 목록 업데이트
     function updateSelectedSkill() {
         const selectedSkills = $("input[name='skills']:checked").map(function () {
-            return this.value;
+            return {
+                cd: this.value, // cd 값
+                upNm: $(this).siblings("span").text()
+            };
         }).get();
 
-        // 선택된 스킬을 표시
         $(".selected-skills").empty();
         selectedSkills.forEach(function (skill) {
             $(".selected-skills").append(
-                `<div class="selected-skill">${skill}<span class="close">&times;</span></div>`
+                `<div class="selected-skill">${skill.upNm}<span class="close">&times;</span></div>`
             );
         });
 
@@ -126,18 +131,6 @@ $(document).ready(function () {
     });
 
 
-    // 즐겨찾기 아이콘
-    $(".scrap-icon").click(function () {
-        $(this).toggleClass("bi-bookmark");
-        $(this).toggleClass("bi-bookmark-fill");
-    });
-
-    // 하트 아이콘
-    $(".heart-icon").click(function () {
-        $(this).toggleClass("bi-heart");
-        $(this).toggleClass("bi-heart-fill");
-    });
-
     // 검색 버튼
     $("#search-btn").click(function () {
         const searchText = $("#search").val();
@@ -147,4 +140,152 @@ $(document).ready(function () {
 
         window.location.href = "/?search=" + encodeURIComponent(searchText) + "&skills=" + encodeURIComponent(selectedSkills.join(","));
     });
+    $("#search").keypress(function (e) {
+        if (e.which === 13) {
+            e.preventDefault();
+            $("#search-btn").click();
+        }
+    });
+    // 스크랩 아이콘
+    $(".scrap-icon").click(function () {
+
+        let param = {
+            cjNo: this.closest(".job-card").dataset.jno,
+            flag: this.classList.contains("bi-bookmark"),
+            lgbnCd: "S"
+        }
+
+        console.log(param);
+
+        axios.post("/likes", param, {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        }).then((res) => {
+            console.log(res);
+            if (res.data.result.code == 200) {
+                $(this).toggleClass("bi-bookmark");
+                $(this).toggleClass("bi-bookmark-fill");
+            } else if (res.data.result.code == 455) {
+                alert_modal.on("로그인", "로그인후 진행해주세요");
+            }
+        }).catch((error) => {
+            alert("스크랩 실패했습니다.");
+            console.log(error)
+        });
+
+
+    });
+
+    // 하트 아이콘
+    $(".heart-icon").click(function () {
+
+        let param = {
+            cjNo: this.closest(".job-card").dataset.id,
+            flag: this.classList.contains("bi-heart"),
+            lgbnCd: "B"
+        }
+
+        console.log(param);
+
+        axios.post("/likes", param, {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        }).then((res) => {
+            console.log(res);
+            if (res.data.result.code == 200) {
+                $(this).toggleClass("bi-heart");
+                $(this).toggleClass("bi-heart-fill");
+                window.location.reload();
+            } else if (res.data.result.code == 455) {
+                alert_modal.on("로그인", "로그인후 진행해주세요");
+            }
+        }).catch((error) => {
+            alert("북마크 실패했습니다.");
+            console.log(error)
+        });
+    });
+    const swiper = new Swiper('.swiper-container', {
+        loop: true,
+        slidesPerView: 1,
+        spaceBetween: 0,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        speed: 1000,
+        autoplay: {
+            delay: 2000,
+            disableOnInteraction: false,
+        },
+    });
+    let jobCards = $(".job-card");
+
+    if (jobCards.length > 0 && !localStorage.getItem("todayPopupClosed")) {
+        jobCards = jobCards.sort(function (a, b) {
+            const vCntA = parseInt($(a).data("vCnt") || 0, 10);
+            const vCntB = parseInt($(b).data("vCnt") || 0, 10);
+            return vCntB - vCntA;
+        });
+
+        const maxPopups = 5;
+        const limitedJobCards = jobCards.slice(0, maxPopups);
+
+        let currentIndex = 0;
+
+        function showPopup(index) {
+            if (index >= limitedJobCards.length) {
+                $(".popup").remove();
+                return;
+            }
+
+            const topJob = limitedJobCards.eq(index);
+            const topJobInfo = topJob.find(".job-title").text();
+            const topJobCompany = topJob.find(".company-name").text();
+            const topJobLocation = topJob.find(".job-location").text();
+            const topJobImage = topJob.find("img").attr("src") || "/static/images/default_job.png";
+            const topJobLink = topJob.find("a").attr("href");
+
+            $(".popup").remove();
+
+            const popup = $(`
+                <div class="popup">
+                    <div class="popup-content">
+                        <button class="popup-close" id="close-popup">✖</button>
+                        <div class="popup-counter">${index + 1} / ${limitedJobCards.length}</div>
+                        <h3>✨ 인기 공고 TOP3 ✨</h3>
+                        <img src="${topJobImage}" alt="Job Image" class="popup-image">
+                        <p class="job-title"><strong>${topJobInfo}</strong></p>
+                        <p class="job-company">${topJobCompany}</p>
+                        <p class="job-location">${topJobLocation}</p>
+                        <a href="${topJobLink}" class="popup-link" target="_blank">공고 보러가기</a>
+                        <div class="popup-actions">
+                            <span id="dont-show-today" class="action-text2">오늘 보지 않기</span>
+                            <span id="next-popup" class="action-text">다음 공고 보기</span>
+                        </div>
+                    </div>
+                </div>
+            `);
+
+            $("body").append(popup);
+
+            $("#dont-show-today").click(function () {
+                localStorage.setItem("todayPopupClosed", true);
+                $(".popup").remove();
+            });
+
+            $("#close-popup").click(function () {
+                $(".popup").remove();
+            });
+
+            $("#next-popup").click(function () {
+                currentIndex++;
+                showPopup(currentIndex);
+            });
+        }
+
+        showPopup(currentIndex);
+    }
+
 });

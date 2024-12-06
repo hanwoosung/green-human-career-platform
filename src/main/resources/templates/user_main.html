@@ -1,25 +1,55 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<!--
+    작성자: 구경림
+    작성일: 2024.12.01
+    파일 설명:
+        기존의 user_main 페이지를 레이아웃 적용해보기위해 따로 만든 페이지
+        <main layout:fragment="content"></main> 안의 내용은 user_main.html의 내용을 복붙함.
+-->
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout-test/layout/main_layout}"
+>
     <head>
         <meta charset="UTF-8">
         <title>구직자 메인</title>
         <link rel="stylesheet" href="/static/css/main/index.css">
         <link rel="stylesheet" href="/static/css/common/skillBox.css">
         <link rel="stylesheet" href="/static/css/common/paging.css">
-
+        <link rel="stylesheet" href="https://unpkg.com/swiper@10/swiper-bundle.min.css"/>
+        <script src="https://unpkg.com/swiper@10/swiper-bundle.min.js"></script>
     </head>
     <body>
-
-        <div class="flex-column main-container">
-            <div th:insert="~{layout/header_user}"></div>
-
+        <main layout:fragment="content">
             <div class="flex1 mt70 mar-center">
+
+                <div class="promo-banner">
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <img src="https://greenart.co.kr/upimage/mainBanner/20240903115448.jpg" alt="Job Promotion Banner 1" />
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="https://greenart.co.kr/upimage/mainBanner/20240903113925.jpg" alt="Job Promotion Banner 2" />
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="https://greenart.co.kr/upimage/mainBanner/20241122102205.jpg" alt="Job Promotion Banner 3" />
+                            </div>
+                        </div>
+
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div>
+                </div>
+
                 <div class="skill-container">
                     <!-- 왼쪽 패널 -->
                     <div class="left-panel" id="categoryPanel">
                         <button class="category-btn" th:each="category : ${categories}"
                                 th:data-category="${category.upCd}"
-                                th:text="${category.categoryName}">
+                                th:text="${category.categoryName}"
+                                th:if="${category.upCd} != 'stack_cd'">
                         </button>
                     </div>
 
@@ -40,7 +70,7 @@
                                 <div th:each="skill : ${skillList}" th:data-category="${skill.upCd}"
                                      th:if="${skill.upCd == category.upCd}" class="skill-item">
                                     <label>
-                                        <input type="checkbox" name="skills" th:value="${skill.cdNm}">
+                                        <input type="checkbox" name="skills" th:value="${skill.cd}">
                                         <span th:text="${skill.cdNm}"></span>
                                     </label>
                                 </div>
@@ -58,26 +88,30 @@
 
                 <div class="main-list-wrapper">
                     <div class="main-list-container">
-                        <div class="job-card" th:each="jobItem : ${jobList}">
+                        <div class="job-card" th:each="jobItem : ${jobList}"
+                             th:attr="data-jNo=${jobItem.JNo}, data-id=${jobItem.id} , data-vCnt=${jobItem.VCnt}">
                             <div class="card-image">
                                 <div class="card-overlay">
-                                    <span class="days-left" th:text="${jobItem.leftDate}">D-11</span>
-                                    <i class="bi bi-bookmark scrap-icon" id="bookmark-icon"></i>
+                                    <span class="days-left" th:if="${jobItem.leftDate != 'D-0'}" th:text="${jobItem.leftDate}">D-11</span>
+                                    <i th:class="'bi ' + ${jobItem.scrapCnt == 0 ? 'bi-bookmark ' : 'bi-bookmark-fill '} + 'scrap-icon '"
+                                       id="bookmark-icon"></i>
                                 </div>
+                                <a th:href="@{/job-open/detail/{jNo}(jNo=${jobItem?.JNo})}">
+
                                 <img th:src="@{${jobItem.fileUrl != null and !jobItem.fileUrl.isEmpty() ? jobItem.fileUrl : '/static/images/empty_company.png'}}"
                                      alt="회사 이미지">
-
+                                </a>
                             </div>
                             <div class="card-header">
                                 <div class="card-header-box">
-                                    <span class="company-name">삼성전자</span>
-                                    <i class="bi bi-heart heart-icon" id="heart-icon"></i>
+                                    <span class="company-name" th:text="${jobItem.name}">삼성전자</span>
+                                    <i th:class="'bi ' + ${jobItem.bookmarkCnt == 0 ? 'bi-heart ' : 'bi-heart-fill '} + 'heart-icon'"
+                                       id="heart-icon"></i>
                                 </div>
                             </div>
 
                             <div class="card-body">
                                 <h3 class="job-title" th:text="${jobItem.JTitle}">백엔드개발자 - 테크리드 (테크사업부)</h3>
-                                <h4 class="job-content" th:text="${jobItem.JContent}">백엔드개발자 - 테크리드 (테크사업부)</h4>
                                 <div class="job-location">
                                     <span th:text="${jobItem.workPlace}">경기도</span> | <span
                                         th:text="${jobItem.workType}">경력 3년</span>
@@ -127,13 +161,8 @@
                 </div>
             </div>
 
-            <footer th:insert="~{layout/footer}"></footer>
-        </div>
-
-        <script src="/static/js/main/user_main.js"></script>
-
+            <script src="/static/js/main/user_main.js"></script>
+            <!--    <button onclick="alert_modal.on('알림', '홈페이지에 오신 것을 환영합니다.')">모달 열기</button>-->
+        </main>
     </body>
 </html>
-
-
-

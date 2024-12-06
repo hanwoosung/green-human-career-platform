@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<!-- Default Layout Import-->
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout-test/layout/mypage_layout}"
+>
+    <head>
+        <meta charset="UTF-8">
+        <title>asd</title>
+        <link rel="stylesheet" href="/static/css/jobseeker/mypage/scrap.css">
+        <link rel="stylesheet" href="/static/css/jobseeker/mypage/result.css">
+        <link rel="stylesheet" href="/static/css/common/paging.css">
+
+    </head>
+    <body>
+        <main layout:fragment="content">
+            <div class="content-title font-bold">
+                <span>지원 결과 확인</span>
+            </div>
+            <!-- 별점 팝업 -->
+            <div id="rating-popup" class="rating-popup">
+                <div class="popup-content">
+                    <h3>별점을 주시겠어요?</h3>
+                    <div class="rating-box">
+                           <span class="rate" style=" font-size: 30px;">
+                                    ★★★★★
+                                    <span class="active_rate">★★★★★</span>
+                                    <input type="range" class="rate_range" value="0" step="1" min="0" max="10">
+                                    </span>
+                        <p class="range_text">0점
+                        <p>
+                            <input type="hidden" name="rate_value" id="rate_value" value="">
+                    </div>
+                    <button id="confirm-rating" class="rating-button">확인</button>
+                </div>
+            </div>
+            <div class="main-list-wrapper">
+                <div class="main-list-container">
+                    <th:block th:each="scrap : ${list}">
+                        <div class="job-card"
+                             th:attr="data-jNo=${scrap.jNo}, data-id=${scrap.id}, data-r-no=${scrap.rNo}">
+                            <div class="resume-name-wrapper">
+                                <div class="resume-name">지원한 이력서 제목: [[${scrap.resumeTitle}]]</div>
+                            </div>
+
+                            <div class="card-image">
+                                <div class="card-overlay">
+                                    <span class="days-left">D - [[${scrap.leftDt}]]</span>
+                                    <i th:class="'bi ' + ${scrap.scrapCnt == 0 ? 'bi-bookmark ' : 'bi-bookmark-fill '} + 'scrap-icon '"
+                                       id="bookmark-icon"></i>
+                                </div>
+                                <a th:href="@{/job-open/detail/{jNo}(jNo=${scrap?.jNo})}">
+                                    <img alt="회사 이미지"
+                                         th:src="${scrap?.fileUrl + '/' + scrap?.fileId + '.' + scrap?.fileExt}"
+                                         onerror="this.src='/static/images/empty_company.png'">
+                                </a>
+                            </div>
+                            <div class="card-header">
+                                <div class="card-header-box">
+                                    <span class="company-name">[[${scrap.name}]]</span>
+                                    <i th:class="'bi ' + ${scrap.bookmarkCnt == 0 ? 'bi-heart ' : 'bi-heart-fill '} + 'heart-icon'"
+                                       id="heart-icon"></i>
+                                    <span class="matching-status ml15"
+                                          th:text="${scrap.jrGbnCd == 'N' ? '미확인' : scrap.jrGbnCd == 'O' ? '열람' : scrap.jrGbnCd == 'F' ? '불합격' : scrap.jrGbnCd == 'P' ? '합격' : '알 수 없음'}"
+                                          th:classappend="${scrap.jrGbnCd == 'N' ? 'rejected' : scrap.jrGbnCd == 'O' ? 'paused' : scrap.jrGbnCd == 'F' ? 'closed' : scrap.jrGbnCd == 'P' ? 'recruiting' : 'unknown'}">
+                                          </span>
+                                </div>
+                                <th:block th:if="${ scrap.jrGbnCd == 'P'}">
+                                    <button class="rating-button">별점 주기</button>
+                                </th:block>
+                            </div>
+
+                            <div class="card-body">
+                                <h3 class="job-title">[[${scrap.jTitle}]]</h3>
+                                <h4 class="job-content">[[${scrap.jSTitle}]]</h4>
+                                <div class="job-location">
+                                    <span>[[${scrap.workPlace}]]</span> | <span>[[${scrap.careerNm}]]</span>
+                                </div>
+
+                                <div class="skill-tags" th:if="${not #lists.isEmpty(scrap.stacks)}">
+                                         <span th:each="skill : ${scrap.stacks}" class="skill-tag"
+                                               th:text="${skill.stackNm}"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </th:block>
+                </div>
+
+
+            </div>
+
+            <!--             페이징 -->
+            <div class="pagination-wrapper">
+                <nav class="pagination-nav">
+                    <ul class="pagination">
+                        <!-- 처음 페이지 버튼 -->
+                        <li th:class="${paging.firstPageBtn ? 'page-item' : 'page-item disabled'}">
+                            <a class="page-link"
+                               th:href="${paging.firstPageBtn ? '/job-seeker/my-page/scrap?page=1' : '#'}"
+                               aria-label="처음">&laquo;</a>
+                        </li>
+
+                        <!-- 이전 페이지 버튼 -->
+                        <li th:class="${paging.prevBtn ? 'page-item' : 'page-item disabled'}">
+                            <a class="page-link"
+                               th:href="${paging.prevBtn ? '/job-seeker/my-page/scrap?page=' + (paging.startPage - 1) : '#'}"
+                               aria-label="이전">&lt;</a>
+                        </li>
+
+                        <!-- 페이지 번호 리스트 -->
+                        <li th:each="i : ${#numbers.sequence(paging.startPage, paging.endPage)}"
+                            th:class="${paging.currentPage == i ? 'page-item active' : 'page-item'}">
+                            <a class="page-link" th:href="@{/job-seeker/my-page/scrap(page=${i})}"
+                               th:text="${i}"></a>
+                        </li>
+
+                        <!-- 다음 페이지 버튼 -->
+                        <li th:class="${paging.nextBtn ? 'page-item' : 'page-item disabled'}">
+                            <a class="page-link"
+                               th:href="${paging.nextBtn ? '/job-seeker/my-page/scrap?page=' + (paging.endPage + 1) : '#'}"
+                               aria-label="다음">&gt;</a>
+                        </li>
+
+                        <!-- 마지막 페이지 버튼 -->
+                        <li th:class="${paging.lastPageBtn ? 'page-item' : 'page-item disabled'}">
+                            <a class="page-link"
+                               th:href="${paging.lastPageBtn ? '/job-seeker/my-page/scrap?page=' + paging.totalPage : '#'}"
+                               aria-label="마지막">&raquo;</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+
+        </main>
+    </body>
+</html>
+<script src="/static/js/jobseeker/mypage/result.js"></script>
+

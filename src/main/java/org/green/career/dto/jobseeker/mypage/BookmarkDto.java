@@ -36,6 +36,9 @@ public class BookmarkDto {
     private String fileExt;
     private String fileUrl;
 
+    //bookmark 수
+    private String bookmarkCnt;
+
     private String CBusiness;
 
 }
