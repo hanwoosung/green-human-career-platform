@@ -89,13 +89,22 @@ public class ResumeController extends AbstractController {
     }
     // 이력서 상세 조회 (GET)
     @GetMapping("/{id}")
-    public String resuem(@PathVariable("id") Long id, Model model) {
+    public String resume(@PathVariable("id") Long id, Model model) {
         ResumeDto resume = resumeService.getResumeById(id);
+
+        if (resume.getProfilePhoto() != null) {
+            String profilePhotoUrl = resume.getProfilePhoto().getNormalizedFileUrl();
+            System.out.println("Generated Profile Photo URL: " + profilePhotoUrl);
+            model.addAttribute("profilePhotoUrl", profilePhotoUrl);
+        } else {
+            model.addAttribute("profilePhotoUrl", "/static/images/default_profile2.png");
+        }
+
         model.addAttribute("resume", resume);
-        System.out.println(resume);
-        // id로 이력서 조회
-        return  "resume_detail";
+        return "resume_detail";
     }
+
+
 
     // 이력서 삭제 (DELETE)
     @ResponseBody

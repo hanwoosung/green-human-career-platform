@@ -37,5 +37,4 @@ public class ResumeDto {
     private List<TreatDto> treats  = new ArrayList<>();
     private List<IntroduceMeDto> introduces  = new ArrayList<>();
 
-
 }
