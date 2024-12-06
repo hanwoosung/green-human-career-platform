@@ -109,8 +109,30 @@ public class ResumeController extends AbstractController {
     // 이력서 삭제 (DELETE)
     @ResponseBody
     @DeleteMapping("/{resumeId}")
-    public ResponseDto<Void> deleteResume(@PathVariable String resumeId) {
+    public ResponseDto<Void> deleteResume(@PathVariable String resumeId,HttpSession session) {
         resumeService.deleteResume(resumeId);
+        return ok();
+    }
+
+    @ResponseBody
+    @PutMapping("/{resumeId}/representative")
+    public ResponseDto<Void> setRepresentativeResume(@PathVariable("resumeId") Long resumeId, HttpSession session) {
+        // 진입 확인 로그 추가
+        System.out.println("Entering setRepresentativeResume method with resumeId: " + resumeId);
+
+        String loginedUser = (String) session.getAttribute("userId");
+
+
+        // 현재 로그인된 사용자 ID 확인 로그 추가
+        System.out.println("Logged in user ID: " + loginedUser);
+
+        // 서비스 호출 전에 로그 추가
+        System.out.println("Calling resumeService.setRepresentativeResume()");
+        resumeService.setRepresentativeResume(resumeId, loginedUser);
+
+        // 성공 로그
+        System.out.println("Successfully updated representative resume");
+
         return ok();
     }
 

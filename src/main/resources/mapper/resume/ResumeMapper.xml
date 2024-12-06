@@ -9,6 +9,19 @@
 <mapper namespace="org.green.career.dao.resume.ResumeDao">
 
 
+    <!-- 모든 이력서를 대표에서 해제 -->
+    <update id="updateAllResumesToNonRepresentative">
+        UPDATE tbl_resume
+        SET r_rep_yn = 'N'
+        WHERE inst_id = #{userId};
+    </update>
+
+    <!-- 특정 이력서를 대표로 설정 -->
+    <update id="updateResumeToRepresentative">
+        UPDATE tbl_resume
+        SET r_rep_yn = 'Y'
+        WHERE r_no = #{resumeId};
+    </update>
 
 
 

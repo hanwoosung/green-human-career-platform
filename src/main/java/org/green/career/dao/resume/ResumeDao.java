@@ -15,9 +15,12 @@ import java.util.List;
 @Mapper
 public interface ResumeDao {
 
+    void updateAllResumesToNonRepresentative(String userId);
+
+    // 특정 이력서를 대표 이력서로 설정
+    void updateResumeToRepresentative(Long resumeId);
 
     ResumeDto getResumeById(Long id);
-
 
 
     List<TreatDto> getAllTreatCodes();
