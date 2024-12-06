@@ -25,11 +25,9 @@ public class SendResultController extends AbstractController {
     private final SendResultDao sendResultDao;
 
     @GetMapping("/send-result")
-    public String bookmark(Model model,
-                           @RequestParam(value = "page", defaultValue = "1") int page) throws Exception {
+    public String bookmark(Model model, @RequestParam(value = "page", defaultValue = "1") int page) throws Exception {
 
         sessionGoLogin();
-
 
         Map<String, Object> result = sendResultService.selectSendResult(page, isSessionCheck());
         System.out.println(result + "asdafaf");
@@ -44,7 +42,7 @@ public class SendResultController extends AbstractController {
     public ResponseDto<String> submitRating(@RequestBody RatingRequestDto ratingRequest) {
         sessionApiError();
         isSessionCheck();
-        log.info(ratingRequest.toString()+"aa");
+        log.info(ratingRequest.toString() + "aa");
         ratingRequest.setId(isSessionCheck());
         sendResultDao.giveRating(ratingRequest);
         return ok("성공");

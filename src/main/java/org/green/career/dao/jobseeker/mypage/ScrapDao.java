@@ -2,7 +2,6 @@ package org.green.career.dao.jobseeker.mypage;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.green.career.dto.jobseeker.mypage.ScrapDto;
-import org.green.career.dto.jobseeker.mypage.ScrapStackDto;
 
 import java.util.List;
 
@@ -14,8 +13,5 @@ public interface ScrapDao {
     int getTotalCnt(String id);
 
     <T> List<T> getStacks(String jNos);
-
-
-
 
 }

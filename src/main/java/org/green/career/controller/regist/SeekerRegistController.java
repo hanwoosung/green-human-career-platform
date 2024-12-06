@@ -5,13 +5,12 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.green.career.controller.AbstractController;
-import org.green.career.dao.regist.RegistSDao;
 import org.green.career.dto.common.ResponseDto;
 import org.green.career.dto.regist.RegistSDto;
 import org.green.career.service.regist.RegistSService;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
 /**
  * 작성자: 구경림
  * 작성일: 2024-12-03
@@ -40,6 +39,7 @@ public class SeekerRegistController extends AbstractController {
         registSService.saveSeeker(registSDto);
         return ok("회원가입 성공");
     }
+
     @ResponseBody
     @GetMapping("/s/ckDpId/{id}")
     public ResponseDto<Boolean> checkDuplicateId(@PathVariable String id) {

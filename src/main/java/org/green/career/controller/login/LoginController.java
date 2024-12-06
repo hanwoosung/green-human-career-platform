@@ -1,17 +1,13 @@
 package org.green.career.controller.login;
 
 import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.green.career.controller.AbstractController;
 import org.green.career.dto.common.ResponseDto;
 import org.green.career.dto.login.UserLoginDto;
-import org.green.career.exception.BaseException;
 import org.green.career.service.login.LoginService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -58,5 +54,4 @@ public class LoginController extends AbstractController {
         session.invalidate();
         return "redirect:/test";
     }
-
 }

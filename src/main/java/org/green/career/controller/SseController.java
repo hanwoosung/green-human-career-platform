@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- *  2024-12-05 한우성
+ * 2024-12-05 한우성
  * 간단한 알림을 관리하는 컨트롤러
  * TODO: 테스트 용도 이기 때문에 임시로 이렇게 놔둘거임
  */
@@ -38,11 +38,13 @@ public class SseController {
             emitter.send(SseEmitter.event().name("message").data(message));
         }
     }
+
     public void sendToAll(String message) throws IOException {
         for (SseEmitter emitter : userEmitters.values()) {
             emitter.send(SseEmitter.event().name("broadcast").data(message));
         }
     }
+
     @GetMapping("/sendMessage/{userId}/{message}")
     public String sendMessage(@PathVariable("userId") String userId, @PathVariable("message") String message) {
         try {

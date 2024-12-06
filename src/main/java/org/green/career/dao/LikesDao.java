@@ -2,10 +2,7 @@ package org.green.career.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.green.career.dto.likes.LikesDto;
 import org.green.career.dto.likes.response.ResponseLikesDto;
-
-import java.util.Map;
 
 /**
  * 작성자: 김상준

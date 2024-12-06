@@ -134,7 +134,7 @@
                              th:attr="data-jNo=${jobItem.JNo}, data-id=${jobItem.id}">
                             <div class="card-image">
                                 <div class="card-overlay">
-                                    <span class="days-left" th:text="${jobItem.leftDate}">D-11</span>
+                                    <span class="days-left" th:if="${jobItem.leftDate != 'D-0'}" th:text="${jobItem.leftDate}">D-11</span>
                                     <i th:class="'bi ' + ${jobItem.scrapCnt == 0 ? 'bi-bookmark ' : 'bi-bookmark-fill '} + 'scrap-icon '"
                                        id="bookmark-icon"></i>
                                 </div>

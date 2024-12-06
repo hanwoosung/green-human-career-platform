@@ -19,7 +19,7 @@ public class JobRecordDto {
     private Long rNo;
 
     //  이력서 제목
-    private String rTitle ;
+    private String rTitle;
 
     // 지원 기록 번호
     private Long jrNo;

@@ -5,21 +5,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.green.career.dto.common.file.request.TblFileRequestDto;
 import org.green.career.dto.company.mypage.CompanyModiDto;
 import org.green.career.dto.company.mypage.CompanyUserDto;
-import org.green.career.exception.BaseException;
 import org.green.career.service.company.mypage.CompanyMypageService;
-import org.green.career.type.ResultType;
 import org.green.career.utils.CommonUtils;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @RequestMapping("/mypage")
@@ -42,7 +35,7 @@ public class CompanyMypageController {
 
         CompanyModiDto dto = companyMypageService.getCompanyModi(user);
         System.out.println("%^&*%^&*" + dto);
-        if(dto == null) {
+        if (dto == null) {
             return "redirect:/company/check/" + user_id;
         } else {
             model.addAttribute("user", dto);
@@ -59,7 +52,7 @@ public class CompanyMypageController {
     public String modifyCompany(CompanyModiDto user, Model model) throws Exception {
         TblFileRequestDto fileList = new TblFileRequestDto();
         System.out.println("Update" + user);
-        if(user.getFileUrl() == null && user.getFileName() == null) {
+        if (user.getFileUrl() == null && user.getFileName() == null) {
             fileList = utils.saveCompanyImage(user.getFile(), user.getId());
             companyMypageService.insertMypageProfile(fileList);
         }

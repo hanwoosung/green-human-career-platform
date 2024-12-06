@@ -21,9 +21,9 @@ public class StackController {
 
     @GetMapping
     public String stack(@RequestParam(value = "page", defaultValue = "1") int page,
-                           @RequestParam(value = "search", required = false) String searchText,
-                           @RequestParam(value = "skills", required = false) List<String> skills,
-                           Model model) {
+                        @RequestParam(value = "search", required = false) String searchText,
+                        @RequestParam(value = "skills", required = false) List<String> skills,
+                        Model model) {
 
         JobSearchResult result = stackService.getJobOpeningsWithPaging(searchText, skills, page);
         Map<String, Object> skillData = stackService.findSkillList();
@@ -38,7 +38,5 @@ public class StackController {
 
         return "/jobseeker/mypage/stack";
     }
-
-
 
 }
