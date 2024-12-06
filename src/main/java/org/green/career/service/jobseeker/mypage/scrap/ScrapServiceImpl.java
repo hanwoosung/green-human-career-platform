@@ -10,7 +10,10 @@ import org.green.career.service.AbstractService;
 import org.green.career.utils.PagingBtn;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 작성자: 김상준
@@ -118,5 +121,4 @@ public class ScrapServiceImpl extends AbstractService implements ScrapService {
 
         return String.join(",", cjNo);
     }
-
 }

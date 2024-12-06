@@ -18,8 +18,6 @@ public class JobOpeningRequestDto {
     private Long jNo;
     // 아이디
     private String id;
-
-
     // 공고명
     private String jTitle;
     // 서브타이틀

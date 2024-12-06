@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    작성자: 구경림
+    작성일: 2024.12.01
+    파일 설명:
+    사용자 로그인 관련 MyBatis 매퍼
+-->
+<mapper namespace="org.green.career.dao.company.CompanyDetailDao">
+    <select id="getCompanyInfo" resultType="org.green.career.dto.company.response.CompanyInfoResponseDto">
+        SELECT c.id AS id, c.homepage AS homepage,
+            c.c_detail AS cDetail, c.c_cnt AS cCnt, c.c_business AS cBusiness,
+            cd.cd_nm AS gbn
+        FROM tbl_company c
+            LEFT JOIN tbl_codeinfo cd ON c.c_gbn_cd = cd.cd
+        WHERE c.id = #{id} AND cd.up_cd = 'c_gbn_cd';
+    </select>
+    <select id="getCompanySales" resultType="org.green.career.dto.company.response.CompanySalesResponseDto">
+        SELECT DATE_FORMAT(c_sale_dt, '%Y') AS cSaleDt, c_pay AS cPay
+            FROM tbl_company_sales
+        WHERE id = #{id};
+    </select>
+    <select id="getCompanyHistory" resultType="org.green.career.dto.company.response.CompanyHistoryResponseDto">
+        SELECT DATE_FORMAT(c_history, '%Y-%m') AS cHistory, c_content AS cContent
+        FROM tbl_company_history
+        WHERE id = #{id}
+        ORDER BY c_history DESC;
+    </select>
+    <select id="getCompanyFileP" resultType="org.green.career.dto.common.file.request.FileDto">
+        SELECT file_name AS fileName, file_url AS fileUrl
+        FROM tbl_file
+        WHERE file_ref_id = #{id} AND file_gbn_cd = 20;
+    </select>
+    <select id="getCompanyFileS" resultType="org.green.career.dto.common.file.request.FileDto">
+        SELECT file_name AS fileName, file_url AS fileUrl
+        FROM tbl_file
+        WHERE file_ref_id = #{id} AND file_gbn_cd = 30;
+    </select>
+    <select id="getCompanyFilePr" resultType="org.green.career.dto.common.file.request.FileDto">
+        SELECT file_name AS fileName, file_url AS fileUrl
+        FROM tbl_file
+        WHERE file_ref_id = #{id} AND file_gbn_cd = 10;
+    </select>
+    <select id="getCompanyUser" resultType="org.green.career.dto.company.response.CompanyUserResponseDto">
+        SELECT name, birth, zip_cd, addr, addr2
+        FROM tbl_user
+        WHERE id = #{id};
+    </select>
+</mapper>

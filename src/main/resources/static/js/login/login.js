@@ -19,6 +19,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
             if (response.data.result.code === "200") {
                 console.log('로그인 성공:', response.data.result);
                 // window.location.href = '/test';
+                sessionStorage.setItem('userId', id);
                 window.location.href = referer;
             } else {
                 console.log('로그인 실패:', response.data.result);
@@ -42,8 +43,6 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
                 responseMessage.textContent = '서버와의 연결이 실패했습니다. 나중에 다시 시도해 주세요.';
             }
         });
-
-
 });
 
 document.addEventListener('DOMContentLoaded', () => {

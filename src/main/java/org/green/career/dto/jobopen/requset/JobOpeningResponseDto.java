@@ -29,17 +29,16 @@ public class JobOpeningResponseDto {
     private Long jNo;
     // 작성자 ID
     private String id;
+    private String name;
     // 공고명
     private String jTitle;
     // 서브타이틀
     private String jStitle;
-    // 내용
-    private String jContent;
-
     // 채용구분(C: 마감, O: 모집중, S:모집 일시중지)
     private String jGbnCd;
     // 마감일시
     private LocalDate eDt;
+    private LocalDate sDt;
     // 남은 날짜
     private String leftDate;
     // 근무지
@@ -50,12 +49,11 @@ public class JobOpeningResponseDto {
     private List<String> skills;
     // 파일 URL (예: 이미지 파일)
     private String fileUrl;
-
     // scrapCnt
     private int scrapCnt;
-
     // bookmarkCnt
     private int bookmarkCnt;
+    private LocalDate instDt;
 
 
     /**
@@ -74,21 +72,31 @@ public class JobOpeningResponseDto {
         }
     }
 
+
     /**
      * 마감일까지 남은 날짜 계산
-     *
-     * @return 남은 날짜 (D-11 형식)
+     * TODO: 나중에 변경해야함 여러곳에서 쓰이기 떄문에
+     * @return 남은 날짜 (D-day 형식, D-0 형식, D-n 형식)
      */
-    public static String calculateLeftDate(LocalDate eDt) {
-        long daysLeft = ChronoUnit.DAYS.between(LocalDate.now(), eDt);
-        if (daysLeft < 0) {
-            return "D-" + Math.abs(daysLeft);
-        } else {
-            return "0";
+    public static String calculateLeftDate(LocalDate sDt, LocalDate eDt) {
+        LocalDate today = LocalDate.now();
+
+        if (today.isEqual(eDt)) {
+            return "D-day";
         }
+
+        if (today.isAfter(eDt)) {
+            return "D-0";
+        }
+
+        if (today.isBefore(sDt)) {
+            long daysLeft = ChronoUnit.DAYS.between(today, sDt);
+            return "D-" + daysLeft;
+        }
+
+        long daysLeft = ChronoUnit.DAYS.between(today, eDt);
+        return "D-" + daysLeft;
     }
-
-
 }
 
 

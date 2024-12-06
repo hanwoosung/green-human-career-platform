@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public  class FileResponseDto {
+public class FileResponseDto {
     // 파일 ID
     private Long fileId;
     // 파일구분

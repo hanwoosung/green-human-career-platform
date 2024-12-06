@@ -1,9 +1,13 @@
 package org.green.career.service.jobopen;
 
+import org.green.career.dto.common.CodeInfoDto;
 import org.green.career.dto.common.file.request.TblFileRequestDto;
 import org.green.career.dto.common.file.response.FileResponseDto;
 import org.green.career.dto.jobopen.JobOpeningDetailDto;
 import org.green.career.dto.jobopen.requset.JobOpeningRequestDto;
+import org.green.career.dto.jobopen.response.JobOpenCompanyDto;
+import org.green.career.dto.jobopen.response.JobRecordDto;
+import org.green.career.dto.jobopen.response.ResponseMyResume;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -18,7 +22,7 @@ public interface JobOpeningService {
     /**
      * 채용 공고 등록
      */
-    int insertJobOpening(JobOpeningRequestDto jobOpeningRequestDto);
+    int insertJobOpening(JobOpeningRequestDto jobOpeningRequestDto, String id);
 
     /**
      * 최대 채용 공고 번호 조회
@@ -70,4 +74,20 @@ public interface JobOpeningService {
      */
     int removeSkills(int jNo, List<String> removedSkills);
 
+    JobOpenCompanyDto getCompany(String companyId);
+
+    List<JobRecordDto> getResumeList(int jNo);
+
+    int jobOpeningPass(int jrNo, String type);
+
+    List<ResponseMyResume> myResumes(String id);
+
+    int resumeApply(int jNo, int rNo, String id);
+
+    int existsResume(int jNo, int rNo, String id);
+
+    int delete(int jNo);
+
+    List<CodeInfoDto> mySkill(int jNo);
+    int viewCountUp(int jNo);
 }

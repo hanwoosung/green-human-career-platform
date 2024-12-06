@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.green.career.dao.company.jbskMngm.BookmarkSeekerDao">
+
+    <select id="getBookmarkSeekerList" resultType="org.green.career.dto.company.jbskMngm.BookmarkSeekerDto">
+        SELECT b.`name`,
+               b.birth,
+               TRUNCATE((TO_DAYS(NOW()) - TO_DAYS(b.birth)) / 365, 0) AS age,
+               b.zip_cd,
+               b.addr,
+               b.addr2,
+               c.r_no,
+               IFNULL(c.r_title, '이력서 없음')                         AS r_title,
+               IFNULL(d.file_id, '')                                  AS file_id,
+               IFNULL(d.file_name, '')                                AS file_name,
+               IFNULL(d.file_ext, '')                                 AS file_ext,
+               IFNULL(d.file_url, '')                                 AS file_url
+        FROM tbl_likes a
+                 LEFT JOIN tbl_user b ON a.id = b.id
+                 LEFT JOIN tbl_resume c ON b.id = c.inst_id AND c.r_rep_yn = 'Y'
+                 LEFT JOIN tbl_file d ON c.r_no = d.file_ref_id AND d.file_gbn_cd = '50'
+        WHERE a.cj_no = #{id}
+          AND a.l_gbn_cd = 'B'
+          AND b.use_yn = 'Y'
+          AND b.name LIKE CONCAT('%', #{search}, '%')
+        ORDER BY a.l_no DESC
+            LIMIT #{offset}, #{limit};
+    </select>
+
+    <select id="getTotalCnt" resultType="Integer">
+        SELECT COUNT(*)
+        FROM tbl_likes a
+                 LEFT JOIN tbl_user b ON a.id = b.id
+        WHERE a.cj_no = #{id}
+          AND a.l_gbn_cd = 'B'
+          AND b.use_yn = 'Y'
+          AND b.name LIKE CONCAT('%', #{search}, '%');
+    </select>
+
+</mapper>

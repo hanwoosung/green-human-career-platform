@@ -11,5 +11,5 @@ import org.green.career.dto.login.UserLoginDto;
  */
 @Mapper
 public interface LoginDao {
-    UserLoginDto findUserForLogin(@Param("id") String id, @Param("pw") String pw, @Param("userGbnCd")String userGbnCd);
+    UserLoginDto findUserForLogin(@Param("id") String id, @Param("pw") String pw, @Param("userGbnCd") String userGbnCd);
 }

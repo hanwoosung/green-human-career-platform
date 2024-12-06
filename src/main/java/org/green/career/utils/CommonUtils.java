@@ -51,16 +51,44 @@ public class CommonUtils {
                 Files.createDirectories(path.getParent());
                 file.transferTo(path.toFile());
 
+                log.info(path.toString());
+                log.info(uploadDir);
+                log.info(uniqueFileName);
+
                 TblFileRequestDto fileDto = new TblFileRequestDto();
                 fileDto.setFileGbnCd("100");
                 fileDto.setFileRefId(String.valueOf(id));
                 fileDto.setFileName(uniqueFileName);
                 fileDto.setFileExt(fileExt);
                 fileDto.setFileUrl("/static/uploads/company/" + uniqueFileName);
+                log.info(fileDto.toString());
                 fileList.add(fileDto);
             }
         }
         return fileList;
+    }
+
+    public TblFileRequestDto saveCompanyImage(MultipartFile companyImages, String id) throws Exception {
+        String originalFilename = companyImages.getOriginalFilename();
+        String fileName = originalFilename != null ? originalFilename : "unknown";
+        String fileExt = fileName.substring(fileName.lastIndexOf(".") + 1);
+        String baseName = fileName.substring(0, fileName.lastIndexOf("."));
+
+        String timestamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        String uniqueFileName = baseName + "_" + timestamp + "." + fileExt;
+
+        Path path = Paths.get(uploadDir, uniqueFileName);
+        Files.createDirectories(path.getParent());
+        companyImages.transferTo(path.toFile());
+
+        TblFileRequestDto fileDto = new TblFileRequestDto();
+        fileDto.setFileGbnCd("10");
+        fileDto.setFileRefId(id);
+        fileDto.setFileName(uniqueFileName);
+        fileDto.setFileExt(fileExt);
+        fileDto.setFileUrl("/static/uploads/company/" + uniqueFileName);
+
+        return fileDto;
     }
 
     /**
@@ -95,4 +123,64 @@ public class CommonUtils {
         }
     }
 
+    /**
+     * 기업 등록 대표 이미지 사용
+     * 2024-12-03 김재홍
+     */
+    public TblFileRequestDto saveCompanyImagesP(MultipartFile companyImages, String id) throws Exception {
+        String originalFilename = companyImages.getOriginalFilename();
+        String fileName = originalFilename != null ? originalFilename : "unknown";
+        String fileExt = fileName.substring(fileName.lastIndexOf(".") + 1);
+        String baseName = fileName.substring(0, fileName.lastIndexOf("."));
+
+        String timestamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        String uniqueFileName = baseName + "_" + timestamp + "." + fileExt;
+
+        Path path = Paths.get(uploadDir, uniqueFileName);
+        Files.createDirectories(path.getParent());
+        companyImages.transferTo(path.toFile());
+
+        TblFileRequestDto fileDto = new TblFileRequestDto();
+        fileDto.setFileGbnCd("20");
+        fileDto.setFileRefId(id);
+        fileDto.setFileName(uniqueFileName);
+        fileDto.setFileExt(fileExt);
+        fileDto.setFileUrl("/static/uploads/company/" + uniqueFileName);
+
+        return fileDto;
+    }
+    /**
+     * 기업 등록 세부 이미지 사용
+     * 2024-12-03 김재홍
+     */
+    public List<TblFileRequestDto> saveCompanyImagesB(List<MultipartFile> companyImages, String id) throws Exception {
+        List<TblFileRequestDto> fileList = new ArrayList<>();
+        for (MultipartFile file : companyImages) {
+            if (!file.isEmpty()) {
+                String originalFilename = file.getOriginalFilename();
+                String fileName = originalFilename != null ? originalFilename : "unknown";
+                String fileExt = fileName.substring(fileName.lastIndexOf(".") + 1);
+                String baseName = fileName.substring(0, fileName.lastIndexOf("."));
+
+                String timestamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+                String uniqueFileName = baseName + "_" + timestamp + "." + fileExt;
+
+                Path path = Paths.get(uploadDir, uniqueFileName);
+                Files.createDirectories(path.getParent());
+                file.transferTo(path.toFile());
+
+                TblFileRequestDto fileDto = new TblFileRequestDto();
+                fileDto.setFileGbnCd("30");
+                fileDto.setFileRefId(id);
+                fileDto.setFileName(uniqueFileName);
+                fileDto.setFileExt(fileExt);
+                fileDto.setFileUrl("/static/uploads/company/" + uniqueFileName);
+                fileList.add(fileDto);
+            }
+        }
+        return fileList;
+    }
+    
 }
+
+

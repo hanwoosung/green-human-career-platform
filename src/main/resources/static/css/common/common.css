@@ -2108,6 +2108,20 @@
     bottom: 20px;
 }
 
+.bottom-25 {
+    bottom: 25px;
+}
+.bottom-30 {
+    bottom: 30px;
+}
+
+.bottom-35 {
+    bottom: 35px;
+}
+.bottom-40 {
+    bottom: 40px;
+}
+
 /* -------------------------
    7. Z-Index Utilities
 ------------------------- */

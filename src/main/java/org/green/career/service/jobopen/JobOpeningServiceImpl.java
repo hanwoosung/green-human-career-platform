@@ -3,10 +3,14 @@ package org.green.career.service.jobopen;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.green.career.dao.jobopen.JobOpeningDao;
+import org.green.career.dto.common.CodeInfoDto;
 import org.green.career.dto.common.file.request.TblFileRequestDto;
 import org.green.career.dto.common.file.response.FileResponseDto;
 import org.green.career.dto.jobopen.JobOpeningDetailDto;
 import org.green.career.dto.jobopen.requset.JobOpeningRequestDto;
+import org.green.career.dto.jobopen.response.JobOpenCompanyDto;
+import org.green.career.dto.jobopen.response.JobRecordDto;
+import org.green.career.dto.jobopen.response.ResponseMyResume;
 import org.green.career.exception.BaseException;
 import org.green.career.service.AbstractService;
 import org.green.career.type.ResultType;
@@ -14,6 +18,9 @@ import org.green.career.utils.CommonUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -30,9 +37,9 @@ public class JobOpeningServiceImpl extends AbstractService implements JobOpening
     private final CommonUtils commonUtils;
 
     @Override
-    public int insertJobOpening(JobOpeningRequestDto jobOpeningRequestDto) {
+    public int insertJobOpening(JobOpeningRequestDto jobOpeningRequestDto, String id) {
         return returnData(() -> {
-            JobOpeningRequestDto jobRequestDto = buildJobOpeningRequestDto(jobOpeningRequestDto);
+            JobOpeningRequestDto jobRequestDto = buildJobOpeningRequestDto(jobOpeningRequestDto, id);
             int result;
 
             try {
@@ -75,9 +82,9 @@ public class JobOpeningServiceImpl extends AbstractService implements JobOpening
         });
     }
 
-    private JobOpeningRequestDto buildJobOpeningRequestDto(JobOpeningRequestDto requestDto) {
+    private JobOpeningRequestDto buildJobOpeningRequestDto(JobOpeningRequestDto requestDto, String id) {
         return JobOpeningRequestDto.builder()
-                .id("company2") //TODO: 추후 세션 아이디로
+                .id(id)
                 .jTitle(requestDto.getJTitle())
                 .jStitle(requestDto.getJStitle())
                 .jContent(requestDto.getJContent())
@@ -162,6 +169,69 @@ public class JobOpeningServiceImpl extends AbstractService implements JobOpening
         } catch (Exception e) {
             throw new BaseException(ResultType.ERROR, "스킬 삭제 오류", e);
         }
+    }
+
+    @Override
+    public JobOpenCompanyDto getCompany(String companyId) {
+        JobOpenCompanyDto company = jobOpeningDao.getCompany(companyId);
+
+        //TODO :임시 로직 일단 여기둠
+
+        // 설립일 변환 로직
+        String birthDate = String.valueOf(company.getBirth());
+        LocalDate establishmentDate = LocalDate.parse(birthDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        int yearsSince = Period.between(establishmentDate, LocalDate.now()).getYears();
+
+        // 변환된 값 설정
+        String formattedBirth = establishmentDate.format(DateTimeFormatter.ofPattern("yyyy년 M월 d일"));
+        String displayBirth = formattedBirth + " (" + yearsSince + "년차)";
+        company.setFormattedBirth(displayBirth);
+
+        return company;
+    }
+
+    @Override
+    public List<JobRecordDto> getResumeList(int jNo) {
+        return jobOpeningDao.getResumeList(jNo);
+    }
+
+    @Override
+    public int jobOpeningPass(int jrNo, String type) {
+        return returnData(() -> jobOpeningDao.jobOpeningPass(jrNo, type));
+    }
+
+    @Override
+    public List<ResponseMyResume> myResumes(String id) {
+        return returnData(() -> jobOpeningDao.myResumes(id));
+    }
+
+    @Override
+    public int resumeApply(int jNo, int rNo, String id) {
+        if (existsResume(jNo, rNo, id) != 0) {
+            throw new BaseException(ResultType.EXISTS_ERROR);
+        }
+
+        return returnData(() -> jobOpeningDao.resumeApply(jNo, rNo, id));
+    }
+
+    @Override
+    public int existsResume(int jNo, int rNo, String id) {
+        return jobOpeningDao.existsResume(jNo, rNo, id);
+    }
+
+    @Override
+    public int delete(int jNo) {
+        return returnData(() -> jobOpeningDao.delete(jNo));
+    }
+
+    @Override
+    public List<CodeInfoDto> mySkill(int jNo) {
+        return jobOpeningDao.mySkill(jNo);
+    }
+
+    @Override
+    public int viewCountUp(int jNo) {
+        return returnData(() -> jobOpeningDao.viewCountUp(jNo));
     }
 
     @Override

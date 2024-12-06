@@ -2,6 +2,7 @@ package org.green.career.dao.regist;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.green.career.dto.regist.RegistSDto;
+
 /**
  * 작성자: 구경림
  * 작성일: 2024-12-03
@@ -9,6 +10,8 @@ import org.green.career.dto.regist.RegistSDto;
  */
 @Mapper
 public interface RegistSDao {
+
     void insertSeeker(RegistSDto registSDto);
+
     boolean existsById(String id);
 }
