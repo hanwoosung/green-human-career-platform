@@ -275,7 +275,7 @@
         </th:block>
 
         <th:block th:if="${session.userId == company.id}">
-          <button><a href="'/companyModi?userId=' + session.userId">수정</a></button>
+          <button><a th:href="@{/companyModi/{user_id}(user_id=${session.userId})}">수정</a></button>
         </th:block>
 
       </div>

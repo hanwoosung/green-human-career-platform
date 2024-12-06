@@ -17,7 +17,7 @@
         <div class="content">
             <form th:action="@{/mypage/myInfo/{user_id}(user_id='qwer1')}" method="post">
                 <p>
-                    <input type="hidden" name="id" value="qwer1">
+                    <input type="hidden" name="id" th:value="${user_id}">
                     <input type="text" name="pw">
                 </p>
                 <p>

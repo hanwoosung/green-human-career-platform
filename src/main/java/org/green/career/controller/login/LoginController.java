@@ -38,7 +38,7 @@ public class LoginController extends AbstractController {
     @GetMapping
     public String login(HttpSession session) {
         if (session.getAttribute("userId") != null) {
-            return "redirect:/test";
+            return "redirect:/";
         }
         return "login";
     }
@@ -61,7 +61,7 @@ public class LoginController extends AbstractController {
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
-        return "redirect:/test";
+        return "redirect:/";
     }
 
 
