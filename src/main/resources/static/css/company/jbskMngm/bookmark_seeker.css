@@ -39,6 +39,10 @@
     font-size: 2rem;
 }
 
+.content-detail{
+    min-height: 70vh;
+}
+
 .content-detail .list-wrap{
     display: flex;
     flex-direction: row;
