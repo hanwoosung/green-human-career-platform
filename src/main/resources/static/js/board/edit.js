@@ -54,6 +54,11 @@ $(function () {
             files: files
         }
 
+        if (param.title == ''){
+            alert_modal.on("빈값체크", "제목을 입력하세요")
+            return
+        }
+
         axios.post("/board", param, {
             headers: {
                 // "Content-Type": "multipart/form-data",
@@ -77,6 +82,11 @@ $(function () {
             banswerYn: "N",
             delYn: "N",
             files: files
+        }
+
+        if (param.title == ''){
+            alert_modal.on("빈값체크", "제목을 입력하세요")
+            return
         }
 
         axios.put("/board", param, {
