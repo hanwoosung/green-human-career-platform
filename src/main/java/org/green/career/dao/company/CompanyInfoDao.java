@@ -11,8 +11,11 @@ import org.green.career.dto.company.NormalCompanyDto;
 public interface CompanyInfoDao {
 
     int insertCompanyInfo(@Param("company") NormalCompanyDto company);
+
     int insertCompanyImage(@Param("company") TblFileRequestDto file);
+
     int insertCompanyHistory(@Param("company") CompanyHistoryDto company);
-    int insertCompanySales(@Param("company")CompanySalesDto company);
+
+    int insertCompanySales(@Param("company") CompanySalesDto company);
 
 }

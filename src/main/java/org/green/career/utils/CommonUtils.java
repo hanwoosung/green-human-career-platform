@@ -51,12 +51,17 @@ public class CommonUtils {
                 Files.createDirectories(path.getParent());
                 file.transferTo(path.toFile());
 
+                log.info(path.toString());
+                log.info(uploadDir);
+                log.info(uniqueFileName);
+
                 TblFileRequestDto fileDto = new TblFileRequestDto();
                 fileDto.setFileGbnCd("100");
                 fileDto.setFileRefId(String.valueOf(id));
                 fileDto.setFileName(uniqueFileName);
                 fileDto.setFileExt(fileExt);
                 fileDto.setFileUrl("/static/uploads/company/" + uniqueFileName);
+                log.info(fileDto.toString());
                 fileList.add(fileDto);
             }
         }

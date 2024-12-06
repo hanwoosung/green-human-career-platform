@@ -1,7 +1,6 @@
 package org.green.career.dto.company.jbskMngm;
 
 import lombok.Data;
-import org.green.career.dto.jobseeker.mypage.ScrapStackDto;
 
 import java.util.ArrayList;
 import java.util.List;

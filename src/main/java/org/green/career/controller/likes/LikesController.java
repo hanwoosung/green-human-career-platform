@@ -28,5 +28,4 @@ public class LikesController extends AbstractController {
 
         return ResponseDto.ok();
     }
-
 }

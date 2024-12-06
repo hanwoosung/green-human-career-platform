@@ -17,11 +17,32 @@
         <link rel="stylesheet" href="/static/css/main/index.css">
         <link rel="stylesheet" href="/static/css/common/skillBox.css">
         <link rel="stylesheet" href="/static/css/common/paging.css">
-
+        <link rel="stylesheet" href="https://unpkg.com/swiper@10/swiper-bundle.min.css"/>
+        <script src="https://unpkg.com/swiper@10/swiper-bundle.min.js"></script>
     </head>
     <body>
         <main layout:fragment="content">
             <div class="flex1 mt70 mar-center">
+
+                <div class="promo-banner">
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <img src="https://greenart.co.kr/upimage/mainBanner/20240903115448.jpg" alt="Job Promotion Banner 1" />
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="https://greenart.co.kr/upimage/mainBanner/20240903113925.jpg" alt="Job Promotion Banner 2" />
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="https://greenart.co.kr/upimage/mainBanner/20241122102205.jpg" alt="Job Promotion Banner 3" />
+                            </div>
+                        </div>
+
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div>
+                </div>
+
                 <div class="skill-container">
                     <!-- 왼쪽 패널 -->
                     <div class="left-panel" id="categoryPanel">
@@ -71,7 +92,7 @@
                              th:attr="data-jNo=${jobItem.JNo}, data-id=${jobItem.id}">
                             <div class="card-image">
                                 <div class="card-overlay">
-                                    <span class="days-left" th:text="${jobItem.leftDate}">D-11</span>
+                                    <span class="days-left" th:if="${jobItem.leftDate != 'D-0'}" th:text="${jobItem.leftDate}">D-11</span>
                                     <i th:class="'bi ' + ${jobItem.scrapCnt == 0 ? 'bi-bookmark ' : 'bi-bookmark-fill '} + 'scrap-icon '"
                                        id="bookmark-icon"></i>
                                 </div>

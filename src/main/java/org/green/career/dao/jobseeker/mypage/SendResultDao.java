@@ -10,6 +10,8 @@ import java.util.List;
 @Mapper
 public interface SendResultDao {
     List<SendResultDto> selectSendResult(@Param("offset") int offset, @Param("limit") int limit, @Param("id") String id);
+
     int sendResultTotalCount(@Param("id") String id);
+
     int giveRating(@Param("rating") RatingRequestDto rating);
 }

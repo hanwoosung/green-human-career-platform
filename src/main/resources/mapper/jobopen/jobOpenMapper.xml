@@ -196,4 +196,9 @@
           AND (c.up_cd = 'stack_cd' OR c.up_cd IN (SELECT cd FROM tbl_codeinfo WHERE up_cd = 'stack_cd'));
     </select>
 
+    <update id="viewCountUp">
+        update tbl_job_open set v_cnt = v_cnt+1
+        where j_no = #{jNo}
+    </update>
+
 </mapper>

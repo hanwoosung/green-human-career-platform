@@ -12,7 +12,6 @@ public class JobOpenCompanyDto {
     private String email;
     // 생년월일
     private LocalDate birth;
-
     private String formattedBirth;
     // 전화번호
     private String phone;
@@ -36,11 +35,8 @@ public class JobOpenCompanyDto {
     private Integer cCnt;
     // 사업 분야
     private String cBusiness;
-
     private String fileUrl;
-
     private int jobOpenCount;
-
     private int bCount;
     private int sCount;
 
