@@ -26,6 +26,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" th:href="@{/static/css/common/common.css}">
   <link rel="stylesheet" th:href="@{/static/css/layout/theme.css}">
+  <link rel="stylesheet" href="/static/css/main/index.css">
+  <link rel="stylesheet" href="/static/css/common/skillBox.css">
+  <link rel="stylesheet" href="/static/css/common/paging.css">
   <title>기업 정보 상세</title>
   <style>
     body {
@@ -53,6 +56,7 @@
       background-repeat: no-repeat;
       padding: 20px;
       border-radius: 10px;
+      background-color: rgba(0, 0, 0, 0.5); /* 투명도 설정 */
     }
 
     .profile-image {
@@ -129,7 +133,7 @@
     <!-- Content 영역 -->
     <div class="mypage-content" layout:fragment="content">
       <div class="container">
-        <div class="header" th:style="'background-image: url(' + @{${file.fileUrl}} + ')'">
+        <div class="header" th:style="'background-image: url(' + ${file.fileUrl} + '); background-color: rgba(0, 0, 0, 0.5);'">
           <img th:src="@{${profile.fileUrl}}" th:alt="${profile.fileName}" class="profile-image">
           <div class="header-text">
             <h1 th:text="${user.name}">기업명</h1>
@@ -184,44 +188,81 @@
             </th:block>
           </div>
         </div>
+
         <div class="jobOpen">
           <h2>채용 공고</h2>
           <div class="jobOpen-content">
             <div class="main-list-wrapper">
               <div class="main-list-container">
-<!--                <div class="job-card" th:each="jobItem : ${jobList}">-->
-<!--                  <div class="card-image">-->
-<!--                    <div class="card-overlay">-->
-<!--                      <span class="days-left" th:text="${jobItem.leftDate}">D-11</span>-->
-<!--                      <i class="bi bi-bookmark scrap-icon" id="bookmark-icon"></i>-->
-<!--                    </div>-->
-<!--                    <img th:src="@{${jobItem.fileUrl != null and !jobItem.fileUrl.isEmpty() ? jobItem.fileUrl : '/static/images/empty_company.png'}}"-->
-<!--                         alt="회사 이미지">-->
 
-<!--                  </div>-->
-<!--                  <div class="card-header">-->
-<!--                    <div class="card-header-box">-->
-<!--                      <span class="company-name">삼성전자</span>-->
-<!--                      <i class="bi bi-heart heart-icon" id="heart-icon"></i>-->
-<!--                    </div>-->
-<!--                  </div>-->
+                <div class="job-card" th:each="jobItem : ${jobList}">
+                  <div class="card-image">
+                    <div class="card-overlay">
+                      <span class="days-left" th:text="${jobItem.leftDate}">D-11</span>
+                      <i class="bi bi-bookmark scrap-icon" id="bookmark-icon"></i>
+                    </div>
+                    <img th:src="@{${jobItem.fileUrl != null and !jobItem.fileUrl.isEmpty() ? jobItem.fileUrl : '/static/images/empty_company.png'}}"
+                         alt="회사 이미지">
+                  </div>
+                  <div class="card-header">
+                    <div class="card-header-box">
+                      <span class="company-name">삼성전자</span>
+                      <i class="bi bi-heart heart-icon" id="heart-icon"></i>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <h3 class="job-title" th:text="${jobItem.JTitle}">백엔드개발자 - 테크리드 (테크사업부)</h3>
+                    <h4 class="job-content" th:text="${jobItem.JContent}">백엔드개발자 - 테크리드 (테크사업부)</h4>
+                    <div class="job-location">
+                      <span th:text="${jobItem.workPlace}">경기도</span> | <span
+                            th:text="${jobItem.workType}">경력 3년</span>
+                    </div>
+                    <div class="skill-tags" th:if="${not #lists.isEmpty(jobItem.skills)}">
+                                    <span th:each="skill : ${jobItem.skills}" class="skill-tag"
+                                          th:text="${skill}"></span>
+                    </div>
+                  </div>
+                </div>
 
-<!--                  <div class="card-body">-->
-<!--                    <h3 class="job-title" th:text="${jobItem.JTitle}">백엔드개발자 - 테크리드 (테크사업부)</h3>-->
-<!--                    <h4 class="job-content" th:text="${jobItem.JContent}">백엔드개발자 - 테크리드 (테크사업부)</h4>-->
-<!--                    <div class="job-location">-->
-<!--                      <span th:text="${jobItem.workPlace}">경기도</span> | <span-->
-<!--                            th:text="${jobItem.workType}">경력 3년</span>-->
-<!--                    </div>-->
-<!--                    <div class="skill-tags" th:if="${not #lists.isEmpty(jobItem.skills)}">-->
-<!--                                    <span th:each="skill : ${jobItem.skills}" class="skill-tag"-->
-<!--                                          th:text="${skill}"></span>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
               </div>
             </div>
           </div>
+
+          <div class="pagination-wrapper">
+            <nav class="pagination-nav">
+              <ul class="pagination">
+                <!-- 처음 버튼 -->
+                <li th:classappend="${paging.firstPageBtn ? '' : 'disabled'}">
+                  <a class="page-link" th:href="@{/companyInfo/{user_id}(user_id=${company.id}, page=1)}" aria-label="처음">&laquo;</a>
+                </li>
+
+                <!-- 이전 버튼 -->
+                <li th:classappend="${paging.prevBtn ? '' : 'disabled'}">
+                  <a class="page-link" th:href="@{/companyInfo/{user_id}(user_id=${company.id},page=${paging.startPage - 1})}"
+                     aria-label="이전">&lt;</a>
+                </li>
+
+                <!-- 페이지 번호 -->
+                <li th:each="i : ${#numbers.sequence(paging.startPage, paging.endPage)}"
+                    th:classappend="${paging.currentPage == i ? 'active' : ''}">
+                  <a class="page-link" th:href="@{/companyInfo/{user_id}(user_id=${company.id}, page=${i})|}" th:text="${i}"></a>
+                </li>
+
+                <!-- 다음 버튼 -->
+                <li th:classappend="${paging.nextBtn ? '' : 'disabled'}">
+                  <a class="page-link" th:href="@{/companyInfo/{user_id}(user_id=${company.id}, page=${paging.endPage + 1})}"
+                     aria-label="다음">&gt;</a>
+                </li>
+
+                <!-- 마지막 버튼 -->
+                <li th:classappend="${paging.lastPageBtn ? '' : 'disabled'}">
+                  <a class="page-link" th:href="@{/companyInfo/{user_id}(user_id=${company.id}, page=${paging.totalPage})}"
+                     aria-label="마지막">&raquo;</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+
         </div>
       </div>
     </div>

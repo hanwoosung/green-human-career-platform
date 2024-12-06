@@ -29,5 +29,7 @@ public interface MainService {
 
     JobSearchResult getCompanyOpeningsWithPaging(int page, String userId);
 
+    JobSearchResult getCompanyOpeningsInfo(int page, String userId);
+
     int countCompanyJobOpenings(String userId);
 }

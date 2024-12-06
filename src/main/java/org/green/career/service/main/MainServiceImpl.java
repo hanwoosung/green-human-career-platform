@@ -202,5 +202,22 @@ public class MainServiceImpl extends AbstractService implements MainService {
         return new JobSearchResult(jobList, paging);
     }
 
+    @Override
+    public JobSearchResult getCompanyOpeningsInfo(int page, String userId) {
+        int pageSize = 2;
+        int offset = (page - 1) * pageSize;
+
+        List<JobOpeningResponseDto> jobList;
+        int totalCount;
+        jobList = companyJobOpeningList(offset, pageSize, userId);
+        totalCount = countCompanyJobOpenings(userId);
+
+        PagingBtn paging = totalCount > 0
+                ? new PagingBtn(totalCount, page, pageSize, 10)
+                : new PagingBtn(0, 1, pageSize, 10);
+
+        return new JobSearchResult(jobList, paging);
+    }
+
 
 }
