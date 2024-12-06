@@ -27,7 +27,7 @@
 
         <div class="list-wrap" th:classappend="${#lists.size(list) == 1 ? 'single-item' : ''}">
                 <th:block th:each="offer : ${list}">
-                    <div class="list" th:attr="data-id=${offer.uId}">
+                    <div class="list" th:attr="data-id=${offer.uId} ,data-jNo=${offer.jNo}" onclick="goToResumePage(this)">
                         <div class="list-img">
                             <img th:src="${offer.fileUrl + '/' + offer.fileId + '.' + offer.fileExt}"
                                  onerror="this.src='/static/images/default_profile.png'">
@@ -90,3 +90,9 @@
 </main>
 </body>
 </html>
+<script>
+    function goToResumePage(element) {
+        const uId = element.getAttribute('data-jNo');
+        window.location.href = '/job-open/detail/' + uId;
+    }
+</script>

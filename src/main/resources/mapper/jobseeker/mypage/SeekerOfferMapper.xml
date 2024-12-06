@@ -11,6 +11,7 @@
                b.addr,
                b.phone,
                c.c_business,
+               j.j_no,
                IFNULL(d.file_id, '')   AS file_id,
                IFNULL(d.file_name, '') AS file_name,
                IFNULL(d.file_ext, '')  AS file_ext,
@@ -19,6 +20,7 @@
                  LEFT JOIN tbl_user b ON a.u_id = b.id
                  LEFT JOIN tbl_company c ON a.c_id = c.id
                  LEFT JOIN tbl_file d ON a.c_id = d.file_ref_id AND d.file_gbn_cd = '10'
+                 LEFT JOIN tbl_job_open j on j.id = c.id
         WHERE use_yn = 'Y'
           AND a.u_id = #{id}
           AND b.name LIKE CONCAT('%', #{search}, '%')
