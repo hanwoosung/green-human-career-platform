@@ -26,9 +26,13 @@
                 <a th:if="${userType == 'S'}" th:href="@{/}">
                     <img class="header-logo" src="/static/images/logo_user.png" alt="User Logo">
                 </a>
+                <a th:if="${userType == 'M'}" th:href="@{/admin}">
+                    <img class="header-logo" src="/static/images/logo.png" alt="Default Logo">
+                </a>
                 <a th:if="${userType == '비회원'}" th:href="@{/}">
                     <img class="header-logo" src="/static/images/logo.png" alt="Default Logo">
                 </a>
+
             </div>
             <nav class="nav-section">
                 <ul class="sidebar-list" th:if="${userType == 'C'}">
@@ -115,6 +119,57 @@
                         </ul>
                     </li>
                 </ul>
+                <ul class="sidebar-list" th:if="${userType == 'C'}">
+                    <li class="sidebar-item has-submenu">
+                        <a href="/test/mypage-empty">
+                            <i class="fas fa-home"></i> MY홈
+                        </a>
+                        <ul class="submenu">
+                            <li><a href="/test">내 정보 수정</a></li>
+                            <li><a href="/test">비밀번호 수정</a></li>
+                        </ul>
+                    </li>
+                    <li class="sidebar-item has-submenu">
+                        <a href="/test">
+                            <i class="fas fa-file-alt"></i> 구직자 관리
+                        </a>
+                        <ul class="submenu">
+                            <li><a href="/company/jbsk-mngm/bookmark-seeker">북마크한 구직자 목록</a></li>
+                            <li><a href="/company/jbsk-mngm/job-stack-offer">기술스택 기반 이력서 조회</a></li>
+                            <li><a href="/company/jbsk-mngm/job-offer">입사 제안 현황</a></li>
+                        </ul>
+                    </li>
+                    <li class="sidebar-item has-submenu">
+                        <a href="/job-open/register">
+                            <i class="fas fa-book"></i> 채용 공고 등록
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="/test">
+                            <i class="fas fa-star"></i> 기업 정보
+                        </a>
+                    </li>
+                    <li class="sidebar-item has-submenu">
+                        <a href="/test">
+                            <i class="fas fa-cogs"></i> 고객 센터
+                        </a>
+                        <ul class="submenu">
+                            <li><a href="/board/edit">문의하기</a></li>
+                            <li><a href="/board">문의 확인</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="sidebar-list" th:if="${userType == 'M'}">
+                    <li class="sidebar-item has-submenu">
+                        <a href="/test">
+                            <i class="fas fa-cogs"></i> 고객 센터
+                        </a>
+                        <ul class="submenu">
+                            <li><a href="/board/edit">공지 작성</a></li>
+                            <li><a href="/board">문의 및 공지</a></li>
+                        </ul>
+                    </li>
+                </ul>
                 <ul class="sidebar-list" th:if="${userType == '비회원'}">
                     <li class="sidebar-item has-submenu">
                         <a href="/test/mypage-empty">
@@ -125,6 +180,7 @@
                             <li><a href="/login">로그인</a></li>
                         </ul>
                     </li>
+                </ul>
             </nav>
         </div>
     </body>
