@@ -20,7 +20,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
                 console.log('로그인 성공:', response.data.result);
                 // window.location.href = '/';
                 sessionStorage.setItem('userId', id);
-                if(userType === "S") {
+                if(userType === "S" || userType === 'M') {
                     window.location.href = referer;
                 }
                 if(userType === "C") {

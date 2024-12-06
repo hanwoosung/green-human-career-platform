@@ -17,8 +17,19 @@
         <link rel="stylesheet" th:href="@{/static/css/layout/sidebar.css}">
         <title>Sidebar</title>
     </head>
+
+    <style>
+        .admin-side{
+            background-color: #f9efff !important;
+        }
+
+        .company-side{
+            background-color: rgba(190, 215, 255, 0.79) !important;
+        }
+    </style>
+
     <body>
-        <div class="sidebar">
+        <div th:class="${'sidebar ' + (userType == 'C' ? 'company-side ' : (userType == 'M' ? 'admin-side' : '')) }">
             <div class="sidebar-logo">
                 <a th:if="${userType == 'C'}" th:href="@{/company}">
                     <img class="header-logo" src="/static/images/logo_company.png" alt="Company Logo">
