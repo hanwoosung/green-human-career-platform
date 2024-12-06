@@ -6,6 +6,7 @@ import org.green.career.dto.common.CodeInfoDto;
 import org.green.career.dto.resume.*;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 작성자: 구경림
@@ -22,6 +23,7 @@ public interface ResumeDao {
 
     ResumeDto getResumeById(Long id);
 
+    Optional<ResumeFileDto> findFileById(Long fileId);
 
     List<TreatDto> getAllTreatCodes();
 

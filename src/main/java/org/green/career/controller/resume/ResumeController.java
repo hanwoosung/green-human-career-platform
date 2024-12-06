@@ -12,12 +12,18 @@ import org.green.career.dto.resume.ResumeDto;
 import org.green.career.dto.resume.TechnicalStackDto;
 import org.green.career.dto.resume.TreatDto;
 import org.green.career.service.resume.ResumeService;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
@@ -136,6 +142,22 @@ public class ResumeController extends AbstractController {
         return ok();
     }
 
+
+    // 파일 다운로드 엔드포인트
+    @GetMapping("/file/download/{fileId}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable Long fileId) {
+        try {
+            // 서비스 호출을 통해 파일을 다운로드합니다.
+            Resource resource = resumeService.downloadFile(fileId);
+
+            // 파일 다운로드를 위한 응답 헤더 설정
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                    .body(resource);
+        } catch (Exception e) {
+            throw new RuntimeException("파일 다운로드 중 오류가 발생했습니다.", e);
+        }
+    }
 
 
 //    // 이력서 수정 (PUT)

@@ -182,10 +182,6 @@
                         <div class="summary-card-content">
                     <span th:each="portfolio : ${resume.portfolios}">
                         <span th:text="${portfolio.description}"></span>
-                        <!-- 파일 다운로드 링크 추가 -->
-                        <a th:if="${portfolio.files != null and portfolio.files.fileName != null}" th:href="@{'/download/' + ${portfolio.files.fileName}}" download>
-                            <i class="fas fa-download"></i> 다운로드
-                        </a>
                     </span>
                         </div>
                     </div>
@@ -256,8 +252,23 @@
                     </div>
                     <div class="form-content-list">
                         <div th:each="portfolio : ${resume.portfolios}">
-                            <p th:if="${portfolio.files != null and portfolio.files.fileName != null}" th:text="${portfolio.files.fileName}"></p>
+                            <p>시작일 : <span th:text="${portfolio.getStartDate()}"></span></p>
+                            <p>종료일 : <span th:text="${portfolio.getEndDate()}"></span></p>
+                            <p>포트폴리오 내용 : <span th:text="${portfolio.getDescription()}"></span></p>
+                            <p>인원 : <span th:text="${portfolio.getTeamSize()}"></span> 명</p>
+                            <!-- 포트폴리오 파일 목록을 반복하여 다운로드 링크 생성 -->
+                            <div th:if="${not #lists.isEmpty(portfolio.files)}">
+                                <div th:each="file : ${portfolio.files}">
+                                    <p>
+                                        <span th:text="${file.fileName}"></span>
+                                        <a th:href="@{'/file/download/' + ${file.fileId}}" download>
+                                            <i class="fas fa-download"></i> 다운로드
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
                         </div>
+
                     </div>
                 </div>
 

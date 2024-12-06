@@ -25,7 +25,7 @@ public class PortfolioDto {
     private String portfolioUrl;
 
     @JsonProperty("rp_cnt") // JavaScript에서 'rp_cnt'에 해당
-    private Integer teamSize;
+    private int teamSize;
 
     @JsonProperty("rp_content") // JavaScript에서 'rp_content'에 해당
     private String description;

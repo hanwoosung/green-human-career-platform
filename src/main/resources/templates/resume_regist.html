@@ -234,8 +234,6 @@
         </div>
     </form>
 
-
-
     <!-- 오른쪽 이력서 작성 가이드 섹션 -->
     <div class="resume-right-side">
         <div class="resume-progress-container">
@@ -244,7 +242,8 @@
                 <div id="progress-bar-inner" class="progress-bar-inner" style="width: 0%;">0%</div>
             </div>
             <div class="user-info">
-                <span id="user-name" th:text="${userInfo.name}"></span>님의 이력서가 진행 중입니다!
+                <span id="user-name" th:text="${userInfo.name}"></span>님의
+                <span id="resume-status">이력서가 진행 중입니다!</span>
             </div>
             <div class="resume-section-list">
                 <div class="section-item required" data-form-type="educations">

@@ -424,7 +424,21 @@
     </insert>
 
 
-
+    <!-- 파일 정보 조회 쿼리 -->
+    <select id="findFileById" parameterType="long" resultType="org.green.career.dto.resume.ResumeFileDto">
+        SELECT file_id AS fileId,
+               file_gbn_cd AS fileGbnCd,
+               file_ref_id AS fileRefId,
+               file_name AS fileName,
+               file_ext AS fileExt,
+               file_url AS fileUrl,
+               inst_id AS instId,
+               inst_dt AS instDt,
+               updt_id AS updtId,
+               updt_dt AS updtDt
+        FROM tbl_file
+        WHERE file_id = #{fileId}
+    </select>
 
 
 

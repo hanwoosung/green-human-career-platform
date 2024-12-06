@@ -7,6 +7,8 @@ import org.green.career.dto.resume.*;
 import org.green.career.exception.BaseException;
 import org.green.career.service.AbstractService;
 import org.green.career.type.ResultType;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -148,6 +150,52 @@ public class ResumeServiceImpl extends AbstractService implements ResumeService 
         // 특정 이력서를 대표 이력서로 설정
         resumeDao.updateResumeToRepresentative(resumeId);
     }
+
+    // 파일 다운로드용 메소드
+    public Resource downloadFile(Long fileId) {
+        try {
+            // 파일 메타 정보를 데이터베이스에서 조회합니다.
+            ResumeFileDto file = getFileById(fileId);
+            if (file == null) {
+                throw new BaseException(ResultType.VALIDATION_ERROR, "파일 정보를 찾을 수 없습니다.");
+            }
+
+            Path filePath = Paths.get(file.getFileUrl()).normalize();
+            Resource resource = new UrlResource(filePath.toUri());
+
+            if (resource.exists() && resource.isReadable()) {
+                return resource;
+            } else {
+                throw new BaseException(ResultType.VALIDATION_ERROR, "파일 정보를 찾을 수 없습니다.");
+            }
+        } catch (Exception e) {
+                throw new BaseException(ResultType.VALIDATION_ERROR, "파일 다운로드 중 오류가 발생했습니다.");
+        }
+    }
+
+    // 파일 정보를 파일 ID로 조회하는 메소드
+    public ResumeFileDto getFileById(Long fileId) {
+        // 데이터베이스에서 파일 메타데이터를 조회하는 부분
+        // 예시로 직접 repository 호출
+        return resumeDao.findFileById(fileId)
+                .orElseThrow(() -> new BaseException(ResultType.VALIDATION_ERROR, "파일 정보를 찾을 수 없습니다."));
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

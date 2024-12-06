@@ -4,6 +4,7 @@ import org.green.career.dto.resume.ResumeFileDto;
 import org.green.career.dto.resume.ResumeDto;
 import org.green.career.dto.resume.TechnicalStackDto;
 import org.green.career.dto.resume.TreatDto;
+import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -11,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 
 public interface ResumeService {
+
+    Resource downloadFile(Long fileId);
 
     ResumeDto getResumeById(Long id);
 

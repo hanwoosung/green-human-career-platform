@@ -548,6 +548,13 @@ function updateProgress() {
         .css('width', `${progressPercentage}%`)
         .text(`${progressPercentage}%`);
 
+    // 상태 메시지 업데이트
+    if (progressPercentage === 100) {
+        $('#resume-status').text('이력서 모든 폼이 작성되었습니다!');
+    } else {
+        $('#resume-status').text('이력서가 진행 중입니다!');
+    }
+
     // 디버깅용 로그 추가
     console.log('진행도 업데이트:', progressPercentage, '% 완료');
 }
