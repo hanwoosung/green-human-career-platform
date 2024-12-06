@@ -43,15 +43,15 @@ $(function () {
 
     });
 
-
-    // TODO: 클릭시 들어가는 기능도 구현필요 현재 상세가 없어 안함.
-
     $(document).on("click", "#search-btn", function () {
         location.href = skills.getUrl();
     });
 
     $(document).on("click", ".page-item", function () {
-        location.href = skills.getUrl();
+
+        let page = this.querySelector(".page-link").dataset.page;
+
+        location.href = skills.getUrl(page);
     });
 
     $(document).on("click", ".selected-skill .close", function () {
@@ -67,6 +67,14 @@ $(function () {
         }
 
         skills.drawSkills();
+    });
+
+    $(document).on("click", ".card", function (){
+
+        let jno = this.dataset.jno;
+        console.log(jno);
+        location.href = "/resume/" + jno;
+
     });
 
 
@@ -207,11 +215,10 @@ let skills = {
         document.querySelector(".selected-skills").innerHTML = html;
     },
 
-    getUrl: () => {
+    getUrl: (page = document.querySelector(".page-item.active").querySelector(".page-link").dataset.page) => {
         const baseURL = '/company/jbsk-mngm/job-stack-offer';
         const url = new URL(baseURL, window.location.origin);
 
-        let page = document.querySelector(".page-item.active").querySelector(".page-link").dataset.page;
         let stacks = skills.getChkAll();
         let search = document.querySelector("#search").value;
 

@@ -50,7 +50,7 @@
                                     <i th:class="'bi ' + ${scrap.scrapCnt == 0 ? 'bi-bookmark ' : 'bi-bookmark-fill '} + 'scrap-icon '"
                                        id="bookmark-icon"></i>
                                 </div>
-                                <a th:href="@{/job-open/{jNo}(jNo=${scrap?.jNo})}">
+                                <a th:href="@{/job-open/detail/{jNo}(jNo=${scrap?.jNo})}">
                                     <img alt="회사 이미지"
                                          th:src="${scrap?.fileUrl + '/' + scrap?.fileId + '.' + scrap?.fileExt}"
                                          onerror="this.src='/static/images/empty_company.png'">

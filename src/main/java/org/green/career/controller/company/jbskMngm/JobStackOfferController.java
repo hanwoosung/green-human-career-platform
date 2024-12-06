@@ -1,22 +1,17 @@
 package org.green.career.controller.company.jbskMngm;
 
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Param;
 import org.green.career.controller.AbstractController;
-import org.green.career.dto.common.CodeInfoDto;
 import org.green.career.dto.common.ResponseDto;
 import org.green.career.service.company.jbskMngm.jobstackoffer.JobStackOfferService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +28,9 @@ public class JobStackOfferController extends AbstractController {
     public String jobStackOffer(@RequestParam(value = "page", defaultValue = "1") int page,
                                 @RequestParam(value = "search", defaultValue = "") String search,
                                 @RequestParam(value = "stacks", required = false) List<String> stacks,
-                                Model model) {
+                                Model model) throws Exception {
+
+        sessionGoLogin();
 
         Map<String, Object> jobStackOfferList = jobStackOfferService.getJobStackOfferList(page, search, stacks);
 

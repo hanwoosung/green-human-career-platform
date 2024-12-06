@@ -28,6 +28,7 @@
     height: 125px;
     margin-right: 20px;
     margin-top: 20px;
+    cursor: pointer;
 }
 .content-detail .list-wrap .list .list-img {
     display: flex;

@@ -2,6 +2,7 @@ package org.green.career.controller.company.jbskMngm;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.green.career.controller.AbstractController;
 import org.green.career.service.company.jbskMngm.joboffer.JobOfferService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,14 +16,16 @@ import java.util.Map;
 @RequestMapping("/company/jbsk-mngm/job-offer")
 @RequiredArgsConstructor
 @Slf4j
-public class JobOfferController {
+public class JobOfferController extends AbstractController {
 
     final private JobOfferService jobOfferService;
 
     @GetMapping
     public String jobOffer(Model model,
                            @RequestParam(value = "page", defaultValue = "1") int page,
-                           @RequestParam(value = "search", defaultValue = "") String search) {
+                           @RequestParam(value = "search", defaultValue = "") String search) throws Exception {
+
+        sessionGoLogin();
 
         Map<String, Object> result = jobOfferService.getJobOfferList(page, search);
 

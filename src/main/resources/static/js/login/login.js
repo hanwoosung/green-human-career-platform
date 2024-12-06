@@ -19,6 +19,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
             if (response.data.result.code === "200") {
                 console.log('로그인 성공:', response.data.result);
                 // window.location.href = '/test';
+                sessionStorage.setItem('userId', id);
                 window.location.href = referer;
             } else {
                 console.log('로그인 실패:', response.data.result);

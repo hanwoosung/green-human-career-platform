@@ -230,6 +230,11 @@ public class JobOpeningServiceImpl extends AbstractService implements JobOpening
     }
 
     @Override
+    public int viewCountUp(int jNo) {
+        return returnData(() -> jobOpeningDao.viewCountUp(jNo));
+    }
+
+    @Override
     public void addFiles(int jNo, List<MultipartFile> companyImages) throws Exception {
         List<TblFileRequestDto> fileList = commonUtils.saveCompanyImages(companyImages, jNo);
         insertFiles(fileList);

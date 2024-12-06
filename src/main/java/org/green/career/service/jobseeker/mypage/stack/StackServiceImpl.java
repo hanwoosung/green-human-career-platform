@@ -66,11 +66,7 @@ public class StackServiceImpl extends AbstractService implements StackService {
      * 채용 공고 리스트 조회
      */
     @Override
-    public List<JobOpeningResponseDto> findJobOpeningList(int offset, int limit) {
-        String id = null;
-        if (session.getAttribute("userId") != null) {
-            id = session.getAttribute("userId").toString();
-        }
+    public List<JobOpeningResponseDto> findJobOpeningList(int offset, int limit, String id) {
         List<JobOpeningResponseDto> jobList = stackDao.findJobOpeningList(offset, limit, id);
         if (jobList.isEmpty()) {
             log.info("조회된 채용 공고 없음.");
@@ -109,7 +105,7 @@ public class StackServiceImpl extends AbstractService implements StackService {
      * 페이징 정보와 함께 채용 공고 조회
      */
     @Override
-    public JobSearchResult getJobOpeningsWithPaging(String searchText, List<String> skills, int page) {
+    public JobSearchResult getJobOpeningsWithPaging(String searchText, List<String> skills, int page, String id) {
         int pageSize = 6;
         int offset = (page - 1) * pageSize;
 
@@ -122,7 +118,7 @@ public class StackServiceImpl extends AbstractService implements StackService {
             jobList = searchJobOpenings(searchText, skills, offset, pageSize);
             totalCount = countSearchJobOpenings(searchText, skills);
         } else {
-            jobList = findJobOpeningList(offset, pageSize);
+            jobList = findJobOpeningList(offset, pageSize, id);
             totalCount = countJobOpenings();
         }
 

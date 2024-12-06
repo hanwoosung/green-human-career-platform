@@ -34,9 +34,7 @@ public class JobOpeningResponseDto {
     private String jTitle;
     // 서브타이틀
     private String jStitle;
-    // 내용
     private String jContent;
-
     // 채용구분(C: 마감, O: 모집중, S:모집 일시중지)
     private String jGbnCd;
     // 마감일시
@@ -48,17 +46,15 @@ public class JobOpeningResponseDto {
     private String workPlace;
     // 근무형태 (C: 계약직, F: 정규직, A: 계약/정규직)
     private String workType;
+    private int vCnt;
     //스킬
     private List<String> skills;
     // 파일 URL (예: 이미지 파일)
     private String fileUrl;
-
     // scrapCnt
     private int scrapCnt;
-
     // bookmarkCnt
     private int bookmarkCnt;
-
     private LocalDate instDt;
 
 
@@ -81,7 +77,7 @@ public class JobOpeningResponseDto {
 
     /**
      * 마감일까지 남은 날짜 계산
-     *
+     * TODO: 나중에 변경해야함 여러곳에서 쓰이기 떄문에
      * @return 남은 날짜 (D-day 형식, D-0 형식, D-n 형식)
      */
     public static String calculateLeftDate(LocalDate sDt, LocalDate eDt) {
@@ -103,7 +99,6 @@ public class JobOpeningResponseDto {
         long daysLeft = ChronoUnit.DAYS.between(today, eDt);
         return "D-" + daysLeft;
     }
-
 }
 
 

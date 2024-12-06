@@ -1,3 +1,5 @@
+import {common} from "/static/js/common.js";
+
 $(document).ready(function () {
     // 스크랩 아이콘
     $(".scrap-icon").click(function () {
@@ -64,4 +66,20 @@ $(document).ready(function () {
 
     });
 
+
+    $(document).on("click", ".job-card img", function (e) {
+        // 클릭한 요소가 <i> 태그인지 확인
+        if ($(e.target).is('i.scrap-icon')) {
+            e.stopPropagation(); // 이벤트 버블링 방지
+            return; // 함수 종료
+        }
+
+        let jno = this.closest(".job-card").dataset.jno;
+
+        if (common.chk.empty(jno)) {
+            location.href = "/job-open/detail/" + jno;
+        } else {
+            alert_modal.on("경고", "공고가 존재하지 않습니다.");
+        }
+    });
 });

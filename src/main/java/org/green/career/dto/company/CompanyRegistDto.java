@@ -13,7 +13,7 @@ import java.util.List;
  * 작성자: 김재홍
  * 작성일: 2024-12-03
  * 기업정보 등록 관련 DTO
- * */
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -34,7 +34,7 @@ public class CompanyRegistDto {
     private String cCnt;
     // 기업 사업분야
     private String cBusiness;
-    
+
     // 기업 대표 이미지
     private MultipartFile pImage;
     // 기업 이미지

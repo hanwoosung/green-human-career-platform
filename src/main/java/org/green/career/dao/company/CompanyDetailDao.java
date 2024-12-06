@@ -13,11 +13,17 @@ import java.util.List;
 public interface CompanyDetailDao {
 
     CompanyInfoResponseDto getCompanyInfo(String id);
+
     List<CompanySalesResponseDto> getCompanySales(String id);
+
     List<CompanyHistoryResponseDto> getCompanyHistory(String id);
+
     FileDto getCompanyFileP(String id);
+
     List<FileDto> getCompanyFileS(String id);
+
     FileDto getCompanyFilePr(String id);
+
     CompanyUserResponseDto getCompanyUser(String id);
 
     List<CompanySalesResponseDto> getSales(String id);

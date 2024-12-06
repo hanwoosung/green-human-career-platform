@@ -7,12 +7,19 @@ import org.green.career.dto.common.file.request.FileDto;
 import org.green.career.dto.company.CompanyRegistDto;
 import org.green.career.dto.company.mypage.CompanyModiDto;
 import org.green.career.dto.company.response.*;
+import org.green.career.dto.company.response.CompanyHistoryResponseDto;
+import org.green.career.dto.company.response.CompanyInfoResponseDto;
+import org.green.career.dto.company.response.CompanySalesResponseDto;
+import org.green.career.dto.company.response.CompanyUserResponseDto;
 import org.green.career.dto.jobopen.JobSearchResult;
 import org.green.career.service.companyInfo.CompanyInfoRService;
 import org.green.career.service.main.MainService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +53,7 @@ public class CompanyInfoController extends AbstractController {
 
     @GetMapping("/companyInfo/{user_id}")
     public String companyInfo(@PathVariable("user_id") String user_id,
-                              @RequestParam(value = "page", defaultValue = "1") int page,Model model) {
+                              @RequestParam(value = "page", defaultValue = "1") int page, Model model) {
         CompanyInfoResponseDto idto = companyInfoRservice.getCompanyInfo(user_id);
 
         List<CompanySalesResponseDto> slist = companyInfoRservice.getCompanySales(user_id);

@@ -36,5 +36,4 @@ public class JobOfferSeekerController extends AbstractController {
 
         return "jobseeker/mypage/job_offer_seeker";
     }
-
 }
