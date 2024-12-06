@@ -76,7 +76,9 @@
     <!-- 전체 공고 개수 조회 -->
     <select id="countJobOpenings" resultType="int">
         SELECT COUNT(*)
-        FROM tbl_job_open;
+        FROM tbl_job_open
+        where j_gbn_cd ='O'
+        and del_yn ='N';
     </select>
 
     <!-- 검색 조건에 따른 공고 개수 조회 -->
