@@ -68,6 +68,17 @@ public abstract class AbstractController {
         }
     }
 
+    /**
+     * 세션 확인 후 로그인 페이지로 리다이렉트 처리
+     */
+    public void sessionGoPage(String url) throws Exception {
+        HttpServletRequest request = getRequest();
+        HttpServletResponse response = getResponse();
+        if (request.getSession(false) == null || request.getSession().getAttribute("userId") == null) {
+            response.sendRedirect(url);
+        }
+    }
+
 
     /**
      * 세션 확인 후 예외 (ResponseBody 전용)
