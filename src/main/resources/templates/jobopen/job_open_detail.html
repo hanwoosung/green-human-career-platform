@@ -131,7 +131,7 @@
                     <div class="company-info-wrapper">
                         <div class="company-info-header">
                             <h3>기업정보</h3>
-                            <button class="btn-view-all">기업정보 전체보기 &gt;</button>
+                            <a th:href="@{/companyInfo/{userId}(userId=${jobItem?.id})}" class="btn-view-all" style="text-decoration: none;">기업정보 전체보기 &gt;</a>
                         </div>
                         <div class="company-info-content">
                             <div class="company-info-left">

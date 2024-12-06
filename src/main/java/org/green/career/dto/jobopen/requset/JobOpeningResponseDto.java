@@ -34,6 +34,7 @@ public class JobOpeningResponseDto {
     private String jTitle;
     // 서브타이틀
     private String jStitle;
+    private String jContent;
     // 채용구분(C: 마감, O: 모집중, S:모집 일시중지)
     private String jGbnCd;
     // 마감일시
