@@ -206,4 +206,19 @@ $(document).ready(function () {
             console.log(error)
         });
     });
+    const swiper = new Swiper('.swiper-container', {
+        loop: true,
+        slidesPerView: 1,
+        spaceBetween: 0,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        speed: 1000,
+        autoplay: {
+            delay: 2000,
+            disableOnInteraction: false,
+        },
+    });
+
 });

@@ -19,14 +19,10 @@
         <link rel="stylesheet" href="/static/css/common/paging.css">
         <link rel="stylesheet" href="https://unpkg.com/swiper@10/swiper-bundle.min.css"/>
         <script src="https://unpkg.com/swiper@10/swiper-bundle.min.js"></script>
-
     </head>
     <body>
         <main layout:fragment="content">
             <div class="flex1 mt70 mar-center">
-
-
-
 
                 <div class="promo-banner">
                     <div class="swiper-container">
@@ -42,7 +38,6 @@
                             </div>
                         </div>
 
-                        <!-- Swiper Navigation Arrows -->
                         <div class="swiper-button-next"></div>
                         <div class="swiper-button-prev"></div>
                     </div>
@@ -171,16 +166,3 @@
         </main>
     </body>
 </html>
-<script>
-    const swiper = new Swiper('.swiper-container', {
-        loop: true,
-        slidesPerView: 1,
-        spaceBetween: 0,
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-        speed: 1000,
-    });
-
-</script>
