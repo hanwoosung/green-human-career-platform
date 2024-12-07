@@ -90,4 +90,6 @@ public interface JobOpeningService {
 
     List<CodeInfoDto> mySkill(int jNo);
     int viewCountUp(int jNo);
+
+    String getCompanyName(String id);
 }
