@@ -31,6 +31,7 @@ function setupSSE() {
     }
 }
 
+//TODO: 추후 로직 수정 바빠서 일단 이렇게 박아둠
 function showNotification(message) {
     const currentPath = window.location.pathname;
     console.log("현재 경로: " + currentPath);
