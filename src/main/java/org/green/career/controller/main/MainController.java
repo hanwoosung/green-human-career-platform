@@ -52,15 +52,16 @@ public class MainController extends AbstractController {
         return "user_main";
     }
 
-    @GetMapping("/company/1")
+    @GetMapping("/company")
     public String companyMain(@RequestParam(value = "page", defaultValue = "1") int page, Model model) throws Exception {
-//        sessionGoLogin();
-//        String id = sessionUserInfo("userId");
-//        String id = sessionUserInfo("userType");
+        sessionGoLogin();
+        String id = sessionUserInfo("userId");
+        String type = sessionUserInfo("userType");
         log.info("userMian" + page);
-
+        System.out.println("userId" + id);
+        System.out.println("usert" + type);
 //        JobSearchResult result = mainService.getCompanyOpeningsWithPaging(page, sessionUserInfo("id"));
-        JobSearchResult result = mainService.getCompanyOpeningsWithPaging(page, "user2");
+        JobSearchResult result = mainService.getCompanyOpeningsWithPaging(page, id);
         log.info("main" + result);
 
         model.addAttribute("jobList", result.getJobList());

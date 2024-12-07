@@ -1,14 +1,22 @@
 package org.green.career.controller.login;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.green.career.controller.AbstractController;
+import org.green.career.dao.login.CompanyDao;
 import org.green.career.dto.common.ResponseDto;
 import org.green.career.dto.login.UserLoginDto;
 import org.green.career.service.login.LoginService;
+import org.green.career.service.login.regist.RegistCompanyService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 작성자: 구경림
@@ -24,11 +32,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/login")
 public class LoginController extends AbstractController {
     private final LoginService loginService;
+    private final RegistCompanyService registCompanyService;
+    private final CompanyDao companyDao;
 
     @GetMapping
     public String login(HttpSession session) {
         if (session.getAttribute("userId") != null) {
-            return "redirect:/test";
+            return "redirect:/";
         }
         return "login";
     }
@@ -39,7 +49,6 @@ public class LoginController extends AbstractController {
         UserLoginDto user = loginService.login(loginDto.getId(), loginDto.getPw(), loginDto.getUserGbnCd());
         session.setAttribute("userId", user.getId());
         session.setAttribute("userName", user.getName());
-        session.setAttribute("userId", user.getId());
         session.setAttribute("userType", user.getUserGbnCd());
 
         session.setMaxInactiveInterval(30 * 60);
@@ -52,6 +61,8 @@ public class LoginController extends AbstractController {
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
-        return "redirect:/test";
+        return "redirect:/";
     }
+
 }
+

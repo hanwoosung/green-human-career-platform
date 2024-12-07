@@ -33,7 +33,6 @@ public class BoardController extends AbstractController {
                         Model model) throws Exception {
 
 
-//        sessionGoLogin();
         String userGbnCd = sessionUserInfo("userType") == null ? "S" : sessionUserInfo("userType");
         String id = sessionUserInfo("userId") == null ? "" : sessionUserInfo("userId");
 
@@ -83,7 +82,7 @@ public class BoardController extends AbstractController {
         String userGbnCd = sessionUserInfo("userType") == null ? "S" : sessionUserInfo("userType");
         String id = sessionUserInfo("userId") == null ? "" : sessionUserInfo("userId");
 
-        if (!userGbnCd.equals("M")) {
+        if (userGbnCd.equals("M")) {
             boardDto.setBGbnCd("N");
         } else {
             boardDto.setBGbnCd("F");
@@ -108,11 +107,15 @@ public class BoardController extends AbstractController {
         String userGbnCd = sessionUserInfo("userType") == null ? "S" : sessionUserInfo("userType");
         String id = sessionUserInfo("userId") == null ? "" : sessionUserInfo("userId");
 
-        if (!userGbnCd.equals("M")) {
+        System.out.println(userGbnCd);
+
+        if (userGbnCd.equals("M")) {
             boardDto.setBGbnCd("N");
         } else {
             boardDto.setBGbnCd("F");
         }
+
+        System.out.println(boardDto);
 
         boardDto.setInstId(id);
         boardDto.setUpdtId(id);
@@ -163,7 +166,7 @@ public class BoardController extends AbstractController {
         return ResponseDto.ok();
     }
 
-    //    게시판 수정 페이지 이동
+    //    게시판 작성 페이지 이동
     @GetMapping("/edit")
     public String insert() throws Exception {
 

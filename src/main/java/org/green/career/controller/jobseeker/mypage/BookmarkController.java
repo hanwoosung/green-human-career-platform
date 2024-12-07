@@ -1,6 +1,7 @@
 package org.green.career.controller.jobseeker.mypage;
 
 import lombok.RequiredArgsConstructor;
+import org.green.career.controller.AbstractController;
 import org.green.career.service.jobseeker.mypage.bookmark.BookmarkService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,13 +20,15 @@ import java.util.Map;
 @Controller
 @RequestMapping("/job-seeker/my-page/bookmark")
 @RequiredArgsConstructor
-public class BookmarkController {
+public class BookmarkController extends AbstractController {
 
     final private BookmarkService bookmarkService;
 
     @GetMapping
     public String bookmark(Model model,
-                           @RequestParam(value = "page", defaultValue = "1") int page) {
+                           @RequestParam(value = "page", defaultValue = "1") int page) throws Exception {
+
+        sessionGoLogin();
 
         Map<String, Object> result = bookmarkService.selectAllBookmarks(page);
 

@@ -50,6 +50,11 @@ public class BookmarkSeekerServiceImpl extends AbstractService implements Bookma
         return result;
     }
 
+    @Override
+    public List<String> selectBookmarkSeekerIds(String id) {
+        return  bookmarkSeekerDao.selectBookmarkSeekerIds(id);
+    }
+
     /*
      * 페이징을 추가한 list 뿌려주기
      * @param offset = 현재 페이지

@@ -5,6 +5,44 @@ $(function () {
 
     let files = [];
 
+    tinymce.init({
+        selector: "#textarea", // TinyMCE를 적용할 textarea 요소의 선택자를 지정
+        plugins: "paste image", // 'paste', 'image', 'imagetools' 플러그인 추가
+        height: 500,
+        width: '100%',
+        menubar: false,
+        toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | image", // 'image' 버튼 툴바에 추가
+        // images_reuse_filename: true,
+        // paste_data_images: true, // 이미지 붙여넣기 설정 활성화
+        file_picker_types: 'file', // TinyMCE에서 이미지를 선택할 때, 이미지 파일만 선택 (옵션 : media, file 등)
+
+        images_upload_handler(blobInfo, success, failure) { // 이미지를 업로드하는 핸들러 함수
+            // blobInfo : TinyMCE에서 이미지 업로드 시 사용되는 정보를 담고 있는 객체
+
+            const file = new File([blobInfo.blob()], blobInfo.filename());
+            const fileName = blobInfo.filename();
+
+            console.log(file);
+            console.log(fileName);
+
+            let formData = new FormData();
+            formData.set("file", file);
+
+            mobileUpload(formData, {
+                callback: function (data) {
+                    if (data.result.code == 200) {
+
+                        files.push(data.data);
+                        success(data.data);  // TinyMCE에 성공적으로 이미지 URL 전달
+
+                    }
+                }
+            });
+
+
+        }
+    });
+
     $(document).on("click", "#save-btn", function () {
 
         let param = {
@@ -14,6 +52,11 @@ $(function () {
             banswerYn: "N",
             delYn: "N",
             files: files
+        }
+
+        if (param.title == ''){
+            alert_modal.on("빈값체크", "제목을 입력하세요")
+            return
         }
 
         axios.post("/board", param, {
@@ -39,6 +82,11 @@ $(function () {
             banswerYn: "N",
             delYn: "N",
             files: files
+        }
+
+        if (param.title == ''){
+            alert_modal.on("빈값체크", "제목을 입력하세요")
+            return
         }
 
         axios.put("/board", param, {

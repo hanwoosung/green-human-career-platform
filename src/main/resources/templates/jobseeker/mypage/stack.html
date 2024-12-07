@@ -90,7 +90,7 @@
                                     </div>
                                     <div class="skill-tags" th:if="${not #lists.isEmpty(jobItem.skills)}">
                                     <span th:each="skill : ${jobItem.skills}" class="skill-tag"
-                                          th:text="${skill}"></span>
+                                          th:text="${skill}" th:title="${skill}"></span>
                                     </div>
                                 </div>
                             </div>
@@ -144,4 +144,4 @@
     </body>
 </html>
 
-<script src="/static/js/jobseeker/mypage/stack.js"></script>
+<script type="module" src="/static/js/jobseeker/mypage/stack.js"></script>

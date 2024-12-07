@@ -59,5 +59,5 @@ public interface JobOpeningDao {
     List<CodeInfoDto> mySkill(int jNo);
 
     int viewCountUp(int jNo);
-
+    String getCompanyName(String id);
 }

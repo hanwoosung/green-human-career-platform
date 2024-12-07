@@ -34,6 +34,7 @@ public class JobOpeningResponseDto {
     private String jTitle;
     // 서브타이틀
     private String jStitle;
+    private String jContent;
     // 채용구분(C: 마감, O: 모집중, S:모집 일시중지)
     private String jGbnCd;
     // 마감일시
@@ -45,6 +46,7 @@ public class JobOpeningResponseDto {
     private String workPlace;
     // 근무형태 (C: 계약직, F: 정규직, A: 계약/정규직)
     private String workType;
+    private int vCnt;
     //스킬
     private List<String> skills;
     // 파일 URL (예: 이미지 파일)

@@ -50,7 +50,7 @@
                                     <i th:class="'bi ' + ${scrap.scrapCnt == 0 ? 'bi-bookmark ' : 'bi-bookmark-fill '} + 'scrap-icon '"
                                        id="bookmark-icon"></i>
                                 </div>
-                                <a th:href="@{/job-open/{jNo}(jNo=${scrap?.jNo})}">
+                                <a th:href="@{/job-open/detail/{jNo}(jNo=${scrap?.jNo})}">
                                     <img alt="회사 이미지"
                                          th:src="${scrap?.fileUrl + '/' + scrap?.fileId + '.' + scrap?.fileExt}"
                                          onerror="this.src='/static/images/empty_company.png'">
@@ -97,35 +97,35 @@
                         <!-- 처음 페이지 버튼 -->
                         <li th:class="${paging.firstPageBtn ? 'page-item' : 'page-item disabled'}">
                             <a class="page-link"
-                               th:href="${paging.firstPageBtn ? '/job-seeker/my-page/scrap?page=1' : '#'}"
+                               th:href="${paging.firstPageBtn ? '/job-seeker/my-page/send-result?page=1' : '#'}"
                                aria-label="처음">&laquo;</a>
                         </li>
 
                         <!-- 이전 페이지 버튼 -->
                         <li th:class="${paging.prevBtn ? 'page-item' : 'page-item disabled'}">
                             <a class="page-link"
-                               th:href="${paging.prevBtn ? '/job-seeker/my-page/scrap?page=' + (paging.startPage - 1) : '#'}"
+                               th:href="${paging.prevBtn ? '/job-seeker/my-page/send-result?page=' + (paging.startPage - 1) : '#'}"
                                aria-label="이전">&lt;</a>
                         </li>
 
                         <!-- 페이지 번호 리스트 -->
                         <li th:each="i : ${#numbers.sequence(paging.startPage, paging.endPage)}"
                             th:class="${paging.currentPage == i ? 'page-item active' : 'page-item'}">
-                            <a class="page-link" th:href="@{/job-seeker/my-page/scrap(page=${i})}"
+                            <a class="page-link" th:href="@{/job-seeker/my-page/send-result(page=${i})}"
                                th:text="${i}"></a>
                         </li>
 
                         <!-- 다음 페이지 버튼 -->
                         <li th:class="${paging.nextBtn ? 'page-item' : 'page-item disabled'}">
                             <a class="page-link"
-                               th:href="${paging.nextBtn ? '/job-seeker/my-page/scrap?page=' + (paging.endPage + 1) : '#'}"
+                               th:href="${paging.nextBtn ? '/job-seeker/my-page/send-result?page=' + (paging.endPage + 1) : '#'}"
                                aria-label="다음">&gt;</a>
                         </li>
 
                         <!-- 마지막 페이지 버튼 -->
                         <li th:class="${paging.lastPageBtn ? 'page-item' : 'page-item disabled'}">
                             <a class="page-link"
-                               th:href="${paging.lastPageBtn ? '/job-seeker/my-page/scrap?page=' + paging.totalPage : '#'}"
+                               th:href="${paging.lastPageBtn ? '/job-seeker/my-page/send-result?page=' + paging.totalPage : '#'}"
                                aria-label="마지막">&raquo;</a>
                         </li>
                     </ul>

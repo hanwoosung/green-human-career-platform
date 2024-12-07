@@ -39,6 +39,10 @@
     font-size: 2rem;
 }
 
+.content-detail{
+    min-height: 70vh;
+}
+
 .content-detail .list-wrap{
     display: flex;
     flex-direction: row;
@@ -55,6 +59,7 @@
     margin-right: 20px;
     display: flex;
     box-shadow: 8px 8px 8px rgba(148, 148, 148, 0.37);
+    cursor: pointer;
 }
 
 .list .list-img{

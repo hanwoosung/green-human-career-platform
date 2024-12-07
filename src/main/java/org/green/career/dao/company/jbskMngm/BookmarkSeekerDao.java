@@ -10,6 +10,8 @@ public interface BookmarkSeekerDao {
 
     List<JobOfferDto> getBookmarkSeekerList(int offset, int limit, String id, String search);
 
+    List<String> selectBookmarkSeekerIds(String id);
+
     int getTotalCnt(String id, String search);
 
 }

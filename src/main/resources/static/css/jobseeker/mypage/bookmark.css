@@ -12,6 +12,10 @@
     font-size: 2rem;
 }
 
+.content-detail{
+    min-height: 70vh;
+}
+
 .content-detail .list-wrap{
     display: flex;
     flex-direction: row;
@@ -28,6 +32,7 @@
     height: 125px;
     margin-right: 20px;
     margin-top: 20px;
+    cursor: pointer;
 }
 .content-detail .list-wrap .list .list-img {
     display: flex;

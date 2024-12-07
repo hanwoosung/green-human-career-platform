@@ -124,7 +124,7 @@
         <!-- Content 영역 -->
         <div class="mypage-content" layout:fragment="content">
             <div class="main-content">
-                <form th:action="@{/company/companyIR}" method="post" enctype="multipart/form-data" id="compantForm" onsubmit="return submitForm()">
+                <form th:action="@{/companyIR}" method="post" enctype="multipart/form-data" id="compantForm" onsubmit="return submitForm()">
                     <input type="hidden" name="id" th:value="${uid}">
                     <div class="form-group">
                         <input type="text" name="cno" id="cno" class="cno" placeholder="사업자 등록번호">

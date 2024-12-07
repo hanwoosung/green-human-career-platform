@@ -22,7 +22,7 @@ public class NormalCompanyDto {
     // 기업 소개
     private String cDetail;
     // 기업 사원수
-    private int cCnt;
+    private String cCnt;
     // 기업 사업분야
     private String cBusiness;
 

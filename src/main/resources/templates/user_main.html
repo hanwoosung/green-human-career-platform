@@ -17,53 +17,12 @@
         <link rel="stylesheet" href="/static/css/main/index.css">
         <link rel="stylesheet" href="/static/css/common/skillBox.css">
         <link rel="stylesheet" href="/static/css/common/paging.css">
-
-        <style>
-            .promo-banner {
-                width: 100%;
-                height: 250px;
-                background-color: #f0f0f0;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                overflow: hidden;
-                margin-bottom: 80px;
-                position: relative;
-            }
-
-            /* Adjust swiper styles if needed */
-            .swiper-container {
-                width: 100%;
-                height: 100%;
-            }
-
-            .swiper-slide img {
-                width: 100%;
-                height: auto;
-            }
-
-            .swiper-button-next, .swiper-button-prev {
-                color: rgba(0, 0, 0, 0.7);
-                font-size: 30px;
-                padding: 10px;
-                border-radius: 50%;
-                transition: all 0.3s ease;
-            }
-
-            .swiper-button-next:hover, .swiper-button-prev:hover {
-            }
-        </style>
-
         <link rel="stylesheet" href="https://unpkg.com/swiper@10/swiper-bundle.min.css"/>
         <script src="https://unpkg.com/swiper@10/swiper-bundle.min.js"></script>
-
     </head>
     <body>
         <main layout:fragment="content">
             <div class="flex1 mt70 mar-center">
-
-
-
 
                 <div class="promo-banner">
                     <div class="swiper-container">
@@ -79,7 +38,6 @@
                             </div>
                         </div>
 
-                        <!-- Swiper Navigation Arrows -->
                         <div class="swiper-button-next"></div>
                         <div class="swiper-button-prev"></div>
                     </div>
@@ -131,7 +89,7 @@
                 <div class="main-list-wrapper">
                     <div class="main-list-container">
                         <div class="job-card" th:each="jobItem : ${jobList}"
-                             th:attr="data-jNo=${jobItem.JNo}, data-id=${jobItem.id}">
+                             th:attr="data-jNo=${jobItem.JNo}, data-id=${jobItem.id} , data-vCnt=${jobItem.VCnt}">
                             <div class="card-image">
                                 <div class="card-overlay">
                                     <span class="days-left" th:if="${jobItem.leftDate != 'D-0'}" th:text="${jobItem.leftDate}">D-11</span>
@@ -208,16 +166,3 @@
         </main>
     </body>
 </html>
-<script>
-    const swiper = new Swiper('.swiper-container', {
-        loop: true,
-        slidesPerView: 1,
-        spaceBetween: 0,
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-        speed: 1000,
-    });
-
-</script>

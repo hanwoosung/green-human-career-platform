@@ -206,4 +206,86 @@ $(document).ready(function () {
             console.log(error)
         });
     });
+    const swiper = new Swiper('.swiper-container', {
+        loop: true,
+        slidesPerView: 1,
+        spaceBetween: 0,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        speed: 1000,
+        autoplay: {
+            delay: 2000,
+            disableOnInteraction: false,
+        },
+    });
+    let jobCards = $(".job-card");
+
+    if (jobCards.length > 0 && !localStorage.getItem("todayPopupClosed")) {
+        jobCards = jobCards.sort(function (a, b) {
+            const vCntA = parseInt($(a).data("vCnt") || 0, 10);
+            const vCntB = parseInt($(b).data("vCnt") || 0, 10);
+            return vCntB - vCntA;
+        });
+
+        const maxPopups = 5;
+        const limitedJobCards = jobCards.slice(0, maxPopups);
+
+        let currentIndex = 0;
+
+        function showPopup(index) {
+            if (index >= limitedJobCards.length) {
+                $(".popup").remove();
+                return;
+            }
+
+            const topJob = limitedJobCards.eq(index);
+            const topJobInfo = topJob.find(".job-title").text();
+            const topJobCompany = topJob.find(".company-name").text();
+            const topJobLocation = topJob.find(".job-location").text();
+            const topJobImage = topJob.find("img").attr("src") || "/static/images/default_job.png";
+            const topJobLink = topJob.find("a").attr("href");
+
+            $(".popup").remove();
+
+            const popup = $(`
+                <div class="popup">
+                    <div class="popup-content">
+                        <button class="popup-close" id="close-popup">✖</button>
+                        <div class="popup-counter">${index + 1} / ${limitedJobCards.length}</div>
+                        <h3>✨ 인기 공고 TOP3 ✨</h3>
+                        <img src="${topJobImage}" alt="Job Image" class="popup-image">
+                        <p class="job-title"><strong>${topJobInfo}</strong></p>
+                        <p class="job-company">${topJobCompany}</p>
+                        <p class="job-location">${topJobLocation}</p>
+                        <a href="${topJobLink}" class="popup-link" target="_blank">공고 보러가기</a>
+                        <div class="popup-actions">
+                            <span id="dont-show-today" class="action-text2">오늘 보지 않기</span>
+                            <span id="next-popup" class="action-text">다음 공고 보기</span>
+                        </div>
+                    </div>
+                </div>
+            `);
+
+            $("body").append(popup);
+
+            $("#dont-show-today").click(function () {
+                localStorage.setItem("todayPopupClosed", true);
+                $(".popup").remove();
+            });
+
+            $("#close-popup").click(function () {
+                $(".popup").remove();
+            });
+
+            $("#next-popup").click(function () {
+                currentIndex++;
+                showPopup(currentIndex);
+            });
+        }
+
+        showPopup(currentIndex);
+    }
+
 });

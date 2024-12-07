@@ -235,6 +235,11 @@ public class JobOpeningServiceImpl extends AbstractService implements JobOpening
     }
 
     @Override
+    public String getCompanyName(String id) {
+        return jobOpeningDao.getCompanyName(id);
+    }
+
+    @Override
     public void addFiles(int jNo, List<MultipartFile> companyImages) throws Exception {
         List<TblFileRequestDto> fileList = commonUtils.saveCompanyImages(companyImages, jNo);
         insertFiles(fileList);
