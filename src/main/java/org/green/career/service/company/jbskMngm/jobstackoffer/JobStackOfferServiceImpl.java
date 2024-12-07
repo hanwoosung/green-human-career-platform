@@ -35,18 +35,30 @@ public class JobStackOfferServiceImpl extends AbstractService implements JobStac
     final private JobStackOfferDao jobStackOfferDao;
 
 
-
-
     @Override
     public int saveOffer(String id, String uId) {
 
         return returnData(() -> {
             int result;
 
-            try{
-                result = jobStackOfferDao.saveOffer(id, uId);
-            }catch (Exception e){
-                throw new BaseException(ResultType.DUPLiCARTE_ERROR, "이미 해당일자에는 이미 입력된 제안 입니다.", e);
+            try {
+                result = jobStackOfferDao.chkOffer(id, uId);
+
+                if (result > 0) {
+
+                    throw new BaseException(ResultType.DUPLiCARTE_ERROR, "금일 이미 해당 이력서에는 제안 하였습니다");
+
+                }else{
+
+                    try {
+                        result = jobStackOfferDao.saveOffer(id, uId);
+                    } catch (Exception e) {
+                        throw new BaseException(ResultType.DUPLiCARTE_ERROR, "예기치 않는 오류가 발생하였습니다.", e);
+                    }
+
+                }
+            } catch (Exception e) {
+                throw new BaseException(ResultType.DUPLiCARTE_ERROR, "예기치 않는 오류가 발생하였습니다.", e);
             }
 
             // 활성화 일때
@@ -97,7 +109,7 @@ public class JobStackOfferServiceImpl extends AbstractService implements JobStac
     /**
      * 스택이 연관있는 공고 총 개수 가져오기 ~
      */
-    
+
     private int totalCount(String search, List<String> stacks) {
         return jobStackOfferDao.getStackListCount(search, stacks);
     }

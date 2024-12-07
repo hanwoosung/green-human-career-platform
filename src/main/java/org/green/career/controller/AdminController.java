@@ -38,6 +38,10 @@ public class AdminController extends AbstractController {
 
         sessionGoPage("/admin/login");
 
+        String userType = sessionUserInfo("userType");
+
+        ifGourl(!userType.equals("M"), "/admin/login");
+
         Map<String, Object> result = adminService.getUserList(page, search, toggle);
 
         model.addAttribute("paging", result.get("paging"));
@@ -63,9 +67,11 @@ public class AdminController extends AbstractController {
 
     @GetMapping("/login")
     public String login(HttpSession session) {
+
         if (session.getAttribute("userId") != null) {
             return "redirect:/admin";
         }
+
         return "adminLogin";
     }
 

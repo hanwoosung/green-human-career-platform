@@ -24,4 +24,6 @@ public interface JobStackOfferDao {
     List<JobStackOfferStackDto> getJobStackOfferStackList(List<String> jNos);
 
     int saveOffer(String id, String uId);
+
+    int chkOffer(String id, String uId);
 }
