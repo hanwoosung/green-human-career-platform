@@ -1,6 +1,7 @@
 package org.green.career.service.resume;
 
 import org.green.career.dto.resume.*;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -22,9 +23,11 @@ public interface ResumeService {
                               List<MultipartFile> portfolioFiles,
                               List<MultipartFile> introduceMeFiles);
 
-    ResumeDto getResumeById(Long id);
+    void updateResumeInDatabase(ResumeDto resumeDto, MultipartFile profilePhoto,
+                                  List<MultipartFile> portfolioFiles, List<MultipartFile> introduceMeFiles);
 
-    void updateResume(String id, ResumeDto resumeDto);
+
+    ResumeDto getResumeById(Long id);
 
     void setRepresentativeResume(Long resumeId, String userId);
 }

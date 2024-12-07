@@ -5,30 +5,35 @@
       layout:decorate="~{/layout-test/layout/mypage_layout}">
 <head>
     <meta charset="UTF-8">
-    <title>이력서 등록</title>
+    <title th:text="${mode == 'edit' ? '이력서 수정' : '이력서 등록'}">기본제목</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="/static/css/resume/resume_regist.css" rel="stylesheet">
 
 </head>
 <body>
 <main layout:fragment="content">
-    <form th:object="${userInfo}" th:action="@{/resume/regist}" id = "resume-form" method="post">
+<form th:object="${userInfo}"
+      id="resume-form"
+      th:data-mode="${mode}"
+      th:data-resume-id="${userInfo.resumeId}"
+      method="post"
+      enctype="multipart/form-data">
         <div class="resume">
             <div class="resume-container">
-                <div class="title">이력서 등록</div>
+                <p class = "title" th:text="${mode == 'edit' ? '이력서 수정' : '이력서 등록'}">기본제목</p>
                 <div></div>
                 <div class="resume-basic">
                     <div class="resume-view">
                         <div class="resume-content">
                           <div class="title-input">
-                              <input id="resume-title" type="text" placeholder="이력서 제목을 입력하세요">
+                              <input id="resume-title" type="text" placeholder="이력서 제목을 입력하세요" th:value="${userInfo.getTitle()}">
                           </div>
                             <div class="resume-container-top">
                                 <div class="user-name">
                                     <span th:text="${userInfo.name}"></span>
                                 </div>
                                 <div class="resume-user-career">
-                                    <select th:field="${userInfo.careerCode}" id = "careerCode">
+                                    <select th:field="${userInfo.careerCode}" id = "careerCode" >
                                         <option value="S" th:text="'신입'" th:selected="${userInfo.careerCode} == null"></option>
                                         <option value="G" th:text="'경력'"></option>
                                         <option value="SG" th:text="'신입/경력'"></option>
@@ -43,12 +48,16 @@
                             </ul>
                         </div>
                         <div class="resume-photo">
-                            <img id="resumePhotoPreview" th:src="@{/static/images/default_profile2.png}" alt="사진">
+                            <img id="resumePhotoPreview"
+                                 th:src="${userInfo.profilePhoto != null ? userInfo.profilePhoto.fileUrl : '/static/images/default_profile2.png'}"
+                                 alt="사진">
                             <input type="file" id="photoUploadInput" style="display: none;" accept="image/*">
                             <i id="photoEditIcon" class="fas fa-edit" title="사진 수정"></i>
                         </div>
                     </div>
+                    <input type="hidden" id="userInfoData" th:value="${userInfoJson}"/>
                     <input type="hidden" id="userName" name="name" th:field="${userInfo.name}" />
+                    <input type="hidden" id="userId" name="name" th:field="${userInfo.id}" />
                     <input type="hidden" id="userEmail" name="email" th:field="${userInfo.email}" />
                     <input type="hidden" id="userPhone" name="phone" th:field="${userInfo.phone}" />
                     <input type="hidden" id="userBirth" name="birth" th:field="${userInfo.birth}" />
@@ -117,7 +126,7 @@
                     </div>
                     <div class="form-content-list">
                         <div th:each="educations, iterStat : ${userInfo.educations}">
-                            <!-- 학력 정보를 동적으로 렌더링 -->
+                            <!-- 학력 정보를 동적으로 렌더링  -->
                         </div>
                     </div>
                 </div>
@@ -226,54 +235,51 @@
                         </div>
                     </div>
                 </div>
-
-
-
-
-<!--            추후 구현-->
+            </div>
+            <div class="resume-right-side">
+                <div class="resume-progress-container">
+                    <div class="progress-title">이력서 완성도</div>
+                    <div class="progress-bar">
+                        <div id="progress-bar-inner" class="progress-bar-inner" style="width: 0%;">0%</div>
+                    </div>
+                    <div class="user-info">
+                        <span id="user-name" th:text="${userInfo.name}"></span>님의
+                        <span id="resume-status">이력서가 진행 중입니다!</span>
+                    </div>
+                    <div class="resume-section-list">
+                        <div class="section-item required" data-form-type="educations">
+                            학력
+                            <button class="open-button small-plus-button" data-form-type="educations"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <div class="section-item" data-form-type="careers">
+                            경력
+                            <button class="open-button small-plus-button" data-form-type="careers"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <div class="section-item" data-form-type="portfolios">
+                            포트폴리오 및 기타 문서
+                            <button class="open-button small-plus-button" data-form-type="portfolios"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <div class="section-item" data-form-type="qualifications">
+                            자격증
+                            <button class="open-button small-plus-button" data-form-type="qualifications"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <div class="section-item" data-form-type="introduces">
+                            자기소개서
+                            <button class="open-button small-plus-button" data-form-type="introduces"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <div class="section-item" data-form-type="treats">
+                            취업우대사항
+                            <button class="open-button small-plus-button" data-form-type="treats"><i class="fas fa-plus"></i></button>
+                        </div>
+                    </div>
+                    <button class="submit-resume" th:text="${mode == 'edit' ? '수정 완료' : '등록 완료'}" type="submit"></button>
+                </div>
+            </div>
         </div>
+
+        <!-- 오른쪽 이력서 작성 가이드 섹션 -->
+
     </form>
-
-    <!-- 오른쪽 이력서 작성 가이드 섹션 -->
-    <div class="resume-right-side">
-        <div class="resume-progress-container">
-            <div class="progress-title">이력서 완성도</div>
-            <div class="progress-bar">
-                <div id="progress-bar-inner" class="progress-bar-inner" style="width: 0%;">0%</div>
-            </div>
-            <div class="user-info">
-                <span id="user-name" th:text="${userInfo.name}"></span>님의
-                <span id="resume-status">이력서가 진행 중입니다!</span>
-            </div>
-            <div class="resume-section-list">
-                <div class="section-item required" data-form-type="educations">
-                    학력
-                    <button class="open-button small-plus-button" data-form-type="educations"><i class="fas fa-plus"></i></button>
-                </div>
-                <div class="section-item" data-form-type="careers">
-                    경력
-                    <button class="open-button small-plus-button" data-form-type="careers"><i class="fas fa-plus"></i></button>
-                </div>
-                <div class="section-item" data-form-type="portfolios">
-                    포트폴리오 및 기타 문서
-                    <button class="open-button small-plus-button" data-form-type="portfolios"><i class="fas fa-plus"></i></button>
-                </div>
-                <div class="section-item" data-form-type="qualifications">
-                    자격증
-                    <button class="open-button small-plus-button" data-form-type="qualifications"><i class="fas fa-plus"></i></button>
-                </div>
-                <div class="section-item" data-form-type="introduces">
-                    자기소개서
-                    <button class="open-button small-plus-button" data-form-type="introduces"><i class="fas fa-plus"></i></button>
-                </div>
-                <div class="section-item" data-form-type="treats">
-                    취업우대사항
-                    <button class="open-button small-plus-button" data-form-type="treats"><i class="fas fa-plus"></i></button>
-                </div>
-            </div>
-            <button class="submit-resume" type="submit">이력서 제출</button>
-        </div>
-    </div>
 
 
 

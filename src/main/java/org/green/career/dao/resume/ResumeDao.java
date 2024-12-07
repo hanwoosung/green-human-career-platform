@@ -6,6 +6,7 @@ import org.green.career.dto.common.CodeInfoDto;
 import org.green.career.dto.resume.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -23,8 +24,6 @@ public interface ResumeDao {
 
     ResumeDto getResumeById(Long id);
 
-    Optional<ResumeFileDto> findFileById(Long fileId);
-
     List<TreatDto> getAllTreatCodes();
 
     void saveResume(ResumeDto resumeDto);
@@ -41,12 +40,7 @@ public interface ResumeDao {
 
     void savePortfolio(PortfolioDto portfolioDto);
 
-    List<TechnicalStackDto> getTechnicalStacks();
-
     List<TechnicalStackDto> getTechnicalStacksByCategory(@Param("categoryCode") String categoryCode);
-
-    // 특정 코드 카테고리에 해당하는 코드 가져오기
-    List<CodeInfoDto> getCodeByCategory(@Param("category") String category);
 
     void saveIntroduce(IntroduceMeDto introduceMeDto);
 
@@ -54,11 +48,22 @@ public interface ResumeDao {
 
     List<ResumeDto> getResumesByUserId(String userId);
 
-    void updateResume(ResumeDto resumeDto);
-
     void deleteResume(String resumeId);
 
     void saveFile(ResumeFileDto resumeFileDto);
 
+    void updateResume(ResumeDto resumeDto);
+
+    void deleteEducationByResumeId(Long resumeId);
+    void deleteCareerByResumeId(Long resumeId);
+    void deleteQualificationByResumeId(Long resumeId);
+    void deleteIntroduceMeByResumeId(Long resumeId);
+    void deletePortfolioByResumeId(Long resumeId);
+    void deleteTechnicalStacks(Long resumeId);
+    void deleteTreats(Long resumeId);
+
+
+    List<ResumeFileDto> findFilesByRefIdAndGbnCd(Map<String, Object> params);
+    void deleteFilesByRefId(Map<String, Object> params);
 
 }

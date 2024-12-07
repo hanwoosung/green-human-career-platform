@@ -26,7 +26,12 @@
     <!-- 이력서 업데이트 -->
     <update id="updateResume">
         UPDATE tbl_resume
-        SET r_title = #{title}, r_rep_yn = #{representativeYn}, updt_id = #{updatedBy}, updt_dt = CURRENT_TIMESTAMP()
+        SET
+            r_title = #{title},
+            r_rep_yn = #{representativeYn},
+            career_cd = #{careerCode},
+            updt_id = #{updatedBy},
+            updt_dt = CURRENT_TIMESTAMP()
         WHERE r_no = #{resumeId};
     </update>
     <!-- 이력서 삭제 -->
@@ -152,6 +157,7 @@
         r.inst_dt AS createdDate,
         r.updt_id AS updatedBy,
         r.updt_dt AS updatedDate,
+        
 
         -- 이력서 파일 정보 (프로필 사진 등)
         f.file_id AS fileId,
@@ -310,9 +316,6 @@
         </collection>
     </resultMap>
 
-
-
-
     <!-- 이력서 저장 -->
     <insert id="saveResume" parameterType="org.green.career.dto.resume.ResumeDto" useGeneratedKeys="true" keyProperty="resumeId">
         INSERT INTO tbl_resume (
@@ -437,6 +440,90 @@
         FROM tbl_file
         WHERE file_id = #{fileId}
     </select>
+
+
+
+
+
+
+<!--    이력서 수정 -->
+
+
+
+    <!-- 학력 삭제 -->
+    <delete id="deleteEducationByResumeId">
+        DELETE FROM tbl_resume_educat WHERE r_no = #{resumeId};
+    </delete>
+
+    <!-- 경력 삭제 -->
+    <delete id="deleteCareerByResumeId">
+        DELETE FROM tbl_resume_career WHERE r_no = #{resumeId};
+    </delete>
+
+    <!-- 자격증 삭제 -->
+    <delete id="deleteQualificationByResumeId">
+        DELETE FROM tbl_resume_qual WHERE r_no = #{resumeId};
+    </delete>
+
+    <!-- 자기소개서 삭제 -->
+    <delete id="deleteIntroduceMeByResumeId">
+        DELETE FROM tbl_resume_me WHERE r_no = #{resumeId};
+    </delete>
+
+    <!-- 포트폴리오 삭제 -->
+    <delete id="deletePortfolioByResumeId">
+        DELETE FROM tbl_resume_prtf WHERE r_no = #{resumeId};
+    </delete>
+
+    <select id="findFilesByRefIdAndGbnCd" parameterType="map" resultType="org.green.career.dto.resume.ResumeFileDto">
+        SELECT 
+            file_id AS fileId,
+            file_url AS fileUrl,
+            file_name AS fileName,
+            file_ext AS fileExt,
+            file_gbn_cd AS fileGbnCd,
+            file_ref_id AS fileRefId,
+            inst_id AS instId,
+            inst_dt AS instDt,
+            updt_id AS updtId,
+            updt_dt AS updtDt
+        FROM tbl_file
+        WHERE file_ref_id = #{fileRefId}
+        AND file_gbn_cd = #{fileGbnCd}
+    </select>
+
+<!-- 기술 스택 삭제 -->
+<delete id="deleteTechnicalStacks">
+    DELETE FROM tbl_resume_stack WHERE r_no = #{resumeId}
+</delete>
+
+<!-- 우대사항 삭제 -->
+<delete id="deleteTreats">
+    DELETE FROM tbl_resume_prf WHERE r_no = #{resumeId}
+</delete>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

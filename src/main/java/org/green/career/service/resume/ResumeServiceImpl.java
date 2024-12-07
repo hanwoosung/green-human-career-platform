@@ -23,14 +23,15 @@ public class ResumeServiceImpl extends AbstractService implements ResumeService 
     private final ResumeFileService resumeFileService;
 
     public ResumeDto getUserInfo(String id) {
-        return returnData(() -> resumeDao.getUserInfo(id));
+       return resumeDao.getUserInfo(id);
     }
     public List<ResumeDto> getAllResumes(String userId) {
-        return returnData(() -> resumeDao.getResumesByUserId(userId));
+        return resumeDao.getResumesByUserId(userId);
     }
 
 
     // 카테고리별로 기술 스택(카테고리, 기술스택)을 맵 형태로 반환
+    //TODO : 모든카테고리를 불러올 수 있게 수정해야함
     public Map<String, List<TechnicalStackDto>> getAllTechnicalStacks() {
         return returnData(()->{
             Map<String, List<TechnicalStackDto>> stacksByCategory = new HashMap<>();
@@ -49,7 +50,6 @@ public class ResumeServiceImpl extends AbstractService implements ResumeService 
     public void deleteResume(String resumeId) {
             executeSafely(() -> resumeDao.deleteResume(resumeId), "이력서 삭제 실패");
     }
-
 
 
     @Transactional
@@ -91,6 +91,106 @@ public class ResumeServiceImpl extends AbstractService implements ResumeService 
         }, "이력서 저장 실패");
     }
 
+    @Transactional
+    public void updateResumeInDatabase(ResumeDto resumeDto, MultipartFile profilePhoto,
+                                     List<MultipartFile> portfolioFiles, List<MultipartFile> introduceMeFiles) {
+        Long resumeId = resumeDto.getResumeId();
+        
+        // 기존 데이터 삭제
+        resumeDao.deleteEducationByResumeId(resumeId);
+        resumeDao.deleteCareerByResumeId(resumeId);
+        resumeDao.deleteIntroduceMeByResumeId(resumeId);
+        resumeDao.deleteQualificationByResumeId(resumeId);
+        resumeDao.deleteTechnicalStacks(resumeId);
+        resumeDao.deleteTreats(resumeId);
+        resumeDao.deletePortfolioByResumeId(resumeId);
+        
+        // 기본 이력서 정보 업데이트
+        resumeDao.updateResume(resumeDto);
+        
+        // 파일 처리
+        try {
+            if (profilePhoto != null && !profilePhoto.isEmpty()) {
+                resumeFileService.deleteProfilePhoto(resumeId, resumeDto.getId());
+                resumeFileService.saveFile(profilePhoto, resumeDto, "resume_profile", resumeId, "50");
+            }
+            
+            // 포트폴리오 파일 처리
+            if (portfolioFiles != null && !portfolioFiles.isEmpty()) {
+                resumeFileService.deleteFiles(resumeId, "40"); // 기존 포트폴리오 파일 삭제
+                for (MultipartFile file : portfolioFiles) {
+                    resumeFileService.saveFile(file, resumeDto, "portfolio", resumeId, "40");
+                }
+            }
+            
+            // 자기소개서 파일 처리
+            if (introduceMeFiles != null && !introduceMeFiles.isEmpty()) {
+                resumeFileService.deleteFiles(resumeId, "35"); // 기존 자기소개서 파일 삭제
+                for (MultipartFile file : introduceMeFiles) {
+                    resumeFileService.saveFile(file, resumeDto, "introduceMe", resumeId, "35");
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("파일 처리 중 오류 발생", e);
+        }
+        
+        // 관련 데이터 저장
+        saveRelatedData(resumeDto, resumeId);
+    }
+
+    
+    private void updateEducations(Long resumeId, List<EducationDto> educations) {
+        executeSafely(() -> {
+            // 기존 학력 삭제 후 새로 추가
+            resumeDao.deleteEducationByResumeId(resumeId);
+            for (EducationDto education : educations) {
+                education.setResumeId(resumeId);
+                resumeDao.saveEducation(education);
+            }
+        }, "학력 정보 업데이트 실패");
+    }
+
+    private void updateCareers(Long resumeId, List<CareerDto> careers) {
+        executeSafely(() -> {
+            resumeDao.deleteCareerByResumeId(resumeId);
+            for (CareerDto career : careers) {
+                career.setResumeId(resumeId);
+                resumeDao.saveCareer(career);
+            }
+        }, "경력 정보 업데이트 실패");
+    }
+
+    private void updateQualifications(Long resumeId, List<QualificationDto> qualifications) {
+        executeSafely(() -> {
+            resumeDao.deleteQualificationByResumeId(resumeId);
+            for (QualificationDto qualification : qualifications) {
+                qualification.setResumeId(resumeId);
+                resumeDao.saveQualification(qualification);
+            }
+        }, "자격증 정보 업데이트 실패");
+    }
+
+    private void updatePortfolios(Long resumeId, List<PortfolioDto> portfolios, List<MultipartFile> files) {
+        executeSafely(() -> {
+            resumeDao.deletePortfolioByResumeId(resumeId);
+            for (PortfolioDto portfolio : portfolios) {
+                portfolio.setResumeId(resumeId);
+                resumeDao.savePortfolio(portfolio);
+            }
+            // 파일 저장 로직 추가 (필요할 경우)
+        }, "포트폴리오 정보 업데이트 실패");
+    }
+
+    private void updateIntroduces(Long resumeId, List<IntroduceMeDto> introduces, List<MultipartFile> files) {
+        executeSafely(() -> {
+            resumeDao.deleteIntroduceMeByResumeId(resumeId);
+            for (IntroduceMeDto introduce : introduces) {
+                introduce.setResumeId(resumeId);
+                resumeDao.saveIntroduce(introduce);
+            }
+            // 파일 저장 로직 추가 (필요할 경우)
+        }, "자기소개서 정보 업데이트 실패");
+    }
 
     // 이력서 관련 데이터 저장 로직
     private void saveRelatedData(ResumeDto resumeDto, Long resumeId) {
@@ -132,13 +232,7 @@ public class ResumeServiceImpl extends AbstractService implements ResumeService 
     }
 
     public ResumeDto getResumeById(Long id) {
-
         return resumeDao.getResumeById(id);
-    }
-
-
-    // 이력서 수정 TODO:작성중
-    public void updateResume(String id, ResumeDto resumeDto) {
     }
 
     @Transactional

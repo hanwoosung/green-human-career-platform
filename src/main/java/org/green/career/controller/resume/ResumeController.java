@@ -1,6 +1,8 @@
 package org.green.career.controller.resume;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -52,8 +54,10 @@ public class ResumeController extends AbstractController {
     }
 
 
-    @GetMapping("/regist")
-    public String resume(HttpSession session, Model model) {
+    @GetMapping({"/regist", "/edit/{resumeId}"})
+    public String resume(HttpSession session,
+                         @PathVariable(required = false) Long resumeId,
+                         Model model) throws JsonProcessingException {
         // 세션에서 로그인된 사용자 정보 가져오기
         String loginedUser = (String) session.getAttribute("userId");
         System.out.println(loginedUser);
@@ -61,10 +65,31 @@ public class ResumeController extends AbstractController {
         if (loginedUser == null) {
             return "mypage_login";
         } else {
-            // 사용자 기본 정보 가져오기
-            ResumeDto userInfo = resumeService.getUserInfo(loginedUser);
-            model.addAttribute("userInfo", userInfo);
-            log.info("기본 유저 정보 : {}", userInfo);
+            if (resumeId != null) {
+                // 수정 모드
+                ResumeDto userInfo = resumeService.getResumeById(resumeId);
+                ObjectMapper objectMapper = new ObjectMapper();
+                objectMapper.registerModule(new JavaTimeModule());
+                String userInfoJson = objectMapper.writeValueAsString(userInfo);
+
+                log.info(userInfoJson);
+
+                model.addAttribute("userInfoJson", userInfoJson);
+                model.addAttribute("userInfo", userInfo);
+                model.addAttribute("mode", "edit");
+            } else {
+                // 입력 모드
+                ResumeDto userInfo = resumeService.getUserInfo(loginedUser);
+                userInfo.setCreatedBy(loginedUser); // createdBy 설정
+
+                ObjectMapper objectMapper = new ObjectMapper();
+                objectMapper.registerModule(new JavaTimeModule());
+                String userInfoJson = objectMapper.writeValueAsString(userInfo);
+                
+                model.addAttribute("userInfoJson", userInfoJson);
+                model.addAttribute("userInfo", userInfo);
+                model.addAttribute("mode", "create");
+            }
 
             // 기술 스택 목록을 카테고리별로 가져오기
             Map<String, List<TechnicalStackDto>> technicalStacks = resumeService.getAllTechnicalStacks();
@@ -74,10 +99,12 @@ public class ResumeController extends AbstractController {
             List<TreatDto> treatCodes = resumeService.getAllTreatCodes();
             model.addAttribute("treatCodes", treatCodes);
 
+            log.info("mode 정보 >> {}",model.getAttribute("mode"));
             return "resume_regist";
         }
     }
 
+    
     @ResponseBody
     @PostMapping("/regist")
     public ResponseDto<Void> postResume(
@@ -98,6 +125,21 @@ public class ResumeController extends AbstractController {
         resumeService.saveResumeToDatabase(resumeDto, profilePhoto, portfolioFiles, introduceMeFiles);
         return ok();
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // 이력서 상세 조회 (GET)
     @GetMapping("/{id}")
     public String resume(@PathVariable("id") Long id, Model model) {
@@ -111,6 +153,39 @@ public class ResumeController extends AbstractController {
         model.addAttribute("resume", resume);
 
         return "resume_detail";
+    }
+
+    // 이력서 수정 (PUT)
+    @ResponseBody
+    @PutMapping("/{id}")
+    public ResponseDto<Void> updateResume(
+            @PathVariable("id") Long id,
+            @RequestPart("resumeData") String resumeData,
+            @RequestPart(value = "profilePhoto", required = false) MultipartFile profilePhoto,
+            @RequestPart(value = "portfolioFiles", required = false) List<MultipartFile> portfolioFiles,
+            @RequestPart(value = "introduceMeFiles", required = false) List<MultipartFile> introduceMeFiles,
+            HttpSession session
+    ) throws IOException {
+        String loginedUser = (String) session.getAttribute("userId");
+        
+        // 권한 체크
+        if (loginedUser == null) {
+
+        }
+        
+        ObjectMapper objectMapper = new ObjectMapper();
+        ResumeDto resumeDto = objectMapper.readValue(resumeData, ResumeDto.class);
+        resumeDto.setResumeId(id);
+        resumeDto.setUpdatedBy(loginedUser); // 수정자 정보 설정
+        
+        // 해당 이력서의 소유자 체크
+        ResumeDto existingResume = resumeService.getResumeById(id);
+        if (!existingResume.getId().equals(loginedUser)) {
+            
+        }
+        
+        resumeService.updateResumeInDatabase(resumeDto, profilePhoto, portfolioFiles, introduceMeFiles);
+        return ok();
     }
 
 

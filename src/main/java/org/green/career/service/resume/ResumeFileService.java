@@ -18,6 +18,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @Slf4j
@@ -78,6 +81,73 @@ public class ResumeFileService {
             default: return "기타";
         }
     }
+
+    /**
+     * 단일 파일 삭제
+     */
+    public void deleteFile(String fileUrl) {
+        Path filePath = Paths.get(fileUrl.replace(baseUrl, uploadDir));
+        try {
+            Files.deleteIfExists(filePath);
+            log.info("파일 삭제 성공: {}", filePath);
+        } catch (IOException e) {
+            log.error("파일 삭제 실패: {}", filePath, e);
+        }
+    }
+    public void deleteFiles(Long resumeId, String fileGbnCd) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("fileRefId", resumeId);
+        params.put("fileGbnCd", fileGbnCd);
+
+        // 파일 URL 목록 조회
+        List<ResumeFileDto> files = resumeDao.findFilesByRefIdAndGbnCd(params);
+
+        // 실제 파일 삭제
+        for (ResumeFileDto file : files) {
+            deleteFile(file.getFileUrl());
+        }
+
+        // DB에서 파일 정보 삭제
+        resumeDao.deleteFilesByRefId(params);
+
+        log.info("파일 삭제 완료 - resumeId: {}, fileGbnCd: {}", resumeId, fileGbnCd);
+    }
+    /**
+     * 다중 파일 삭제 (파일 ID 리스트 기반)
+     */
+//    public void deleteFilesByIds(List<Long> fileIds) {
+//        List<String> fileUrls = resumeDao.findFileUrlsByIds(fileIds); // 데이터베이스에서 파일 URL 조회
+//        for (String fileUrl : fileUrls) {
+//            deleteFile(fileUrl);
+//        }
+//        resumeDao.deleteFilesByIds(fileIds); // 데이터베이스 레코드 삭제
+//        log.info("파일 정보 삭제 완료. 삭제된 파일 IDs: {}", fileIds);
+//    }
+    public void deleteProfilePhoto(Long resumeId, String userId) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("fileRefId", resumeId);
+        params.put("userId", userId);
+        params.put("fileGbnCd", "50");
+
+        resumeDao.deleteFilesByRefId(params);
+    }
+
+//    public void updateProfilePhoto(MultipartFile file, ResumeDto resumeDto, Long resumeId) throws IOException {
+//        // 1. 기존 프로필 사진 삭제
+//        ResumeFileDto existingFile = resumeDao.findProfilePhotoByResumeId(resumeId);
+//        if (existingFile != null) {
+//            deleteFile(existingFile.getFileUrl()); // 서버에서 파일 삭제
+//            resumeDao.deleteFileById(existingFile.getFileId()); // DB에서 파일 정보 삭제
+//        }
+//
+//        // 2. 새 프로필 사진 저장
+//        saveFile(file, resumeDto, "resume_profile", resumeId, "50"); // '50'은 프로필 사진 구분 코드 예시
+//    }
+
+
+
+
+
 
     public Resource downloadFile(String fileUrl) throws IOException {
         Path filePath = Paths.get(fileUrl.replace(baseUrl, uploadDir));

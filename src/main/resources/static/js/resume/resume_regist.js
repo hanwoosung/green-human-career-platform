@@ -20,19 +20,48 @@ const temporaryDataStore = {
     technicalStacks: [],
     treats: [],
     introduces: [],
-    profilePhoto: null
+    profilePhoto: null,
+
 };
 
 //
 $(document).ready(function (){
     // 사용자 기본 정보를 초기화
-    temporaryDataStore.name = $('#userName').val();
-    temporaryDataStore.createdBy = $('#userId').val();
-    temporaryDataStore.email = $('#userEmail').val();
-    temporaryDataStore.phone = $('#userPhone').val();
-    temporaryDataStore.birth = $('#userBirth').val();
-    temporaryDataStore.addr = $('#userAddr').val();
-    temporaryDataStore.careerCode = $('#careerCode').val();
+
+    // userInfoData를 JSON으로 파싱하여 temporaryDataStore에 저장
+    const userInfoData = $('#userInfoData').val();
+    console.log('userInfoData:', userInfoData); // Add this line to debug
+    const userInfo = userInfoData ? JSON.parse(userInfoData) : {};
+    temporaryDataStore.name = userInfo.name;
+    temporaryDataStore.id = userInfo.id;
+    temporaryDataStore.createdBy = userInfo.createdBy;
+    temporaryDataStore.email = userInfo.email;
+    temporaryDataStore.phone = userInfo.phone;
+    temporaryDataStore.birth = userInfo.birth;
+    temporaryDataStore.addr = userInfo.addr;
+    temporaryDataStore.title = userInfo.title;
+    temporaryDataStore.careerCode = userInfo.careerCode;
+    temporaryDataStore.educations = userInfo.educations || [];
+    temporaryDataStore.careers = userInfo.careers || [];
+    temporaryDataStore.portfolios = userInfo.portfolios || [];
+    temporaryDataStore.qualifications = userInfo.qualifications || [];
+    temporaryDataStore.technicalStacks = userInfo.technicalStacks || [];
+    temporaryDataStore.treats = userInfo.treats || [];
+    temporaryDataStore.introduces = userInfo.introduces || [];
+    temporaryDataStore.profilePhoto = userInfo.profilePhoto || [];
+
+    // 각 섹션에 데이터 반영
+    renderSection(temporaryDataStore.educations, '.user-educations-info .form-content-list', 'educations');
+    renderSection(temporaryDataStore.careers, '.user-careers-info .form-content-list', 'careers');
+    renderSection(temporaryDataStore.portfolios, '.user-portfolios-info .form-content-list', 'portfolios');
+    renderSection(temporaryDataStore.qualifications, '.user-qualifications-info .form-content-list', 'qualifications');
+    renderSection(temporaryDataStore.technicalStacks, '.user-technicalStacks-info .form-content-list', 'technicalStacks');
+    renderSection(temporaryDataStore.treats, '.user-treats-info .form-content-list', 'treats');
+    renderSection(temporaryDataStore.introduces, '.user-introduces-info .form-content-list', 'introduces');
+
+
+    console.log(temporaryDataStore);
+
 
     const $modal = $('#modal');
     const $modalTitle = $('#modal-title');
@@ -568,20 +597,18 @@ function updateProgress() {
 $('.submit-resume').on('click', function (e) {
     e.preventDefault();
     const formData = new FormData();
+    const mode = $('#resume-form').data('mode');
+    const resumeId = $('#resume-form').data('resume-id');
+    
+    // 기존 데이터 유지하면서 수정된 내용 반영
     temporaryDataStore.title = $('#resume-title').val();
-
-    const resumeTitle = $('#resume-title').val();
-    if (!resumeTitle || resumeTitle.trim() === '') {
-        alert('이력서 제목은 필수 항목입니다. 제목을 입력해주세요.');
-        return; // 검증 실패 시 함수 종료
+    temporaryDataStore.careerCode = $('#careerCode').val();
+    
+    if (mode === 'edit') {
+        // 수정 모드일 때는 resumeId도 포함
+        temporaryDataStore.resumeId = resumeId;
     }
 
-
-
-    // 사용자 정보를 제출 전에 갱신
-    temporaryDataStore.careerCode = $('#careerCode').val();
-
-    // 사용자 정보와 섹션 데이터를 포함한 전체 데이터를 JSON으로 변환
     const cleanedData = {
         ...temporaryDataStore,
         careers: temporaryDataStore.careers.map(({ id, ...rest }) => rest),
@@ -592,15 +619,13 @@ $('.submit-resume').on('click', function (e) {
         introduces: temporaryDataStore.introduces.map(({ id, files, ...rest }) => rest),
     };
 
-    // JSON 데이터를 `resumeData`로 추가
     formData.append('resumeData', JSON.stringify(cleanedData));
 
-    // 프로필 사진 추가
+    // 파일 처리
     if (temporaryDataStore.profilePhoto) {
         formData.append('profilePhoto', temporaryDataStore.profilePhoto);
     }
 
-    // 포트폴리오 및 자기소개서 파일 추가
     temporaryDataStore.portfolios.forEach((portfolio) => {
         if (portfolio.files && Array.isArray(portfolio.files)) {
             portfolio.files.forEach((file) => {
@@ -616,23 +641,29 @@ $('.submit-resume').on('click', function (e) {
             });
         }
     });
-    console.log(temporaryDataStore);
 
-    // Axios 요청
-    axios.post('/resume/regist', formData, {
+    const url = mode === 'edit' ? `/resume/${resumeId}` : '/resume/regist';
+    const method = mode === 'edit' ? 'PUT' : 'POST';
+
+    console.log('전송 데이터:', cleanedData);
+    console.log('mode:', mode);
+    console.log('method:', method);
+    console.log('url:', url);
+
+    axios({
+        url: url,
+        method: method,
+        data: formData,
         headers: {
-            'Content-Type': 'multipart/form-data',
-        },
+            'Content-Type': 'multipart/form-data'
+        }
     })
-        .then(function (response) {
-            console.log(formData);
-            console.log(cleanedData);
-            alert('이력서가 저장되었습니다.');
-            console.log('응답 데이터:', response.data);
-            window.location.href = '/resume';
-        })
-        .catch(function (error) {
-            console.log(formData);
-            console.error('저장 실패:', error);
-        });
+    .then(function(response) {
+        alert(mode === 'edit' ? '이력서가 수정되었습니다.' : '이력서가 저장되었습니다.');
+        window.location.href = '/resume';
+    })
+    .catch(function(error) {
+        console.error('저장 실패:', error);
+        alert(mode === 'edit' ? '이력서 수정에 실패했습니다.' : '이력서 저장에 실패했습니다.');
+    });
 });
