@@ -38,4 +38,14 @@
           AND b.name LIKE CONCAT('%', #{search}, '%');
     </select>
 
+    <select id="selectBookmarkSeekerIds" parameterType="string" resultType="string">
+        SELECT b.id
+        FROM tbl_likes a
+                 LEFT JOIN tbl_user b ON a.id = b.id
+        WHERE a.cj_no = #{id}
+          AND a.l_gbn_cd = 'B'
+          AND b.use_yn = 'Y'
+        ORDER BY a.l_no DESC
+    </select>
+
 </mapper>

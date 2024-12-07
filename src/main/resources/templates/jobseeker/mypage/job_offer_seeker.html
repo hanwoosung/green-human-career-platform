@@ -26,73 +26,73 @@
         </div>
 
         <div class="list-wrap" th:classappend="${#lists.size(list) == 1 ? 'single-item' : ''}">
-                <th:block th:each="offer : ${list}">
-                    <div class="list" th:attr="data-id=${offer.uId} ,data-jNo=${offer.jNo}" onclick="goToResumePage(this)">
-                        <div class="list-img">
-                            <img th:src="${offer.fileUrl + '/' + offer.fileId + '.' + offer.fileExt}"
-                                 onerror="this.src='/static/images/default_profile.png'">
+            <th:block th:each="offer : ${list}">
+                <div class="list" th:attr="data-id=${offer.uId} ,data-cId=${offer.cId}" onclick="goToResumePage(this)">
+                    <div class="list-img">
+                        <img th:src="${offer.fileUrl + '/' + offer.fileId + '.' + offer.fileExt}"
+                             onerror="this.src='/static/images/default_profile.png'">
+                    </div>
+                    <div class="list-content">
+                        <div class="contents">
+                            <span class="content-name">[[${offer.name}]]</span>
+                            <span class="content-age">([[${offer.phone}]])</span>
                         </div>
-                        <div class="list-content">
-                            <div class="contents">
-                                <span class="content-name">[[${offer.name}]]</span>
-                                <span class="content-age">([[${offer.phone}]])</span>
+                        <div class="contents">
+                            <span class="content-addr">&nbsp;[[${offer.addr}]]</span><br>
+                        </div>
+                        <div class="contents">
+                            <div class="content-resume">
+                                <span>[[${offer.cBusiness}]]</span>
                             </div>
-                            <div class="contents">
-                                <span class="content-addr">&nbsp;[[${offer.addr}]]</span><br>
-                            </div>
-                            <div class="contents">
-                                <div class="content-resume">
-                                    <span >[[${offer.cBusiness}]]</span>
-                                </div>
-                            </div>
-                            <div class="content-date">
-                                <span>제안일 ( </span>
-                                <span>[[${offer.oDt}]] )</span>
-                            </div>
+                        </div>
+                        <div class="content-date">
+                            <span>제안일 ( </span>
+                            <span>[[${offer.oDt}]] )</span>
                         </div>
                     </div>
-                </th:block>
+                </div>
+            </th:block>
 
-            </div>
+        </div>
 
-    <div class="pagination-wrapper mt70">
-        <nav class="pagination-nav">
-            <ul class="pagination">
-                <li th:class="${paging.firstPageBtn ? 'page-item' : 'page-item disabled'}">
-                    <a class="page-link"
-                       th:attr="data-href=${paging.firstPageBtn ? '/company/jbsk-mngm/job-offer?page=1' : '#'}"
-                       aria-label="처음">&laquo;</a>
-                </li>
-                <li th:class="${paging.prevBtn ? 'page-item' : 'page-item disabled'}">
-                    <a class="page-link"
-                       th:attr="data-href=${paging.prevBtn ? '/company/jbsk-mngm/job-offer?page=' + (paging.startPage - 1) : '#'}"
-                       aria-label="이전">&lt;</a>
-                </li>
-                <li th:each="i : ${#numbers.sequence(paging.startPage, paging.endPage)}"
-                    th:class="${paging.currentPage == i ? 'page-item active' : 'page-item'}">
-                    <a class="page-link"
-                       th:attr="data-href=@{/company/jbsk-mngm/job-offer(page=${i})}"
-                       th:text="${i}"></a>
-                </li>
-                <li th:class="${paging.nextBtn ? 'page-item' : 'page-item disabled'}">
-                    <a class="page-link"
-                       th:attr="data-href=${paging.nextBtn ? '/company/jbsk-mngm/job-offer?page=' + (paging.endPage + 1) : '#'}"
-                       aria-label="다음">&gt;</a>
-                </li>
-                <li th:class="${paging.lastPageBtn ? 'page-item' : 'page-item disabled'}">
-                    <a class="page-link"
-                       th:attr="data-href=${paging.lastPageBtn ? '/company/jbsk-mngm/job-offer?page=' + paging.totalPage : '#'}"
-                       aria-label="마지막">&raquo;</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
+        <div class="pagination-wrapper mt70">
+            <nav class="pagination-nav">
+                <ul class="pagination">
+                    <li th:class="${paging.firstPageBtn ? 'page-item' : 'page-item disabled'}">
+                        <a class="page-link"
+                           th:attr="data-href=${paging.firstPageBtn ? '/company/jbsk-mngm/job-offer?page=1' : '#'}"
+                           aria-label="처음">&laquo;</a>
+                    </li>
+                    <li th:class="${paging.prevBtn ? 'page-item' : 'page-item disabled'}">
+                        <a class="page-link"
+                           th:attr="data-href=${paging.prevBtn ? '/company/jbsk-mngm/job-offer?page=' + (paging.startPage - 1) : '#'}"
+                           aria-label="이전">&lt;</a>
+                    </li>
+                    <li th:each="i : ${#numbers.sequence(paging.startPage, paging.endPage)}"
+                        th:class="${paging.currentPage == i ? 'page-item active' : 'page-item'}">
+                        <a class="page-link"
+                           th:attr="data-href=@{/company/jbsk-mngm/job-offer(page=${i})}"
+                           th:text="${i}"></a>
+                    </li>
+                    <li th:class="${paging.nextBtn ? 'page-item' : 'page-item disabled'}">
+                        <a class="page-link"
+                           th:attr="data-href=${paging.nextBtn ? '/company/jbsk-mngm/job-offer?page=' + (paging.endPage + 1) : '#'}"
+                           aria-label="다음">&gt;</a>
+                    </li>
+                    <li th:class="${paging.lastPageBtn ? 'page-item' : 'page-item disabled'}">
+                        <a class="page-link"
+                           th:attr="data-href=${paging.lastPageBtn ? '/company/jbsk-mngm/job-offer?page=' + paging.totalPage : '#'}"
+                           aria-label="마지막">&raquo;</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
 </main>
 </body>
 </html>
 <script>
     function goToResumePage(element) {
-        const uId = element.getAttribute('data-jNo');
-        window.location.href = '/job-open/detail/' + uId;
+        const cId = element.getAttribute('data-cId');
+        window.location.href = '/companyInfo/' + cId;
     }
 </script>

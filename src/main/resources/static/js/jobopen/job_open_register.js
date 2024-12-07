@@ -149,7 +149,7 @@ function regist(event) {
             console.log(response.data)
             if (response.data.data != null) {
                 alert("공고 등록이 완료되었습니다." + response.data.result.code);
-                window.location.href = '/job-open/detail/' + response.data.data;
+                setTimeout(window.location.href = '/job-open/detail/' + response.data.data,1000);
             }
         })
         .catch((error) => {
