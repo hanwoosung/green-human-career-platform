@@ -78,9 +78,9 @@
                                     <span>[[${scrap.workPlace}]]</span> | <span>[[${scrap.careerNm}]]</span>
                                 </div>
 
-                                <div class="skill-tags" th:if="${not #lists.isEmpty(scrap.stacks)}">
-                                         <span th:each="skill : ${scrap.stacks}" class="skill-tag"
-                                               th:text="${skill.stackNm}"></span>
+                                <div class="skill-tags" th:if="${not #lists.isEmpty(scrap.skills)}">
+                                         <span th:each="skill : ${scrap.skills}" class="skill-tag"
+                                               th:text="${skill}"></span>
                                 </div>
                             </div>
                         </div>

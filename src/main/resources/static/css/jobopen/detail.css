@@ -152,7 +152,7 @@
     color: #333;
     margin-top: 10px;
     line-height: 1.8;
-    word-wrap: break-word;
+    white-space: pre-wrap;
 }
 
 .company-info-wrapper {

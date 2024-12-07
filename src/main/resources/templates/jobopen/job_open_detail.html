@@ -18,7 +18,7 @@
 
         <div class="sticky-header">
             <div class="top-row-box">
-                <h2>(주) 우리회사</h2>
+                <h2 th:text="${companyItem.name}">(주) 우리회사</h2>
                 <div class="top-row-box-img" th:if="${session.userType != 'C'}">
                     <i th:class="'bi ' + ${likes.BCount == 0 || likes.BCount == null ? 'bi-heart ' : 'bi-heart-fill '} + 'heart-icon'"
                        id="heart-icon"></i>
