@@ -24,7 +24,7 @@
                  LEFT JOIN tbl_job_open j on j.id = c.id
         WHERE b.use_yn = 'Y'
           AND a.u_id = #{id}
-          AND b.name LIKE CONCAT('%', #{search}, '%')
+          AND b2.name LIKE CONCAT('%', #{search}, '%')
         GROUP BY a.c_id
         ORDER BY a.o_dt DESC
             LIMIT #{offset}, #{limit};
