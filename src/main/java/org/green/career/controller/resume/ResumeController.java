@@ -64,10 +64,12 @@ public class ResumeController extends AbstractController {
             // 사용자 기본 정보 가져오기
             ResumeDto userInfo = resumeService.getUserInfo(loginedUser);
             model.addAttribute("userInfo", userInfo);
+            log.info("기본 유저 정보 : {}", userInfo);
 
             // 기술 스택 목록을 카테고리별로 가져오기
             Map<String, List<TechnicalStackDto>> technicalStacks = resumeService.getAllTechnicalStacks();
             model.addAttribute("technicalStacks", technicalStacks);
+
             // 우대사항 코드 목록 가져오기
             List<TreatDto> treatCodes = resumeService.getAllTreatCodes();
             model.addAttribute("treatCodes", treatCodes);
@@ -85,10 +87,13 @@ public class ResumeController extends AbstractController {
             @RequestPart(value = "introduceMeFiles", required = false) List<MultipartFile> introduceMeFiles, // 자기소개서 파일들
             HttpSession session
     ) throws IOException {
+
         ObjectMapper objectMapper = new ObjectMapper();
         ResumeDto resumeDto = objectMapper.readValue(resumeData, ResumeDto.class);
-        String userId = resumeDto.getCreatedBy();
+
         log.info("이력서 저장 요청: {}", resumeData);
+        log.info("이력서 저장 요청: {}", resumeDto);
+
         // 이력서 저장
         resumeService.saveResumeToDatabase(resumeDto, profilePhoto, portfolioFiles, introduceMeFiles);
         return ok();
@@ -98,18 +103,15 @@ public class ResumeController extends AbstractController {
     public String resume(@PathVariable("id") Long id, Model model) {
         ResumeDto resume = resumeService.getResumeById(id);
 
-        if (resume.getProfilePhoto() != null) {
-            String profilePhotoUrl = resume.getProfilePhoto().getNormalizedFileUrl();
-            System.out.println("Generated Profile Photo URL: " + profilePhotoUrl);
-            model.addAttribute("profilePhotoUrl", profilePhotoUrl);
-        } else {
-            model.addAttribute("profilePhotoUrl", "/static/images/default_profile2.png");
-        }
+        String profilePhotoUrl = (resume.getProfilePhoto() != null)
+                ? resume.getProfilePhoto().getFileUrl()
+                : "/static/images/default_profile2.png";
 
+        model.addAttribute("profilePhotoUrl", profilePhotoUrl);
         model.addAttribute("resume", resume);
+
         return "resume_detail";
     }
-
 
 
     // 이력서 삭제 (DELETE)
@@ -123,6 +125,7 @@ public class ResumeController extends AbstractController {
     @ResponseBody
     @PutMapping("/{resumeId}/representative")
     public ResponseDto<Void> setRepresentativeResume(@PathVariable("resumeId") Long resumeId, HttpSession session) {
+
         // 진입 확인 로그 추가
         System.out.println("Entering setRepresentativeResume method with resumeId: " + resumeId);
 
@@ -142,22 +145,6 @@ public class ResumeController extends AbstractController {
         return ok();
     }
 
-
-    // 파일 다운로드 엔드포인트
-    @GetMapping("/file/download/{fileId}")
-    public ResponseEntity<Resource> downloadFile(@PathVariable Long fileId) {
-        try {
-            // 서비스 호출을 통해 파일을 다운로드합니다.
-            Resource resource = resumeService.downloadFile(fileId);
-
-            // 파일 다운로드를 위한 응답 헤더 설정
-            return ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
-                    .body(resource);
-        } catch (Exception e) {
-            throw new RuntimeException("파일 다운로드 중 오류가 발생했습니다.", e);
-        }
-    }
 
 
 //    // 이력서 수정 (PUT)

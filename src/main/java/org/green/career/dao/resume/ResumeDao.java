@@ -58,7 +58,6 @@ public interface ResumeDao {
 
     void deleteResume(String resumeId);
 
-    // 파일 저장
     void saveFile(ResumeFileDto resumeFileDto);
 
 

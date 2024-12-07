@@ -1,6 +1,8 @@
 
 //서버로갈 데이터준비
 const temporaryDataStore = {
+    name: '',
+    id: '',
     createdBy: '',
     email: '',
     phone: '',
@@ -24,6 +26,7 @@ const temporaryDataStore = {
 //
 $(document).ready(function (){
     // 사용자 기본 정보를 초기화
+    temporaryDataStore.name = $('#userName').val();
     temporaryDataStore.createdBy = $('#userId').val();
     temporaryDataStore.email = $('#userEmail').val();
     temporaryDataStore.phone = $('#userPhone').val();

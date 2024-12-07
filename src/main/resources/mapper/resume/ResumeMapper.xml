@@ -23,20 +23,18 @@
         WHERE r_no = #{resumeId};
     </update>
 
-
-
     <!-- 이력서 업데이트 -->
     <update id="updateResume">
         UPDATE tbl_resume
-        SET title = #{title}, representative_yn = #{representativeYn}, updated_by = #{updatedBy}, updated_date = CURRENT_TIMESTAMP()
+        SET r_title = #{title}, r_rep_yn = #{representativeYn}, updt_id = #{updatedBy}, updt_dt = CURRENT_TIMESTAMP()
         WHERE r_no = #{resumeId};
     </update>
     <!-- 이력서 삭제 -->
     <delete id="deleteResume">
-        DELETE FROM tbl_resume
+        UPDATE tbl_resume
+        SET del_yn = 'Y'
         WHERE r_no = #{resumeId};
     </delete>
-
 
     <!-- 유저 정보 조회 -->
     <select id="getUserInfo" resultType="org.green.career.dto.resume.ResumeDto">
@@ -134,7 +132,7 @@
         LEFT JOIN tbl_resume_me m ON m.r_no = r.r_no
         -- 포트폴리오 정보
         LEFT JOIN tbl_resume_prtf p ON p.r_no = r.r_no
-        WHERE r.inst_id = #{userId};
+        WHERE r.inst_id = #{userId} AND r.del_yn = 'N';
     </select>
     <!-- 이력서 조회 -->
     <select id="getResumeById" resultMap="resumeResultMap">
@@ -439,18 +437,6 @@
         FROM tbl_file
         WHERE file_id = #{fileId}
     </select>
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -1,48 +1,30 @@
 package org.green.career.service.resume;
 
-import org.green.career.dto.resume.ResumeFileDto;
-import org.green.career.dto.resume.ResumeDto;
-import org.green.career.dto.resume.TechnicalStackDto;
-import org.green.career.dto.resume.TreatDto;
-import org.springframework.core.io.Resource;
+import org.green.career.dto.resume.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 public interface ResumeService {
 
-    Resource downloadFile(Long fileId);
-
-    ResumeDto getResumeById(Long id);
-
-    /*
-    * Get
-    * */
-
     ResumeDto getUserInfo(String id);
-    List<TreatDto> getAllTreatCodes();
-    List<ResumeDto> getAllResumes(String id);
+
+    List<ResumeDto> getAllResumes(String userId);
 
     Map<String, List<TechnicalStackDto>> getAllTechnicalStacks();
 
+    List<TreatDto> getAllTreatCodes();
+
     void deleteResume(String resumeId);
 
+    void saveResumeToDatabase(ResumeDto resumeDto, MultipartFile profilePicture,
+                              List<MultipartFile> portfolioFiles,
+                              List<MultipartFile> introduceMeFiles);
 
-    /*
-    * Save
-    * */
+    ResumeDto getResumeById(Long id);
 
-    void saveResumeToDatabase(ResumeDto resumeDto, MultipartFile profilePicture, List<MultipartFile> portfolioFiles, List<MultipartFile> introduceMeFiles);
+    void updateResume(String id, ResumeDto resumeDto);
 
-    ResumeFileDto saveProfilePicture(MultipartFile profilePicture, String userId, Long generatedResumeId) throws IOException;
-
-    void savePortfolioFiles(String userId, List<MultipartFile> portfolioFiles, Long generatedResumeId) throws IOException;
-
-    void saveIntroduceMeFiles(String userId, List<MultipartFile> introduceMeFiles, Long generatedResumeId) throws IOException;
-
-    String saveFile(MultipartFile file, String userId, String directory) throws IOException;
-
-    void setRepresentativeResume(Long resumeId, String loginedUser);
+    void setRepresentativeResume(Long resumeId, String userId);
 }
