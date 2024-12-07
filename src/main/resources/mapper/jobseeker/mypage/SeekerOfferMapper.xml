@@ -7,7 +7,7 @@
         SELECT a.c_id,
                a.u_id,
                a.o_dt,
-               b.name,
+               b2.name,
                b.addr,
                b.phone,
                c.c_business,
@@ -18,10 +18,11 @@
                IFNULL(d.file_url, '')  AS file_url
         FROM tbl_offer a
                  LEFT JOIN tbl_user b ON a.u_id = b.id
+                 LEFT JOIN tbl_user b2 ON b2.id = a.c_id
                  LEFT JOIN tbl_company c ON a.c_id = c.id
                  LEFT JOIN tbl_file d ON a.c_id = d.file_ref_id AND d.file_gbn_cd = '10'
                  LEFT JOIN tbl_job_open j on j.id = c.id
-        WHERE use_yn = 'Y'
+        WHERE b.use_yn = 'Y'
           AND a.u_id = #{id}
           AND b.name LIKE CONCAT('%', #{search}, '%')
         GROUP BY a.c_id
