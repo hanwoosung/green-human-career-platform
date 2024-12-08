@@ -254,8 +254,8 @@ $(document).ready(function () {
                     <div class="popup-content">
                         <button class="popup-close" id="close-popup">✖</button>
                         <div class="popup-counter">${index + 1} / ${limitedJobCards.length}</div>
-                        <h3>✨ 인기 공고 TOP3 ✨</h3>
-                        <img src="${topJobImage}" alt="Job Image" class="popup-image">
+                        <h3>✨ 인기 공고 TOP5 ✨</h3>
+                        <img src="${topJobImage}" alt="Job Image" class="popup-image" style="max-height: 300px ">
                         <p class="job-title"><strong>${topJobInfo}</strong></p>
                         <p class="job-company">${topJobCompany}</p>
                         <p class="job-location">${topJobLocation}</p>

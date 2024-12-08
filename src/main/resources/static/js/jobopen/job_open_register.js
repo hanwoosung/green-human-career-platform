@@ -76,19 +76,13 @@ $(document).ready(function () {
     function updatePreviewOrder() {
         const filePreview = $("#filePreview");
         const imgContainers = filePreview.find(".img-container");
+        filePreview.find(".default-img").remove();
+
         const imageCount = imgContainers.length;
+        const emptySlotsNeeded = 3 - imageCount;
 
-        // 이미지가 한 개일 때만 빈 슬롯을 추가
-        if (imageCount === 1) {
-            const emptySlot = $('<div class="default-img">이미지 없음</div>');
-            filePreview.append(emptySlot);
-        }
-
-        // 3개보다 적은 이미지가 있을 때 부족한 슬롯 추가
-        const emptySlots = 3 - imageCount;
-        for (let i = 0; i < emptySlots; i++) {
-            const emptySlot = $('<div class="default-img">이미지 없음</div>');
-            filePreview.append(emptySlot);
+        for (let i = 0; i < emptySlotsNeeded; i++) {
+            filePreview.append('<div class="default-img">이미지 없음</div>');
         }
     }
 
@@ -149,7 +143,7 @@ function regist(event) {
             console.log(response.data)
             if (response.data.data != null) {
                 alert("공고 등록이 완료되었습니다." + response.data.result.code);
-                window.location.href = '/job-open/detail/' + response.data.data;
+                setTimeout(window.location.href = '/job-open/detail/' + response.data.data,1000);
             }
         })
         .catch((error) => {

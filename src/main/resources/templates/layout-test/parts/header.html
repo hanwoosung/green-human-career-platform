@@ -70,14 +70,13 @@
                             <img class="profile-icon" src="/static/images/default_profile.png" alt="Profile">
                             <div class="profile-dropdown-menu">
                                 <ul th:case="S">
-                                    <li><a th:href="@{/test/mypage-empty}">MY 홈</a></li>
-                                    <li><a th:href="@{/}">이력서/자소서 관리</a></li>
+                                    <li><a th:href="@{/mypage/check/{userId}(userId=${session.userId})} ">내 정보</a></li>
+                                    <li><a th:href="@{/resume}">이력서/자소서 관리</a></li>
                                     <li><a th:href="@{/job-seeker/my-page/scrap}">스크랩</a></li>
                                     <li><a th:href="@{/logout}">로그아웃</a></li>
                                 </ul>
                                 <ul th:case="C">
-                                    <li><a th:href="@{/companyRegist/{user_id}(user_id=${session.userId})}"></a></li>
-                                    <li><a th:href="@{/job-seeker/my-page/bookmark}">구직자 정보</a></li>
+                                    <li><a th:href="@{/mypage/check/{userId}(userId=${session.userId})} ">내 정보</a></li>
                                     <li><a th:href="@{/company/jbsk-mngm/job-offer}">입사 제안 현황</a></li>
                                     <li><a th:href="@{/job-open/register}">채용 공고 등록</a></li>
                                     <li><a th:href="@{/logout}">로그아웃</a></li>

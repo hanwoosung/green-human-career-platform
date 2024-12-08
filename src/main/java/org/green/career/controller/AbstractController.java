@@ -143,6 +143,25 @@ public abstract class AbstractController {
     }
 
     /**
+     * 특정 조건에 따라 url페이지로 이동
+     */
+    public void ifGourl(boolean condition, String url) throws Exception {
+        HttpServletRequest request = getRequest();
+        HttpServletResponse response = getResponse();
+
+        if (condition) {
+            if (!response.isCommitted()) {
+                String referer = request.getHeader("Referer");
+                if (referer != null && !referer.isEmpty()) {
+                    response.sendRedirect(referer);
+                } else {
+                    response.sendRedirect(url);
+                }
+            }
+        }
+    }
+
+    /**
      * 특정 조건에 따라 이전 페이지로 리다이렉트 처리
      */
     public void ifGoReferer(boolean condition) throws Exception {

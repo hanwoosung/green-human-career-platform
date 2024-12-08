@@ -28,8 +28,9 @@ public class ResumeServiceImpl extends AbstractService implements ResumeService 
         // AbstractService의 returnData 사용
         return returnData(() -> resumeDao.getUserInfo(id));
     }
-    public List<ResumeDto> getAllResumes(String id) {
-        return returnData(() -> resumeDao.getResumesByUserId(id));
+
+    public List<ResumeDto> getAllResumes(String id) { //TODO: 빈값처리
+        return resumeDao.getResumesByUserId(id);
     }
 
     public Map<String, List<TechnicalStackDto>> getAllTechnicalStacks() {
@@ -41,9 +42,11 @@ public class ResumeServiceImpl extends AbstractService implements ResumeService 
         stacksByCategory.put("front_cd", resumeDao.getTechnicalStacksByCategory("front_cd"));
         return stacksByCategory;
     }
+
     public List<TreatDto> getAllTreatCodes() {
         return returnData(() -> resumeDao.getAllTreatCodes());
     }
+
     public void deleteResume(String resumeId) {
         // AbstractService의 executeSafely 사용
         executeSafely(() -> resumeDao.deleteResume(resumeId), "이력서 삭제 실패");
@@ -97,17 +100,17 @@ public class ResumeServiceImpl extends AbstractService implements ResumeService 
                 resumeDao.saveQualification(quali);
             }
 
-            for(TechnicalStackDto stack : resumeDto.getTechnicalStacks()) {
+            for (TechnicalStackDto stack : resumeDto.getTechnicalStacks()) {
                 stack.setResumeId(generatedResumeId);
                 resumeDao.saveTechnicalStack(stack);
             }
 
-            for(TreatDto treat : resumeDto.getTreats()) {
+            for (TreatDto treat : resumeDto.getTreats()) {
                 treat.setResumeId(generatedResumeId);
                 resumeDao.saveTreat(treat);
             }
 
-            for(PortfolioDto port : resumeDto.getPortfolios()) {
+            for (PortfolioDto port : resumeDto.getPortfolios()) {
                 port.setResumeId(generatedResumeId);
                 resumeDao.savePortfolio(port);
                 System.out.println(port);
@@ -117,7 +120,6 @@ public class ResumeServiceImpl extends AbstractService implements ResumeService 
             throw new RuntimeException("파일 저장 중 오류가 발생했습니다.", e);
         }
     }   // 특정 코드 카테고리에 해당하는 코드 가져오기
-
 
 
     public ResumeDto getResumeById(Long id) {
@@ -141,6 +143,7 @@ public class ResumeServiceImpl extends AbstractService implements ResumeService 
         resumeDto.setResumeId(1L);  // 예시로 수정된 이력서 ID를 반환
         return resumeDto;
     }
+
     @Transactional
     public void setRepresentativeResume(Long resumeId, String userId) {
         // 기존의 모든 대표 이력서를 'N'으로 변경
@@ -150,10 +153,9 @@ public class ResumeServiceImpl extends AbstractService implements ResumeService 
     }
 
 
-
     /*
-    * 파일 관련
-    * */
+     * 파일 관련
+     * */
     public ResumeFileDto saveProfilePicture(MultipartFile profilePicture, String userId, Long generatedResumeId) throws IOException {
         String filePath = saveFile(profilePicture, userId, "profile");
         System.out.println(filePath);
@@ -195,6 +197,7 @@ public class ResumeServiceImpl extends AbstractService implements ResumeService 
             portfolios.add(portfolioDto);
         }
     }
+
     public void saveIntroduceMeFiles(String userId, List<MultipartFile> introduceMeFiles, Long generatedResumeId) throws IOException {
         List<IntroduceMeDto> introduces = new ArrayList<>();
 
@@ -225,10 +228,12 @@ public class ResumeServiceImpl extends AbstractService implements ResumeService 
     private String getFileExtension(String fileName) {
         return fileName.substring(fileName.lastIndexOf('.') + 1);
     }
+
     public String saveFile(MultipartFile file, String userId, String directory) throws IOException {
         // 사용자별 경로를 추가
         return saveFileInternal(file, userId, directory);
     }
+
     private String saveFileInternal(MultipartFile file, String userId, String directory) throws IOException {
         // 사용자 ID 기반 디렉토리 경로 구성
         String baseDirectory = "src/main/resources/static/uploads/user/";
@@ -258,8 +263,8 @@ public class ResumeServiceImpl extends AbstractService implements ResumeService 
     }
 
     /*
-    * 오류확인
-    * */
+     * 오류확인
+     * */
     private void executeSafely(Runnable action, String errorMessage) {
         try {
             action.run();

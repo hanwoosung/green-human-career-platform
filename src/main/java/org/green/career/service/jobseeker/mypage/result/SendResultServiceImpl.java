@@ -3,9 +3,11 @@ package org.green.career.service.jobseeker.mypage.result;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.green.career.dao.jobopen.JobOpeningDao;
 import org.green.career.dao.jobseeker.mypage.ScrapDao;
 import org.green.career.dao.jobseeker.mypage.SendResultDao;
 import org.green.career.dto.common.RatingRequestDto;
+import org.green.career.dto.jobopen.requset.JobOpeningResponseDto;
 import org.green.career.dto.jobseeker.mypage.ScrapStackDto;
 import org.green.career.dto.jobseeker.mypage.response.SendResultDto;
 import org.green.career.exception.BaseException;
@@ -26,6 +28,7 @@ public class SendResultServiceImpl extends AbstractService implements SendResult
 
     private final SendResultDao sendResultDao;
     private final ScrapDao scrapDao;
+    private final JobOpeningDao jobOpeningDao;
 
     @Override
     public Map<String, Object> selectSendResult(int page, String id) {
@@ -37,13 +40,19 @@ public class SendResultServiceImpl extends AbstractService implements SendResult
 
         List<SendResultDto> sendResultDtoList = sendResultDao.selectSendResult(offset, 6, id);
 
-        setStack(sendResultDtoList);
+
+        for (SendResultDto job : sendResultDtoList) {
+            job.setSkills(String.valueOf(job.getSkills()));
+        }
+
         PagingBtn paging = totalCount > 0
                 ? new PagingBtn(totalCount, page, pageSize, 10)
                 : new PagingBtn(0, 1, pageSize, 10);
 
+
         result.put("list", sendResultDtoList);
         result.put("paging", paging);
+
 
         return result;
     }

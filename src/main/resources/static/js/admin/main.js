@@ -4,12 +4,38 @@ $(function () {
 
     document.querySelector(".pwd-btn").addEventListener("click", function () {
 
-        adminFunc.main.updtStatus("P");
+        if (adminFunc.main.getChkUser().length <= 0){
+            alert_modal.on("오류", "사용자를 선택 해주세요.");
+            return;
+        }
+
+        confirm_modal.on(
+            "비밀번호",
+            "비밀번호를 초기화 하시겠습니까?",
+            () => adminFunc.main.updtStatus("P"),
+            confirm_modal.off,
+            "초기화",
+            "취소"
+        );
 
     });
 
     document.querySelector(".use-btn").addEventListener("click", function () {
-        adminFunc.main.updtStatus("U");
+
+        if (adminFunc.main.getChkUser().length <= 0){
+            alert_modal.on("오류", "사용자를 선택 해주세요.");
+            return;
+        }
+
+        confirm_modal.on(
+            "사용여부",
+            "사용여부를 변경하시겠습니까?",
+            () => adminFunc.main.updtStatus("U"),
+            confirm_modal.off,
+            "변경",
+            "취소"
+        );
+
     });
 
     $('.page-item').on("click", function () {

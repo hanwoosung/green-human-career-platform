@@ -9,13 +9,14 @@ import org.green.career.dto.jobopen.JobOpeningDetailDto;
 import org.green.career.dto.jobopen.requset.JobOpeningRequestDto;
 import org.green.career.dto.jobopen.response.ResponseMyResume;
 import org.green.career.dto.likes.response.ResponseLikesDto;
+import org.green.career.service.company.jbskMngm.bookmarkSeeker.BookmarkSeekerService;
 import org.green.career.service.jobopen.JobOpeningService;
 import org.green.career.service.likes.LikesService;
 import org.green.career.service.main.MainService;
+import org.green.career.service.sse.SseService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -35,6 +36,8 @@ public class JobOpenController extends AbstractController {
     private final JobOpeningService jobOpeningService;
     private final MainService mainService;
     private final LikesService likesService;
+    private final BookmarkSeekerService bookmarkSeekerService;
+    private final SseService sseService;
 
     @GetMapping("/register")
     public String getJobOpenRegisterPage(Model model) throws Exception {
@@ -52,25 +55,23 @@ public class JobOpenController extends AbstractController {
     @PostMapping
     @ResponseBody
     public ResponseDto<Integer> jobOpeningRegister(@ModelAttribute JobOpeningRequestDto formData) {
-
-        log.info("데이터: {}", formData);
-
         String id = sessionUserInfo("userId");
 
-        if (formData.getSkillList() != null) {
-            log.info("Skill List: {}", formData.getSkillList());
-        }
-        if (formData.getCompanyImages() != null && !formData.getCompanyImages().isEmpty()) {
-            for (MultipartFile file : formData.getCompanyImages()) {
-                log.info("파일이름: {}", file.getName());
-                log.info("사이즈: {} bytes", file.getSize());
-            }
-        } else {
-            log.warn("파일 없음");
-        }
+        int result = jobOpeningService.insertJobOpening(formData, id);
 
-        return ResponseDto.ok(jobOpeningService.insertJobOpening(formData, id));
+        if (result > 0) {
+            List<String> bookmarkedUserIds = bookmarkSeekerService.selectBookmarkSeekerIds(id);
+
+            if (!bookmarkedUserIds.isEmpty()) {
+                String notificationMessage = jobOpeningService.getCompanyName(id) + "에서 새로운 채용공고가 등록되었습니다!" + jobOpeningService.selectMax();
+                for (String userId : bookmarkedUserIds) {
+                    sseService.sendNotification(userId, notificationMessage);
+                }
+            }
+        }
+        return ResponseDto.ok(result);
     }
+
 
     @GetMapping("/{jNo}")
     public String getJobOpeningModi(@PathVariable("jNo") int jNo, Model model) throws Exception {
@@ -156,8 +157,16 @@ public class JobOpenController extends AbstractController {
 
     @GetMapping("/resume-apply")
     @ResponseBody
-    public ResponseDto<Integer> resumeApply(@RequestParam("rNo") int rNo, @RequestParam("jNo") int jNo, HttpSession session) {
-        return ResponseDto.ok(jobOpeningService.resumeApply(jNo, rNo, (String) session.getAttribute("userId")));
+    public ResponseDto<Integer> resumeApply(@RequestParam("rNo") int rNo,
+                                            @RequestParam("jNo") int jNo,
+                                            @RequestParam("jId") String jId,
+                                            @RequestParam("userName") String userName) {
+
+        int result = jobOpeningService.resumeApply(jNo, rNo, sessionUserInfo("userId"));
+        if (result > 0) {
+            sseService.sendNotification(jId, userName + "님이 이력서를 신청하였습니다");
+        }
+        return ResponseDto.ok(result);
     }
 
     @PatchMapping("/{jNo}")

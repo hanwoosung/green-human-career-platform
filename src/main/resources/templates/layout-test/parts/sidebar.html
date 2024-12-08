@@ -17,8 +17,19 @@
         <link rel="stylesheet" th:href="@{/static/css/layout/sidebar.css}">
         <title>Sidebar</title>
     </head>
+
+    <style>
+        .admin-side{
+            background-color: #f9efff !important;
+        }
+
+        .company-side{
+            background-color: rgba(190, 215, 255, 0.79) !important;
+        }
+    </style>
+
     <body>
-        <div class="sidebar">
+        <div th:class="${'sidebar ' + (userType == 'C' ? 'company-side ' : (userType == 'M' ? 'admin-side' : '')) }">
             <div class="sidebar-logo">
                 <a th:if="${userType == 'C'}" th:href="@{/company}">
                     <img class="header-logo" src="/static/images/logo_company.png" alt="Company Logo">
@@ -41,8 +52,8 @@
                             <i class="fas fa-home"></i> MY홈
                         </a>
                         <ul class="submenu">
+                            <li><a th:href="@{/mypage/check/{user_id}(user_id=${session.userId})}">내 정보</a></li>
                             <li><a th:href="@{/companyRegist/{user_id}(user_id=${session.userId})}">기업 정보</a></li>
-                            <li><a th:href="@{/mypage/check/{user_id}(user_id=${session.userId})}">내 정보 수정</a></li>
 <!--                            <li><a >비밀번호 수정</a></li>-->
                         </ul>
                     </li>
@@ -51,8 +62,8 @@
                             <i class="fas fa-file-alt"></i> 구직자 관리
                         </a>
                         <ul class="submenu">
-                            <li><a href="/company/jbsk-mngm/bookmark-seeker">북마크한 구직자 목록</a></li>
-                            <li><a href="/company/jbsk-mngm/job-stack-offer">기술스택 기반 이력서 조회</a></li>
+                            <li><a href="/company/jbsk-mngm/bookmark-seeker">북마크한 구직자</a></li>
+                            <li><a href="/company/jbsk-mngm/job-stack-offer">기술스택 기반 이력서</a></li>
                             <li><a href="/company/jbsk-mngm/job-offer">입사 제안 현황</a></li>
                         </ul>
                     </li>
@@ -103,7 +114,7 @@
                         <ul class="submenu">
                             <li><a href="/job-seeker/my-page/bookmark">북마크한 기업</a></li>
                             <li><a href="/job-seeker/my-page/scrap">스크랩한 채용공고</a></li>
-                            <li><a href="/job-seeker/my-page/stack">기술스택 기반 공고조회</a></li>
+                            <li><a href="/job-seeker/my-page/stack">기술스택 기반 공고</a></li>
                         </ul>
                     </li>
                     <li class="sidebar-item has-submenu">

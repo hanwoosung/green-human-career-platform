@@ -163,7 +163,7 @@
     </update>
 
     <select id="myResumes">
-        SELECT *
+        SELECT a.*,b.*
         FROM tbl_user a
                  LEFT JOIN tbl_resume b ON a.id = b.inst_id
         WHERE a.id = #{id};
@@ -197,8 +197,17 @@
     </select>
 
     <update id="viewCountUp">
-        update tbl_job_open set v_cnt = v_cnt+1
+        update tbl_job_open
+        set v_cnt = v_cnt + 1
         where j_no = #{jNo}
     </update>
+
+    <select id="getCompanyName">
+        SELECT a.name
+        FROM tbl_user a
+                 LEFT JOIN tbl_job_open b on a.id = b.id
+        WHERE a.id = #{id}
+        GROUP BY a.id;
+    </select>
 
 </mapper>

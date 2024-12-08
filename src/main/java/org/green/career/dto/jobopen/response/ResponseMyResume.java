@@ -12,9 +12,9 @@ import java.time.LocalDate;
 public class ResponseMyResume {
 
     private String id;
-
     // 이력서 번호
     private Long rNo;
+    private String name;
     // 이력서 제목
     private String rTitle;
     // 대표어부
