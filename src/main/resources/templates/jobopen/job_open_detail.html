@@ -272,7 +272,7 @@
             .then((response) => {
                 if (response.data.data === '성공') {
                     alert("삭제가 완료되었습니다.");
-                    location.reload();
+                    window.location.href ="/company"
                 } else {
                     alert("삭제에 실패했습니다. 다시 시도해주세요.");
                 }

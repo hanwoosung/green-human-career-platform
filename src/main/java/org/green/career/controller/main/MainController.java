@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.green.career.controller.AbstractController;
 import org.green.career.dto.jobopen.JobSearchResult;
+import org.green.career.dto.jobopen.requset.JobOpeningResponseDto;
 import org.green.career.service.main.MainService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,7 +40,9 @@ public class MainController extends AbstractController {
         JobSearchResult result = mainService.getJobOpeningsWithPaging(searchText, skills, page, sessionUserInfo("userId"));
         Map<String, Object> skillData = mainService.findSkillList();
 
-        log.info("main" + result);
+        for(JobOpeningResponseDto jobList:result.getJobList()){
+            jobList.getFileUrl();
+        }
 
         model.addAttribute("skillList", skillData.get("skills"));
         model.addAttribute("categories", skillData.get("categories"));

@@ -30,6 +30,7 @@
             AND (c2.up_cd = 'stack_cd' OR c2.up_cd IN (SELECT cd FROM tbl_codeinfo WHERE up_cd = 'stack_cd'))
                  LEFT JOIN tbl_user d on a.id = d.id
         where a.j_gbn_cd = 'O'
+        and a.del_yn ='N'
         GROUP BY a.j_no
         ORDER BY a.inst_dt DESC
             LIMIT #{offset}, #{limit};
@@ -67,6 +68,7 @@
             )
         </if>
         and a.j_gbn_cd = 'O'
+        and a.del_yn ='N'
         GROUP BY a.j_no
         ORDER BY a.inst_dt DESC
         LIMIT #{offset}, #{limit};
@@ -92,6 +94,8 @@
             AND b.stack_cd IN
             <foreach item="skill" collection="skills" open="(" close=")" separator=",">#{skill}</foreach>
         </if>
+        and a.j_gbn_cd = 'O'
+        and a.del_yn ='N'
         ;
     </select>
 
@@ -106,6 +110,7 @@
                  LEFT JOIN tbl_file f ON a.id = f.file_ref_id AND f.file_gbn_cd = 100
                  LEFT JOIN tbl_user c ON a.id = c.id
         WHERE a.id = #{id}
+        and a.del_yn ='N'
         GROUP BY a.j_no, a.id, c.id
             LIMIT #{offset}, #{limit};
     </select>
