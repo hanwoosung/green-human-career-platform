@@ -19,27 +19,18 @@ $(function () {
         skills.drawSkills();
     });
 
-    $(document).on("click", ".offer-btn", function () {
+    $(document).on("click", ".offer-btn", function (e) {
 
-        let param = {
-            uid: this.closest(".card").dataset.id
-        }
+        e.stopPropagation(); // 이벤트 버블링 방지
 
-        console.log(param);
-
-        axios.post("/company/jbsk-mngm/job-stack-offer", param, {
-            headers: {
-                // "Content-Type": "multipart/form-data",
-                "Content-Type": "application/json",
-            },
-        }).then((res) => {
-            if (res.data.result.code != "200"){
-                alert_modal.on("오류", res.data.result.message);
-            }
-        }).catch((error) => {
-            alert_modal.on("제안에 실패 하였습니다.");
-            console.log(error)
-        });
+        confirm_modal.on(
+            "제안",
+            "입사 제안 하시겠습니까?",
+            () => skills.offer(this),
+            confirm_modal.off,
+            "제안",
+            "취소"
+        );
 
     });
 
@@ -58,10 +49,10 @@ $(function () {
         let stackCd = this.parentElement.dataset.stackcd;
 
         let checkBoxs = skills.getAllByList();
-        for (let checkBox of checkBoxs){
+        for (let checkBox of checkBoxs) {
             let cd = checkBox.ele.closest(".skill-item").dataset.cd;
 
-            if (cd == stackCd){
+            if (cd == stackCd) {
                 checkBox.ele.checked = false;
             }
         }
@@ -69,7 +60,7 @@ $(function () {
         skills.drawSkills();
     });
 
-    $(document).on("click", ".card", function (){
+    $(document).on("click", ".card", function () {
 
         let jno = this.dataset.jno;
         console.log(jno);
@@ -234,6 +225,33 @@ let skills = {
         url.searchParams.append("search", search);
 
         return url.toString();
+    },
+
+    offer: (ele) => {
+
+        let param = {
+            uid: ele.closest(".card").dataset.id
+        }
+
+        console.log(param);
+
+        axios.post("/company/jbsk-mngm/job-stack-offer", param, {
+            headers: {
+                // "Content-Type": "multipart/form-data",
+                "Content-Type": "application/json",
+            },
+        }).then((res) => {
+
+            console.log(res);
+
+            if (res.data.result.code != "200") {
+                alert_modal.on("오류", res.data.result.message);
+            }
+        }).catch((error) => {
+            alert_modal.on("제안에 실패 하였습니다.");
+            console.log(error)
+        });
+
     },
 
     offCheck: () => {

@@ -112,4 +112,12 @@
         );
     </insert>
 
+    <select id="chkOffer" resultType="Integer">
+        SELECT COUNT(*)
+        FROM tbl_offer
+        WHERE c_id = #{id}
+        AND u_id = #{uId}
+        AND o_dt = DATE_FORMAT(NOW(), '%Y-%m-%d')
+    </select>
+
 </mapper>
