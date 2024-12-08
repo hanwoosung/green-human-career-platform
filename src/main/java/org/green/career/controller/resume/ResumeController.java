@@ -7,21 +7,30 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.apache.tomcat.util.file.ConfigurationSource.Resource;
 import org.green.career.controller.AbstractController;
 import org.green.career.dto.common.ResponseDto;
+import org.green.career.dto.common.file.request.FileDto;
 import org.green.career.dto.resume.CareerDto;
 import org.green.career.dto.resume.EducationDto;
 import org.green.career.dto.resume.QualificationDto;
 import org.green.career.dto.resume.ResumeDto;
+import org.green.career.dto.resume.ResumeFileDto;
 import org.green.career.dto.resume.TechnicalStackDto;
 import org.green.career.dto.resume.TreatDto;
+import org.green.career.service.resume.ResumeFileService;
 import org.green.career.service.resume.ResumeService;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +40,7 @@ import java.util.Map;
 @Slf4j
 public class ResumeController extends AbstractController {
     private final ResumeService resumeService;
-
+    private final ResumeFileService resumeFileService;
 
     // 이력서 목록 페이지
     @GetMapping
@@ -179,14 +188,13 @@ public class ResumeController extends AbstractController {
         return ok();
     }
 
-
-
     // 이력서 상세 조회 (GET)
     @GetMapping("/{id}")
     public String resume(@PathVariable("id") Long id, Model model) {
         ResumeDto resume = resumeService.getResumeById(id);
         model.addAttribute("resume", resume);
         log.info("상세조회 이력서정보 " , resume);
+        System.out.println(resume);
         return "resume_detail";
     }
 

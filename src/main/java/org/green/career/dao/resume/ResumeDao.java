@@ -72,6 +72,8 @@ public interface ResumeDao {
     List<ResumeFileDto> findFilesByRefIdAndGbnCd(Map<String, Object> params);
     void deleteFilesByRefId(Map<String, Object> params);
 
+    
+    ResumeFileDto findFileById(Long fileId);    
 
 
 }

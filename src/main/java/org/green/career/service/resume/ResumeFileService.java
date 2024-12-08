@@ -4,6 +4,7 @@ package org.green.career.service.resume;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.green.career.dao.resume.ResumeDao;
+import org.green.career.dto.common.file.request.FileDto;
 import org.green.career.dto.resume.ResumeDto;
 import org.green.career.dto.resume.ResumeFileDto;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
 @Slf4j
 public class ResumeFileService {
 
@@ -31,9 +33,6 @@ public class ResumeFileService {
     private String uploadDir;
     private String baseUrl = "/static/uploads/user";
 
-    public ResumeFileService(ResumeDao resumeDao) {
-        this.resumeDao = resumeDao;
-    }
 
     public void saveFile(MultipartFile file, ResumeDto resumeDto, String subDir, Long refId, String fileGbnCd) throws IOException {
         // 파일 이름 생성
@@ -129,5 +128,8 @@ public class ResumeFileService {
         }
         return resource;
     }
-
+    public ResumeFileDto getFileById(Long fileId) {
+        return resumeDao.findFileById(fileId);
+    }
+    
 }

@@ -44,11 +44,6 @@ public class ResumeServiceImpl extends AbstractService implements ResumeService 
     }
 
 
-
-
-    // 카테고리별로 기술 스택(카테고리, 기술스택)을 맵 형태로 반환
-    //TODO : 모든카테고리를 불러올 수 있게 수정해야함
-
     public Map<String, List<TechnicalStackDto>> getAllTechnicalStacks() {
         // 모든 기술 스택 조회
         List<TechnicalStackDto> allStacks = resumeDao.selectAllTechnicalStacks();

@@ -242,20 +242,6 @@ $(document).ready(function () {
     });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     // 기본적으로 첫 번째 카테고리 선택(수정 모드에서도 동일하게)
     const $firstCategory = $('.category-button:first');
     if ($firstCategory.length) {
