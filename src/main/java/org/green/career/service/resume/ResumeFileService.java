@@ -36,10 +36,6 @@ public class ResumeFileService {
     }
 
     public void saveFile(MultipartFile file, ResumeDto resumeDto, String subDir, Long refId, String fileGbnCd) throws IOException {
-        if (file.isEmpty()) {
-            throw new IllegalArgumentException("빈 파일은 저장할 수 없습니다.");
-        }
-
         // 파일 이름 생성
         String originalFilename = file.getOriginalFilename();
         String fileExt = originalFilename != null ? originalFilename.substring(originalFilename.lastIndexOf('.') + 1) : "unknown";
@@ -112,17 +108,8 @@ public class ResumeFileService {
 
         log.info("파일 삭제 완료 - resumeId: {}, fileGbnCd: {}", resumeId, fileGbnCd);
     }
-    /**
-     * 다중 파일 삭제 (파일 ID 리스트 기반)
-     */
-//    public void deleteFilesByIds(List<Long> fileIds) {
-//        List<String> fileUrls = resumeDao.findFileUrlsByIds(fileIds); // 데이터베이스에서 파일 URL 조회
-//        for (String fileUrl : fileUrls) {
-//            deleteFile(fileUrl);
-//        }
-//        resumeDao.deleteFilesByIds(fileIds); // 데이터베이스 레코드 삭제
-//        log.info("파일 정보 삭제 완료. 삭제된 파일 IDs: {}", fileIds);
-//    }
+
+
     public void deleteProfilePhoto(Long resumeId, String userId) {
         Map<String, Object> params = new HashMap<>();
         params.put("fileRefId", resumeId);
@@ -131,22 +118,6 @@ public class ResumeFileService {
 
         resumeDao.deleteFilesByRefId(params);
     }
-
-//    public void updateProfilePhoto(MultipartFile file, ResumeDto resumeDto, Long resumeId) throws IOException {
-//        // 1. 기존 프로필 사진 삭제
-//        ResumeFileDto existingFile = resumeDao.findProfilePhotoByResumeId(resumeId);
-//        if (existingFile != null) {
-//            deleteFile(existingFile.getFileUrl()); // 서버에서 파일 삭제
-//            resumeDao.deleteFileById(existingFile.getFileId()); // DB에서 파일 정보 삭제
-//        }
-//
-//        // 2. 새 프로필 사진 저장
-//        saveFile(file, resumeDto, "resume_profile", resumeId, "50"); // '50'은 프로필 사진 구분 코드 예시
-//    }
-
-
-
-
 
 
     public Resource downloadFile(String fileUrl) throws IOException {

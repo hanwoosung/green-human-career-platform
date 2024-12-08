@@ -14,41 +14,44 @@
 
 
 <main layout:fragment="content">
-<form th:object="${userInfo}"
-      id="resume-form"
-      th:data-mode="${mode}"
-      th:data-resume-id="${userInfo.resumeId}"
-      method="post"
-      enctype="multipart/form-data">
+    <form th:object="${userInfo}"
+          id="resume-form"
+          th:data-mode="${mode}"
+          th:data-resume-id="${userInfo.resumeId}"
+          method="post"
+          enctype="multipart/form-data">
         <div class="resume">
             <div class="resume-container">
-                <p class = "title" th:text="${mode == 'edit' ? '이력서 수정' : '이력서 등록'}">기본제목</p>
+                <p class="title" th:text="${mode == 'edit' ? '이력서 수정' : '이력서 등록'}">기본제목</p>
                 <div></div>
                 <div class="resume-basic">
                     <div class="resume-view">
                         <div class="resume-content">
-                          <div class="title-input">
-                              <input id="resume-title" type="text" placeholder="이력서 제목을 입력하세요" th:value="${userInfo.getTitle()}">
-                          </div>
+                            <div class="title-input">
+                                <input id="resume-title" type="text" placeholder="이력서 제목을 입력하세요"
+                                       th:value="${userInfo.getTitle()}">
+                            </div>
                             <div class="resume-container-top">
                                 <div class="user-name">
                                     <span th:text="${userInfo.name}"></span>
                                 </div>
                                 <div class="resume-user-career">
-                                    <select th:field="${userInfo.careerCode}" id = "careerCode" >
-                                        <option value="S" th:text="'신입'" th:selected="${userInfo.careerCode} == null"></option>
+                                    <select th:field="${userInfo.careerCode}" id="careerCode">
+                                        <option value="S" th:text="'신입'"
+                                                th:selected="${userInfo.careerCode} == null"></option>
                                         <option value="G" th:text="'경력'"></option>
                                         <option value="SG" th:text="'신입/경력'"></option>
                                     </select>
                                 </div>
                             </div>
                             <div class="user_desc">
-                                만 <span th:text="${userInfo.calculateAge()}"></span>  세
+                                만 <span th:text="${userInfo.calculateAge()}"></span> 세
                                 (<span th:text="${userInfo.getBirthYear()}"></span>년생)
                             </div>
                             <ul>
                                 <li><i class="fas fa-envelope"></i> <span th:text="${userInfo.email}"></span></li>
-                                <li><i class="fas fa-phone"></i> <span th:text="${userInfo.getFormattedPhone()}"></span></li>
+                                <li><i class="fas fa-phone"></i> <span th:text="${userInfo.getFormattedPhone()}"></span>
+                                </li>
                                 <li><i class="fas fa-map-marker-alt"></i> <span th:text="${userInfo.addr}"></span></li>
                             </ul>
                             <!-- 선택된 기술 스택을 표시할 섹션 -->
@@ -58,19 +61,19 @@
                         </div>
                         <div class="resume-photo">
                             <img id="resumePhotoPreview"
-                                 th:src="${userInfo.profilePhoto != null ? userInfo.profilePhoto.fileUrl : '/static/images/default_profile2.png'}"
+                                 th:src="${userInfo.profilePhoto != null ? userInfo.profilePhoto.getFileUrl() : '/static/images/default_profile2.png'}"
                                  alt="사진">
                             <input type="file" id="photoUploadInput" style="display: none;" accept="image/*">
                             <i id="photoEditIcon" class="fas fa-edit" title="사진 수정"></i>
                         </div>
                     </div>
                     <input type="hidden" id="userInfoData" th:value="${userInfoJson}"/>
-                    <input type="hidden" id="userName" name="name" th:field="${userInfo.name}" />
-                    <input type="hidden" id="userId" name="name" th:field="${userInfo.id}" />
-                    <input type="hidden" id="userEmail" name="email" th:field="${userInfo.email}" />
-                    <input type="hidden" id="userPhone" name="phone" th:field="${userInfo.phone}" />
-                    <input type="hidden" id="userBirth" name="birth" th:field="${userInfo.birth}" />
-                    <input type="hidden" id="userAddr" name="addr" th:field="${userInfo.addr}" />
+                    <input type="hidden" id="userName" name="name" th:field="${userInfo.name}"/>
+                    <input type="hidden" id="userId" name="name" th:field="${userInfo.id}"/>
+                    <input type="hidden" id="userEmail" name="email" th:field="${userInfo.email}"/>
+                    <input type="hidden" id="userPhone" name="phone" th:field="${userInfo.phone}"/>
+                    <input type="hidden" id="userBirth" name="birth" th:field="${userInfo.birth}"/>
+                    <input type="hidden" id="userAddr" name="addr" th:field="${userInfo.addr}"/>
                 </div>
                 <!-- 기술 정보 -->
                 <!-- 기술 스택 섹션 -->
@@ -87,7 +90,7 @@
                             </button>
                         </div>
                     </div>
-                
+
                     <div class="technical-stack-selection">
                         <!-- technicalStacks 맵의 각 엔트리를 순회 -->
                         <div th:each="entry : ${technicalStacks}"
@@ -125,7 +128,7 @@
                         <div class="form-title">경력</div>
                         <button class="open-button" data-form-type="careers">+</button>
                     </div>
-                    <div class="form-content-list" >
+                    <div class="form-content-list">
                         <div th:each="educations, iterStat : ${userInfo.careers}">
                             <!-- 경력 정보를 동적으로 렌더링 -->
                         </div>
@@ -138,7 +141,7 @@
                         <div class="form-title">포트폴리오</div>
                         <button class="open-button" data-form-type="portfolios">+</button>
                     </div>
-                    <div class="form-content-list" >
+                    <div class="form-content-list">
 
                     </div>
                 </div>
@@ -157,9 +160,9 @@
                 <div class="user-qualifications-info">
                     <div class="form-top">
                         <div class="form-title">자격증</div>
-                        <button class="open-button" data-form-type= "qualifications">+</button>
+                        <button class="open-button" data-form-type="qualifications">+</button>
                     </div>
-                    <div class="form-content-list" >
+                    <div class="form-content-list">
 
                     </div>
                 </div>
@@ -167,12 +170,10 @@
                 <div class="user-treats-info">
                     <div class="form-top">
                         <div class="form-title">우대사항</div>
-                        <button class="open-button"  data-form-type = "treats">+</button>
+                        <button class="open-button" data-form-type="treats">+</button>
                     </div>
-                        <div class="form-content-list" >
-                                <select id="treatSelect">
-                                </select>
-                        </div>
+                    <div class="form-content-list">
+                    </div>
                 </div>
             </div>
             <div class="resume-right-side">
@@ -188,42 +189,49 @@
                     <div class="resume-section-list">
                         <div class="section-item required" data-form-type="educations">
                             학력
-                            <button class="open-button small-plus-button" data-form-type="educations"><i class="fas fa-plus"></i></button>
+                            <button class="open-button small-plus-button" data-form-type="educations"><i
+                                    class="fas fa-plus"></i></button>
                         </div>
                         <div class="section-item" data-form-type="careers">
                             경력
-                            <button class="open-button small-plus-button" data-form-type="careers"><i class="fas fa-plus"></i></button>
+                            <button class="open-button small-plus-button" data-form-type="careers"><i
+                                    class="fas fa-plus"></i></button>
                         </div>
                         <div class="section-item" data-form-type="portfolios">
                             포트폴리오 및 기타 문서
-                            <button class="open-button small-plus-button" data-form-type="portfolios"><i class="fas fa-plus"></i></button>
+                            <button class="open-button small-plus-button" data-form-type="portfolios"><i
+                                    class="fas fa-plus"></i></button>
                         </div>
                         <div class="section-item" data-form-type="qualifications">
                             자격증
-                            <button class="open-button small-plus-button" data-form-type="qualifications"><i class="fas fa-plus"></i></button>
+                            <button class="open-button small-plus-button" data-form-type="qualifications"><i
+                                    class="fas fa-plus"></i></button>
                         </div>
                         <div class="section-item" data-form-type="introduces">
                             자기소개서
-                            <button class="open-button small-plus-button" data-form-type="introduces"><i class="fas fa-plus"></i></button>
+                            <button class="open-button small-plus-button" data-form-type="introduces"><i
+                                    class="fas fa-plus"></i></button>
                         </div>
                         <div class="section-item" data-form-type="treats">
                             취업우대사항
-                            <button class="open-button small-plus-button" data-form-type="treats"><i class="fas fa-plus"></i></button>
+                            <button class="open-button small-plus-button" data-form-type="treats"><i
+                                    class="fas fa-plus"></i></button>
                         </div>
                     </div>
-                    <button class="submit-resume" th:text="${mode == 'edit' ? '수정 완료' : '등록 완료'}" type="submit"></button>
+                    <button class="submit-resume" th:text="${mode == 'edit' ? '수정 완료' : '등록 완료'}"
+                            type="submit"></button>
                 </div>
-            </div>
+            </div>          
         </div>
-
         <!-- 오른쪽 이력서 작성 가이드 섹션 -->
+
 
     </form>
 
     <!-- 모달 -->
     <div id="modal" class="modal">
         <div class="modal-content">
-            <h2 id="modal-title">폼 제목</h2>
+            <h2 id="modal-title"></h2>
             <form id="dynamic-form">
                 <!-- 동적으로 변경될 입력 필드 -->
                 <div id="form-fields"></div>

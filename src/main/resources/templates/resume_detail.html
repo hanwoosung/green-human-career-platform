@@ -124,7 +124,7 @@
                             <div class="top-wrap">
                                 <!-- 프로필 사진 -->
                                 <div class="resume-photo">
-                                    <img th:src="${resume.profilePhoto != null ? resume.profilePhoto.getNormalizedFileUrl() : '/static/images/default_profile2.png'}" />
+                                    <img th:src="${resume.profilePhoto == null ? '/static/images/default_profile2.png' : resume.getProfilePhoto().getFileUrl() }" />
                                 </div>
 
                                 <!-- 연락처 정보 -->

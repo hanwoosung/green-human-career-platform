@@ -7,6 +7,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,6 +58,15 @@ public class ResumeDto {
 
     public String getFormattedPhone() {
         return phone.substring(0, 3) + "-" + phone.substring(3, 7) + "-" + phone.substring(7);
+    }
+
+    // 날짜 및 시간 포매팅
+    public String getFormattedCreatedDate() {
+        if (createdDate == null) {
+            return ""; // 기본값 설정
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 작성됨");
+        return createdDate.format(formatter);
     }
 
 }

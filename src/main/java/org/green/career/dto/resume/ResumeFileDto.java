@@ -2,12 +2,18 @@ package org.green.career.dto.resume;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+
+import java.nio.file.Paths;
+
+import org.green.career.dao.resume.ResumeDao;
 import org.springframework.beans.factory.annotation.Value;
 
 @Data
 public class ResumeFileDto {
 
-
+    @Value("${file.upload-dir-common}")
+    private String uploadDir;
+    private String baseUrl = "/static/uploads/user";
 
     @JsonProperty("file_id")
     private Long fileId;        // 파일 고유 ID

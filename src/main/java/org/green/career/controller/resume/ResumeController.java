@@ -7,7 +7,6 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.apache.catalina.connector.Response;
 import org.green.career.controller.AbstractController;
 import org.green.career.dto.common.ResponseDto;
 import org.green.career.dto.resume.CareerDto;
@@ -17,7 +16,6 @@ import org.green.career.dto.resume.ResumeDto;
 import org.green.career.dto.resume.TechnicalStackDto;
 import org.green.career.dto.resume.TreatDto;
 import org.green.career.service.resume.ResumeService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +24,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @RequestMapping("/resume")
 @Controller
@@ -47,6 +44,8 @@ public class ResumeController extends AbstractController {
         } else {
 
             List<ResumeDto> resumes = resumeService.getAllResumes(loginedUser);
+            model.addAttribute("totalResumes", resumes.size());
+            System.out.println("resumes.size()>>>>>"+resumes.size());
             model.addAttribute("resumes", resumes);
             return "resume";
         }
@@ -186,14 +185,8 @@ public class ResumeController extends AbstractController {
     @GetMapping("/{id}")
     public String resume(@PathVariable("id") Long id, Model model) {
         ResumeDto resume = resumeService.getResumeById(id);
-
-        String profilePhotoUrl = (resume.getProfilePhoto() != null)
-                ? resume.getProfilePhoto().getFileUrl()
-                : "/static/images/default_profile2.png";
-
-        model.addAttribute("profilePhotoUrl", profilePhotoUrl);
         model.addAttribute("resume", resume);
-
+        log.info("상세조회 이력서정보 " , resume);
         return "resume_detail";
     }
 

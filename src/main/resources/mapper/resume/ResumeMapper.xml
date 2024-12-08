@@ -28,7 +28,7 @@
         UPDATE tbl_resume
         SET
             r_title = #{title},
-            r_rep_yn = #{representativeYn},
+#             r_rep_yn = #{representativeYn},
             career_cd = #{careerCode},
             updt_id = #{updatedBy},
             updt_dt = CURRENT_TIMESTAMP()
@@ -143,96 +143,104 @@
     </select>
     <!-- 이력서 조회 -->
     <select id="getResumeById" resultMap="resumeResultMap">
-      SELECT
-        -- 기본 이력서 정보
-        r.r_no AS resumeId,
-        r.inst_id AS createdBy,
-        u.id AS id,
-        u.name AS name,
-        u.birth AS birth,
-        u.email AS email,
-        u.phone AS phone,
-        u.addr AS addr,
-        r.r_title AS title,
-        r.r_rep_yn AS representativeYn,
-        r.career_cd AS careerCode,
-        r.del_yn AS deleteYn,
-        r.inst_dt AS createdDate,
-        r.updt_id AS updatedBy,
-        r.updt_dt AS updatedDate,
-        
+        SELECT
+            -- 기본 이력서 정보
+            r.r_no AS resumeId,
+            r.inst_id AS createdBy,
+            u.id AS id,
+            u.name AS name,
+            u.birth AS birth,
+            u.email AS email,
+            u.phone AS phone,
+            u.addr AS addr,
+            r.r_title AS title,
+            r.r_rep_yn AS representativeYn,
+            r.career_cd AS careerCode,
+            r.del_yn AS deleteYn,
+            r.inst_dt AS createdDate,
+            r.updt_id AS updatedBy,
+            r.updt_dt AS updatedDate,
 
-        -- 이력서 파일 정보 (프로필 사진 등)
-        f.file_id AS fileId,
-        f.file_gbn_cd AS fileGbnCd,
-        f.file_name AS fileName,
-        f.file_ext AS fileExt,
-        f.file_url AS fileUrl,
+            -- 이력서 파일 정보 (프로필 사진 등)
+            f.file_id AS fileId,
+            f.file_gbn_cd AS fileGbnCd,
+            f.file_name AS fileName,
+            f.file_ext AS fileExt,
+            f.file_url AS fileUrl,
 
-        -- 학력 정보
-        e.re_no AS educationId,
-        e.re_gbn_cd AS educationType,
-        e.re_school_nm AS schoolName,
-        e.re_major AS major,
-        e.re_score AS score,
-        e.re_indt AS admissionDate,
-        e.re_outdt AS graduationDate,
-        e.re_transfer_yn AS transferYn,
-        e.re_resion AS region,
+            -- 학력 정보
+            e.re_no AS educationId,
+            e.re_gbn_cd AS educationType,
+            e.re_school_nm AS schoolName,
+            e.re_major AS major,
+            e.re_score AS score,
+            e.re_indt AS admissionDate,
+            e.re_outdt AS graduationDate,
+            e.re_transfer_yn AS transferYn,
+            e.re_resion AS region,
 
-        -- 경력 정보
-        c.rc_no AS careerId,
-        c.rc_company_nm AS companyName,
-        c.rc_join_dt AS joinDate,
-        c.rc_out_dt AS outDate,
-        c.rc_dmpt AS department,
-        c.rc_pstn AS position,
-        c.rc_duties AS duties,
+            -- 경력 정보
+            c.rc_no AS careerId,
+            c.rc_company_nm AS companyName,
+            c.rc_join_dt AS joinDate,
+            c.rc_out_dt AS outDate,
+            c.rc_dmpt AS department,
+            c.rc_pstn AS position,
+            c.rc_duties AS duties,
 
-        -- 자격증 정보
-        q.rq_no AS qualificationId,
-        q.rq_dt AS acquisitionDate,
-        q.rq_nm AS qualificationName,
-        q.rq_place AS issuingBody,
-        q.rq_gbn_cd AS qualificationType,
+            -- 자격증 정보
+            q.rq_no AS qualificationId,
+            q.rq_dt AS acquisitionDate,
+            q.rq_nm AS qualificationName,
+            q.rq_place AS issuingBody,
+            q.rq_gbn_cd AS qualificationType,
 
-        -- 기술 스택 정보 (코드 테이블 조인)
-        s.rs_no AS stackId,
-        s.stack_cd AS stackCode,
-        tc.cd_nm AS stackName,   <!-- 코드 테이블에서 stack_name 가져오기 -->
-        tc.up_cd AS stackCategory,
+            -- 기술 스택 정보 (코드 테이블 조인)
+            s.rs_no AS stackId,
+            s.stack_cd AS stackCode,
+            tc.cd_nm AS stackName,
+            tc.up_cd AS stackCategory,
 
-        -- 자기소개서 정보
-        m.rm_no AS introductionId,
-        m.rm_title AS titleRm,
-        m.rm_content AS content,
+            -- 자기소개서 정보
+            m.rm_no AS introductionId,
+            m.rm_title AS titleRm,
+            m.rm_content AS content,
 
-        -- 포트폴리오 정보
-        p.rp_no AS portfolioId,
-        p.rp_str_dt AS startDate,
-        p.rp_end_dt AS endDate,
-        p.rp_url AS portfolioUrl,
-        p.rp_cnt AS teamSize,
-        p.rp_content AS description
+            -- 포트폴리오 정보
+            p.rp_no AS portfolioId,
+            p.rp_str_dt AS startDate,
+            p.rp_end_dt AS endDate,
+            p.rp_url AS portfolioUrl,
+            p.rp_cnt AS teamSize,
+            p.rp_content AS description,
+
+            -- 우대사항 정보
+            t.rpr_no AS treatId,
+            t.prf_cd AS preferenceCode,
+            tcc.cd_nm AS preferenceName,
+            t.rpr_content AS treatContent
 
         FROM tbl_resume r
-        -- 사용자 정보
-        LEFT JOIN tbl_user u ON u.id = r.inst_id
-        -- 이력서 파일 (프로필 사진 등)
-        LEFT JOIN tbl_file f ON f.file_ref_id = r.r_no AND f.file_gbn_cd = '50'
-        -- 학력 정보
-        LEFT JOIN tbl_resume_educat e ON e.r_no = r.r_no
-        -- 경력 정보
-        LEFT JOIN tbl_resume_career c ON c.r_no = r.r_no
-        -- 자격증 정보
-        LEFT JOIN tbl_resume_qual q ON q.r_no = r.r_no
-        -- 기술 스택 정보
-        LEFT JOIN tbl_resume_stack s ON s.r_no = r.r_no
-        LEFT JOIN tbl_codeinfo tc ON s.stack_cd = tc.cd  <!-- 코드 테이블과 조인 (tc로 변경) -->
-        -- 자기소개서 정보
-        LEFT JOIN tbl_resume_me m ON m.r_no = r.r_no
-        -- 포트폴리오 정보
-        LEFT JOIN tbl_resume_prtf p ON p.r_no = r.r_no
+                 -- 사용자 정보
+                 LEFT JOIN tbl_user u ON u.id = r.inst_id
+            -- 이력서 파일 (프로필 사진 등)
+                 LEFT JOIN tbl_file f ON f.file_ref_id = r.r_no AND f.file_gbn_cd = '50'
+            -- 학력 정보
+                 LEFT JOIN tbl_resume_educat e ON e.r_no = r.r_no
+            -- 경력 정보
+                 LEFT JOIN tbl_resume_career c ON c.r_no = r.r_no
+            -- 자격증 정보
+                 LEFT JOIN tbl_resume_qual q ON q.r_no = r.r_no
+            -- 기술 스택 정보
+                 LEFT JOIN tbl_resume_stack s ON s.r_no = r.r_no
+                 LEFT JOIN tbl_codeinfo tc ON s.stack_cd = tc.cd
+            -- 자기소개서 정보
+                 LEFT JOIN tbl_resume_me m ON m.r_no = r.r_no
+            -- 포트폴리오 정보
+                 LEFT JOIN tbl_resume_prtf p ON p.r_no = r.r_no
+            -- 우대사항 정보
+                 LEFT JOIN tbl_resume_prf t ON t.r_no = r.r_no
+                 LEFT JOIN tbl_codeinfo tcc ON t.prf_cd = tcc.cd
         WHERE r.r_no = #{resumeId}
     </select>
     <!--ResumeDto ResultMap설정 -->
@@ -309,7 +317,6 @@
             <result property="titleRm" column="titleRm"/>
             <result property="content" column="content"/>
         </collection>
-
         <collection property="portfolios" ofType="org.green.career.dto.resume.PortfolioDto">
             <id property="portfolioId" column="portfolioId"/>
             <result property="startDate" column="startDate"/>
@@ -323,47 +330,52 @@
 
     <!-- 이력서 등록시 기존의 정보를 가지고옴  -->
     <select id="findEducationsByUserId" parameterType="string" resultType="EducationDto">
-        SELECT e.re_no AS educationId,
-            e.r_no AS resumeId,
-            e.re_gbn_cd AS educationType,
-            e.re_school_nm AS schoolName,
-            e.re_major AS major,
-            e.re_score AS score,
-            e.re_indt AS admissionDate,
-            e.re_outdt AS graduationDate,
-            e.re_transfer_yn AS transferYn,
-            e.re_resion AS region
+        SELECT e.re_gbn_cd AS educationType,
+               e.re_school_nm AS schoolName,
+               e.re_major AS major,
+               MIN(e.re_no) AS educationId,
+               MIN(e.re_score) AS score,
+               MIN(e.re_indt) AS admissionDate,
+               MIN(e.re_outdt) AS graduationDate,
+               MIN(e.re_transfer_yn) AS transferYn,
+               MIN(e.re_resion) AS region
         FROM tbl_resume_educat e
-            JOIN tbl_resume r ON e.r_no = r.r_no
-            JOIN tbl_user u ON r.inst_id = u.id
+                 JOIN tbl_resume r ON e.r_no = r.r_no
+                 JOIN tbl_user u ON r.inst_id = u.id
         WHERE u.id = #{userId}
+        GROUP BY e.re_gbn_cd, e.re_school_nm, e.re_major;
+
     </select>
 
     <select id="findCareersByUserId" parameterType="string" resultType="CareerDto">
-        SELECT c.rc_no AS careerId,
-            c.r_no AS resumeId,
+        SELECT
             c.rc_company_nm AS companyName,
             c.rc_pstn AS position,
             c.rc_dmpt AS department,
-            c.rc_join_dt AS joinDate,
-            c.rc_out_dt AS outDate,
-            c.rc_duties AS duties
+            MIN(c.rc_no) AS careerId,
+            MIN(c.r_no) AS resumeId,
+            MIN(c.rc_join_dt) AS joinDate,
+            MIN(c.rc_out_dt) AS outDate,
+            MIN(c.rc_duties) AS duties
         FROM tbl_resume_career c
-            JOIN tbl_resume r ON c.r_no = r.r_no
-            JOIN tbl_user u ON r.inst_id = u.id
+                 JOIN tbl_resume r ON c.r_no = r.r_no
+                 JOIN tbl_user u ON r.inst_id = u.id
         WHERE u.id = #{userId}
+        GROUP BY c.rc_company_nm, c.rc_pstn, c.rc_dmpt
     </select>
 
     <select id="findQualificationsByUserId" parameterType="string" resultType="QualificationDto">
-        SELECT q.rq_no AS qualificationId,
-            q.r_no AS resumeId,
+        SELECT
             q.rq_nm AS qualificationName,
             q.rq_place AS issuer,
-            q.rq_dt AS issueDate
+            q.rq_dt AS issueDate,
+            MIN(q.rq_no) AS qualificationId,
+            MIN(q.r_no) AS resumeId
         FROM tbl_resume_qual q
-                JOIN tbl_resume r ON q.r_no = r.r_no
-                JOIN tbl_user u ON r.inst_id = u.id
+                 JOIN tbl_resume r ON q.r_no = r.r_no
+                 JOIN tbl_user u ON r.inst_id = u.id
         WHERE u.id = #{userId}
+        GROUP BY q.rq_nm, q.rq_place, q.rq_dt;
     </select>
 
 
@@ -499,7 +511,7 @@
     <!-- 자기소개서 저장 -->
     <insert id="saveIntroduce">
         INSERT INTO tbl_resume_me (r_no, rm_title, rm_content)
-        VALUES (#{resumeId}, #{title}, #{content});
+        VALUES (#{resumeId}, #{titleRm}, #{content});
     </insert>
 
     <!-- 파일 저장 -->
@@ -594,6 +606,13 @@
     <delete id="deletePortfolioByResumeId">
         DELETE FROM tbl_resume_prtf WHERE r_no = #{resumeId};
     </delete>
+
+    <delete id="deleteFilesByRefId" parameterType="map">
+        DELETE FROM tbl_file
+        WHERE file_ref_id = #{fileRefId}
+        AND file_gbn_cd = #{fileGbnCd}
+    </delete>
+
 
     <select id="findFilesByRefIdAndGbnCd" parameterType="map" resultType="org.green.career.dto.resume.ResumeFileDto">
         SELECT 

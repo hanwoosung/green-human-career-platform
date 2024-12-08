@@ -31,7 +31,6 @@ public class ResumeServiceImpl extends AbstractService implements ResumeService 
 
 
 
-
     public List<EducationDto> getEducationsByUserId(String userId) {
         return resumeDao.findEducationsByUserId(userId);
     }
@@ -241,6 +240,7 @@ public class ResumeServiceImpl extends AbstractService implements ResumeService 
         }, "자기소개서 정보 업데이트 실패");
     }
 
+
     // 이력서 관련 데이터 저장 로직
     private void saveRelatedData(ResumeDto resumeDto, Long resumeId) {
         // 학력 정보 저장
@@ -293,9 +293,6 @@ public class ResumeServiceImpl extends AbstractService implements ResumeService 
     }
 
 
-    /*
-    * 오류확인
-    * */
     private void executeSafely(Runnable action, String errorMessage) {
         try {
             action.run();
