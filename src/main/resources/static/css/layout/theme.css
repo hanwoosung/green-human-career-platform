@@ -232,12 +232,21 @@ body {
 }
 
 .profile-dropdown-menu li {
-    padding: 10px 20px;
-    font-size: 1rem;
+    padding: 10px 10px;
+    font-size: 0.8rem;
     color: var(--text-a-color);
     text-align: center;
 }
 
+.profile-dropdown-menu li a{
+    color: var(--text-color2);
+    text-decoration: none;
+}
+
+.profile-dropdown-menu li:hover a{
+    font-weight: bold;
+    color: var(--primary-color);
+}
 
 /* 푸터 스타일 */
 .footer {
@@ -285,4 +294,10 @@ body {
     font-size: 12px;
     color: #aaa;
     margin: 0;
+}
+.active {
+    color: #004da8; /* 활성화된 메뉴 글자 색 */
+    font-weight: bolder; /* 굵게 표시 */
+    background-color: rgba(0, 107, 232, 0.13);
+    border-radius: 5px;
 }

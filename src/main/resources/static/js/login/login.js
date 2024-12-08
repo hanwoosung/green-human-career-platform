@@ -55,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const jobseekerTab = document.getElementById('jobseeker-tab');
     const comTab = document.getElementById('com-tab');
     const userTypeInput = document.getElementById('userType');
+    const registLink = document.getElementById('regist-link');
 
     // 탭 클릭 이벤트 바인딩
     jobseekerTab.addEventListener('click', () => switchTab('S'));
@@ -66,10 +67,12 @@ document.addEventListener('DOMContentLoaded', () => {
             jobseekerTab.classList.add('active');
             comTab.classList.remove('active');
             userTypeInput.value = 'S';
+            registLink.setAttribute('href', '/regist/s');
         } else if (type === 'C') {
             comTab.classList.add('active');
             jobseekerTab.classList.remove('active');
             userTypeInput.value = 'C';
+            registLink.setAttribute('href', '/regist/c');
         }
     };
 });
