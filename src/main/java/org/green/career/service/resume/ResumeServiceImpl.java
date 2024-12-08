@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -32,16 +33,48 @@ public class ResumeServiceImpl extends AbstractService implements ResumeService 
 
     // 카테고리별로 기술 스택(카테고리, 기술스택)을 맵 형태로 반환
     //TODO : 모든카테고리를 불러올 수 있게 수정해야함
+
     public Map<String, List<TechnicalStackDto>> getAllTechnicalStacks() {
-        return returnData(()->{
-            Map<String, List<TechnicalStackDto>> stacksByCategory = new HashMap<>();
-            stacksByCategory.put("back_cd", resumeDao.getTechnicalStacksByCategory("back_cd"));
-            stacksByCategory.put("design_cd", resumeDao.getTechnicalStacksByCategory("design_cd"));
-            stacksByCategory.put("mobile_cd", resumeDao.getTechnicalStacksByCategory("mobile_cd"));
-            stacksByCategory.put("front_cd", resumeDao.getTechnicalStacksByCategory("front_cd"));
-            return stacksByCategory;
-        });
+        // 모든 기술 스택 조회
+        List<TechnicalStackDto> allStacks = resumeDao.selectAllTechnicalStacks();
+        
+        // 결과를 담을 새로운 맵 생성 (순서 유지를 위해 LinkedHashMap 사용)
+        Map<String, List<TechnicalStackDto>> translatedStacks = new LinkedHashMap<>();
+        
+        // 카테고리별로 리스트 생성
+        List<TechnicalStackDto> frontEnd = new ArrayList<>();
+        List<TechnicalStackDto> backEnd = new ArrayList<>();
+        List<TechnicalStackDto> data = new ArrayList<>();
+        List<TechnicalStackDto> cloud = new ArrayList<>();
+        List<TechnicalStackDto> mobile = new ArrayList<>();
+        List<TechnicalStackDto> devops = new ArrayList<>();
+        List<TechnicalStackDto> design = new ArrayList<>();
+        
+        // 각 기술 스택을 해당하는 카테고리에 분류
+        for(TechnicalStackDto stack : allStacks) {
+            switch(stack.getCategoryCode()) {
+                case "front_cd": frontEnd.add(stack); break;
+                case "back_cd": backEnd.add(stack); break;
+                case "data_cd": data.add(stack); break;
+                case "cloud_cd": cloud.add(stack); break;
+                case "mobile_cd": mobile.add(stack); break;
+                case "devops_cd": devops.add(stack); break;
+                case "design_cd": design.add(stack); break;
+            }
+        }
+        
+        // 한글 카테고리명으로 매핑
+        translatedStacks.put("프론트엔드", frontEnd);
+        translatedStacks.put("백엔드", backEnd);
+        translatedStacks.put("데이터", data);
+        translatedStacks.put("클라우드", cloud);
+        translatedStacks.put("모바일", mobile);
+        translatedStacks.put("데브옵스", devops);
+        translatedStacks.put("디자인", design);
+        
+        return translatedStacks;
     }
+
 
     public List<TreatDto> getAllTreatCodes() {
         return returnData(() -> resumeDao.getAllTreatCodes());

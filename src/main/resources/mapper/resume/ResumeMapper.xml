@@ -34,6 +34,7 @@
             updt_dt = CURRENT_TIMESTAMP()
         WHERE r_no = #{resumeId};
     </update>
+
     <!-- 이력서 삭제 -->
     <delete id="deleteResume">
         UPDATE tbl_resume
@@ -47,6 +48,7 @@
         FROM tbl_user
         WHERE id = #{id};
     </select>
+    
     <!-- 해당 유저 이력서 조회 -->
     <select id="getResumesByUserId" resultMap="resumeResultMap">
         SELECT
@@ -108,7 +110,7 @@
 
         -- 자기소개서 정보
         m.rm_no AS introductionId,
-        m.rm_title AS title,
+        m.rm_title AS titleRm,
         m.rm_content AS content,
 
         -- 포트폴리오 정보
@@ -141,12 +143,13 @@
     </select>
     <!-- 이력서 조회 -->
     <select id="getResumeById" resultMap="resumeResultMap">
-        SELECT
+      SELECT
         -- 기본 이력서 정보
         r.r_no AS resumeId,
         r.inst_id AS createdBy,
         u.id AS id,
         u.name AS name,
+        u.birth AS birth,
         u.email AS email,
         u.phone AS phone,
         u.addr AS addr,
@@ -201,7 +204,7 @@
 
         -- 자기소개서 정보
         m.rm_no AS introductionId,
-        m.rm_title AS title,
+        m.rm_title AS titleRm,
         m.rm_content AS content,
 
         -- 포트폴리오 정보
@@ -238,6 +241,7 @@
         <result property="id" column="id"/>
         <result property="name" column="name"/>
         <result property="email" column="email"/>
+        <result property="birth" column="birth"/>
         <result property="phone" column="phone"/>
         <result property="addr" column="addr"/>
         <result property="title" column="title"/>
@@ -302,7 +306,7 @@
 
         <collection property="introduces" ofType="org.green.career.dto.resume.IntroduceMeDto">
             <id property="introductionId" column="introductionId"/>
-            <result property="title" column="title"/>
+            <result property="titleRm" column="titleRm"/>
             <result property="content" column="content"/>
         </collection>
 
@@ -356,6 +360,32 @@
         'mobile_cd'
         )
     </select>
+
+
+
+    <select id="selectAllTechnicalStacks" resultType="org.green.career.dto.resume.TechnicalStackDto">
+        SELECT 
+            c.cd AS stackCode,
+            c.cd_nm AS stackName,
+            c.up_cd AS categoryCode,
+            p.cd_nm AS categoryName
+        FROM tbl_codeinfo c
+        JOIN tbl_codeinfo p ON c.up_cd = p.cd
+        WHERE c.up_cd IN (
+            'back_cd',
+            'front_cd',
+            'cloud_cd',
+            'data_cd',
+            'db_cd',
+            'design_cd',
+            'devops_cd',
+            'mobile_cd'
+        )
+        OR p.up_cd = 'stack_cd'
+        ORDER BY c.up_cd, c.cd_nm
+    </select>
+
+
     <!-- 기술 스택을 카테고리별로 조회하는 SQL -->
     <select id="getTechnicalStacksByCategory" parameterType="String" resultType="org.green.career.dto.resume.TechnicalStackDto">
         SELECT

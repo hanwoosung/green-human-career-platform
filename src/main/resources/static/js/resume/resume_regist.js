@@ -20,7 +20,7 @@ const temporaryDataStore = {
     technicalStacks: [],
     treats: [],
     introduces: [],
-    profilePhoto: null,
+    profilePhoto: null
 
 };
 
@@ -30,8 +30,10 @@ $(document).ready(function (){
 
     // userInfoData를 JSON으로 파싱하여 temporaryDataStore에 저장
     const userInfoData = $('#userInfoData').val();
-    console.log('userInfoData:', userInfoData); // Add this line to debug
+    console.log('userInfoData:', userInfoData);
     const userInfo = userInfoData ? JSON.parse(userInfoData) : {};
+
+
     temporaryDataStore.name = userInfo.name;
     temporaryDataStore.id = userInfo.id;
     temporaryDataStore.createdBy = userInfo.createdBy;
@@ -59,9 +61,9 @@ $(document).ready(function (){
     renderSection(temporaryDataStore.treats, '.user-treats-info .form-content-list', 'treats');
     renderSection(temporaryDataStore.introduces, '.user-introduces-info .form-content-list', 'introduces');
 
+    updateProgress();
 
     console.log(temporaryDataStore);
-
 
     const $modal = $('#modal');
     const $modalTitle = $('#modal-title');
@@ -69,8 +71,8 @@ $(document).ready(function (){
     const $photoEditIcon = $('#photoEditIcon');
     const $photoUploadInput = $('#photoUploadInput');
     const $photoPreview = $('#resumePhotoPreview');
+ 
 
-    updateProgress();
 
     // 모달 폼에서 우대사항 옵션 설정
     const treatOptions = [];
@@ -107,38 +109,62 @@ $(document).ready(function (){
 
     // 카테고리 버튼 클릭 이벤트
     $('.category-button').on('click', function () {
-        // 모든 카테고리의 기술 스택을 숨기고, 선택한 카테고리만 보여주기
-        $('.category-content').hide();
-        const selectedCategory = $(this).data('category');
-        $(`#category-${selectedCategory}`).show();
-
-        // 모든 버튼을 비활성화하고 현재 클릭한 버튼을 활성화
         $('.category-button').removeClass('active');
         $(this).addClass('active');
+
+        const selectedCategory = $(this).data('category');
+
+        // 모든 카테고리 콘텐츠 숨기기
+        $('.category-content').hide();
+
+        // 선택된 카테고리의 기술 스택만 표시
+        $(`#category-${selectedCategory}`).show();
+
+        // 이미 선택된 기술 스택들의 체크박스 상태 복원
+        temporaryDataStore.technicalStacks.forEach(stack => {
+            $(`.tech-stack-checkbox[value="${stack.stack_cd}"]`).prop('checked', true);
+        });
     });
-    // 기본적으로 첫 번째 카테고리를 선택한 상태로 시작
-    $('.category-button:first').trigger('click');
+
+    // 기본적으로 첫 번째 카테고리 선택
+    const $firstCategory = $('.category-button:first');
+    if ($firstCategory.length) {
+        $firstCategory.addClass('active');
+        const firstCategoryCode = $firstCategory.data('category');
+        $(`#category-${firstCategoryCode}`).show();
+
+        // 저장된 기술 스택들의 체크박스 상태 복원
+        temporaryDataStore.technicalStacks.forEach(stack => {
+            $(`.tech-stack-checkbox[value="${stack.stack_cd}"]`).prop('checked', true);
+        });
+    }
+
+    // 기술 스택 렌더링 초기화
+    renderTechnicalStacks();
 
     // 아이콘 클릭 시 파일 업로드 창 열기
     $photoEditIcon.on('click', function () {
+        console.log('photoEditIcon clicked');
         $photoUploadInput.click();
     });
 
     // 파일 선택 시 미리보기 업데이트 및 데이터 저장
     $photoUploadInput.on('change', function () {
         const file = this.files[0];
+        console.log('Selected file:', file); // 파일 선택 확인
 
         if (file) {
             // 미리보기 업데이트
             const reader = new FileReader();
             reader.onload = function (e) {
                 $photoPreview.attr('src', e.target.result);
+                console.log('Preview updated:', e.target.result); // 미리보기 업데이트 확인
             };
             reader.readAsDataURL(file);
 
             // 파일 데이터 저장
             temporaryDataStore.profilePhoto = file;
-        }else {
+        } else {
             console.log('파일이 선택되지 않음');
         }
     });
@@ -146,6 +172,8 @@ $(document).ready(function (){
     //이력서 추가입력 버튼 클릭 이벤트
     $('.open-button').on('click', function (e) {
         e.preventDefault();
+        $('#form-fields').empty(); // 기존 폼 필드 초기화
+
         const formType = $(this).data('form-type'); // 버튼의 데이터 속성에서 타입 가져오기
         generateForm(formType, 'form-fields'); // 'form-fields' 컨테이너에 폼 생성
 
@@ -164,9 +192,14 @@ $(document).ready(function (){
         // 모달 열기
         $modal.show();
     });
-    // 모달 닫기 이벤트
-    $('#modal-cancel').on('click', function () {
-        $modal.hide();
+
+
+    $(document).on('click', '#modal-cancel', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('모달 닫기 버튼 클릭됨');
+        $('#modal').hide();
+        $('#modal').removeData('item-id'); // itemId 초기화
     });
 
 });
@@ -324,6 +357,10 @@ function renderSection(data, sectionSelector, templateKey) {
     // 섹션 DOM 요소 선택
     const $section = $(sectionSelector);
 
+    console.log('this>>',$(this).data('item-id'));
+    console.log('templateKey>>',templateKey);
+    console.log('data>>',data);
+
     // 기존 섹션 데이터 초기화
     $section.empty();
 
@@ -411,29 +448,36 @@ function renderSection(data, sectionSelector, templateKey) {
 //수정버튼 실행
 $(document).on('click', '.edit-button', function (event) {
     event.preventDefault();
-    console.log('this>>',$(this).data('item-id'));
+
+    $('#form-fields').empty(); // 기존 필드 초기화
+
     const itemId = $(this).data('item-id');
-
-    const formType = $(this).closest('.form-section').data('form-type');
-
-
-    console.log(temporaryDataStore[formType]);
+    const formType = $(this).closest('.form-content-list').data('form-type');
     const itemData = temporaryDataStore[formType].find(item => item.id === itemId);
 
-
     if (itemData) {
-        // 모달 열기 및 데이터 채우기
         generateForm(formType, 'form-fields');
         const $formFields = $('#form-fields');
         formTemplates[formType].forEach(field => {
-            $formFields.find(`[name=${field.name}]`).val(itemData[field.name] || '');
+            if (field.type !== 'file') {
+                // 파일 필드는 렌더링하지 않음
+                $formFields.find(`[name=${field.name}]`).val(itemData[field.name] || '');
+            }
         });
 
-        $('#modal').data('form-type', formType).data('item-id', itemId);
-        $('#modal-title').text('수정');
-        $('#modal').show();
+        // 파일 필드에 대한 별도 처리
+        if (itemData.files && Array.isArray(itemData.files)) {
+            const existingFilesContainer = $('<div>')
+                .addClass('existing-files')
+                .text('기존 파일이 있습니다. 새 파일을 업로드하려면 선택하세요.');
+            $formFields.append(existingFilesContainer);
+        }
+
+        $('#modal').data('form-type', formType).data('item-id', itemId).show();
     }
 });
+
+
 //삭제버튼 실행
 // 삭제 버튼 실행
 $(document).on('click', '.delete-button', function (event) {
@@ -466,6 +510,8 @@ $(document).on('click', '.delete-button', function (event) {
 //모달열기
 $('.open-button').on('click', function (e) {
     e.preventDefault();
+
+    $('#form-fields').empty(); // 기존 폼 필드 초기화
     const formType = $(this).data('form-type'); // 버튼에서 formType 가져오기
     console.log(formType);
     $('#modal').data('form-type', formType);    // 모달에 formType 저장
@@ -493,17 +539,61 @@ $('.tech-stack-checkbox').on('change', function () {
     // 기술 스택 배열 출력 (디버깅 용도)
     console.log("현재 기술 스택 목록:", temporaryDataStore.technicalStacks);
     updateProgress();
+    renderTechnicalStacks();
 });
 
+// 기술 스택 렌더링 함수
+function renderTechnicalStacks() {
+    const $selectedContainer = $(".selected-tech-stacks");
+    $selectedContainer.empty();
+
+    temporaryDataStore.technicalStacks.forEach(stack => {
+        const stackName = $(`input[value='${stack.stack_cd}']`).siblings('span').text();
+        const $techElement = $(`
+            <div class="selected-tech-stack" data-stack-cd="${stack.stack_cd}">
+                ${stackName}
+                <span class="close">&times;</span>
+            </div>
+        `);
+
+        $selectedContainer.append($techElement);
+    });
+
+    // 삭제 버튼 이벤트 핸들러
+    $(".selected-tech-stack .close").on('click', function() {
+        const stackCd = $(this).parent().data('stack-cd');
+        removeSelectedTechStack(stackCd);
+    });
+}
+
+// 선택된 기술 스택 제거 함수
+function removeSelectedTechStack(skillCode) {
+    // 선택된 기술 스택 체크박스 해제
+    $(`.tech-stack-checkbox[value="${skillCode}"]`).prop('checked', false);
+
+    // 선택된 기술 스택 데이터에서 제거
+    temporaryDataStore.technicalStacks = temporaryDataStore.technicalStacks.filter(item => item.stack_cd !== skillCode);
+    console.log("기술 스택이 제거되었습니다:", skillCode);
+
+    // 기술 스택 렌더링 업데이트
+    renderTechnicalStacks();
+    updateProgress();
+}
 
 
-//모달 폼 제출하기
-// 폼 제출 시 검증 수행
+
+/// 모달 폼 제출하기
 $('#modal-submit').on('click', function (e) {
     e.preventDefault();
 
-    const formType = $('#modal').data('form-type'); // 폼 타입 가져오기
-    const formData = $('#dynamic-form').serializeArray(); // 폼 데이터를 배열로 직렬화
+    // 현재 열려 있는 모달의 formType 가져오기
+    const formType = $('#modal').data('form-type');
+    const itemId = $('#modal').data('item-id'); // 수정 중인 ID (없으면 새로 추가)
+
+    console.log('itemId>>>',itemId);
+
+    // 폼 데이터를 배열로 직렬화
+    const formData = $('#dynamic-form').serializeArray();
 
     // 필수 date 타입 필드 검증
     const requiredDateFields = formTemplates[formType].filter(field => field.type === 'date'); // 현재 폼에서 필수 date 타입 필드 가져오기
@@ -514,8 +604,6 @@ $('#modal-submit').on('click', function (e) {
             return; // 검증 실패 시 함수 종료
         }
     }
-
-    const itemId = $('#modal').data('item-id'); // 수정 중인 ID (없으면 새로 추가)
 
     // 폼 데이터를 객체로 변환
     const formObject = {};
@@ -539,7 +627,7 @@ $('#modal-submit').on('click', function (e) {
         if (itemIndex !== -1) {
             temporaryDataStore[formType][itemIndex] = { ...temporaryDataStore[formType][itemIndex], ...formObject };
         }
-    } else {
+    }else {
         // 새로운 데이터 추가
         formObject.id = Date.now(); // 고유 ID 생성 (현재 시간 사용)
         if (!Array.isArray(temporaryDataStore[formType])) {
@@ -548,12 +636,20 @@ $('#modal-submit').on('click', function (e) {
         temporaryDataStore[formType].push(formObject);
     }
 
-    $('#modal').hide(); // 모달 닫기
+    // 모달 닫기
+    $('#modal').hide();
+    $('#form-fields').empty(); // 폼 필드 초기화
+    $('#modal').removeData('item-id'); // itemId 초기화
 
+    // 진행도 업데이트
     updateProgress();
-    console.log('formType>>', formType);
 
-    renderSection(temporaryDataStore[formType], `.user-${formType}-info .form-content-list`, formType); // 섹션 데이터 렌더링
+    // 섹션 데이터 렌더링
+    renderSection(temporaryDataStore[formType], `.user-${formType}-info .form-content-list`, formType);
+
+    // 디버깅용 로그
+    console.log('폼 데이터 저장 완료:', temporaryDataStore[formType]);
+    console.log('formType:', formType);
 });
 
 
@@ -599,11 +695,11 @@ $('.submit-resume').on('click', function (e) {
     const formData = new FormData();
     const mode = $('#resume-form').data('mode');
     const resumeId = $('#resume-form').data('resume-id');
-    
+
     // 기존 데이터 유지하면서 수정된 내용 반영
     temporaryDataStore.title = $('#resume-title').val();
     temporaryDataStore.careerCode = $('#careerCode').val();
-    
+
     if (mode === 'edit') {
         // 수정 모드일 때는 resumeId도 포함
         temporaryDataStore.resumeId = resumeId;
@@ -658,12 +754,12 @@ $('.submit-resume').on('click', function (e) {
             'Content-Type': 'multipart/form-data'
         }
     })
-    .then(function(response) {
-        alert(mode === 'edit' ? '이력서가 수정되었습니다.' : '이력서가 저장되었습니다.');
-        window.location.href = '/resume';
-    })
-    .catch(function(error) {
-        console.error('저장 실패:', error);
-        alert(mode === 'edit' ? '이력서 수정에 실패했습니다.' : '이력서 저장에 실패했습니다.');
-    });
+        .then(function(response) {
+            alert(mode === 'edit' ? '이력서가 수정되었습니다.' : '이력서가 저장되었습니다.');
+            window.location.href = '/resume';
+        })
+        .catch(function(error) {
+            console.error('저장 실패:', error);
+            alert(mode === 'edit' ? '이력서 수정에 실패했습니다.' : '이력서 저장에 실패했습니다.');
+        });
 });

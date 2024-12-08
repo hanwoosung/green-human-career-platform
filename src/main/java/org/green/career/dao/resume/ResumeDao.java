@@ -40,7 +40,8 @@ public interface ResumeDao {
 
     void savePortfolio(PortfolioDto portfolioDto);
 
-    List<TechnicalStackDto> getTechnicalStacksByCategory(@Param("categoryCode") String categoryCode);
+    Map<String, List<TechnicalStackDto>> getAllTechnicalStacks();
+    List<TechnicalStackDto> selectAllTechnicalStacks();
 
     void saveIntroduce(IntroduceMeDto introduceMeDto);
 

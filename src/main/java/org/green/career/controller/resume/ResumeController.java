@@ -7,25 +7,17 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.green.career.controller.AbstractController;
-import org.green.career.dto.common.CodeInfoDto;
 import org.green.career.dto.common.ResponseDto;
-import org.green.career.dto.resume.ResumeFileDto;
 import org.green.career.dto.resume.ResumeDto;
 import org.green.career.dto.resume.TechnicalStackDto;
 import org.green.career.dto.resume.TreatDto;
 import org.green.career.service.resume.ResumeService;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
@@ -58,6 +50,7 @@ public class ResumeController extends AbstractController {
     public String resume(HttpSession session,
                          @PathVariable(required = false) Long resumeId,
                          Model model) throws JsonProcessingException {
+
         // 세션에서 로그인된 사용자 정보 가져오기
         String loginedUser = (String) session.getAttribute("userId");
         System.out.println(loginedUser);
@@ -65,29 +58,43 @@ public class ResumeController extends AbstractController {
         if (loginedUser == null) {
             return "mypage_login";
         } else {
-            if (resumeId != null) {
-                // 수정 모드
-                ResumeDto userInfo = resumeService.getResumeById(resumeId);
-                ObjectMapper objectMapper = new ObjectMapper();
-                objectMapper.registerModule(new JavaTimeModule());
-                String userInfoJson = objectMapper.writeValueAsString(userInfo);
 
-                log.info(userInfoJson);
+
+
+            if (resumeId != null) {
+
+                ResumeDto userInfo = resumeService.getResumeById(resumeId);
+                log.info("userInfo{}", userInfo);
+
+
+                ObjectMapper objectMapper = new ObjectMapper();
+                userInfo.setCreatedBy(loginedUser);
+                objectMapper.registerModule(new JavaTimeModule());
+
+                String userInfoJson = objectMapper.writeValueAsString(userInfo);
+                log.info("userInfoJson{}" ,userInfoJson);
 
                 model.addAttribute("userInfoJson", userInfoJson);
                 model.addAttribute("userInfo", userInfo);
+
+                // 수정 모드
                 model.addAttribute("mode", "edit");
             } else {
                 // 입력 모드
                 ResumeDto userInfo = resumeService.getUserInfo(loginedUser);
-                userInfo.setCreatedBy(loginedUser); // createdBy 설정
+                log.info("userInfo{}", userInfo);
 
                 ObjectMapper objectMapper = new ObjectMapper();
+                userInfo.setCreatedBy(loginedUser);
                 objectMapper.registerModule(new JavaTimeModule());
+
                 String userInfoJson = objectMapper.writeValueAsString(userInfo);
-                
+                log.info("userInfoJson{}" ,userInfoJson);
+
                 model.addAttribute("userInfoJson", userInfoJson);
                 model.addAttribute("userInfo", userInfo);
+
+
                 model.addAttribute("mode", "create");
             }
 
@@ -100,6 +107,8 @@ public class ResumeController extends AbstractController {
             model.addAttribute("treatCodes", treatCodes);
 
             log.info("mode 정보 >> {}",model.getAttribute("mode"));
+            log.info("기술 스택 크기: {}", (technicalStacks != null ? technicalStacks.size() : "null"));
+            
             return "resume_regist";
         }
     }

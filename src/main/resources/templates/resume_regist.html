@@ -40,12 +40,19 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="user_desc" th:text="${userInfo.birth}"></div>
+                            <div class="user_desc">
+                                만 <span th:text="${userInfo.calculateAge()}"></span>  세
+                                (<span th:text="${userInfo.getBirthYear()}"></span>년생)
+                            </div>
                             <ul>
                                 <li><i class="fas fa-envelope"></i> <span th:text="${userInfo.email}"></span></li>
-                                <li><i class="fas fa-phone"></i> <span th:text="${userInfo.phone}"></span></li>
+                                <li><i class="fas fa-phone"></i> <span th:text="${userInfo.getFormattedPhone()}"></span></li>
                                 <li><i class="fas fa-map-marker-alt"></i> <span th:text="${userInfo.addr}"></span></li>
                             </ul>
+                            <!-- 선택된 기술 스택을 표시할 섹션 -->
+                            <div class="selected-tech-stacks">
+                                <!-- 선택된 기술 스택이 여기 표시됩니다 -->
+                            </div>
                         </div>
                         <div class="resume-photo">
                             <img id="resumePhotoPreview"
@@ -70,48 +77,27 @@
                         <div class="form-title">기술 스택</div>
                     </div>
                     <div class="technical-stack-buttons">
-                        <button type="button" class="category-button" data-category="back_cd">백엔드</button>
-                        <button type="button" class="category-button" data-category="front_cd">프론트엔드</button>
-                        <button type="button" class="category-button" data-category="design_cd">디자인</button>
-                        <button type="button" class="category-button" data-category="mobile_cd">모바일</button>
+                        <!-- technicalStacks의 키값을 카테고리로 사용 -->
+                        <div th:each="category : ${technicalStacks.keySet()}">
+                            <button type="button" class="category-button"
+                                    th:data-category="${category}"
+                                    th:text="${category}">
+                            </button>
+                        </div>
                     </div>
-
+                
                     <div class="technical-stack-selection">
-                        <div class="category-content" id="category-back_cd" style="display: none;">
-                            <div th:each="technicalStack : ${technicalStacks['back_cd']}">
+                        <!-- technicalStacks 맵의 각 엔트리를 순회 -->
+                        <div th:each="entry : ${technicalStacks}"
+                             th:id="'category-' + ${entry.key}"
+                             class="category-content"
+                             style="display: none;">
+                            <div th:each="technicalStack : ${entry.value}">
                                 <label th:for="${technicalStack.stackCode}">
-                                    <input type="checkbox" th:id="${technicalStack.stackCode}" th:name="technicalStacks"
-                                           th:value="${technicalStack.stackCode}" class="tech-stack-checkbox">
-                                    <span th:text="${technicalStack.stackName}"></span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="category-content" id="category-front_cd" style="display: none;">
-                            <div th:each="technicalStack : ${technicalStacks['front_cd']}">
-                                <label th:for="${technicalStack.stackCode}">
-                                    <input type="checkbox" th:id="${technicalStack.stackCode}" th:name="technicalStacks"
-                                           th:value="${technicalStack.stackCode}" class="tech-stack-checkbox">
-                                    <span th:text="${technicalStack.stackName}"></span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="category-content" id="category-design_cd" style="display: none;">
-                            <div th:each="technicalStack : ${technicalStacks['design_cd']}">
-                                <label th:for="${technicalStack.stackCode}">
-                                    <input type="checkbox" th:id="${technicalStack.stackCode}" th:name="technicalStacks"
-                                           th:value="${technicalStack.stackCode}" class="tech-stack-checkbox">
-                                    <span th:text="${technicalStack.stackName}"></span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="category-content" id="category-mobile_cd" style="display: none;">
-                            <div th:each="technicalStack : ${technicalStacks['mobile_cd']}">
-                                <label th:for="${technicalStack.stackCode}">
-                                    <input type="checkbox" th:id="${technicalStack.stackCode}" th:name="technicalStacks"
-                                           th:value="${technicalStack.stackCode}" class="tech-stack-checkbox">
+                                    <input type="checkbox"
+                                           class="tech-stack-checkbox"
+                                           th:value="${technicalStack.stackCode}"
+                                           th:id="${technicalStack.stackCode}">
                                     <span th:text="${technicalStack.stackName}"></span>
                                 </label>
                             </div>
@@ -141,49 +127,6 @@
                             <!-- 경력 정보를 동적으로 렌더링 -->
                         </div>
                     </div>
-                    <style>
-                        /* 카테고리 버튼 스타일 */
-                        .category-button {
-                            font-size: 0.7rem;
-                            margin: 5px;
-                            padding: 10px;
-                            border: none;
-                            background-color: #f0f0f0;
-                            cursor: pointer;
-                            border-radius: 5px;
-                        }
-
-                        .category-button.active {
-                            background-color: #06284e;
-                            color: white;
-                        }
-
-                        /* 기술 스택 목록 스타일 */
-                        .technical-stack-selection {
-                            display: flex;
-                            flex-wrap: wrap;
-                            margin-top: 10px;
-                        }
-
-                        .category-content {
-                            padding: 20px;
-                            display: flex;
-                            flex-wrap: wrap;
-                            gap: 10px;
-                        }
-
-                        label {
-                            color: var(--border-color2);
-
-                            margin: 5px;
-                            padding: 10px;
-
-                            cursor: pointer;
-                            display: inline-flex;
-                            align-items: center;
-                        }
-
-                    </style>
                 </div>
 
                 <!-- 포트폴리오 -->
@@ -280,8 +223,6 @@
         <!-- 오른쪽 이력서 작성 가이드 섹션 -->
 
     </form>
-
-
 
     <!-- 모달 -->
     <div id="modal" class="modal">

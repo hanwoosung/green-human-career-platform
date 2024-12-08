@@ -18,10 +18,10 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
             const responseMessage = document.getElementById('responseMessage');
             if (response.data.result.code === "200") {
                 console.log('로그인 성공:', response.data.result);
-                // window.location.href = '/';
-                sessionStorage.setItem('userId', id);
+                //sessionStorage.setItem('userId', id);
                 if(userType === "S" || userType === 'M') {
-                    window.location.href = referer;
+                    // window.location.href = referer;
+                    window.location.href = "/";
                 }
                 if(userType === "C") {
                     window.location.href = '/company';

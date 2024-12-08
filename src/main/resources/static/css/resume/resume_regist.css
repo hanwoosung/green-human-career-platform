@@ -1,25 +1,31 @@
 body {
-    font-size: 0.7rem;
+    font-size: 1.1rem;
 }
 .title {
     margin-bottom: 20px;
-    font-size: 1.3rem;
+    font-size: 2rem;
     font-weight: 600;
 }
-
 .title-input input, .title-input div{
-    text-align: center;
-    font-size: 1rem;
-    padding: 5px;
+    font-size: 1.7rem;
+    padding: 40px 40px 40px 0px;
     border: none;
     /*border-radius: 20px;*/
-    border-bottom: 2px solid var(--primary-color2);
+    border-bottom: 2px solid var(--border-color);
     margin-bottom: 20px;
     height: 50px;
     width: 90%;
 }
+
+.title-input input:hover{
+    border-bottom: 2px solid var(--primary-color2);
+}
+.title-input input:focus{
+    outline: none;
+}
+
 .resume {
-    width: 1200px;
+    width: 1300px;
     min-height: 1000px;
     display: grid;
     grid-template-columns: 1fr 300px;
@@ -50,7 +56,7 @@ body {
 }
 .resume-view {
     display: grid;
-    grid-template-columns: 1fr 300px;
+    grid-template-columns: 1fr 200px;
     margin: 5px;
     height: fit-content;
     width: 100%;
@@ -62,19 +68,17 @@ body {
     gap: 10px;
 }
 .user_desc {
-    font-size: 0.7rem;
     color: var(--text-color2);
 }
 .resume-user-career select {
     width: 130px;
     border: 1px solid var(--border-color2);
     border-radius: 5px;
-    font-size: 0.65rem;
     color: var(--border-color2);
     padding: 5px 4px 4px 4px;
 }
 .user-name {
-    font-size: 1rem;
+    font-size: 1.7rem;
     font-weight: 500;
 }
 .resume-basic ul {
@@ -92,9 +96,21 @@ body {
 .resume-basic ul li i {
     color: var(--border-color2);
 }
+
+#photoEditIcon {
+    font-size: 1.2rem;
+    position: relative;
+    left: 10px; /* 오른쪽으로 10px 이동 */
+    cursor: pointer; /* 기본 포인터 효과 */
+}
+
+#photoEditIcon:hover {
+    cursor: pointer; /* hover 시 포인터 효과 */
+}
+
 .user-educations-info, .user-careers-info, .user-technicalStacks-info, .user-portfolios-info,
 .user-introduces-info, .user-treats-info, .user-qualifications-info{
-    width: 750px;
+    width: 95%;
     padding: 10px;
     min-height: 200px;
 }
@@ -105,13 +121,13 @@ body {
     justify-content: space-between;
 }
 .form-title{
-    font-size: 1rem;
+    font-size: 1.4rem;
     font-weight: 500;
+    padding: 10px 10px 10px 0px;
     color: var(--text-color2);
 }
 .important-value-text{
     margin: 10px;
-    font-size: 0.5rem;
     color: red;
 }
 
@@ -162,7 +178,7 @@ body {
 
 .form-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
 
-.form-title { font-size: 18px; font-weight: bold; color: #444; }
+.form-title { font-size: 1.3rem; font-weight: bold; color: #444; }
 
 .form-title .important-value-text { font-size: 12px; color: #d9534f; margin-left: 5px; }
 
@@ -273,14 +289,6 @@ body {
 
 
 
-
-
-
-
-
-
-
-
 .resume-right-side {
     top: 100px;
     right: 20px;
@@ -339,4 +347,90 @@ body {
 .section-item .required-tag {
     color: #ff6347;
     font-size: 0.8rem;
+}
+
+
+
+/* 선택된 기술 스택을 표시할 컨테이너 스타일 */
+.selected-tech-stack {
+    display: inline-block;
+    background-color: #f8f9fa;
+    color: #333;
+    border-radius: 20px;
+    padding: 5px 15px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.selected-tech-stack:hover {
+    background-color: #e9ecef;
+    border-color: #adb5bd;
+}
+
+/* 선택된 기술 스택 컨테이너 스타일 */
+.selected-tech-stacks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+/* 삭제 버튼(×) 스타일 */
+.selected-tech-stack .close {
+    margin-left: 8px;
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.selected-tech-stack .close:hover {
+    color: #333;
+}
+
+.technical-stack-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* 카테고리 버튼 스타일 */
+.category-button {
+    margin: 5px;
+    padding: 10px;
+    border: none;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.category-button.active {
+    background-color: #06284e;
+    color: white;
+}
+
+/* 기술 스택 목록 스타일 */
+.technical-stack-selection {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.category-content {
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+label {
+    color: var(--border-color2);
+
+    margin: 5px;
+    padding: 10px;
+
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
 }
