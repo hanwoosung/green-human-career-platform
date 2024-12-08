@@ -34,7 +34,7 @@ public class SeekerRegistController extends AbstractController {
     private final RegistCompanyService registCompanyService;
     private final CompanyDao companyDao;
 
-    @GetMapping("/")
+    @GetMapping("/choice")
     public String index(Model model) {
         return "choice";
     }
@@ -65,14 +65,14 @@ public class SeekerRegistController extends AbstractController {
     @GetMapping("/c")
     public String signUp(Model model) {
         model.addAttribute("company", new UserLoginDto());
-        return "company-register";
+        return "company_regist";
     }
 
     @PostMapping("/company")
     public String registCompany(@ModelAttribute("company") UserLoginDto company) {
         System.out.println("company : " + company);
         registCompanyService.registCompany(company);
-        return "redirect:/";
+        return "redirect:/company";
     }
 
     @GetMapping("/checkId")

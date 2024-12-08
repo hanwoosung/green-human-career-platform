@@ -111,6 +111,10 @@
     border-radius: 10px;
     width: 100%;
     background-color: rgba(19, 63, 157, 0.38);
+
+    white-space: nowrap; /* 줄바꿈 방지 */
+    overflow: hidden;    /* 넘치는 텍스트 숨김 */
+    text-overflow: ellipsis; /* 넘치는 텍스트 생략(...) 처리 */
 }
 
 .contents .content-resume span{

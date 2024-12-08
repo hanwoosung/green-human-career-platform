@@ -42,10 +42,10 @@ public class SendResultDto {
     //스킬
     private List<String> skills;
     // 파일 URL (예: 이미지 파일)
-    private String fileUrl;
     private String name;
     // scrapCnt
     private int scrapCnt;
+    private String fileUrl;
     private String fileId;
     private String fileName;
     private String fileExt;

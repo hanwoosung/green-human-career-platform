@@ -6,7 +6,10 @@
     <select id="selectSendResult">
         SELECT a.*,
                e.cd_nm                  AS career_nm,
-               COALESCE(f.file_url, '') AS fileUrl,
+               IFNULL(f.file_id, '')   AS file_id,
+               IFNULL(f.file_name, '') AS file_name,
+               IFNULL(f.file_ext, '')  AS file_ext,
+               IFNULL(f.file_url, '')  AS file_url,
                c.jr_gbn_cd,
                COALESCE(GROUP_CONCAT(DISTINCT c2.cd_nm ORDER BY c2.cd_nm SEPARATOR ','), '') AS skills,
                c.*,
@@ -20,7 +23,7 @@
                  LEFT JOIN tbl_job_open_stack b ON a.j_no = b.j_no
                  LEFT JOIN tbl_user d ON a.id = d.id
                  LEFT JOIN tbl_codeinfo e ON a.career_cd = e.cd AND e.up_cd = 'career_cd'
-                 LEFT JOIN tbl_file f ON a.id = f.file_ref_id AND f.file_gbn_cd = 100
+                 LEFT JOIN tbl_file f ON a.j_no = f.file_ref_id AND f.file_gbn_cd = 100
                  LEFT JOIN tbl_resume_job_open c ON a.j_no = c.j_no
                  LEFT JOIN tbl_resume z ON c.r_no = z.r_no
                  LEFT JOIN tbl_likes g ON a.j_no = g.cj_no AND g.l_gbn_cd = 'S' AND g.id = #{id}

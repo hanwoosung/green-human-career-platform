@@ -20,14 +20,14 @@
                IFNULL(f.file_id, '')   AS file_id,
                IFNULL(f.file_name, '') AS file_name,
                IFNULL(f.file_ext, '')  AS file_ext,
-               IFNULL(f.file_url, '')  AS afile_url,
+               IFNULL(f.file_url, '')  AS file_url,
                COUNT(g.l_no)           AS scrapCnt,
                COUNT(h.l_no)           AS bookmarkCnt
         FROM tbl_likes a
                  LEFT JOIN tbl_job_open b ON a.cj_no = b.j_no
                  LEFT JOIN tbl_user d ON b.id = d.id
                  LEFT JOIN tbl_codeinfo e ON b.career_cd = e.cd AND e.up_cd = 'career_cd'
-                 LEFT JOIN tbl_file f ON b.j_no = f.file_ref_id AND f.file_gbn_cd = '20'
+                 LEFT JOIN tbl_file f ON b.j_no = f.file_ref_id AND f.file_gbn_cd = '100'
                  LEFT JOIN tbl_likes g ON b.j_no = g.cj_no AND g.l_gbn_cd = 'S' AND g.id = #{id}
                  LEFT JOIN tbl_likes h ON b.id = h.cj_no AND h.l_gbn_cd = 'B' AND h.id = #{id}
         WHERE d.use_yn = 'Y'

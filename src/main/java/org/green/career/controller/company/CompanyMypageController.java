@@ -42,11 +42,11 @@ public class CompanyMypageController extends AbstractController {
         } else {
             model.addAttribute("user", dto);
             if(sessionUserInfo("userType").equals("C")) {
-                return "/company/mypage";
+                return "/company/mypage_c";
             } else if(sessionUserInfo("userType").equals("S")){
-                return "/normal/mypage";
+                return "/company/mypage_s";
             }
-            return "/company/mypage";
+            return "redirect:/";
         }
     }
 
@@ -59,7 +59,11 @@ public class CompanyMypageController extends AbstractController {
             companyMypageService.insertMypageProfile(fileList);
         }
         companyMypageService.updateMypageInfo(user);
-
+        if(sessionUserInfo("userType").equals("C")) {
+            return "redirect:/company";
+        } else if(sessionUserInfo("userType").equals("S")) {
+            return "redirect:/";
+        }
         return "redirect:/";
     }
 }

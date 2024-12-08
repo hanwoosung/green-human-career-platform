@@ -1,148 +1,108 @@
 <!DOCTYPE html>
-<!--
-    작성자: 구경림
-    작성일: 2024.12.01
-    파일 설명: 기초적인 로그인 구현
-    TODO : 유효성검증,스타일 등
--->
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/layout-test/layout/main_layout}">
 <head>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <meta charset="UTF-8">
-    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        .login-container{
-            margin: 60px auto;
-            padding-top: 60px;
-            border-radius: 20px;
-            width: 800px;
-            height: 600px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            border: 1px solid var(--border-color);
-        }
-        .login-tap-box{
-            margin-bottom: 20px;
-            width: 300px;
-            display: flex;
-            justify-content: space-between;
-        }
-        .user-login-h3, .com-login-h3{
-            color: var(--text-a-color);
-            font-weight: bold;
-            padding: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 130px;
-            height: 60px;
-        }
-        #loginForm{
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 400px;
-            height: 200px;
-            position: relative;
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
         }
 
-        .input-group {
-            position: relative;
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        .input-group input {
-            width: 200px;
-            padding: 12px;
-            padding-left: 40px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 14px;
-            color: #333;
-            background-color: #f9f9f9;
-            outline: none;
-            transition: border-color 0.3s ease;
-        }
-        .input-group .icon {
-            position: absolute;
-            top: 50%;
-            left: 10px;
-            transform: translateY(-50%);
-            color: #bbb;
-        }
-        .input-group input {
-            width: 300px;
-            height: 50px;
-            padding: 10px;
-            padding-left: 35px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 14px;
-            color: #333;
-            background-color: #f9f9f9;
-            outline: none;
-            transition: border-color 0.3s ease;
-        }
-        #login-button {
-            margin-top: 10px;
-            font-size: 16px;
-            font-weight: bold;
-            width: 300px;
-            height: 45px;
-            border-radius: 5px;
-            color: #ffffff;
-            background-color: var(--primary-color3);
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .active {
-            border-bottom: 3px solid var(--primary-color2);
-            color: var(--primary-color2);
-        }
-        .user-login-h3, .com-login-h3 {
-            cursor: pointer;
-        }
-        #responseMessage {
-            position: absolute;
-            bottom: -30px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 14px;
-            color: #d10000;
-            text-align: center;
+        .login-container {
             width: 100%;
-        }
-        #goto-regist{
-            margin-top: 50px;
-            font-size: 0.7rem;
+            max-width: 800px;
+            margin: 100px auto;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 40px;
         }
 
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            border-bottom: 2px solid #ddd;
+            margin-bottom: 30px;
+        }
+
+        .tabs a {
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 15px 30px;
+            color: #555;
+            display: block;
+            text-align: center;
+            transition: all 0.3s ease;
+            border-radius: 5px;
+        }
+
+        .tabs a:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .active {
+            background-color: #007bff;
+            color: #fff;
+            border-bottom: 3px solid #0056b3;
+        }
+
+        .tabs a i {
+            margin-right: 10px;
+        }
+
+        /* 스타일: 링크에 아이콘 추가 */
+        .tabs a .fa-user {
+            font-size: 1.5rem;
+        }
+
+        .tabs a .fa-building {
+            font-size: 1.5rem;
+        }
+
+        /* 링크가 활성화된 상태에서 버튼 크기나 색깔을 조정 */
     </style>
 </head>
 <body>
+
 <main layout:fragment="content">
     <div class="login-container">
-        <div class="login-tap-box">
-            <div class="user-login-tap" onclick="switchTab('jobseeker')">
-                <h3 id="jobseeker-tab" class="user-login-h3 active">
-                    <a th:href="@{/regist/s}">개인 회원가입</a>
-                </h3>
-            </div>
-            <div class="com-login-tap" onclick="switchTab('com')">
-                <h3 id="com-tab" class="com-login-h3">
-                    <a th:href="@{/regist/c}">기업 회원가입</a>
-                </h3>
-            </div>
+        <!-- 탭 -->
+        <div class="tabs">
+            <a id="jobseeker-tab" class="active" href="/regist/s">
+                <i class="fa fa-user"></i> 개인 회원가입
+            </a>
+            <a id="company-tab" href="/regist/c">
+                <i class="fa fa-building"></i> 기업 회원가입
+            </a>
         </div>
     </div>
-    <script src="/static/js/login/login.js"></script>
 </main>
+
+<script>
+    // 탭 클릭 시 활성화되는 클래스 추가
+    const tabs = document.querySelectorAll('.tabs a');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function(e) {
+            // 기존에 활성화된 탭의 클래스 제거
+            tabs.forEach(t => t.classList.remove('active'));
+
+            // 클릭된 탭에 활성화 클래스 추가
+            e.preventDefault();
+            tab.classList.add('active');
+        });
+    });
+</script>
+
 </body>
 </html>

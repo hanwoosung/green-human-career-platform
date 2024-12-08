@@ -76,7 +76,7 @@ $(function () {
     $(document).on("click", "#edit-btn", function () {
 
         let param = {
-            bNo: document.querySelector("input[name=bNo]").value,
+            bno: document.querySelector("input[name=bNo]").value,
             title: document.querySelector("input[name=title]").value,
             content: tinymce.activeEditor.getContent(),
             banswerYn: "N",

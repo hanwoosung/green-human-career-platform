@@ -99,8 +99,7 @@ public class BoardController extends AbstractController {
     //    게시글 수정
     @PutMapping
     @ResponseBody
-    public ResponseDto<Integer> boardEdit(@RequestBody BoardDto boardDto,
-                                          HttpSession session) throws Exception {
+    public ResponseDto<Integer> boardEdit(@RequestBody BoardDto boardDto) throws Exception {
 
         sessionApiError();
 
@@ -115,12 +114,10 @@ public class BoardController extends AbstractController {
             boardDto.setBGbnCd("F");
         }
 
-        System.out.println(boardDto);
-
         boardDto.setInstId(id);
         boardDto.setUpdtId(id);
 
-        int result = boardService.saveBoard(boardDto);
+        int result = boardService.updateBoard(boardDto);
 
         return ResponseDto.ok(result);
     }

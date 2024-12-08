@@ -1,26 +1,5 @@
 <!DOCTYPE html>
-<!--
-    작성자: 구경림
-    작성일: 2024.12.01
-    파일 설명:
-    메인페이지 레이아웃 템플릿
-    사용자 유형(session.userType)에 따라 동적으로 사이드바와 헤더를 표시,
-    Content 영역은 각 페이지에서 layout:fragment="content"를 통해 작성
-
-    1. Sidebar:
-      - 사용자 유형에 따라 동적 사이드바를 로드.
-      - 비회원인 경우 기본 사이드바 표시.
-    2. Header:
-      - 마이페이지 전용 헤더를 동적으로 로드.
-      - 사용자 유형에 따라 헤더 내용 변경.
-    3. Content:
-      - 개별 페이지에서 layout:fragment="content"로 대체.
-    4. Footer:
-      - 공통 푸터를 로드.
-    공통 스타일은 common.css와 theme.css를 통해 관리
--->
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,78 +13,98 @@
   <script src="/static/js/company/companyModify.js"></script>
   <title>Human</title>
   <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f6f9;
+      color: #333;
+    }
+    .mypage-layout {
+      display: flex;
+    }
+    .mypage-container {
+      flex: 1;
+      padding: 20px;
+    }
     .form-group {
       margin-bottom: 20px;
     }
-    .cno{
-      background-color: gray;
-      width: 400px;
+    .cno, .homepage, .cDetail, .cCnt, .cBusiness, .saleY, .historyY, .secondInput {
+      background-color: #444;
       color: white;
-      border-radius: 5px;
+      border-radius: 8px;
+      width: 100%;
+      padding: 12px;
+      font-size: 14px;
+      margin-top: 5px;
     }
-    .cno::placeholder{
-      color: white;
+    .cno::placeholder, .homepage::placeholder, .cDetail::placeholder, .secondInput::placeholder {
+      color: #ccc;
     }
-    .homepage{
-      background-color: gray;
-      width: 400px;
-      color: white;
-      border-radius: 5px;
-    }
-    .homepage::placeholder{
-      color: white;
-    }
-    .cDetail{
-      background-color: gray;
-      width: 400px;
+    .cDetail {
       height: 150px;
+      resize: none;
+    }
+    .add-button, .submit-button, button {
+      background-color: #1e90ff;
       color: white;
-      border-radius: 5px;
-    }
-    .cDetail::placeholder{
-      line-height: 140px;
-      color: white;
-    }
-    .add-button{
-      margin-bottom: 10px;
-    }
-    .submit-button{
+      border-radius: 8px;
+      border: none;
+      padding: 10px 20px;
+      font-size: 14px;
+      cursor: pointer;
       margin-top: 10px;
-      background-color: cornflowerblue;
-      width: 400px;
-      height: 50px;
-      border-radius: 10px;
-      color: white;
     }
-    .dynamic-group{
+    .add-button:hover, .submit-button:hover, button:hover {
+      background-color: #4682b4;
+    }
+    .dynamic-group {
+      display: flex;
+      align-items: center;
       margin-bottom: 10px;
     }
-    button{
-      background-color: cornflowerblue;
-      border-radius: 10px;
-      color: white;
+    .dynamic-group input {
+      width: 120px;
+      margin-right: 10px;
     }
-    .firstInput{
-      background-color: gray;
-      width: 100px;
-      color: white;
-    }
-    .firstInput::placeholder{
-      color: white;
-    }
-    .secondInput{
-      background-color: gray;
+    .dynamic-group .secondInput {
       width: 250px;
-      color: white;
     }
-    .secondInput::placeholder{
-      color: white;
-    }
-    .previewContainer{
+    .previewContainer {
+      display: flex;
+      gap: 10px;
       margin-top: 10px;
-      margin-bottom: 10px;
     }
-
+    .previewContainer img {
+      max-width: 100px;
+      border-radius: 8px;
+    }
+    .checkbox-group input {
+      margin-right: 10px;
+    }
+    .checkbox-group label {
+      margin-right: 20px;
+    }
+    .submit-button {
+      width: 100%;
+      padding: 14px;
+      background-color: #3b9ef9;
+    }
+    .submit-button:hover {
+      background-color: #3386c9;
+    }
+    .form-group label {
+      font-weight: bold;
+    }
+    .error-message {
+      color: red;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+    .success-message {
+      color: green;
+      font-size: 12px;
+      margin-top: 5px;
+    }
   </style>
 </head>
 <body>
@@ -124,136 +123,93 @@
     <!-- Content 영역 -->
     <div class="mypage-content" layout:fragment="content">
       <div class="main-content">
-        <form th:action="@{/companyMD}" method="post" enctype="multipart/form-data" id="compantForm" onsubmit="return submitForm()">
+        <form th:action="@{/companyMD}" method="post" enctype="multipart/form-data" id="companyForm" onsubmit="return submitForm()">
           <input type="hidden" name="id" th:value="${company.id}">
           <input type="hidden" name="size" th:value="${size}">
+
+          <!-- 사업자 등록번호 -->
           <div class="form-group">
             <input type="text" name="cno" id="cno" class="cno" placeholder="사업자 등록번호" th:value="${company.cno}">
-            <span id="cnoMessage"></span>
+            <span class="error-message" id="cnoMessage"></span>
           </div>
+
+          <!-- 기업 구분 -->
           <div class="form-group">
             <div class="checkbox-group">
               <input type="radio" name="cGbnCd" id="L">
-              <label class="cGbnCd" for="L">대기업</label>
+              <label for="L">대기업</label>
               <input type="radio" name="cGbnCd" value="M" id="M">
-              <label class="cGbnCd" for="M">중견기업</label>
+              <label for="M">중견기업</label>
               <input type="radio" name="cGbnCd" value="S" id="S">
-              <label class="cGbnCd" for="S">중소기업</label>
+              <label for="S">중소기업</label>
             </div>
           </div>
+
+          <!-- 홈페이지 -->
           <div class="form-group">
             <input type="text" name="homepage" class="homepage" placeholder="홈페이지" id="homepage" th:value="${company.homepage}">
           </div>
+
+          <!-- 기업 소개 -->
           <div class="form-group">
             <textarea class="cDetail" name="cDetail" placeholder="기업 소개" id="cDetail">[[${company.cDetail}]]</textarea>
           </div>
+
+          <!-- 사원수 -->
           <div class="form-group">
             <input type="text" name="cCnt" class="cno" placeholder="현재 사원수" id="cCnt" th:value="${company.cCnt}">
           </div>
+
+          <!-- 주요 업무 -->
           <div class="form-group">
             <input type="text" name="cBusiness" class="cno" placeholder="주요 업무" id="cBusiness" th:value="${company.cBusiness}">
           </div>
+
+          <!-- 대표 이미지 -->
           <div class="form-group" id="pImageGroup">
-            <th:block th:if="${company.fileUrl == null}">
-                <label>대표 이미지</label>
-                <input type="file" name="pImage" accept="image/*" onchange="ImageInfo(event)">
-                <button type="button" onclick="removeImageP();"><span>삭제</span></button>
-                <div class="previewContainer"></div>
-            </th:block>
-            <th:block th:if="${company.fileUrl != null}">
-                <label>대표 이미지</label>
-                <input type="file" name="pImage" accept="image/*" onchange="ImageInfo(event)">
-                <button type="button" onclick="removeImageP();"><span>삭제</span></button>
-                <div class="previewContainer">
-                  <img th:src="@{${company.fileUrl}}">
-                  <input type="hidden" name="fileUrl" th:value="${company.fileUrl}">
-                  <input type="hidden" name="fileName" th:value="${company.fileName}">
-                </div>
-            </th:block>
+            <label>대표 이미지</label>
+            <input type="file" name="pImage" accept="image/*" onchange="ImageInfo(event)">
+            <button type="button" onclick="removeImageP();"><span>삭제</span></button>
+            <div class="previewContainer"></div>
           </div>
 
-          <div class="sub_Image">
-            <th:block th:if="${company.fileUrl == null}">
-              <div class="form-group" id="firstImageGroup">
-                <label for="sImage">기업 이미지</label>
-                <button type="button" onclick="addImage(this);"><span>파일 추가</span></button>
-                <br>
-                <input type="file" name="sImage" id="sImage" onchange="ImageInfo(event)" accept="image/*" th:value="">
-                <button type="button" onclick="removeImageFirts();"><span>삭제</span></button>
-                <div class="previewContainer"></div>
-              </div>
-            </th:block>
-            <th:block th:if="${company.fileUrls != null}">
-              <div class="form-group">
-                <label>기업 이미지</label>
-                <input type="file" name="sImage" accept="image/*" onchange="ImageInfo(event)">
-                <button type="button" onclick="addImage(this);"><span>파일 추가</span></button>
-                <th:block th:each="file, iterStat : ${company.fileUrls}">
-                  <div class="previewContainer">
-                    <img th:src="@{${file}}">
-                    <input type="hidden" name="fileUrls" th:value="${file}">
-                    <input type="hidden" name="fileNames" th:value="${company.fileName[iterStat.index]}">
-                    <button type="button" th:onclick="${fun[iterStat.index]}';'"><span>삭제</span></button>
-                  </div>
-                </th:block>
-              </div>
-            </th:block>
+          <!-- 기업 이미지 -->
+          <div class="form-group">
+            <label>기업 이미지</label>
+            <input type="file" name="sImage" accept="image/*" onchange="ImageInfo(event)">
+            <button type="button" onclick="addImage(this);"><span>파일 추가</span></button>
+            <div class="previewContainer"></div>
           </div>
+
+          <!-- 연혁 -->
           <div class="form-group">
             <label>연혁</label>
             <button type="button" class="add-button" id="addHistoryBtn">추가</button>
             <div id="historyContainer">
-              <th:block th:if="${company.historyYear == null}">
-                <div class="dynamic-group">
-                  <input type="text" placeholder="연-월" oninput="addDate(event)" class="firstInput historyY">
-                  <input type="hidden" name="historyYear">
-                  <input type="text" name="historyTxt" placeholder="연혁 내용" class="secondInput">
-                  <div class="hMessage"></div>
-                </div>
-              </th:block>
-              <th:block th:if="${company.historyYear != null}">
-                <th:block th:each="history, iterStat : ${company.historyYear}">
-                  <div class="dynamic-group">
-                    <input type="text" placeholder="연-월" oninput="addDate(event)" class="firstInput historyY" th:value="${history}">
-                    <input type="hidden" name="historyYear" th:value="${historys[iterStat.index]}">
-                    <input type="text" name="historyTxt" placeholder="연혁 내용" class="secondInput" th:value="${company.historyTxt[iterStat.index]}">
-                    <button type="button" onclick="removeHistory(this);"><span>삭제</span></button>
-                    <div class="hMessage"></div>
-                  </div>
-                </th:block>
-              </th:block>
+              <div class="dynamic-group">
+                <input type="text" placeholder="연-월" class="firstInput historyY">
+                <input type="text" name="historyTxt" placeholder="연혁 내용" class="secondInput">
+              </div>
             </div>
           </div>
+
+          <!-- 매출액 -->
           <div class="form-group">
-            <label>매출액</label>&nbsp;&nbsp; *(억)
+            <label>매출액</label>
             <button type="button" class="add-button" id="addRevenueBtn">추가</button>
             <div id="revenueContainer">
-              <th:block th:if="${company.salesYear == null}">
-                  <div class="dynamic-group">
-                    <input type="text" placeholder="연도" oninput="addSales(event)" class="firstInput saleY">
-                    <input type="hidden" name="salesYear">
-                    <input type="text" name="salesTxt" placeholder="매출액" class="secondInput">
-                    <div class="sMessage"></div>
-                  </div>
-              </th:block>
-              <th:block th:if="${company.salesYear != null}">
-                <th:block th:each="sale, iterStat : ${company.salesYear}">
-                  <div class="dynamic-group">
-                    <input type="text" placeholder="연도" oninput="addSales(event)" class="firstInput saleY" th:value="${sale}">
-                    <input type="hidden" name="salesYear" th:value="${sales[iterStat.index]}">
-                    <input type="text" name="salesTxt" placeholder="매출액" class="secondInput" th:value="${company.salesTxt[iterStat.index]}">
-                    <button type="button" onclick="removeSales(this);"><span>삭제</span></button>
-                    <div class="sMessage"></div>
-                  </div>
-                </th:block>
-              </th:block>
+              <div class="dynamic-group">
+                <input type="text" placeholder="연도" class="firstInput saleY">
+                <input type="text" name="salesTxt" placeholder="매출액" class="secondInput">
+              </div>
             </div>
-            <input type="submit" value="기업 정보 수정" class="submit-button">
           </div>
+
+          <!-- 제출 버튼 -->
+          <input type="submit" value="기업 정보 수정" class="submit-button">
         </form>
       </div>
     </div>
-
   </div>
 </div>
 <!-- Footer 영역 -->

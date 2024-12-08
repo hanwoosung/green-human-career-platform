@@ -45,7 +45,7 @@
                                 <div th:each="skill : ${skillList}" th:data-category="${skill.upCd}"
                                      th:if="${skill.upCd == category.upCd}" class="skill-item">
                                     <label>
-                                        <input type="checkbox" name="skills" th:value="${skill.cdNm}">
+                                        <input type="checkbox" name="skills" th:value="${skill.cd}">
                                         <span th:text="${skill.cdNm}"></span>
                                     </label>
                                 </div>
@@ -76,7 +76,7 @@
                                 </div>
                                 <div class="card-header">
                                     <div class="card-header-box">
-                                        <span class="company-name">삼성전자</span>
+                                        <span class="company-name" th:text="${jobItem.name}"></span>
                                         <i th:class="'bi ' + ${jobItem.bookmarkCnt == 0 ? 'bi-heart ' : 'bi-heart-fill '} + 'heart-icon'" id="heart-icon"></i>
                                     </div>
                                 </div>

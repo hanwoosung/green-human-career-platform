@@ -1,4 +1,24 @@
 <!DOCTYPE html>
+<!--
+    작성자: 구경림
+    작성일: 2024.12.01
+    파일 설명:
+    메인페이지 레이아웃 템플릿
+    사용자 유형(session.userType)에 따라 동적으로 사이드바와 헤더를 표시,
+    Content 영역은 각 페이지에서 layout:fragment="content"를 통해 작성
+
+    1. Sidebar:
+      - 사용자 유형에 따라 동적 사이드바를 로드.
+      - 비회원인 경우 기본 사이드바 표시.
+    2. Header:
+      - 마이페이지 전용 헤더를 동적으로 로드.
+      - 사용자 유형에 따라 헤더 내용 변경.
+    3. Content:
+      - 개별 페이지에서 layout:fragment="content"로 대체.
+    4. Footer:
+      - 공통 푸터를 로드.
+    공통 스타일은 common.css와 theme.css를 통해 관리
+-->
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
@@ -14,176 +34,76 @@
     <script src="/static/js/company/companyRegist.js"></script>
     <title>Human</title>
     <style>
-        /* 전체 페이지 스타일 */
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f7fb;
-        }
-
-        .mypage-layout {
-            display: flex;
-        }
-
-        .mypage-container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .main-content {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        /* 폼 그룹 */
         .form-group {
             margin-bottom: 20px;
         }
-
-        /* 입력 필드 스타일 */
-        input[type="text"], textarea {
-            width: 100%;
-            padding: 15px;
-            margin-top: 8px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 14px;
-            background-color: #f5f5f5;
-            color: #333;
-        }
-
-        input[type="text"]::placeholder, textarea::placeholder {
-            color: #888;
-        }
-
-        textarea {
-            resize: vertical;
-            height: 120px;
-        }
-
-        /* 라디오 버튼 그룹 */
-        .checkbox-group {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-
-        .cGbnCd {
-            font-size: 14px;
-            color: #333;
-        }
-
-        input[type="radio"]:checked + .cGbnCd {
-            font-weight: bold;
-            color: #007bff;
-        }
-
-        /* 버튼 스타일 */
-        .add-button, .submit-button, button {
-            background-color: #007bff;
+        .cno{
+            background-color: gray;
+            width: 400px;
             color: white;
-            border: none;
-            padding: 12px 25px;
             border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
         }
-
-        .add-button:hover, .submit-button:hover, button:hover {
-            background-color: #0056b3;
+        .cno::placeholder{
+            color: white;
         }
-
-        button[type="button"] {
-            background-color: #f44336;
+        .homepage{
+            background-color: gray;
+            width: 400px;
+            color: white;
+            border-radius: 5px;
         }
-
-        button[type="button"]:hover {
-            background-color: #e53935;
+        .homepage::placeholder{
+            color: white;
         }
-
-        /* 미리보기 이미지 */
-        .previewContainer {
+        .cDetail{
+            background-color: gray;
+            width: 400px;
+            height: 150px;
+            color: white;
+            border-radius: 5px;
+        }
+        .cDetail::placeholder{
+            line-height: 140px;
+            color: white;
+        }
+        .add-button{
+            margin-bottom: 10px;
+        }
+        .submit-button{
             margin-top: 10px;
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
+            background-color: cornflowerblue;
+            width: 400px;
+            height: 50px;
+            border-radius: 10px;
+            color: white;
         }
-
-        .previewContainer img {
-            max-width: 100%;
-            height: auto;
-            max-height: 150px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .previewContainer button {
-            margin-top: 5px;
-        }
-
-        /* 동적 그룹 */
-        .dynamic-group {
-            display: flex;
-            gap: 10px;
-            align-items: center;
+        .dynamic-group{
             margin-bottom: 10px;
         }
-
-        .firstInput, .secondInput {
-            padding: 10px;
-            font-size: 14px;
-            border-radius: 5px;
-            width: 48%;
-            border: 1px solid #ccc;
-            background-color: #f5f5f5;
+        button{
+            background-color: cornflowerblue;
+            border-radius: 10px;
+            color: white;
         }
-
-        .firstInput {
-            width: 30%;
+        .firstInput{
+            background-color: gray;
+            width: 100px;
+            color: white;
         }
-
-        /* 연혁 및 매출액 입력 */
-        #historyContainer, #revenueContainer {
-            margin-top: 20px;
+        .firstInput::placeholder{
+            color: white;
         }
-
-        /* 유효성 검사 메시지 */
-        #cnoMessage, #hMessage, #sMessage {
-            color: red;
-            font-size: 12px;
-            margin-top: 5px;
+        .secondInput{
+            background-color: gray;
+            width: 250px;
+            color: white;
         }
-
-        /* 레이아웃을 위한 반응형 스타일 */
-        @media (max-width: 768px) {
-            .mypage-container {
-                padding: 15px;
-            }
-
-            .dynamic-group {
-                flex-direction: column;
-            }
-
-            .firstInput, .secondInput {
-                width: 100%;
-            }
-
-            .previewContainer img {
-                max-width: 90%;
-            }
-
-            .add-button, .submit-button {
-                width: 100%;
-                font-size: 14px;
-            }
+        .secondInput::placeholder{
+            color: white;
+        }
+        .previewContainer{
+            margin-top: 10px;
+            margin-bottom: 10px;
         }
 
     </style>
@@ -199,7 +119,8 @@
         <!-- Header 영역 -->
         <div th:replace="~{/layout-test/parts/header_mypage :: headerMypage(
             ${session.userType != null ? session.userType : '비회원'}
-        )}"></div>
+        )}">
+        </div>
         <!-- Content 영역 -->
         <div class="mypage-content" layout:fragment="content">
             <div class="main-content">
@@ -248,7 +169,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>연혁</label>&nbsp;&nbsp; *(연-월)
+                        <label>연혁</label>
                         <button type="button" class="add-button" onclick="addHistory()">추가</button>
                         <div id="historyContainer">
                             <div class="dynamic-group">
@@ -275,6 +196,7 @@
                 </form>
             </div>
         </div>
+
     </div>
 </div>
 <!-- Footer 영역 -->
