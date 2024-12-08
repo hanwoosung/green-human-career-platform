@@ -1,26 +1,33 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<!--
+    작성자: 구경림
+    작성일: 2024.12.01
+    파일 설명:
+    마이 페이지 템플릿의 기본 구조로, 모든 페이지가 공통으로 사용하는 레이아웃을 정의하는 부분
+    이 템플릿을 기반으로 각 팀원은 필요한 내용을 추가하여 개별 페이지를 생성
+    이 템플릿은 Thymeleaf와 Layout Dialect를 사용하여 레이아웃을 적용하는 구조
+-->
+
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout-test/layout/mypage_layout}"
+
+>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" th:href="@{/static/css/common/common.css}">
-    <link rel="stylesheet" th:href="@{/static/css/layout/theme.css}">
-    <title>Human</title>
+    <title>회원정보수정(기업)</title>
     <style>
         /* 전체 페이지에 공통적으로 적용되는 스타일 */
         body {
-            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
         }
 
         /* 중앙 정렬을 위한 기본 컨테이너 */
         .mypage-container {
             display: flex;
             justify-content: center;
-            align-items: flex-start;
             flex-direction: column;
             padding: 20px;
             width: 100%;
@@ -69,7 +76,7 @@
         /* 버튼 스타일 */
         form input[type="submit"],
         form input[type="button"] {
-            background-color: #4CAF50;
+            background-color: dodgerblue;
             color: white;
             padding: 12px 20px;
             border: none;
@@ -80,7 +87,7 @@
 
         form input[type="submit"]:hover,
         form input[type="button"]:hover {
-            background-color: #45a049;
+            background-color: deepskyblue;
         }
 
         /* 파일 미리보기 영역 */
@@ -105,8 +112,8 @@
 
         /* 학생용 필드 */
         .student-field input {
-            background-color: #f9fdf9;
-            border-color: #8bc34a;
+            background-color: white !important;
+            border-color: deepskyblue;
         }
 
         /* 공통 스타일 */
@@ -122,36 +129,22 @@
     </style>
 </head>
 <body>
-<div class="mypage-layout">
-    <!-- Sidebar 영역 -->
-    <div th:replace="~{/layout-test/parts/sidebar :: sidebar(
-            ${session.userType != null ? session.userType : '비회원'}
-        )}">
-    </div>
-    <div class="mypage-container">
-        <!-- Header 영역 -->
-        <div th:replace="~{/layout-test/parts/header_mypage :: headerMypage(
-            ${session.userType != null ? session.userType : '비회원'}
-        )}">
-        </div>
-        <!-- Content 영역 -->
-        <div class="mypage-content" layout:fragment="content">
-            <main layout:fragment="content">
-                <div class="form-container">
-                    <h1>회원정보수정(기업)</h1>
-                    <form th:action="@{/mypage/modifyMyinfo}" method="post" id="registrationForm"
-                          enctype="multipart/form-data">
-                        <th:block th:if="${user.fileName == null}">
-                            <p>프로필 사진 등록</p>
-                            <span>
+<main layout:fragment="content">
+    <div class="form-container">
+        <h1>회원정보수정(구직자)</h1>
+        <form th:action="@{/mypage/modifyMyinfo}" method="post" id="registrationForm"
+              enctype="multipart/form-data">
+            <th:block th:if="${user.fileName == null}">
+                <p>프로필 사진 등록</p>
+                <span>
                                 <input type="file" name="file" onchange="ImageInfo(event)">
                                 <div class="previewContainer"></div>
                             </span>
-                        </th:block>
-                        <th:block th:if="${user.fileName != null}">
-                            <p>프로필 사진 등록</p>
-                            <input type="hidden" name="fileId" th:value="${user.fileId}">
-                            <span>
+            </th:block>
+            <th:block th:if="${user.fileName != null}">
+                <p>프로필 사진 등록</p>
+                <input type="hidden" name="fileId" th:value="${user.fileId}">
+                <span>
                                 <input type="file" name="file" onchange="ImageInfo(event)" th:value="${user.fileName}">
                                 <div class="previewContainer">
                                     <img th:src="@{${user.fileUrl}}">
@@ -159,34 +152,30 @@
                                     <input type="hidden" name="fileName" th:value="${user.fileName}">
                                 </div>
                             </span>
-                        </th:block>
-                        <input type="hidden" name="id" th:value="${user.id}">
-                        <p>기업명</p>
-                        <span class="company-field"><input type="text" name="name" th:value="${user.name}"></span>
-                        <p>설립일</p>
-                        <span class="company-field"><input type="text" name="birth" th:value="${user.birth}"></span>
-                        <p>이메일</p>
-                        <span class="company-field"><input type="text" name="email" th:value="${user.email}"></span>
-                        <p>대표전화</p>
-                        <span class="company-field"><input type="text" name="phone" th:value="${user.phone}"></span>
-                        <p>우편번호</p>
-                        <span><input type="text" id="zipCd" name="zipCd" th:value="${user.zipCd}"></span>
-                        <input type="button" onclick="addrBtn()" value="우편번호 찾기"><br/>
-                        <p>주소</p>
-                        <span><input type="text" id="addr" name="addr" th:value="${user.addr}"></span>
-                        <p>상세주소</p>
-                        <span><input type="text" id="addr2" name="addr2" th:value="${user.addr2}"></span>
-                        <p><input type="submit" value="수정"></p>
-                    </form>
-                </div>
-            </main>
-        </div>
+            </th:block>
+            <input type="hidden" name="id" th:value="${user.id}">
+            <p>이름</p>
+            <span class="student-field"><input type="text" name="name" th:value="${user.name}"></span>
+            <p>생일</p>
+            <span class="student-field"><input type="text" name="birth" th:value="${user.birth}"></span>
+            <p>이메일</p>
+            <span class="student-field"><input type="text" name="email" th:value="${user.email}"></span>
+            <p>전화번호</p>
+            <span class="student-field"><input type="text" name="phone" th:value="${user.phone}"></span>
+            <p>우편번호</p>
+            <span><input type="text" id="zipCd" name="zipCd" th:value="${user.zipCd}"></span>
+            <input type="button" onclick="addrBtn()" value="우편번호 찾기"><br/>
+            <p>주소</p>
+            <span><input type="text" id="addr" name="addr" th:value="${user.addr}"></span>
+            <p>상세주소</p>
+            <span><input type="text" id="addr2" name="addr2" th:value="${user.addr2}"></span>
+            <p><input type="submit" value="수정"></p>
+        </form>
     </div>
-</div>
-<!-- Footer 영역 -->
-<div th:replace="~{/layout-test/parts/footer :: footer}"></div>
+</main>
 </body>
 </html>
+
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
     function ImageInfo(event) {
