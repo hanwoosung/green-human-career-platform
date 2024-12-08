@@ -5,8 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.green.career.controller.AbstractController;
 import org.green.career.dto.common.file.request.FileDto;
 import org.green.career.dto.company.CompanyRegistDto;
-import org.green.career.dto.company.mypage.CompanyModiDto;
-import org.green.career.dto.company.response.*;
 import org.green.career.dto.company.response.CompanyHistoryResponseDto;
 import org.green.career.dto.company.response.CompanyInfoResponseDto;
 import org.green.career.dto.company.response.CompanySalesResponseDto;
