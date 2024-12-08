@@ -320,6 +320,75 @@
         </collection>
     </resultMap>
 
+
+    <!-- 이력서 등록시 기존의 정보를 가지고옴  -->
+    <select id="findEducationsByUserId" parameterType="string" resultType="EducationDto">
+        SELECT e.re_no AS educationId,
+            e.r_no AS resumeId,
+            e.re_gbn_cd AS educationType,
+            e.re_school_nm AS schoolName,
+            e.re_major AS major,
+            e.re_score AS score,
+            e.re_indt AS admissionDate,
+            e.re_outdt AS graduationDate,
+            e.re_transfer_yn AS transferYn,
+            e.re_resion AS region
+        FROM tbl_resume_educat e
+            JOIN tbl_resume r ON e.r_no = r.r_no
+            JOIN tbl_user u ON r.inst_id = u.id
+        WHERE u.id = #{userId}
+    </select>
+
+    <select id="findCareersByUserId" parameterType="string" resultType="CareerDto">
+        SELECT c.rc_no AS careerId,
+            c.r_no AS resumeId,
+            c.rc_company_nm AS companyName,
+            c.rc_pstn AS position,
+            c.rc_dmpt AS department,
+            c.rc_join_dt AS joinDate,
+            c.rc_out_dt AS outDate,
+            c.rc_duties AS duties
+        FROM tbl_resume_career c
+            JOIN tbl_resume r ON c.r_no = r.r_no
+            JOIN tbl_user u ON r.inst_id = u.id
+        WHERE u.id = #{userId}
+    </select>
+
+    <select id="findQualificationsByUserId" parameterType="string" resultType="QualificationDto">
+        SELECT q.rq_no AS qualificationId,
+            q.r_no AS resumeId,
+            q.rq_nm AS qualificationName,
+            q.rq_place AS issuer,
+            q.rq_dt AS issueDate
+        FROM tbl_resume_qual q
+                JOIN tbl_resume r ON q.r_no = r.r_no
+                JOIN tbl_user u ON r.inst_id = u.id
+        WHERE u.id = #{userId}
+    </select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <!-- 이력서 저장 -->
     <insert id="saveResume" parameterType="org.green.career.dto.resume.ResumeDto" useGeneratedKeys="true" keyProperty="resumeId">
         INSERT INTO tbl_resume (
@@ -470,6 +539,27 @@
         FROM tbl_file
         WHERE file_id = #{fileId}
     </select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

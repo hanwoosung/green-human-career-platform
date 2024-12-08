@@ -17,6 +17,11 @@ import java.util.Optional;
 @Mapper
 public interface ResumeDao {
 
+    List<EducationDto> findEducationsByUserId(String userId) ;
+    List<CareerDto> findCareersByUserId(String userId);
+    List<QualificationDto> findQualificationsByUserId(String userId);
+
+    
     void updateAllResumesToNonRepresentative(String userId);
 
     // 특정 이력서를 대표 이력서로 설정
@@ -66,5 +71,7 @@ public interface ResumeDao {
 
     List<ResumeFileDto> findFilesByRefIdAndGbnCd(Map<String, Object> params);
     void deleteFilesByRefId(Map<String, Object> params);
+
+
 
 }

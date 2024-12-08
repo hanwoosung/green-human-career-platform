@@ -6,12 +6,18 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.apache.catalina.connector.Response;
 import org.green.career.controller.AbstractController;
 import org.green.career.dto.common.ResponseDto;
+import org.green.career.dto.resume.CareerDto;
+import org.green.career.dto.resume.EducationDto;
+import org.green.career.dto.resume.QualificationDto;
 import org.green.career.dto.resume.ResumeDto;
 import org.green.career.dto.resume.TechnicalStackDto;
 import org.green.career.dto.resume.TreatDto;
 import org.green.career.service.resume.ResumeService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RequestMapping("/resume")
 @Controller
@@ -104,6 +111,8 @@ public class ResumeController extends AbstractController {
 
             // 우대사항 코드 목록 가져오기
             List<TreatDto> treatCodes = resumeService.getAllTreatCodes();
+            log.info("treatCodes 정보 >> {}", treatCodes);
+
             model.addAttribute("treatCodes", treatCodes);
 
             log.info("mode 정보 >> {}",model.getAttribute("mode"));
@@ -113,7 +122,43 @@ public class ResumeController extends AbstractController {
         }
     }
 
+    // 기존의 학력,경력,자격증 정보 불러오기
+
+    @GetMapping("/getEducations")
+    @ResponseBody
+    public List<EducationDto> getEducations(@RequestParam String userId) {
+        log.info("Fetching educations for userId: {}", userId);
+        List<EducationDto> educations = resumeService.getEducationsByUserId(userId);
+        log.info("Fetched educations: {}", educations);
+        return educations;
+    }
     
+    @GetMapping("/getCareers")
+    @ResponseBody
+    public List<CareerDto> getCareers(@RequestParam String userId) {
+        log.info("Fetching careers for userId: {}", userId);
+        List<CareerDto> careers = resumeService.getCareersByUserId(userId);
+        log.info("Fetched careers: {}", careers);
+        return careers;
+    }
+    
+    @GetMapping("/getQualifications")
+    @ResponseBody
+    public List<QualificationDto> getQualifications(@RequestParam String userId) {
+        log.info("Fetching qualifications for userId: {}", userId);
+        List<QualificationDto> qualifications = resumeService.getQualificationsByUserId(userId);
+        log.info("Fetched qualifications: {}", qualifications);
+        return qualifications;
+    }
+    @ResponseBody
+    @GetMapping("/getTreatOptions")
+    public ResponseDto<List<TreatDto>> getTreatOptions() {
+        List<TreatDto> treatCodes = resumeService.getAllTreatCodes();
+
+        return ok(treatCodes);
+    }
+
+
     @ResponseBody
     @PostMapping("/regist")
     public ResponseDto<Void> postResume(
@@ -134,18 +179,6 @@ public class ResumeController extends AbstractController {
         resumeService.saveResumeToDatabase(resumeDto, profilePhoto, portfolioFiles, introduceMeFiles);
         return ok();
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -228,15 +261,5 @@ public class ResumeController extends AbstractController {
 
         return ok();
     }
-
-
-
-//    // 이력서 수정 (PUT)
-//    @ResponseBody
-//    @PutMapping("/api/{id}")
-//    public ResponseDto<Void>  updateResume(@PathVariable("id") String id, @RequestBody ResumeDto resumeDto) {
-////        resumeService.updateResume(id, resumeDto);
-//        return ok();
-//    }
 
 }

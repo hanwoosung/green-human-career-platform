@@ -1,4 +1,3 @@
-
 //서버로갈 데이터준비
 const temporaryDataStore = {
     name: '',
@@ -22,10 +21,158 @@ const temporaryDataStore = {
     introduces: [],
     profilePhoto: null
 
+    
+};
+// 서버에서 우대사항 옵션 불러오기
+function loadTreatOptions() {
+    axios.get('/resume/getTreatOptions')
+        .then(response => {
+            // 서버로부터 받은 데이터
+            const treatOptions = response.data.data; // ResponseDto의 data 필드에 접근
+            console.log('Treat options loaded:', treatOptions);
+
+            // treatOptions 데이터를 name과 value로 가공
+            const formattedOptions = treatOptions.map(option => ({
+                value: option.prf_cd, // value에 해당하는 필드
+                label: option.preference_name // label에 해당하는 필드
+            }));
+
+            // formTemplates의 treats 옵션 업데이트
+            formTemplates.treats.forEach(treat => {
+                treat.options = formattedOptions;
+            });
+        })
+        .catch(error => {
+            console.error('Error loading treat options:', error);
+            alert('우대사항 옵션을 불러오는 데 실패했습니다.');
+        });
+}
+const treatOptions = [];
+ // 폼 타입에 따른 입력 필드 정의
+const formTemplates = {
+    careers: [
+        { name: "rc_company_nm", type: "text", placeholder: "회사명을 입력하세요" },
+        { label: "입사일" , name: "rc_join_dt", type: "date" },
+        { label: "퇴사일" ,name: "rc_out_dt", type: "date" },
+        { name: "rc_dmpt", type: "text", placeholder: "부서명을 입력하세요" },
+        { name: "rc_pstn", type: "text", placeholder: "직책을 입력하세요" },
+        { name: "rc_duties", type: "textarea", placeholder: "담당업무를 입력하세요" }
+    ],
+    educations: [
+        {
+            name: "re_gbn_cd",
+            type: "select",
+            options: [
+                { value: "H", label: "고등학교" },
+                { value: "U", label: "대졸" },
+                { value: "S", label: "초대졸" },
+                { value: "D", label: "석사" },
+                { value: "J", label: "박사" }
+            ]
+        }, 
+        { name: "re_school_nm", type: "text", placeholder: "학교 이름을 입력하세요" },
+        { name: "re_major", type: "text", placeholder: "전공을 입력하세요" },
+        { name: "re_score", type: "number", placeholder: "성적을 입력하세요" },
+        { label: "입학일", name: "re_indt", type: "date" },
+        { label: "졸업일", name: "re_outdt", type: "date" },
+        { label: "편입" ,  name: "re_transfer_yn", type: "checkbox" , labelWhenChecked: "편입" }
+    ],
+    portfolios: [
+        { label: "시작날짜" , name: "rp_str_dt", type: "date" },
+        { label: "종료날짜" , name: "rp_end_dt", type: "date" },
+        { name: "rp_url", type: "text", placeholder: "URL을 입력하세요" },
+        { name: "rp_cnt", type: "number", placeholder: "작업 인원을 입력하세요" },
+        { name: "rp_content", type: "textarea", placeholder: "작업 내용을 입력하세요" },
+        { name: "files", type: "file" }
+    ],
+    qualifications: [
+        { name: "rq_nm", type: "text", placeholder: "자격증 이름을 입력하세요" },
+        { label: "합격일" , name: "rq_dt", type: "date" },
+        { name: "rq_place", type: "text", placeholder: "발급 기관을 입력하세요" },
+        { name: "rq_gbn_cd", type: "select", options: [{ value: "P", label: "필기" }, { value: "S", label: "실기" }] }
+    ],
+    treats: [
+        { 
+            name: "prf_cd", 
+            type: "select", 
+            options: treatOptions 
+        },
+        { 
+            name: "rpr_content", 
+            type: "textarea", 
+            placeholder: "우대 세부사항을 입력하세요ㄴㅇㄹㄴㅇㄹㄴㅇ" 
+        }
+    ],
+    introduces: [
+        { name: "rm_title", type: "text", placeholder: "자기소개 제목을 입력하세요" },
+        { name: "rm_content", type: "textarea", placeholder: "자기소개 내용을 입력하세요" },
+        { name: "files", type: "file" }
+    ]
 };
 
-//
+// 학력 정보 불러오기  
+function loadEducations() {
+    console.log('Loading educations for userId:', temporaryDataStore.id);
+    axios.get('/resume/getEducations', { params: { userId: temporaryDataStore.id } })
+        .then(response => {
+            console.log('Educations response:', response.data);
+            const educations = response.data;
+
+            // 데이터 저장 및 섹션 렌더링
+            temporaryDataStore.educations = educations;
+            renderSection(educations, '.user-educations-info .form-content-list', 'educations');
+            updateProgress();
+        })
+        .catch(error => {
+            console.error('Error loading educations:', error);
+            alert('학력 정보를 불러오는 데 실패했습니다.');
+        });
+}
+
+// 경력 정보 불러오기 
+function loadCareers() {
+    console.log('Loading careers for userId:', temporaryDataStore.id);
+    axios.get('/resume/getCareers', { params: { userId: temporaryDataStore.id } })
+        .then(response => {
+            console.log('Careers response:', response.data);
+            const careers = response.data;
+
+            // 데이터 저장 및 섹션 렌더링
+            temporaryDataStore.careers = careers;
+            renderSection(careers, '.user-careers-info .form-content-list', 'careers');
+            updateProgress();
+        })
+        .catch(error => {
+            console.error('Error loading careers:', error);
+            alert('경력 정보를 불러오는 데 실패했습니다.');
+        });
+
+}
+// 자격증 정보 불러오기
+function loadQualifications() {
+    console.log('Loading qualifications for userId:', temporaryDataStore.id);
+    axios.get('/resume/getQualifications', { params: { userId: temporaryDataStore.id } })
+        .then(response => {
+            console.log('Qualifications response:', response.data);
+            const qualifications = response.data;
+
+            // 데이터 저장 및 섹션 렌더링
+            temporaryDataStore.qualifications = qualifications;
+            renderSection(qualifications, '.user-qualifications-info .form-content-list', 'qualifications');
+            updateProgress();
+        })
+        .catch(error => {
+            console.error('Error loading qualifications:', error);
+            alert('자격증 정보를 불러오는 데 실패했습니다.');
+        });
+}
+
+
+
+
 $(document).ready(function (){
+    
+
     // 사용자 기본 정보를 초기화
 
     // userInfoData를 JSON으로 파싱하여 temporaryDataStore에 저장
@@ -61,29 +208,25 @@ $(document).ready(function (){
     renderSection(temporaryDataStore.treats, '.user-treats-info .form-content-list', 'treats');
     renderSection(temporaryDataStore.introduces, '.user-introduces-info .form-content-list', 'introduces');
 
+    loadQualifications();
+    loadCareers();
+    loadEducations();
+    loadTreatOptions();
+
+
     updateProgress();
 
     console.log(temporaryDataStore);
 
     const $modal = $('#modal');
     const $modalTitle = $('#modal-title');
-
     const $photoEditIcon = $('#photoEditIcon');
     const $photoUploadInput = $('#photoUploadInput');
     const $photoPreview = $('#resumePhotoPreview');
- 
 
 
-    // 모달 폼에서 우대사항 옵션 설정
-    const treatOptions = [];
-    $('#treatOptionsSelect option').each(function () {
-        if ($(this).val()) {
-            treatOptions.push({
-                value: $(this).val(),
-                label: $(this).text()
-            });
-        }
-    });
+
+
     // 오른쪽 이력서 섹션 가이드에서 각 섹션 항목 클릭 이벤트 추가
     $('.section-item').on('click', function() {
         const formType = $(this).data('form-type'); // 클릭한 항목에서 폼 타입 가져오기
@@ -95,16 +238,6 @@ $(document).ready(function (){
             $('#modal').show();
         }
     });
-
-    // 폼 템플릿에 우대사항을 설정
-    formTemplates.treats = [
-        {
-            name: "prf_cd",
-            type: "select",
-            options: treatOptions
-        },
-        { name: "rpr_content", type: "textarea", placeholder: "우대 세부사항을 입력하세요" }
-    ];
 
 
     // 카테고리 버튼 클릭 이벤트
@@ -202,62 +335,11 @@ $(document).ready(function (){
         $('#modal').removeData('item-id'); // itemId 초기화
     });
 
+
 });
 
-const treatOptions = /*[[${treatOptions}]]*/ [];
-// 폼 타입에 따른 입력 필드 정의
-const formTemplates = {
-    careers: [
-        { name: "rc_company_nm", type: "text", placeholder: "회사명을 입력하세요" },
-        { label: "입사일" , name: "rc_join_dt", type: "date" },
-        { label: "퇴사일" ,name: "rc_out_dt", type: "date" },
-        { name: "rc_dmpt", type: "text", placeholder: "부서명을 입력하세요" },
-        { name: "rc_pstn", type: "text", placeholder: "직책을 입력하세요" },
-        { name: "rc_duties", type: "textarea", placeholder: "담당업무를 입력하세요" }
-    ],
-    educations: [
-        {
-            name: "re_gbn_cd",
-            type: "select",
-            options: [
-                { value: "H", label: "고등학교" },
-                { value: "U", label: "대졸" },
-                { value: "S", label: "초대졸" },
-                { value: "D", label: "석사" },
-                { value: "J", label: "박사" }
-            ]
-        },
-        { name: "re_school_nm", type: "text", placeholder: "학교 이름을 입력하세요" },
-        { name: "re_major", type: "text", placeholder: "전공을 입력하세요" },
-        { name: "re_score", type: "number", placeholder: "성적을 입력하세요" },
-        { label: "입학일", name: "re_indt", type: "date" },
-        { label: "졸업일", name: "re_outdt", type: "date" },
-        { label: "편입" ,  name: "re_transfer_yn", type: "checkbox" , labelWhenChecked: "편입" }
-    ],
-    portfolios: [
-        { label: "시작날짜" , name: "rp_str_dt", type: "date" },
-        { label: "종료날짜" , name: "rp_end_dt", type: "date" },
-        { name: "rp_url", type: "text", placeholder: "URL을 입력하세요" },
-        { name: "rp_cnt", type: "number", placeholder: "작업 인원을 입력하세요" },
-        { name: "rp_content", type: "textarea", placeholder: "작업 내용을 입력하세요" },
-        { name: "files", type: "file" }
-    ],
-    qualifications: [
-        { name: "rq_nm", type: "text", placeholder: "자격증 이름을 입력하세요" },
-        { label: "합격일" , name: "rq_dt", type: "date" },
-        { name: "rq_place", type: "text", placeholder: "발급 기관을 입력하세요" },
-        { name: "rq_gbn_cd", type: "select", options: [{ value: "P", label: "필기" }, { value: "S", label: "실기" }] }
-    ],
-    treats: [
-        { name: "prf_cd", type: "text", placeholder: "우대사항 코드를 입력하세요" },
-        { name: "rpr_content", type: "textarea", placeholder: "우대 세부사항을 입력하세요" }
-    ],
-    introduces: [
-        { name: "rm_title", type: "text", placeholder: "자기소개 제목을 입력하세요" },
-        { name: "rm_content", type: "textarea", placeholder: "자기소개 내용을 입력하세요" },
-        { name: "files", type: "file" }
-    ]
-};
+
+
 
 function generateForm(templateKey, containerId) {
     const template = formTemplates[templateKey];
@@ -510,7 +592,6 @@ $(document).on('click', '.delete-button', function (event) {
 //모달열기
 $('.open-button').on('click', function (e) {
     e.preventDefault();
-
     $('#form-fields').empty(); // 기존 폼 필드 초기화
     const formType = $(this).data('form-type'); // 버튼에서 formType 가져오기
     console.log(formType);
@@ -647,7 +728,7 @@ $('#modal-submit').on('click', function (e) {
     // 섹션 데이터 렌더링
     renderSection(temporaryDataStore[formType], `.user-${formType}-info .form-content-list`, formType);
 
-    // 디버깅용 로그
+    // 디버깅��� 로그
     console.log('폼 데이터 저장 완료:', temporaryDataStore[formType]);
     console.log('formType:', formType);
 });
@@ -683,7 +764,7 @@ function updateProgress() {
         $('#resume-status').text('이력서가 진행 중입니다!');
     }
 
-    // 디버깅용 로그 추가
+    // 디버깅용 ���그 추가
     console.log('진행도 업데이트:', progressPercentage, '% 완료');
 }
 

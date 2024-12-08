@@ -13,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +28,23 @@ public class ResumeServiceImpl extends AbstractService implements ResumeService 
     public List<ResumeDto> getAllResumes(String userId) {
         return resumeDao.getResumesByUserId(userId);
     }
+
+
+
+
+    public List<EducationDto> getEducationsByUserId(String userId) {
+        return resumeDao.findEducationsByUserId(userId);
+    }
+    
+    public List<CareerDto> getCareersByUserId(String userId) {
+        return resumeDao.findCareersByUserId(userId);
+    }
+    
+    public List<QualificationDto> getQualificationsByUserId(String userId) {
+        return resumeDao.findQualificationsByUserId(userId);
+    }
+
+
 
 
     // 카테고리별로 기술 스택(카테고리, 기술스택)을 맵 형태로 반환

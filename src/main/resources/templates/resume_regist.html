@@ -11,6 +11,8 @@
 
 </head>
 <body>
+
+
 <main layout:fragment="content">
 <form th:object="${userInfo}"
       id="resume-form"
@@ -110,6 +112,7 @@
                         <div class="form-title">학력</div>
                         <button class="open-button" data-form-type="educations">+</button>
                     </div>
+
                     <div class="form-content-list">
                         <div th:each="educations, iterStat : ${userInfo.educations}">
                             <!-- 학력 정보를 동적으로 렌더링  -->
@@ -166,17 +169,10 @@
                         <div class="form-title">우대사항</div>
                         <button class="open-button"  data-form-type = "treats">+</button>
                     </div>
-                    <div class="form-content-list" >
-                        <div class="form-content-list" style="display: none">
-                            <div class="treat-options" >
-                                <select id="treatOptionsSelect">
-                                    <div th:each="treatCodes : ${treatCodes}">
-                                        <option th:value="${treatCodes.preferenceCode}" th:text="${treatCodes.preferenceName}"></option>
-                                    </div>
+                        <div class="form-content-list" >
+                                <select id="treatSelect">
                                 </select>
-                            </div>
                         </div>
-                    </div>
                 </div>
             </div>
             <div class="resume-right-side">

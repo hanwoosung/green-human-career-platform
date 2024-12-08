@@ -30,4 +30,11 @@ public interface ResumeService {
     ResumeDto getResumeById(Long id);
 
     void setRepresentativeResume(Long resumeId, String userId);
+
+
+    List<EducationDto> getEducationsByUserId(String userId) ;
+    List<CareerDto> getCareersByUserId(String userId);
+    List<QualificationDto> getQualificationsByUserId(String userId);
+
+
 }

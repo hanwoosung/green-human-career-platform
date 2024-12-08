@@ -41,18 +41,17 @@ public class ResumeDto {
 
     public int getBirthYear() {
         if (birth == null) {
-            throw new IllegalArgumentException("생년월일이 입력되지 않았습니다.");
+            return 0; // 기본값 설정
         }
         return birth.toLocalDate().getYear();
     }
-
+    
     public int calculateAge() {
         if (birth == null) {
-            throw new IllegalArgumentException("생년월일이 입력되지 않았습니다.");
+            return 0; // 기본값 설정
         }
         LocalDate birthDate = birth.toLocalDate();
         LocalDate currentDate = LocalDate.now();
-
         return Period.between(birthDate, currentDate).getYears();
     }
 
