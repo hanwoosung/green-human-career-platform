@@ -6,6 +6,8 @@ import org.green.career.dto.common.CodeInfoDto;
 import org.green.career.dto.resume.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * 작성자: 구경림
@@ -15,13 +17,17 @@ import java.util.List;
 @Mapper
 public interface ResumeDao {
 
+    List<EducationDto> findEducationsByUserId(String userId) ;
+    List<CareerDto> findCareersByUserId(String userId);
+    List<QualificationDto> findQualificationsByUserId(String userId);
+
+    
     void updateAllResumesToNonRepresentative(String userId);
 
     // 특정 이력서를 대표 이력서로 설정
     void updateResumeToRepresentative(Long resumeId);
 
     ResumeDto getResumeById(Long id);
-
 
     List<TreatDto> getAllTreatCodes();
 
@@ -39,12 +45,8 @@ public interface ResumeDao {
 
     void savePortfolio(PortfolioDto portfolioDto);
 
-    List<TechnicalStackDto> getTechnicalStacks();
-
-    List<TechnicalStackDto> getTechnicalStacksByCategory(@Param("categoryCode") String categoryCode);
-
-    // 특정 코드 카테고리에 해당하는 코드 가져오기
-    List<CodeInfoDto> getCodeByCategory(@Param("category") String category);
+    Map<String, List<TechnicalStackDto>> getAllTechnicalStacks();
+    List<TechnicalStackDto> selectAllTechnicalStacks();
 
     void saveIntroduce(IntroduceMeDto introduceMeDto);
 
@@ -52,12 +54,26 @@ public interface ResumeDao {
 
     List<ResumeDto> getResumesByUserId(String userId);
 
-    void updateResume(ResumeDto resumeDto);
-
     void deleteResume(String resumeId);
 
-    // 파일 저장
     void saveFile(ResumeFileDto resumeFileDto);
+
+    void updateResume(ResumeDto resumeDto);
+
+    void deleteEducationByResumeId(Long resumeId);
+    void deleteCareerByResumeId(Long resumeId);
+    void deleteQualificationByResumeId(Long resumeId);
+    void deleteIntroduceMeByResumeId(Long resumeId);
+    void deletePortfolioByResumeId(Long resumeId);
+    void deleteTechnicalStacks(Long resumeId);
+    void deleteTreats(Long resumeId);
+
+
+    List<ResumeFileDto> findFilesByRefIdAndGbnCd(Map<String, Object> params);
+    void deleteFilesByRefId(Map<String, Object> params);
+
+    
+    ResumeFileDto findFileById(Long fileId);    
 
 
 }

@@ -1,25 +1,31 @@
 body {
-    font-size: 0.7rem;
+    font-size: 1.1rem;
 }
 .title {
     margin-bottom: 20px;
-    font-size: 1.1rem;
+    font-size: 2rem;
     font-weight: 600;
 }
-
 .title-input input, .title-input div{
-    text-align: center;
-    font-size: 1rem;
-    padding: 5px;
+    font-size: 1.7rem;
+    padding: 40px 40px 40px 0px;
     border: none;
     /*border-radius: 20px;*/
-    border-bottom: 2px solid var(--primary-color2);
+    border-bottom: 2px solid var(--border-color);
     margin-bottom: 20px;
     height: 50px;
     width: 90%;
 }
+
+.title-input input:hover{
+    border-bottom: 2px solid var(--primary-color2);
+}
+.title-input input:focus{
+    outline: none;
+}
+
 .resume {
-    width: 1200px;
+    width: 1300px;
     min-height: 1000px;
     display: grid;
     grid-template-columns: 1fr 300px;
@@ -50,7 +56,7 @@ body {
 }
 .resume-view {
     display: grid;
-    grid-template-columns: 1fr 300px;
+    grid-template-columns: 1fr 200px;
     margin: 5px;
     height: fit-content;
     width: 100%;
@@ -62,19 +68,17 @@ body {
     gap: 10px;
 }
 .user_desc {
-    font-size: 0.7rem;
     color: var(--text-color2);
 }
 .resume-user-career select {
     width: 130px;
     border: 1px solid var(--border-color2);
     border-radius: 5px;
-    font-size: 0.65rem;
     color: var(--border-color2);
     padding: 5px 4px 4px 4px;
 }
 .user-name {
-    font-size: 1rem;
+    font-size: 1.7rem;
     font-weight: 500;
 }
 .resume-basic ul {
@@ -92,9 +96,21 @@ body {
 .resume-basic ul li i {
     color: var(--border-color2);
 }
+
+#photoEditIcon {
+    font-size: 1.2rem;
+    position: relative;
+    left: 10px; /* 오른쪽으로 10px 이동 */
+    cursor: pointer; /* 기본 포인터 효과 */
+}
+
+#photoEditIcon:hover {
+    cursor: pointer; /* hover 시 포인터 효과 */
+}
+
 .user-educations-info, .user-careers-info, .user-technicalStacks-info, .user-portfolios-info,
 .user-introduces-info, .user-treats-info, .user-qualifications-info{
-    width: 750px;
+    width: 95%;
     padding: 10px;
     min-height: 200px;
 }
@@ -105,13 +121,13 @@ body {
     justify-content: space-between;
 }
 .form-title{
-    font-size: 1rem;
+    font-size: 1.4rem;
     font-weight: 500;
+    padding: 10px 10px 10px 0px;
     color: var(--text-color2);
 }
 .important-value-text{
     margin: 10px;
-    font-size: 0.5rem;
     color: red;
 }
 
@@ -126,6 +142,64 @@ body {
     background-color: rgba(0, 0, 0, 0.5); /* 반투명 검은 배경 */
     justify-content: center; /* 중앙 정렬 */
     align-items: center; /* 중앙 정렬 */
+}
+
+
+.modal-content input,
+.modal-content textarea {
+    width: 100%; /* 너비를 100%로 설정 */
+    padding: 10px; /* 내부 여백 */
+    margin-bottom: 15px; /* 아래쪽 여백 */
+    border: 1px solid #ccc; /* 테두리 색상 */
+    border-radius: 5px; /* 모서리를 둥글게 */
+    font-size: 1rem; /* 폰트 크기 */
+    box-sizing: border-box; /* 박스 크기 계산 방식 */
+}
+
+.modal-content input:focus,
+.modal-content textarea:focus {
+    border-color: #06284e; /* 포커스 시 테두리 색상 */
+    outline: none; /* 포커스 시 기본 아웃라인 제거 */
+}
+.modal-content select {
+    width: 100%; /* 너비를 100%로 설정 */
+    padding: 10px; /* 내부 여백 */
+    margin-bottom: 15px; /* 아래쪽 여백 */
+    border: 1px solid #ccc; /* 테두리 색상 */
+    border-radius: 5px; /* 모서리를 둥글게 */
+    font-size: 1rem; /* 폰트 크기 */
+    box-sizing: border-box; /* 박스 크기 계산 방식 */
+    background-color: #fff; /* 배경색 */
+    appearance: none; /* 기본 브라우저 스타일 제거 */
+}
+
+.modal-content select:focus {
+    border-color: #06284e; /* 포커스 시 테두리 색상 */
+    outline: none; /* 포커스 시 기본 아웃라인 제거 */
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column; /* 수직 정렬 */
+    gap: 10px; /* 요소 간의 간격 */
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center; /* 수직 중앙 정렬 */
+    gap: 10px; /* 체크박스와 레이블 간의 간격 */
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin: 0;
+    width: 20px; /* 체크박스 크기 조정 */
+    height: 20px;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
 }
 
 /* Modal content */
@@ -162,7 +236,7 @@ body {
 
 .form-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
 
-.form-title { font-size: 18px; font-weight: bold; color: #444; }
+.form-title { font-size: 1.3rem; font-weight: bold; color: #444; }
 
 .form-title .important-value-text { font-size: 12px; color: #d9534f; margin-left: 5px; }
 
@@ -181,46 +255,6 @@ body {
 
 }
 
-/* 렌더링된 데이터 카드 스타일 */
-/* 데이터 항목을 수평 정렬하고, 주요 정보와 부속 정보를 구분하여 스타일링 */
-.data-item {
-    display: flex;
-    flex-direction: column;
-    padding: 15px 20px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    border: 1px solid #d1d5db; /* 연한 회색 테두리 */
-    background-color: #f9fafc; /* 밝은 배경 */
-    color: #374151; /* 어두운 회색 텍스트 */
-}
-
-.data-item .main-info {
-    font-size: 1.1em; /* 주요 정보는 더 크게 */
-    font-weight: bold;
-    color: #1f2937; /* 더 어두운 색상으로 강조 */
-}
-
-.data-item .sub-info {
-    display: flex;
-    align-items: center;
-    margin-top: 5px;
-    color: #6b7280; /* 부속 정보는 중간 회색 */
-    font-size: 0.9em; /* 부속 정보는 작게 */
-}
-
-.data-item .sub-info span {
-    margin-right: 10px; /* 각 필드 간 간격 */
-}
-
-.data-item .sub-info span:after {
-    content: "|";
-    margin-left: 10px;
-    color: #9ca3af; /* 구분 기호 색상 */
-}
-
-.data-item .sub-info span:last-child:after {
-    content: ""; /* 마지막 요소 뒤에는 구분 기호를 없앰 */
-}
 
 .edit-button, .delete-button {
     align-self: flex-end; /* 수정 버튼은 오른쪽 상단 */
@@ -236,7 +270,7 @@ body {
 }
 /* 파일명을 동그란 배경에 표시 */
 .file-item {
-    font-size: 0.5rem;
+    font-size: 1.1rem;
     display: inline-block;
     background-color: #001335; /* 밝은 파란색 배경 */
     color: #ffffff; /* 어두운 파란색 텍스트 */
@@ -259,7 +293,7 @@ body {
 .submit-resume{
     width: 100%;
     margin: 0 auto;
-    background-color: #06284e; /* 기본 배경색 */
+    background-color: var(--primary-color); /* 기본 배경색 */
     color: white; /* 텍스트 색상 */
     font-size: 1rem; /* 폰트 크기 */
     padding: 12px 24px; /* 여백 */
@@ -270,14 +304,6 @@ body {
     transition: all 0.3s ease; /* 부드러운 전환 효과 */
     margin-top: 20px; /* 위쪽 여백 추가 */
 }
-
-
-
-
-
-
-
-
 
 
 
@@ -309,7 +335,7 @@ body {
 }
 
 .progress-bar-inner {
-    background-color: #06284e;
+    background-color: var(--primary-color);
     height: 100%;
     color: white;
     text-align: center;
@@ -339,4 +365,182 @@ body {
 .section-item .required-tag {
     color: #ff6347;
     font-size: 0.8rem;
+}
+
+
+
+/* 선택된 기술 스택을 표시할 컨테이너 스타일 */
+.selected-tech-stack {
+    display: inline-block;
+    background-color: #f8f9fa;
+    color: #333;
+    border-radius: 20px;
+    padding: 5px 15px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.selected-tech-stack:hover {
+    background-color: #e9ecef;
+    border-color: #adb5bd;
+}
+
+/* 선택된 기술 스택 컨테이너 스타일 */
+.selected-tech-stacks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+/* 삭제 버튼(×) 스타일 */
+.selected-tech-stack .close {
+    margin-left: 8px;
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.selected-tech-stack .close:hover {
+    color: #333;
+}
+
+.technical-stack-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* 카테고리 버튼 스타일 */
+.category-button {
+    margin: 5px;
+    padding: 10px;
+    border: none;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.category-button.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* 기술 스택 목록 스타일 */
+.technical-stack-selection {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.category-content {
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+label {
+    color: var(--border-color2);
+
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+}
+
+/* 렌더링된 데이터 카드 스타일 */
+/* 데이터 항목을 수평 정렬하고, 주요 정보와 부속 정보를 구분하여 스타일링 */
+.data-item {
+    display: flex;
+    flex-direction: column;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border: 1px solid #d1d5db; /* 연한 회색 테두리 */
+    background-color: #f9fafc; /* 밝은 배경 */
+    color: #374151; /* 어두운 회색 텍스트 */
+}
+
+.data-item .main-info {
+    font-size: 1.2em; /* 주요 정보는 더 크게 */
+    font-weight: bold;
+    color: #1f2937; /* 더 어두운 색상으로 강조 */
+}
+
+.data-item .sub-info {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+    color: #6b7280; /* 부속 정보는 중간 회색 */
+    font-size: 0.9em; /* 부속 정보는 작게 */
+}
+
+.user-educations-info,
+.user-careers-info,
+.user-portfolios-info,
+.user-introduces-info,
+.user-qualifications-info,
+.user-treats-info,
+.user-technicalStacks-info{
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    background-color: #f0f8ff;
+    flex-wrap: wrap; 
+}
+
+.user-careers-info .data-item .sub-info,
+.user-portfolios-info .data-item .sub-info{
+    display: flex;
+    flex-wrap: wrap; 
+}
+.user-careers-info .data-item .sub-info span:nth-child(1):after,
+.user-portfolios-info .data-item .sub-info span:nth-child(1):after {
+    content: "~";
+    margin-left: 10px;
+    margin-right: 5px;
+    color: #6b7280; /* Separator color */
+    flex: 0 0 auto; 
+}
+
+.user-careers-info .data-item .sub-info span:nth-child(2):after,
+.user-portfolios-info .data-item .sub-info span:nth-child(2):after {
+    flex-basis: 100%;
+    content: ""; 
+}
+
+.user-introduces-info .data-item .sub-info{
+
+}
+
+.user-portfolios-info .data-item .sub-info span:nth-child(3):before {
+    flex-basis: 100%;
+    content: "작업인원 "; 
+}
+.user-portfolios-info .data-item .sub-info span:nth-child(3):after {
+    flex-basis: 100%;
+    content: " 명"; 
+}
+
+.user-qualifications-info .data-item .sub-info span:nth-child(1):before {
+    flex-basis: 100%;
+    content: "취득일 "; 
+}
+
+
+.data-item .sub-info span {
+    margin-right: 10px; /* 각 필드 간 간격 */
+}
+
+
+.user-educations-info .data-item .sub-info span:after {
+    content: "|";
+    margin-left: 10px;
+    color: #9ca3af; /* 구분 기호 색상 */
+}
+
+.user-educations-info .data-item .sub-info span:last-child:after {
+    content: ""; /* 마지막 요소 뒤에는 구분 기호를 없앰 */
 }

@@ -14,7 +14,7 @@ public class IntroduceMeDto {
     private Long resumeId;        // 이력서 ID
 
     @JsonProperty("rm_title")
-    private String title;           // 자기소개 제목
+    private String titleRm;           // 자기소개 제목
 
     @JsonProperty("rm_content")
     private String content;         // 자기소개 내용

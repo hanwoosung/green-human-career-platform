@@ -1,5 +1,6 @@
 package org.green.career.dto.resume;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import java.sql.Date;
@@ -25,7 +26,7 @@ public class PortfolioDto {
     private String portfolioUrl;
 
     @JsonProperty("rp_cnt") // JavaScript에서 'rp_cnt'에 해당
-    private Integer teamSize;
+    private int teamSize;
 
     @JsonProperty("rp_content") // JavaScript에서 'rp_content'에 해당
     private String description;

@@ -18,6 +18,8 @@ public class TechnicalStackDto {
     @JsonProperty("stack_nm")
     private String stackName;       // 기술 스택 이름 (예: "Java", "Spring Boot" 등)
 
+    @JsonProperty("up_cd")
+    private String categoryCode;    // up_cd를 categoryCode로 매핑
     @JsonProperty("stack_category")
-    private String stackCategory;   // 기술 스택 카테고리 (예: "Back-end", "Front-end" 등)
+    private String stackCategory;   
 }
