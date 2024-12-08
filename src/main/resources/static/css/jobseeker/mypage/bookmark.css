@@ -65,7 +65,7 @@
     border-radius: 20px;
     height: 20%;
     width: 100%;
-    background-color: #aaadad;
+    background-color: rgba(201, 201, 201, 0.7);
 }
 
 .content-detail .list-wrap .list .list-content .list-item span{

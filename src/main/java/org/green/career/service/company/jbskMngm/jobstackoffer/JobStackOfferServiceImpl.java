@@ -43,22 +43,18 @@ public class JobStackOfferServiceImpl extends AbstractService implements JobStac
 
             try {
                 result = jobStackOfferDao.chkOffer(id, uId);
-
-                if (result > 0) {
-
-                    throw new BaseException(ResultType.DUPLiCARTE_ERROR, "금일 이미 해당 이력서에는 제안 하였습니다");
-
-                }else{
-
-                    try {
-                        result = jobStackOfferDao.saveOffer(id, uId);
-                    } catch (Exception e) {
-                        throw new BaseException(ResultType.DUPLiCARTE_ERROR, "예기치 않는 오류가 발생하였습니다.", e);
-                    }
-
-                }
             } catch (Exception e) {
                 throw new BaseException(ResultType.DUPLiCARTE_ERROR, "예기치 않는 오류가 발생하였습니다.", e);
+            }
+
+            if (result > 0) {
+                throw new BaseException(ResultType.DUPLiCARTE_ERROR, "금일 이미 해당 이력서에는 제안 하였습니다");
+            }else{
+                try {
+                    result = jobStackOfferDao.saveOffer(id, uId);
+                } catch (Exception e) {
+                    throw new BaseException(ResultType.DUPLiCARTE_ERROR, "예기치 않는 오류가 발생하였습니다.", e);
+                }
             }
 
             // 활성화 일때

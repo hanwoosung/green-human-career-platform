@@ -9,29 +9,32 @@ export const adminFunc = {
                 id: adminFunc.main.getChkUser()
             }
 
-            axios.post("/admin/status", param, {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            }).then((res) => {
-                console.log(res);
-                if (res.data.result.code == 200) {
-                    if (param.status == "P"){
-                        alert_modal.on("성공", "비밀번호 초기화 하였습니다.");
-                    }else{
-                        alert_modal.on("성공", "사용여부를 변경하였습니다.");
-                    }
+            if (param.id.length > 0) {
 
-                    location.reload();
-                } else if (res.data.result.code == 455) {
-                    alert_modal.on("로그인", "로그인 후 진행해주세요");
-                }else{
-                    alert_modal.on("로그인", res.data.result.message);
-                }
-            }).catch((error) => {
-                alert_modal.on("업데이트중 오류가 발생하였습니다.")
-                console.log(error);
-            });
+                axios.post("/admin/status", param, {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }).then((res) => {
+                    console.log(res);
+                    if (res.data.result.code == 200) {
+                        if (param.status == "P") {
+                            alert_modal.on("성공", "비밀번호 초기화 하였습니다.");
+                        } else {
+                            alert_modal.on("성공", "사용여부를 변경하였습니다.");
+                        }
+
+                        location.reload();
+                    } else if (res.data.result.code == 455) {
+                        alert_modal.on("로그인", "로그인 후 진행해주세요");
+                    } else {
+                        alert_modal.on("로그인", res.data.result.message);
+                    }
+                }).catch((error) => {
+                    alert_modal.on("업데이트중 오류가 발생하였습니다.")
+                    console.log(error);
+                });
+            }
 
         },
 

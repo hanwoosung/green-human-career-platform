@@ -87,6 +87,8 @@ public class StackServiceImpl extends AbstractService implements StackService {
 
             List<JobOpeningResponseDto> jobList = stackDao.searchJobOpenings(searchText, skills, offset, limit, id);
 
+            System.out.println(skills);
+
             if (jobList == null || jobList.isEmpty()) {
                 log.info("검색 조건에 맞는 채용 공고 없음.");
                 return Collections.emptyList();

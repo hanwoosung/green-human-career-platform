@@ -50,8 +50,6 @@ public class BoardServiceImple extends AbstractService implements BoardService {
     @Override
     public int updateBoard(BoardDto board) {
 
-        System.out.printf(board.toString());
-
         return returnData(() -> {
             int result = 0;
 

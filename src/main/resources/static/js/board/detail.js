@@ -6,7 +6,15 @@ $(function () {
 
         let commentEle = this.closest(".comment");
 
-        boardFunc.detail.delComment(commentEle);
+        confirm_modal.on(
+            "댓글",
+            "댓글을 삭제 하시겠습니까?",
+            () => boardFunc.detail.delComment(commentEle),
+            confirm_modal.off,
+            "삭제",
+            "취소"
+        );
+
     });
 
     $(document).on("click", "#save-comment-btn", function (){
@@ -19,7 +27,14 @@ $(function () {
 
         let bno = document.querySelector(".content-detail").dataset.bno;
 
-        boardFunc.detail.delBoard(bno);
+        confirm_modal.on(
+            "게시글",
+            "게시글을 삭제 하시겠습니까?",
+            () => boardFunc.detail.delBoard(bno),
+            confirm_modal.off,
+            "삭제",
+            "취소"
+        );
 
     });
 

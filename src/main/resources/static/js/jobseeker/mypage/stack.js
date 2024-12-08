@@ -129,65 +129,26 @@ $(document).ready(function () {
 
 
     // 스크랩 아이콘
-    $(".scrap-icon").click(function () {
+    $(".scrap-icon").click(function (e) {
 
-        let param = {
-            cjNo: this.closest(".job-card").dataset.jno,
-            flag: this.classList.contains("bi-bookmark"),
-            lgbnCd: "S"
-        }
+        e.stopPropagation();
 
-        console.log(param);
-
-        axios.post("/likes", param, {
-            headers: {
-                // "Content-Type": "multipart/form-data",
-                "Content-Type": "application/json",
-            },
-        }).then((res) => {
-            console.log(res);
-            if (res.data.result.code == 200) {
-                $(this).toggleClass("bi-bookmark");
-                $(this).toggleClass("bi-bookmark-fill");
-            }else if(res.data.result.code == 455){
-                alert_modal.on("로그인", "로그인후 진행해주세요");
-            }
-        }).catch((error) => {
-            alert("스크랩 실패했습니다.");
-            console.log(error)
-        });
-
+        confirm_modal.on(
+            "스크랩",
+            "스크랩 상태를 변경 하시겠습니까?",
+            () => likes.scrap(this)
+        );
 
     });
 
     // 하트 아이콘
     $(".heart-icon").click(function () {
 
-        let param = {
-            cjNo: this.closest(".job-card").dataset.id,
-            flag: this.classList.contains("bi-heart"),
-            lgbnCd: "B"
-        }
-
-        console.log(param);
-
-        axios.post("/likes", param, {
-            headers: {
-                // "Content-Type": "multipart/form-data",
-                "Content-Type": "application/json",
-            },
-        }).then((res) => {
-            console.log(res);
-            if (res.data.result.code == 200) {
-                $(this).toggleClass("bi-heart");
-                $(this).toggleClass("bi-heart-fill");
-            }else if(res.data.result.code == 455){
-                alert_modal.on("로그인", "로그인후 진행해주세요");
-            }
-        }).catch((error) => {
-            alert("북마크 실패했습니다.");
-            console.log(error)
-        });
+        confirm_modal.on(
+            "북마크",
+            "북마크 상태를 변경 하시겠습니까?",
+            () => likes.bookmark(this)
+        );
 
 
     });
@@ -220,3 +181,60 @@ $(document).ready(function () {
 
 
 });
+
+const likes = {
+
+    bookmark: (ele) => {
+
+        let param = {
+            cjNo: ele.closest(".job-card").dataset.id,
+            flag: ele.classList.contains("bi-heart"),
+            lgbnCd: "B"
+        }
+
+        axios.post("/likes", param, {
+            headers: {
+                // "Content-Type": "multipart/form-data",
+                "Content-Type": "application/json",
+            },
+        }).then((res) => {
+            if (res.data.result.code == 200) {
+                location.reload();
+            } else if (res.data.result.code == 455) {
+                alert_modal.on("로그인", "로그인후 진행해주세요");
+            }
+        }).catch((error) => {
+            alert("북마크 실패했습니다.");
+            console.log(error)
+        });
+
+    },
+
+    scrap: (ele) => {
+
+        let param = {
+            cjNo: ele.closest(".job-card").dataset.jno,
+            flag: ele.classList.contains("bi-bookmark"),
+            lgbnCd: "S"
+        }
+
+        axios.post("/likes", param, {
+            headers: {
+                // "Content-Type": "multipart/form-data",
+                "Content-Type": "application/json",
+            },
+        }).then((res) => {
+            if (res.data.result.code == 200) {
+                ele.classList.toggle("bi-bookmark");
+                ele.classList.toggle("bi-bookmark-fill");
+            } else if (res.data.result.code == 455) {
+                alert_modal.on("로그인", "로그인후 진행해주세요");
+            }
+        }).catch((error) => {
+            alert("스크랩 실패했습니다.");
+            console.log(error)
+        });
+
+    }
+
+}
