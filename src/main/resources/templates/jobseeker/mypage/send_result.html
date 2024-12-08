@@ -52,7 +52,7 @@
                                 </div>
                                 <a th:href="@{/job-open/detail/{jNo}(jNo=${scrap?.jNo})}">
                                     <img alt="회사 이미지"
-                                         th:src="${scrap?.fileUrl + '/' + scrap?.fileId + '.' + scrap?.fileExt}"
+                                         th:src="${scrap?.fileUrl}"
                                          onerror="this.src='/static/images/empty_company.png'">
                                 </a>
                             </div>
