@@ -1,37 +1,117 @@
 <!DOCTYPE html>
-<!--
-    작성자: 구경림
-    작성일: 2024.12.01
-    파일 설명:
-    메인 페이지 템플릿의 기본 구조로, 모든 페이지가 공통으로 사용하는 레이아웃을 정의하는 부분
-    이 템플릿을 기반으로 각 팀원은 필요한 내용을 추가하여 개별 페이지를 생성
-    이 템플릿은 Thymeleaf와 Layout Dialect를 사용하여 레이아웃을 적용하는 구조
--->
-
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{/layout-test/layout/main_layout}"
->
+      layout:decorate="~{/layout-test/layout/main_layout}">
 <head>
     <meta charset="UTF-8">
-    <!-- 페이지의 제목, 이 제목은 팀원들이 각자 수정하여 사용합니다. -->
-    <title>페이지제목</title>
+    <title>회원 정보 수정</title>
+    <link rel="stylesheet" th:href="@{/static/css/common/common.css}">
+    <link rel="stylesheet" th:href="@{/static/css/layout/theme.css}">
+    <style>
+        /* 기본 스타일 */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fb;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 폼을 감싸는 컨테이너 */
+        .form-container {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        /* 제목 스타일 */
+        .form-container h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* 폼 그룹 */
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        /* 레이블 스타일 */
+        .form-group label {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        /* 입력 필드 스타일 */
+        .form-group input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .form-group input[type="password"]:focus {
+            border-color: #007bff;
+            background-color: #f8f9fa;
+        }
+
+        /* 제출 버튼 스타일 */
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* 반응형 디자인: 화면이 좁아지면 버튼 크기와 입력 필드 크기 조정 */
+        @media (max-width: 600px) {
+            .form-container {
+                width: 90%;
+            }
+            .form-group input[type="password"],
+            .submit-btn {
+                padding: 10px;
+                font-size: 14px;
+            }
+        }
+
+    </style>
 </head>
 <body>
 <main layout:fragment="content">
-    <!-- layout:fragment="content"는 main_layout에서 정의된 content 프래그먼트에 해당하는 부분으로
-         여기에 각 페이지 별로 다른 내용이 들어가게 됩니다.
-         팀원들은 이 부분을 각자의 페이지 내용에 맞게 수정하여 사용하면 될듯합니다. -->
-    <form th:action="@{/mypage/myInfo/{user_id}(user_id=${session.userId})}" method="post">
-        <p>
+    <div class="form-container">
+        <h1>회원 정보 수정</h1>
+        <form th:action="@{/mypage/myInfo/{user_id}(user_id=${session.userId})}" method="post">
             <input type="hidden" name="id" th:value="${session.userId}">
-            <input type="password" name="pw">
-        </p>
-        <p>
-            <input type="submit" value="확인">
-        </p>
-    </form>
+            <div class="form-group">
+                <label for="pw">비밀번호</label>
+                <input type="password" id="pw" name="pw" placeholder="비밀번호를 입력하세요">
+            </div>
+            <div class="form-group">
+                <input type="submit" value="확인" class="submit-btn">
+            </div>
+        </form>
+    </div>
 </main>
 </body>
 </html>

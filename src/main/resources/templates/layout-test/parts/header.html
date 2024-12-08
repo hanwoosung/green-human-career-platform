@@ -62,7 +62,7 @@
                         </span>
                             <span th:case="비회원">
                             <a th:href="@{/login}" class="link">로그인</a>
-                            <a th:href="@{/regist}" class="link">회원가입</a>
+                            <a th:href="@{/regist/choice}" class="link">회원가입</a>
                         </span>
                         </div>
                         <!-- 프로필 아이콘 -->
@@ -83,7 +83,7 @@
                                 </ul>
                                 <ul th:case="비회원">
                                     <li><a th:href="@{/login}">로그인</a></li>
-                                    <li><a th:href="@{/register}">회원가입</a></li>
+                                    <li><a th:href="@{/regist/choice}">회원가입</a></li>
                                 </ul>
                             </div>
                         </div>
