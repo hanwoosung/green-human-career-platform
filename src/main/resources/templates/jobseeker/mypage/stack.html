@@ -45,7 +45,7 @@
                                 <div th:each="skill : ${skillList}" th:data-category="${skill.upCd}"
                                      th:if="${skill.upCd == category.upCd}" class="skill-item">
                                     <label>
-                                        <input type="checkbox" name="skills" th:value="${skill.cdNm}">
+                                        <input type="checkbox" name="skills" th:value="${skill.cd}">
                                         <span th:text="${skill.cdNm}"></span>
                                     </label>
                                 </div>
@@ -64,7 +64,7 @@
                 <div class="main-list-wrapper">
                     <div class="main-list-container">
                         <th:block th:each="jobItem : ${jobList}">
-                            <div class="job-card" th:attr="data-cjNo=${jobItem.jNo}">
+                            <div class="job-card" th:attr="data-jNo=${jobItem.jNo}, data-id=${jobItem.id}">
                                 <div class="card-image">
                                     <div class="card-overlay">
                                         <span class="days-left" th:text="${jobItem.leftDate}">D-11</span>
@@ -76,21 +76,21 @@
                                 </div>
                                 <div class="card-header">
                                     <div class="card-header-box">
-                                        <span class="company-name">삼성전자</span>
+                                        <span class="company-name" th:text="${jobItem.name}"></span>
                                         <i th:class="'bi ' + ${jobItem.bookmarkCnt == 0 ? 'bi-heart ' : 'bi-heart-fill '} + 'heart-icon'" id="heart-icon"></i>
                                     </div>
                                 </div>
 
                                 <div class="card-body">
                                     <h3 class="job-title" th:text="${jobItem.JTitle}">백엔드개발자 - 테크리드 (테크사업부)</h3>
-                                    <h4 class="job-content" th:text="${jobItem.JContent}">백엔드개발자 - 테크리드 (테크사업부)</h4>
+                                    <h4 class="job-content" th:text="${jobItem.JStitle}">백엔드개발자 - 테크리드 (테크사업부)</h4>
                                     <div class="job-location">
                                         <span th:text="${jobItem.workPlace}">경기도</span> | <span
                                             th:text="${jobItem.workType}">경력 3년</span>
                                     </div>
                                     <div class="skill-tags" th:if="${not #lists.isEmpty(jobItem.skills)}">
                                     <span th:each="skill : ${jobItem.skills}" class="skill-tag"
-                                          th:text="${skill}"></span>
+                                          th:text="${skill}" th:title="${skill}"></span>
                                     </div>
                                 </div>
                             </div>
@@ -144,4 +144,4 @@
     </body>
 </html>
 
-<script src="/static/js/jobseeker/mypage/stack.js"></script>
+<script type="module" src="/static/js/jobseeker/mypage/stack.js"></script>

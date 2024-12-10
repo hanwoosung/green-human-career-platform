@@ -1,12 +1,12 @@
+const referer = document.referrer;
+console.log('referer: ', referer);
+
 document.getElementById('loginForm').addEventListener('submit', function(event) {
     event.preventDefault();  // 폼 제출 기본 동작을 막음
-
     const id = document.getElementById('id').value;
     const pw = document.getElementById('pw').value;
     const userType = document.getElementById('userType').value;
     console.log('userType: ', userType);
-
-    console.log('로그인 요청 전:', { id: id, pw: pw });
 
     axios.post('/login', {
         id: id,
@@ -14,13 +14,19 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
         userGbnCd:userType
     })
         .then(function(response) {
-            console.log('서버 응답:', response);  // 서버 응답 전체 출력
-
+            console.log('서버 응답:', response);
             const responseMessage = document.getElementById('responseMessage');
-
             if (response.data.result.code === "200") {
                 console.log('로그인 성공:', response.data.result);
-                window.location.href = '/test';
+                //sessionStorage.setItem('userId', id);
+                if(userType === "S" || userType === 'M') {
+                    // window.location.href = referer;
+                    window.location.href = "/";
+                }
+                if(userType === "C") {
+                    window.location.href = '/company';
+                }
+
             } else {
                 console.log('로그인 실패:', response.data.result);
                 responseMessage.textContent = response.data.result.message;
@@ -43,15 +49,13 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
                 responseMessage.textContent = '서버와의 연결이 실패했습니다. 나중에 다시 시도해 주세요.';
             }
         });
-
-
-
 });
 
 document.addEventListener('DOMContentLoaded', () => {
     const jobseekerTab = document.getElementById('jobseeker-tab');
     const comTab = document.getElementById('com-tab');
     const userTypeInput = document.getElementById('userType');
+    const registLink = document.getElementById('regist-link');
 
     // 탭 클릭 이벤트 바인딩
     jobseekerTab.addEventListener('click', () => switchTab('S'));
@@ -63,10 +67,12 @@ document.addEventListener('DOMContentLoaded', () => {
             jobseekerTab.classList.add('active');
             comTab.classList.remove('active');
             userTypeInput.value = 'S';
+            registLink.setAttribute('href', '/regist/s');
         } else if (type === 'C') {
             comTab.classList.add('active');
             jobseekerTab.classList.remove('active');
             userTypeInput.value = 'C';
+            registLink.setAttribute('href', '/regist/c');
         }
     };
 });

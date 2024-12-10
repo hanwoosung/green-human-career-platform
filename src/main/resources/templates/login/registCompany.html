@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>기업 회원가입</title>
+    <link rel="stylesheet" href="/static/css/main/index.css">
+    <link rel="stylesheet" href="/static/css/common/skillBox.css">
+    <link rel="stylesheet" href="/static/css/common/paging.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        /* Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 600px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px 40px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        form p {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        form span {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            height: 40px;
+            padding: 0 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: #007bff;
+        }
+
+        #idMessage, #pwPatternMessage, #pwMessage, #emailMessage {
+            font-size: 12px;
+            margin-top: 5px;
+            color: #555;
+        }
+
+        button, input[type="button"], input[type="submit"] {
+            height: 40px;
+            padding: 0 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        button:hover, input[type="button"]:hover, input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        #checkId {
+            margin-left: 10px;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .address-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .address-row input[type="button"] {
+            flex-shrink: 0;
+            width: auto;
+        }
+    </style>
+</head>
+<body>
+<div class="flex-column main-container container">
+    <div th:insert="~{layout/header_user}"></div>
+    <div>
+        <h1>회원가입(기업)</h1>
+        <form th:action="@{/regist/company}" method="post" th:object="${company}" id="registrationForm">
+            <p>아이디</p>
+            <span>
+                <input type="text" th:field="*{id}" id="id"></input>
+                <span id="idMessage"></span>
+            </span>
+            <button type="button" id="checkId">중복확인</button>
+            <p>비밀번호</p>
+            <span>
+                <input type="password" th:field="*{pw}" ></input>
+                <span id="pwPatternMessage"></span>
+            </span>
+            <p>비밀번호 확인</p>
+            <span>
+                <input type="password" name="pw1" id="pw1"></input>
+                <span id="pwMessage"></span>
+            </span>
+            <p>기업명</p>
+            <span>
+                <input type="text" th:field="*{name}"></input>
+            </span>
+            <p>설립일</p>
+            <span>
+                <input type="text" th:field="*{birth}"></input>
+            </span>
+            <p>이메일</p>
+            <span>
+                <input type="text" th:field="*{email}"></input>
+                <span id="emailMessage"></span>
+            </span>
+            <p>대표전화</p>
+            <span>
+                <input type="text" th:field="*{phone}"></input>
+            </span>
+            <p>우편번호</p>
+            <span>
+                <input type="text" th:field="*{zip_cd}"></input>
+            </span>
+            &nbsp;
+            <input type="button" onclick="addrBtn()" value="우편번호 찾기"><br/>
+            <p>주소</p>
+            <span>
+                <input type="text" th:field="*{addr}"></input>
+            </span>
+            <p>상세주소</p>
+            <span>
+                <input type="text" th:field="*{addr2}"></input>
+            </span>
+            <p>
+                <input type="submit" value="회원가입"></input>
+            </p>
+        </form>
+    </div>
+</div>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+
+    function addrBtn() {
+        new daum.Postcode({
+            oncomplete: function (data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var addr = ''; // 주소 변수
+                var extraAddr = ''; // 참고항목 변수
+
+                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    addr = data.roadAddress;
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    addr = data.jibunAddress;
+                }
+
+                // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                if (data.userSelectedType === 'R') {
+                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                    if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+                        extraAddr += data.bname;
+                    }
+                    // 건물명이 있고, 공동주택일 경우 추가한다.
+                    if (data.buildingName !== '' && data.apartment === 'Y') {
+                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                    if (extraAddr !== '') {
+                        extraAddr = ' (' + extraAddr + ')';
+                    }
+                    // 조합된 참고항목을 해당 필드에 넣는다.
+                    //document.getElementById("sample6_extraAddress").value = extraAddr;
+
+                } else {
+                    //document.getElementById("sample6_extraAddress").value = '';
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+
+                document.getElementById("zip_cd").value = data.zonecode;
+                //console.log(document.getElementById("zip_code").value);
+                document.getElementById("addr").value = addr;
+                // 커서를 상세주소 필드로 이동한다.
+                document.getElementById("addr2").focus();
+            }
+        }).open();
+    }
+
+    $(document).ready(function () {
+        $('#checkId').click(function () {
+            let id = $('#id').val();
+            $.ajax({
+                url: '/checkId',
+                type: 'GET',
+                data: {id: id},
+                success: function (data) {
+                    if (data.code === "200") {
+                        $('#idMessage').text('사용가능한 아이디 입니다.').css('color', 'green');
+                    } else if (data.code === "400") {
+                        $('#idMessage').text('중복된 아이디 입니다.').css('color', 'red');
+                    } else {
+                        $('#idMessage').text('알 수 없는 오류가 발생했습니다.').css('color', 'orange');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log('AJAX Error: ' + error);
+                    $('#idMessage').text('서버 오류가 발생했습니다.').css('color', 'red');
+                }
+            });
+        });
+    });
+
+    $('#email').on('keyup', function () {
+        let emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-z]{2,6}$/;
+        if (emailPattern.test($('#email').val())) {
+            $('#emailMessage').text('유효한 이메일 주소입니다.').css('color', 'green');
+        } else {
+            $('#emailMessage').text('유효하지 않은 이메일 주소입니다.').css('color', 'red');
+        }
+    });
+
+    $('#pw, #pw1').on('keyup', function () {
+        let pw = $('#pw').val();
+        let pw1 = $('#pw1').val();
+        let pwPattern = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!*?^&])[A-Za-z\d$@$!%*?&]{8,}$/;
+
+        if (pwPattern.test($('#pw').val())) {
+            $('#pwPatternMessage').text('비밀번호 형식이 유효합니다.').css('color', 'green');
+        } else {
+            $('#pwPatternMessage').text('비밀번호는 영문자, 숫자, 특수문자를 최소 1개씩 포함해야 합니다.').css('color', 'red');
+        }
+
+        if(pw == pw1){
+            $('#pwMessage').text('비밀번호가 일치합니다.').css('color', 'green');
+        } else {
+            $('#pwMessage').text('비밀번호가 일치하지 않습니다.').css('color', 'red');
+        }
+    });
+
+</script>
+</body>
+</html>

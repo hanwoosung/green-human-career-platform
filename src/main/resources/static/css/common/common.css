@@ -1378,7 +1378,7 @@
 .w35 { width: 35px; }
 .w40 { width: 40px; }
 .w45 { width: 45px; }
-.w50 { width: 50px; }
+.w50 { width: 50px !important; }
 .w55 { width: 55px; }
 .w60 { width: 60px; }
 .w65 { width: 65px; }
@@ -2106,6 +2106,20 @@
 
 .bottom-20 {
     bottom: 20px;
+}
+
+.bottom-25 {
+    bottom: 25px;
+}
+.bottom-30 {
+    bottom: 30px;
+}
+
+.bottom-35 {
+    bottom: 35px;
+}
+.bottom-40 {
+    bottom: 40px;
 }
 
 /* -------------------------

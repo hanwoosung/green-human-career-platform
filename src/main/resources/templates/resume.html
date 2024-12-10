@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout-test/layout/mypage_layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>이력서 목록</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="/static/css/resume/resume_list.css" rel="stylesheet">
+    <style>
+        .title {
+            margin-bottom: 20px;
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .resume-list-container {
+            width: 900px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .resume-item {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .resume-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .title-left a {
+            text-decoration: none;
+            color: #1f2937;
+            font-weight: bold;
+        }
+
+        .title-right .representative-btn {
+            padding: 4px 8px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .title-right .representative-btn.active {
+            background-color: #cc6f00;
+            color: #fff;
+        }
+
+        .resume-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.1rem;
+            margin-top: 10px;
+            color: #555;
+        }
+
+        .info-actions {
+            gap: 10px;
+            text-align: right;
+        }
+
+        .edit-resume-btn {
+            text-decoration: none;
+            color: var(--text-color2);
+            font-weight: bold;
+        }
+
+        .edit-resume-btn i,
+        .fas.fa-trash-alt {
+            cursor: pointer; /* 마우스를 올리면 포인터 커서로 변경 */
+            font-size: 1rem;
+            margin-right: 5px;
+        }
+
+        .add-resume-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            width: 300px;
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #fff;
+            background-color: var(--primary-color);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .create-date {
+            font-size: 0.8rem;
+        }
+
+        .resume-box {
+            padding: 30px;
+        }
+
+        .resume-box:last-child {
+            border-bottom: 1px solid gray; /* 첫 번째 박스에만 border-bottom 추가 */
+        }
+
+        .resuem-wrap-container {
+            margin-top: 55px;
+        }
+    </style>
+
+</head>
+<body>
+<main layout:fragment="content">
+    <div class="resuem-wrap-container">
+        <p class="title">MY 이력서 목록</p>
+
+        <div class="resume-list-container">
+            <button class="add-resume-btn" onclick="location.href='/resume/regist'">이력서 등록하기</button>
+            <p>총 <span th:text="${totalResumes}"></span> 건</p>
+            <div th:each="resume : ${resumes}" class="resume-item">
+                <div class="resume-summary">
+                </div>
+                <!-- 이력서 제목 -->
+                <div class="resume-box">
+                    <div class="resume-title">
+                        <div class="title-left">
+                            <a th:href="@{'/resume/' + ${resume.resumeId}}">
+                                <span th:text="${resume.title}"></span>
+                            </a>
+                        </div>
+                        <div class="title-right">
+                            <!-- 대표 이력서 버튼 -->
+                            <button class="representative-btn"
+                                    th:classappend="${resume.representativeYn == 'Y'} ? 'active' : ''"
+                                    th:attr="onclick='setRepresentative(' + ${resume.resumeId} + ')'">
+                                <span th:text="${resume.representativeYn == 'Y'} ? '대표 이력서' : '대표로 설정'"></span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 이력서 정보 -->
+                    <div class="resume-info">
+                        <div>
+                            <i class="fas"
+                               th:classappend="${resume.careerCode == 'S' ? 'fa-user-graduate' : (resume.careerCode == 'G' ? 'fa-briefcase' : 'fa-user-alt')}"></i>
+                            <span th:text="${resume.careerCode == 'S' ? '신입' : (resume.careerCode == 'G' ? '경력' : '신입/경력')}"></span>
+                        </div>
+                        <div class="right-box">
+                            <div class="info-actions">
+                                <a class="edit-resume-btn"
+                                   th:href="@{/resume/edit/{resumeId}(resumeId=${resume.resumeId})}">
+                                    <i class="fas fa-edit"></i>수정
+                                </a>
+                                <i class="fas fa-trash-alt"
+                                   th:attr="onclick='deleteResume(' + ${resume.resumeId} + ')'"
+                                   title="삭제">삭제</i>
+                            </div>
+                            <div>
+                                <span class="create-date" th:text="${resume.getFormattedCreatedDate()}"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <script>
+        function deleteResume(resumeId) {
+            if (confirm('이 이력서를 정말로 삭제하시겠습니까?')) {
+                axios.delete(`/resume/${resumeId}`)
+                    .then(response => {
+                        if (response.status === 200) {
+                            alert('이력서가 삭제되었습니다.');
+                            window.location.reload(); // 페이지 새로고침
+                        } else {
+                            alert('이력서 삭제에 실패했습니다.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('삭제 요청 중 오류가 발생했습니다:', error);
+                        alert('오류가 발생했습니다. 다시 시도해주세요.');
+                    });
+            }
+        }
+
+        function setRepresentative(resumeId) {
+            const url = `/resume/${resumeId}/representative`;
+            console.log("Axios PUT 요청 URL:", url);
+
+            axios.put(url)
+                .then(response => {
+                    console.log("응답 데이터:", response);  // 응답 확인
+                    if (response.status === 200) {
+                        alert('대표 이력서가 설정되었습니다.');
+                        window.location.reload(); // 페이지 새로고침
+                    } else {
+                        alert('대표 이력서 설정에 실패했습니다.');
+                    }
+                })
+                .catch(error => {
+                    console.error('대표 이력서 설정 중 오류가 발생했습니다:', error);
+                    alert('오류가 발생했습니다. 다시 시도해주세요.');
+                });
+        }
+
+    </script>
+
+</main>
+</body>
+</html>

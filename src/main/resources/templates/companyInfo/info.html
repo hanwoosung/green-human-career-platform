@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" th:href="@{/static/css/common/common.css}">
+  <link rel="stylesheet" th:href="@{/static/css/layout/theme.css}">
+  <link rel="stylesheet" href="/static/css/main/index.css">
+  <link rel="stylesheet" href="/static/css/common/skillBox.css">
+  <link rel="stylesheet" href="/static/css/common/paging.css">
+  <title>기업 정보 상세</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+
+    .container {
+      max-width: 900px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin: 0 auto;
+    }
+
+    .header {
+      display: flex;
+      align-items: flex-start;
+      width: 100%;
+      text-align: center;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      padding: 20px;
+      border-radius: 10px;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .profile-image {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin-right: 30px;
+    }
+
+    .header-text {
+      display: flex;
+      flex-direction: column;
+      color: white;
+    }
+
+    .header-text h1 {
+      font-size: 2em;
+      margin: 0;
+    }
+
+    .rating {
+      font-size: 1.2em;
+      color: #ddd;
+    }
+
+    .history-images {
+      display: flex;
+      justify-content: space-between;
+      margin: 20px 0;
+    }
+
+    .history-image {
+      width: 30%;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      object-fit: cover;
+    }
+
+    .company-info h2 {
+      border-bottom: 2px solid #333;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+      font-size: 1.5em;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    td {
+      padding: 12px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+
+    td:nth-child(odd) {
+      background-color: #f9f9f9;
+    }
+
+    .history {
+      background-color: #f0f0f0;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .history-content p {
+      margin: 10px 0;
+      font-size: 1.1em;
+    }
+
+    .jobOpen {
+      margin-top: 40px;
+    }
+
+    .job-card {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      margin: 20px 0;
+      overflow: hidden;
+      transition: transform 0.3s;
+    }
+
+    .job-card:hover {
+      transform: translateY(-10px);
+    }
+
+    .job-card .card-image {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .job-card .card-image img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+
+    .job-card .card-overlay {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background-color: rgba(0, 0, 0, 0.6);
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+
+    .job-card .card-header {
+      padding: 20px;
+      background-color: #f9f9f9;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .job-title {
+      font-size: 1.4em;
+      color: #333;
+    }
+
+    .job-content {
+      font-size: 1.2em;
+      color: #555;
+    }
+
+    .pagination-wrapper {
+      margin-top: 40px;
+      text-align: center;
+    }
+
+    .pagination-nav {
+      display: inline-block;
+    }
+
+    .pagination-nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .pagination-nav li {
+      display: inline-block;
+      margin: 0 5px;
+    }
+
+    .pagination-nav a {
+      padding: 8px 16px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      color: #333;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+
+    .pagination-nav a:hover {
+      background-color: #f0f0f0;
+    }
+
+    .pagination-nav .active a {
+      background-color: #3b9ef9;
+      color: white;
+    }
+
+    .pagination-nav .disabled a {
+      color: #ccc;
+      cursor: not-allowed;
+    }
+
+    .button {
+      background-color: #1e90ff;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+      margin-top: 20px;
+      display: inline-block;
+      font-size: 1em;
+    }
+
+    .button:hover {
+      background-color: #4682b4;
+    }
+  </style>
+</head>
+<body>
+<div class="mypage-layout">
+  <!-- Sidebar 영역 -->
+  <div th:replace="~{/layout-test/parts/sidebar :: sidebar(
+            ${session.userType != null ? session.userType : '비회원'}
+        )}"></div>
+
+  <div class="mypage-container">
+    <!-- Header 영역 -->
+    <div th:replace="~{/layout-test/parts/header_mypage :: headerMypage(
+            ${session.userType != null ? session.userType : '비회원'}
+        )}"></div>
+
+    <!-- Content 영역 -->
+    <div class="mypage-content" layout:fragment="content">
+      <div class="container">
+        <!-- 기업 헤더 -->
+        <div class="header" th:style="'background-image: url(' + ${file.fileUrl} + ');'">
+          <img th:src="@{${profile.fileUrl}}" th:alt="${profile.fileName}" class="profile-image">
+          <div class="header-text">
+            <h1 th:text="${user.name}">기업명</h1>
+            <p class="rating">평점: 4.5 (0-5)</p>
+          </div>
+        </div>
+
+        <!-- 연혁 이미지들 -->
+        <div class="history-images">
+          <th:block th:each="file : ${files}">
+            <img th:src="@{${file.fileUrl}}" th:alt="${file.fileName}" class="history-image">
+          </th:block>
+        </div>
+
+        <!-- 기업 정보 테이블 -->
+        <div class="company-info">
+          <h2>기업 정보</h2>
+          <table>
+            <tr>
+              <td>기업 구분</td>
+              <td th:text="${company.gbn}">대/중/소</td>
+              <td>사원 수</td>
+              <td th:text="${company.cCnt}">대/중/소</td>
+            </tr>
+            <tr>
+              <td>대표명</td>
+              <td th:text="${user.name}"></td>
+              <td>설립일</td>
+              <td th:text="${user.birth}"></td>
+            </tr>
+            <tr>
+              <td>주요 업무</td>
+              <td th:text="${company.cBusiness}">대/중/소</td>
+              <td>매출액</td>
+              <th:block th:if="${sales != null and not #lists.isEmpty(sales)}">
+                <td th:text="${sales[sales.size() - 1].cPay + '억 (' + sales[sales.size() - 1].cSaleDt + '년)'}">
+              </th:block>
+              <th:block th:if="${sales == null or #lists.isEmpty(sales)}">
+                <td>------</td>
+              </th:block>
+            </tr>
+            <tr>
+              <td>홈페이지</td>
+              <td><a th:href="${company.homepage}" th:text="${company.homepage}"></a></td>
+              <td>주소</td>
+              <td th:text="${user.addr + ' ' + user.addr2}">대/중/소</td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- 연혁 -->
+        <th:block th:if="${histories != null}">
+          <div class="history">
+            <h2>연혁</h2>
+            <div class="history-content">
+              <th:block th:each="history : ${histories}">
+                <p>
+                  <span th:text="${history.cHistory}"></span>
+                  <span th:text="${history.cContent}"></span>
+                </p>
+              </th:block>
+            </div>
+          </div>
+        </th:block>
+
+        <!-- 채용 공고 -->
+        <th:block th:if="${jobList != null}">
+          <div class="jobOpen">
+            <h2>채용 공고</h2>
+            <div class="jobOpen-content">
+              <div class="main-list-wrapper">
+                <div class="main-list-container">
+                  <div class="job-card" th:each="jobItem : ${jobList}">
+                    <div class="card-image">
+                      <div class="card-overlay">
+                        <span class="days-left" th:text="${jobItem.leftDate}">D-11</span>
+                      </div>
+                      <img th:src="@{${jobItem.fileUrl != null and !jobItem.fileUrl.isEmpty() ? jobItem.fileUrl : '/static/images/empty_company.png'}}"
+                           alt="회사 이미지">
+                    </div>
+                    <div class="card-header">
+                      <div class="card-header-box">
+                        <span class="company-name">삼성전자</span>
+                        <i class="bi bi-heart heart-icon" id="heart-icon"></i>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <h3 class="job-title" th:text="${jobItem.JTitle}">백엔드개발자 - 테크리드 (테크사업부)</h3>
+                      <h4 class="job-content" th:text="${jobItem.JContent}">백엔드개발자 - 테크리드 (테크사업부)</h4>
+                      <div class="job-location">
+                        <span th:text="${jobItem.workPlace}">경기도</span> | <span th:text="${jobItem.workType}">경력 3년</span>
+                      </div>
+                      <div class="skill-tags" th:if="${not #lists.isEmpty(jobItem.skills)}">
+                        <span th:each="skill : ${jobItem.skills}" class="skill-tag" th:text="${skill}"></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 페이지 네비게이션 -->
+          <div class="pagination-wrapper">
+            <nav class="pagination-nav">
+              <ul class="pagination">
+                <li th:classappend="${paging.firstPageBtn ? '' : 'disabled'}">
+                  <a class="page-link" th:href="@{/companyInfo/{user_id}(user_id=${company.id}, page=1)}" aria-label="처음">&laquo;</a>
+                </li>
+                <li th:classappend="${paging.prevBtn ? '' : 'disabled'}">
+                  <a class="page-link" th:href="@{/companyInfo/{user_id}(user_id=${company.id}, page=${paging.startPage - 1})}" aria-label="이전">&lt;</a>
+                </li>
+                <li th:each="i : ${#numbers.sequence(paging.startPage, paging.endPage)}" th:classappend="${paging.currentPage == i ? 'active' : ''}">
+                  <a class="page-link" th:href="@{/companyInfo/{user_id}(user_id=${company.id}, page=${i})}" th:text="${i}"></a>
+                </li>
+                <li th:classappend="${paging.nextBtn ? '' : 'disabled'}">
+                  <a class="page-link" th:href="@{/companyInfo/{user_id}(user_id=${company.id}, page=${paging.endPage + 1})}" aria-label="다음">&gt;</a>
+                </li>
+                <li th:classappend="${paging.lastPageBtn ? '' : 'disabled'}">
+                  <a class="page-link" th:href="@{/companyInfo/{user_id}(user_id=${company.id}, page=${paging.totalPage})}" aria-label="마지막">&raquo;</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </th:block>
+
+        <!-- 수정 버튼 -->
+        <th:block th:if="${session.userId == company.id}">
+          <a href="@{/companyModi/{user_id}(user_id=${session.userId})}" class="button">수정</a>
+        </th:block>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer 영역 -->
+<div th:replace="~{/layout-test/parts/footer :: footer}"></div>
+
+</body>
+</html>

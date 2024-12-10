@@ -1,0 +1,405 @@
+    <!DOCTYPE html>
+    <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{/layout-test/layout/main_layout}">
+
+    <head>
+        <link href="/static/css/user/login_regist.css">
+        <meta charset="UTF-8">
+        <title>기업회원가입</title>
+        <style>
+            * {
+                margin: 0;
+            }
+
+            .seeker-regist-container {
+                padding: 60px;
+                margin: 60px auto;
+                border-radius: 20px;
+                width: 800px;
+                height: auto;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                border: 1px solid var(--border-color);
+            }
+
+            .seeker-regist-title-box {
+                border-bottom: 3px solid var(--primary-color2);
+                height: 70px;
+                margin-bottom: 20px;
+                width: 250px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            #seeker-regist-title {
+                color: var(--primary-color2);
+                font-weight: bold;
+                padding: 10px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 60px;
+            }
+
+            .input-box {
+                margin: 20px;
+                display: flex;
+                flex-direction: column;
+                height: 60px;
+                width: 400px;
+            }
+
+            .import-value {
+                font-size: 0.5rem;
+                color: red;
+                line-height: 20px;
+            }
+
+            .input-box input,
+            .input-box select {
+                padding: 5px;
+                border: none;
+                outline: none;
+                border-bottom: 2px solid var(--border-color);
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .input-box input:focus,
+            .input-box select:focus {
+                border: none;
+                outline: none;
+                border-bottom: 2px solid var(--primary-color3);
+            }
+
+            .input-box label {
+                /*font-size: 0.4rem;*/
+                margin-bottom: 5px;
+            }
+
+            .input-box-row {
+                gap: 20px;
+                display: grid;
+                grid-template-columns: 1fr 100px;
+            }
+
+            .input-box-row3 {
+                gap: 20px;
+                display: grid;
+                grid-template-columns: 100px 1fr 1fr;
+            }
+
+            #regist-button {
+                margin: 10px auto;
+                font-size: 16px;
+                font-weight: bold;
+                width: 200px;
+                height: 65px;
+                border-radius: 5px;
+                color: #ffffff;
+                background-color: var(--primary-color3);
+                border: none;
+                cursor: pointer;
+            }
+
+            .validation-message {
+                font-size: 0.5rem;
+                color: red;
+            }
+
+            .label-text {
+                font-size: 13px;
+            }
+            .btn {
+                /*font-size: 0.5rem;*/
+                font-weight: 540;
+                color: #ffffff;
+                background-color: rgb(66, 96, 166);
+                border: none;
+                border-radius: 10px; 
+                cursor: pointer;
+            }
+
+            .checkbox-label {
+                display: flex;
+                align-items: center;
+                gap: 10px; /* 체크박스와 텍스트 간격 */
+            }
+
+            .checkbox-label input[type="checkbox"] {
+                margin: 0;
+                width: 20px; /* 체크박스 크기 조정 */
+                height: 20px;
+            }
+
+            .label-text {
+                font-size: 1rem;
+            }
+
+        </style>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    </head>
+
+    <body>
+        <main layout:fragment="content">
+            <form th:action="@{/regist/company}" method="post" th:object="${company}" id="registrationForm" class="seeker-regist-container">
+                <div class="seeker-regist-title-box">
+                    <h3 id="seeker-regist-title">기업회원 회원가입</h3>
+                </div>
+
+                <div class="input-box">
+                    <p><label for="id" class="label-text">아이디</label><span class="import-value">*</span></p>
+                    <div class="input-box-row">
+                        <input type="text" th:field="*{id}" id="id" >
+                        <button type="button" id="checkId" value="false" class="btn">중복확인</button>
+                    </div>
+                    <span id="idMessage" class="validation-message"></span>
+                </div>
+
+                <div class="input-box">
+                    <p><label for="pw" class="label-text">비밀번호</label><span class="import-value">*</span></p>
+                    <input type="password" th:field="*{pw}" id="pw" >
+                    <span id="pwPatternMessage" class="validation-message"></span>
+                </div>
+
+                <div class="input-box">
+                    <p><label for="pw1" class="label-text">비밀번호 확인</label><span class="import-value">*</span></p>
+                    <input type="password" id="pw1" name="pw1" >
+                    <span id="pwMessage" class="validation-message"></span>
+                </div>
+
+                <div class="input-box">
+                    <p><label for="name" class="label-text">기업명</label><span class="import-value">*</span></p>
+                    <input type="text" id="name" th:field="*{name}" >
+                    <span id="nameValidationMessage" class="validation-message"></span>
+                </div>
+
+                <div class="input-box">
+                    <p><label for="text" class="label-text">이메일</label><span class="import-value">*</span></p>
+                    <input type="email" id="email" th:field="*{email}" placeholder="aaa@aaa.com" >
+                    <span id="emailMessage" class="validation-message"></span>
+                </div>
+
+                <div class="input-box">
+                    <p><label for="birth" class="label-text">설립일</label><span class="import-value">*</span></p>
+                    <div class="input-box-row3" id="birth1">
+                        <select id="birthYear" name="birthYear">
+                            <option value="">년도</option>
+                            <!-- 동적으로 년도 옵션이 추가될 예정 -->
+                        </select>
+                        <select id="birthMonth" name="birthMonth">
+                            <option value="">월</option>
+                            <!-- 동적으로 월 옵션이 추가될 예정 -->
+                        </select>
+                        <select id="birthDay" name="birthDay">
+                            <option value="">일</option>
+                            <!-- 동적으로 일 옵션이 추가될 예정 -->
+                        </select>
+                    </div>
+                    <input type="hidden" th:field="*{birth}" id="birth">
+                    <span id="birthValidationMessage" class="validation-message"></span>
+                </div>
+
+                <div class="input-box">
+                    <p><label for="phone" class="label-text">대표전화</label><span class="import-value">*</span></p>
+                    <input type="text" id="phone" th:field="*{phone}" placeholder="01012345678" >
+                    <span id="phoneValidationMessage" class="validation-message"></span>
+                </div>
+
+                <div class="input-box">
+                    <p><label for="addr" class="label-text">주소</label><span class="import-value">*</span></p>
+                    <div class="input-box-row">
+                        <input type="text" id="addr" th:field="*{addr}"  readonly>
+                        <button type="button" class = "btn" onclick="addrBtn()">검색</button>
+                        <span id="addrValidationMessage" class="validation-message"></span>
+                    </div>
+                </div>
+
+                <div class="input-box">
+                    <p><label for="zip_cd" class="label-text">우편번호</label><span class="import-value">*</span></p>
+                    <input type="text" id="zip_cd" th:field="*{zip_cd}"  readonly>
+                    <span id="zipValidationMessage" class="validation-message"></span>
+                </div>
+
+                <div class="input-box">
+                    <p><label for="addr2" class="label-text">상세주소</label></p>
+                    <input type="text" id="addr2" th:field="*{addr2}">
+                    <span id="addr2ValidationMessage" class="validation-message"></span>
+                </div>
+                <div class="input-box">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="agreeTerms" name="agreeTerms">
+                        <span class="label-text">개인정보 약관에 동의합니다.</span>
+                    </label>
+                </div>
+                <div class="input-box">
+                    <button type="submit" id="regist-button" class="btn" >회원가입</button>
+                </div>
+            </form>
+<!--            <script src="/static/js/regist/regist_c.js"></script>-->
+        </main>
+    </body>
+
+    </html>
+    <script>
+        function addrBtn() {
+            new daum.Postcode({
+                oncomplete: function (data) {
+                    // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                    // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                    // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                    var addr = ''; // 주소 변수
+                    var extraAddr = ''; // 참고항목 변수
+
+                    //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                    if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                        addr = data.roadAddress;
+                    } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                        addr = data.jibunAddress;
+                    }
+
+                    // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                    if (data.userSelectedType === 'R') {
+                        // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                        // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                        if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+                            extraAddr += data.bname;
+                        }
+                        // 건물명이 있고, 공동주택일 경우 추가한다.
+                        if (data.buildingName !== '' && data.apartment === 'Y') {
+                            extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                        }
+                        // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                        if (extraAddr !== '') {
+                            extraAddr = ' (' + extraAddr + ')';
+                        }
+                        // 조합된 참고항목을 해당 필드에 넣는다.
+                        //document.getElementById("sample6_extraAddress").value = extraAddr;
+
+                    } else {
+                        //document.getElementById("sample6_extraAddress").value = '';
+                    }
+
+                    // 우편번호와 주소 정보를 해당 필드에 넣는다.
+
+                    document.getElementById("zip_cd").value = data.zonecode;
+                    //console.log(document.getElementById("zip_code").value);
+                    document.getElementById("addr").value = addr;
+                    // 커서를 상세주소 필드로 이동한다.
+                    document.getElementById("addr2").focus();
+                }
+            }).open();
+        }
+
+        $(document).ready(function () {
+            $('#checkId').click(function () {
+                let id = $('#id').val();
+                $.ajax({
+                    url: '/regist/checkId',
+                    type: 'GET',
+                    data: {id: id},
+                    success: function (data) {
+                        if (data.code === "200") {
+                            $('#idMessage').text('사용가능한 아이디 입니다.').css('color', 'green');
+                        } else if (data.code === "400") {
+                            $('#idMessage').text('중복된 아이디 입니다.').css('color', 'red');
+                        } else {
+                            $('#idMessage').text('알 수 없는 오류가 발생했습니다.').css('color', 'orange');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.log('AJAX Error: ' + error);
+                        $('#idMessage').text('서버 오류가 발생했습니다.').css('color', 'red');
+                    }
+                });
+            });
+        });
+
+        $('#email').on('keyup', function () {
+            let emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-z]{2,6}$/;
+            if (emailPattern.test($('#email').val())) {
+                $('#emailMessage').text('유효한 이메일 주소입니다.').css('color', 'green');
+            } else {
+                $('#emailMessage').text('유효하지 않은 이메일 주소입니다.').css('color', 'red');
+            }
+        });
+
+        $('#pw, #pw1').on('keyup', function () {
+            let pw = $('#pw').val();
+            let pw1 = $('#pw1').val();
+            let pwPattern = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!*?^&])[A-Za-z\d$@$!%*?&]{8,}$/;
+
+            if (pwPattern.test($('#pw').val())) {
+                $('#pwPatternMessage').text('비밀번호 형식이 유효합니다.').css('color', 'green');
+            } else {
+                $('#pwPatternMessage').text('비밀번호는 영문자, 숫자, 특수문자를 최소 1개씩 포함해야 합니다.').css('color', 'red');
+            }
+
+            if(pw == pw1){
+                $('#pwMessage').text('비밀번호가 일치합니다.').css('color', 'green');
+            } else {
+                $('#pwMessage').text('비밀번호가 일치하지 않습니다.').css('color', 'red');
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // 년도, 월, 일을 채우는 함수
+            function fillDateOptions() {
+                const currentYear = new Date().getFullYear();
+                const birthYearSelect = document.getElementById("birthYear");
+                const birthMonthSelect = document.getElementById("birthMonth");
+                const birthDaySelect = document.getElementById("birthDay");
+
+                // 년도 옵션 추가 (현재 년도부터 100년 전까지)
+                for (let year = currentYear; year >= currentYear - 100; year--) {
+                    const option = document.createElement("option");
+                    option.value = year;
+                    option.textContent = year;
+                    birthYearSelect.appendChild(option);
+                }
+
+                // 월 옵션 추가
+                for (let month = 1; month <= 12; month++) {
+                    const option = document.createElement("option");
+                    option.value = month;
+                    option.textContent = month;
+                    birthMonthSelect.appendChild(option);
+                }
+
+                // 일 옵션 추가 (최대 31일까지)
+                for (let day = 1; day <= 31; day++) {
+                    const option = document.createElement("option");
+                    option.value = day;
+                    option.textContent = day;
+                    birthDaySelect.appendChild(option);
+                }
+            }
+
+            // 날짜 선택시 hidden input에 값을 설정하는 함수
+            function updateBirthDate() {
+                const year = document.getElementById("birthYear").value;
+                const month = document.getElementById("birthMonth").value;
+                const day = document.getElementById("birthDay").value;
+
+                if (year && month && day) {
+                    // 2자리로 맞추기 위해 padStart 사용
+                    const formattedDate = `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+                    document.getElementById("birth").value = formattedDate;
+                } else {
+                    document.getElementById("birth").value = "";  // 값이 누락되면 hidden input 초기화
+                }
+            }
+
+            // select 요소들에 change 이벤트 리스너 추가
+            document.getElementById("birthYear").addEventListener("change", updateBirthDate);
+            document.getElementById("birthMonth").addEventListener("change", updateBirthDate);
+            document.getElementById("birthDay").addEventListener("change", updateBirthDate);
+
+            // 옵션을 채우는 함수 호출
+            fillDateOptions();
+        });
+    </script>

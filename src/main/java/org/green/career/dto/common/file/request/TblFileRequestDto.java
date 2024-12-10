@@ -1,8 +1,12 @@
 package org.green.career.dto.common.file.request;
 
-import lombok.Builder;
 import lombok.Data;
 
+/**
+ * 작성자: 한우성
+ * 작성일: 2024-12-01
+ * 파일 등록 시 사용 중
+ */
 @Data
 public class TblFileRequestDto {
     // 파일 ID

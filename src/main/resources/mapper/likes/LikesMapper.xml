@@ -30,4 +30,16 @@
         AND cj_no = #{cJNo}
     </delete>
 
+    <select id="getLikes" resultType="org.green.career.dto.likes.response.ResponseLikesDto">
+        SELECT
+            a.j_no,
+            COUNT(e.l_no) AS b_count,
+            COUNT(e2.l_no) AS s_count
+        FROM tbl_job_open a
+                 LEFT JOIN tbl_likes e ON e.id = #{userId} AND e.l_gbn_cd = 'B' AND e.cj_no = #{companyId}
+                 LEFT JOIN tbl_likes e2 ON e2.id = #{userId} AND e2.l_gbn_cd = 'S'  AND e2.cj_no = #{jobId}
+        WHERE a.j_no = #{jobId}
+        GROUP BY a.j_no
+    </select>
+
 </mapper>

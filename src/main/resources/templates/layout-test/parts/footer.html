@@ -21,7 +21,8 @@
         <div class="footer-credits">
             <div class="footer-logo">
                 <img src="/static/images/footer_logo.png" alt="logo"/>
-                <link rel="stylesheet" href="/static/css/modal/alert.css">
+<!--                <link rel="stylesheet" href="/static/css/modal/alert.css">-->
+                <link rel="stylesheet" href="/static/css/modal/alert_plus.css">
             </div>
             <p>@created by</p>
             <p>한우성</p>
@@ -42,12 +43,28 @@
                 </div>
                 <div class="modal-alert-content" id="alert_detail">
                 </div>
-                <div class="modal-alert-btn">
+                <div class="modal-alert-btn2">
                     <button onclick="alert_modal.off()">확인</button>
                 </div>
             </div>
         </div>
 
+        <div class="modal-confirm">
+            <div class="modal-confirm-wrap">
+                <div class="modal-confirm-title">
+                    <span id="confirm_title">confirm 제목~</span>
+                </div>
+                <div class="modal-confirm-content" id="confirm_detail">
+                </div>
+                <div class="modal-confirm-btn">
+                    <button class="confirm-delete-ok">확인</button>
+                    <button class="confirm-delete-ng">취소</button>
+                </div>
+            </div>
+        </div>
+
+
         <script src="/static/js/alert.js"></script>
+        <script src="/static/js/service-worker.js"></script>
 </footer>
 </html>
