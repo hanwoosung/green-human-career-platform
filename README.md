@@ -52,3 +52,32 @@
 
 ```markdown
 ![홈 화면](홈화면 이미지 URL 또는 파일 경로)
+🛠 기술 스택
+프로젝트에서 사용된 주요 기술 스택은 다음과 같습니다:
+
+Frontend:
+
+HTML
+CSS (Tailwind CSS 또는 Bootstrap)
+JavaScript (React.js)
+Backend:
+
+Node.js
+Express.js
+MongoDB (또는 다른 NoSQL DB)
+Authentication:
+
+JWT (JSON Web Token)
+Passport.js (또는 OAuth)
+Deployment:
+
+Docker (컨테이너화)
+Heroku (혹은 AWS, GCP)
+Version Control:
+
+Git & GitHub
+기타:
+
+RESTful API 설계
+JWT를 이용한 세션 관리
+GitFlow 브랜치 전략
