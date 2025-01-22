@@ -9,9 +9,9 @@ import org.green.career.dto.jobopen.requset.JobOpeningResponseDto;
 import java.util.List;
 
 /**
- * 작성자: 한우성
- * 작성일: 2024-11-30
- * USER_MAIN에서 사용중인 매퍼 인터페이스
+ * 작성자: 김상준
+ * 작성일: 2024-12-03
+ * 구직자 스택별 공고 조회에서 사용중인 매퍼 인터페이스
  */
 @Mapper
 public interface StackDao {

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.green.career.dao.company.jbskMngm.JobOfferDao">
+
+    <select id="getJobOfferList" resultType="org.green.career.dto.company.jbskMngm.JobOfferDto">
+        SELECT a.c_id,
+               a.u_id,
+               a.o_dt,
+               a.o_gbn_cd,
+               b.`name`,
+               b.birth,
+               TRUNCATE((TO_DAYS(NOW()) - TO_DAYS(b.birth)) / 365, 0) AS age,
+               b.zip_cd,
+               b.addr,
+               b.addr2,
+               c.r_no,
+               c.r_title,
+               IFNULL(d.file_id, '')                                  AS file_id,
+               IFNULL(d.file_name, '')                                AS file_name,
+               IFNULL(d.file_ext, '')                                 AS file_ext,
+               IFNULL(d.file_url, '')                                 AS file_url
+        FROM tbl_offer a
+                 LEFT JOIN tbl_user b ON a.u_id = b.id
+                 LEFT JOIN tbl_resume c ON b.id = c.inst_id AND c.r_rep_yn = 'Y'
+                 LEFT JOIN tbl_file d ON c.r_no = d.file_ref_id AND d.file_gbn_cd = '50'
+        WHERE a.c_id = #{id}
+          AND b.use_yn = 'Y'
+        AND b.name LIKE CONCAT('%', #{search}, '%')
+        ORDER BY a.o_dt DESC
+        LIMIT #{offset}, #{limit};
+    </select>
+
+    <select id="getTotalCnt" resultType="Integer">
+        SELECT COUNT(*)
+        FROM tbl_offer a
+                 LEFT JOIN tbl_user b ON a.u_id = b.id
+        WHERE a.c_id = #{id}
+          AND b.name LIKE CONCAT('%', #{search}, '%')
+          AND b.use_yn = 'Y';
+    </select>
+
+</mapper>

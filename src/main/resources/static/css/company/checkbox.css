@@ -1,0 +1,46 @@
+.form-group .cGbnCd {
+    display: inline-block;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.checkbox-group {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.checkbox-group input[type="radio"] {
+    display: none;
+}
+
+.checkbox-group label {
+    position: relative;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.checkbox-group label::before {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    margin-right: 8px;
+    background-color: white;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.checkbox-group input[type="radio"]:checked + label::before {
+    background-color: #007bff;
+    border-color: #007bff;
+    display: inline-block;
+    content: "✔";
+    color: white;
+    font-size: 12px;
+    text-align: center;
+    line-height: 16px;
+}

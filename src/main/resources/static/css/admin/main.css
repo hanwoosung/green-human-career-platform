@@ -1,0 +1,107 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container{
+    min-height: 100vh;
+    width: 100%;
+}
+
+.btn-wrap{
+    display: flex;
+    justify-content: right;
+}
+
+.btn-wrap button{
+    display: flex;
+    justify-content: center;
+    border-radius: 10px;
+    border: 0.5px solid rgba(125, 255, 255, 0.5);
+    background-color: rgba(187, 224, 255, 0.73);
+    margin-left: 20px;
+    padding: 10px;
+    align-items: center;
+    text-align: center;
+}
+
+.toggle-wrap{
+    width: 100%;
+    height: 50px;
+    display: flex;
+    margin-top: 50px;
+}
+
+.toggle-wrap .toggles{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 5px 10px 5px;
+
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+
+.toggles.on{
+    background-color: #4facfe;
+}
+
+.toggles span{
+    margin: 15px 8px 15px 8px;
+}
+
+.content-wrap{
+    width: 100%;
+    min-height: calc(100vh - 100px);
+    text-align: center;
+
+}
+
+
+/* 테이블 스타일 */
+.user-table {
+    width: 100%;
+    margin-top: 30px;
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+
+}
+
+.user-table-header{
+    border-radius: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.user-table-header,
+.user-table-row {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr); /* 5개의 열로 나누기 */
+    padding: 10px;
+}
+
+.user-table-header {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.user-table-cell {
+    padding: 12px;
+    text-align: center;
+    /*border: 1px solid #ddd;*/
+}
+
+.user-table-row {
+    background-color: #fff;
+}
+
+.user-table-row:nth-child(even) {
+    background-color: #f9f9f9; /* 짝수행 배경색 */
+}
+
+.user-table-row:hover {
+    background-color: #f1f1f1; /* 마우스 오버 시 색상 변화 */
+    cursor: pointer;
+}

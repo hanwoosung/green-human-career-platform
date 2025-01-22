@@ -4,7 +4,6 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.green.career.dao.jobseeker.mypage.StackDao;
-import org.green.career.dao.main.MainDao;
 import org.green.career.dto.common.CodeInfoDto;
 import org.green.career.dto.common.file.CategoryDto;
 import org.green.career.dto.jobopen.JobSearchResult;
@@ -47,8 +46,8 @@ public class StackServiceImpl extends AbstractService implements StackService {
                     .distinct()
                     .collect(Collectors.toList());
 
-
             List<CategoryDto> categoryList = codeInfoList.stream()
+                    .filter(code -> !code.getUpCd().equals("stack_cd"))
                     .map(CodeInfoDto::getUpCd)
                     .distinct()
                     .map(upCd -> new CategoryDto(upCd, CodeMapper.getDescription("upCd", upCd)))
@@ -67,10 +66,7 @@ public class StackServiceImpl extends AbstractService implements StackService {
      * 채용 공고 리스트 조회
      */
     @Override
-    public List<JobOpeningResponseDto> findJobOpeningList(int offset, int limit) {
-
-        String id = session.getAttribute("userId").toString();
-
+    public List<JobOpeningResponseDto> findJobOpeningList(int offset, int limit, String id) {
         List<JobOpeningResponseDto> jobList = stackDao.findJobOpeningList(offset, limit, id);
         if (jobList.isEmpty()) {
             log.info("조회된 채용 공고 없음.");
@@ -91,6 +87,8 @@ public class StackServiceImpl extends AbstractService implements StackService {
 
             List<JobOpeningResponseDto> jobList = stackDao.searchJobOpenings(searchText, skills, offset, limit, id);
 
+            System.out.println(skills);
+
             if (jobList == null || jobList.isEmpty()) {
                 log.info("검색 조건에 맞는 채용 공고 없음.");
                 return Collections.emptyList();
@@ -109,7 +107,7 @@ public class StackServiceImpl extends AbstractService implements StackService {
      * 페이징 정보와 함께 채용 공고 조회
      */
     @Override
-    public JobSearchResult getJobOpeningsWithPaging(String searchText, List<String> skills, int page) {
+    public JobSearchResult getJobOpeningsWithPaging(String searchText, List<String> skills, int page, String id) {
         int pageSize = 6;
         int offset = (page - 1) * pageSize;
 
@@ -122,7 +120,7 @@ public class StackServiceImpl extends AbstractService implements StackService {
             jobList = searchJobOpenings(searchText, skills, offset, pageSize);
             totalCount = countSearchJobOpenings(searchText, skills);
         } else {
-            jobList = findJobOpeningList(offset, pageSize);
+            jobList = findJobOpeningList(offset, pageSize, id);
             totalCount = countJobOpenings();
         }
 
@@ -148,7 +146,7 @@ public class StackServiceImpl extends AbstractService implements StackService {
      * 공고 단일 데이터 가공
      */
     private void processJob(JobOpeningResponseDto job) {
-        job.setLeftDate(JobOpeningResponseDto.calculateLeftDate(job.getEDt()));
+        job.setLeftDate(JobOpeningResponseDto.calculateLeftDate(job.getSDt(), job.getEDt()));
         job.setJGbnCd(CodeMapper.getDescription("jobStatus", job.getJGbnCd()));
         job.setWorkType(CodeMapper.getDescription("workType", job.getWorkType()));
         job.setSkills(String.valueOf(job.getSkills()));

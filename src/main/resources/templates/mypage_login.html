@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<!--
+    작성자: 구경림
+    작성일: 2024.12.01
+    파일 설명:
+    마이 페이지 템플릿의 기본 구조로, 모든 페이지가 공통으로 사용하는 레이아웃을 정의하는 부분
+    이 템플릿을 기반으로 각 팀원은 필요한 내용을 추가하여 개별 페이지를 생성
+    이 템플릿은 Thymeleaf와 Layout Dialect를 사용하여 레이아웃을 적용하는 구조
+-->
+
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout-test/layout/mypage_layout}"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>human</title>
+</head>
+<body>
+<main layout:fragment="content">
+    로그인이 필요한 서비스 입니다.
+    <a th:href="@{/login}">로그인하러가기</a>
+</main>
+</body>
+</html>

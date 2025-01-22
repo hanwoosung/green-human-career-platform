@@ -1,6 +1,7 @@
 package org.green.career.controller.jobseeker.mypage;
 
 import lombok.RequiredArgsConstructor;
+import org.green.career.controller.AbstractController;
 import org.green.career.dto.jobopen.JobSearchResult;
 import org.green.career.service.jobseeker.mypage.stack.StackService;
 import org.springframework.stereotype.Controller;
@@ -15,17 +16,21 @@ import java.util.Map;
 @Controller
 @RequestMapping("/job-seeker/my-page/stack")
 @RequiredArgsConstructor
-public class StackController {
+public class StackController extends AbstractController {
 
     final private StackService stackService;
 
     @GetMapping
     public String stack(@RequestParam(value = "page", defaultValue = "1") int page,
-                           @RequestParam(value = "search", required = false) String searchText,
-                           @RequestParam(value = "skills", required = false) List<String> skills,
-                           Model model) {
+                        @RequestParam(value = "search", required = false) String searchText,
+                        @RequestParam(value = "skills", required = false) List<String> skills,
+                        Model model) throws Exception {
 
-        JobSearchResult result = stackService.getJobOpeningsWithPaging(searchText, skills, page);
+        sessionGoLogin();
+
+        String id = sessionUserInfo("userId");
+
+        JobSearchResult result = stackService.getJobOpeningsWithPaging(searchText, skills, page, id);
         Map<String, Object> skillData = stackService.findSkillList();
 
         model.addAttribute("skillList", skillData.get("skills"));
@@ -38,7 +43,5 @@ public class StackController {
 
         return "/jobseeker/mypage/stack";
     }
-
-
 
 }

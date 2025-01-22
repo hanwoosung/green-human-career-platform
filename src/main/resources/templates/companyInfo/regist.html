@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="/static/css/main/index.css">
+    <link rel="stylesheet" href="/static/css/common/skillBox.css">
+    <link rel="stylesheet" href="/static/css/common/paging.css">
+    <link rel="stylesheet" href="/static/css/company/checkbox.css">
+    <link rel="stylesheet" th:href="@{/static/css/common/common.css}">
+    <link rel="stylesheet" th:href="@{/static/css/layout/theme.css}">
+    <script src="/static/js/company/companyRegist.js"></script>
+    <title>Human</title>
+    <style>
+        /* 전체 페이지 스타일 */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7fb;
+        }
+
+        .mypage-layout {
+            display: flex;
+        }
+
+        .mypage-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .main-content {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 폼 그룹 */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        /* 입력 필드 스타일 */
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 15px;
+            margin-top: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        input[type="text"]::placeholder, textarea::placeholder {
+            color: #888;
+        }
+
+        textarea {
+            resize: vertical;
+            height: 120px;
+        }
+
+        /* 라디오 버튼 그룹 */
+        .checkbox-group {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .cGbnCd {
+            font-size: 14px;
+            color: #333;
+        }
+
+        input[type="radio"]:checked + .cGbnCd {
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        /* 버튼 스타일 */
+        .add-button, .submit-button, button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .add-button:hover, .submit-button:hover, button:hover {
+            background-color: #007bff;
+        }
+
+        button[type="button"] {
+            background-color: deepskyblue;
+        }
+
+        button[type="button"]:hover {
+            background-color: #007bff;
+        }
+
+        /* 미리보기 이미지 */
+        .previewContainer {
+            margin-top: 10px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .previewContainer img {
+            max-width: 100%;
+            height: auto;
+            max-height: 150px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .previewContainer button {
+            margin-top: 5px;
+        }
+
+        /* 동적 그룹 */
+        .dynamic-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .firstInput, .secondInput {
+            padding: 10px;
+            font-size: 14px;
+            border-radius: 5px;
+            width: 48%;
+            border: 1px solid #ccc;
+            background-color: #f5f5f5;
+        }
+
+        .firstInput {
+            width: 30%;
+        }
+
+        /* 연혁 및 매출액 입력 */
+        #historyContainer, #revenueContainer {
+            margin-top: 20px;
+        }
+
+        /* 유효성 검사 메시지 */
+        #cnoMessage, #hMessage, #sMessage {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        /* 레이아웃을 위한 반응형 스타일 */
+        @media (max-width: 768px) {
+            .mypage-container {
+                padding: 15px;
+            }
+
+            .dynamic-group {
+                flex-direction: column;
+            }
+
+            .firstInput, .secondInput {
+                width: 100%;
+            }
+
+            .previewContainer img {
+                max-width: 90%;
+            }
+
+            .add-button, .submit-button {
+                width: 100%;
+                font-size: 14px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+<div class="mypage-layout">
+    <!-- Sidebar 영역 -->
+    <div th:replace="~{/layout-test/parts/sidebar :: sidebar(
+            ${session.userType != null ? session.userType : '비회원'}
+        )}" >
+    </div>
+    <div class="mypage-container">
+        <!-- Header 영역 -->
+        <div th:replace="~{/layout-test/parts/header_mypage :: headerMypage(
+            ${session.userType != null ? session.userType : '비회원'}
+        )}"></div>
+        <!-- Content 영역 -->
+        <div class="mypage-content" layout:fragment="content">
+            <div class="main-content">
+                <form th:action="@{/companyIR}" method="post" enctype="multipart/form-data" id="compantForm" onsubmit="return submitForm()">
+                    <input type="hidden" name="id" th:value="${uid}">
+                    <div class="form-group">
+                        <input type="text" name="cno" id="cno" class="cno" placeholder="사업자 등록번호">
+                        <span id="cnoMessage"></span>
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="radio" name="cGbnCd" value="L" id="L">
+                            <label class="cGbnCd" for="L">대기업</label>
+                            <input type="radio" name="cGbnCd" value="M" id="M">
+                            <label class="cGbnCd" for="M">중견기업</label>
+                            <input type="radio" name="cGbnCd" value="S" id="S">
+                            <label class="cGbnCd" for="S">중소기업</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="homepage" class="homepage" placeholder="홈페이지" id="homepage">
+                    </div>
+                    <div class="form-group">
+                        <textarea class="cDetail" name="cDetail" placeholder="기업 소개" id="cDetail"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="cCnt" class="cno" placeholder="현재 사원수" id="cCnt">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="cBusiness" class="cno" placeholder="주요 업무" id="cBusiness">
+                    </div>
+                    <div class="form-group" id="pImageGroup">
+                        <label>대표 이미지</label>
+                        <input type="file" name="pImage" accept="image/*" onchange="ImageInfo(event)">
+                        <button type="button" onclick="removeImageP();"><span>삭제</span></button>
+                        <div class="previewContainer"></div>
+                    </div>
+                    <div class="sub_Image">
+                        <div class="form-group" id="firstImageGroup">
+                            <label for="sImage">기업 이미지</label>
+                            <button type="button" onclick="addImage(this);"><span>파일 추가</span></button>
+                            <br>
+                            <input type="file" name="sImage" id="sImage" onchange="ImageInfo(event)" accept="image/*">
+                            <button type="button" onclick="removeImageFirts();"><span>삭제</span></button>
+                            <div class="previewContainer"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>연혁</label>&nbsp;&nbsp; *(연-월)
+                        <button type="button" class="add-button" onclick="addHistory()">추가</button>
+                        <div id="historyContainer">
+                            <div class="dynamic-group">
+                                <input type="text" placeholder="연-월" oninput="addDate(event)" class="firstInput" id="historyY">
+                                <input type="hidden" name="historyYear">
+                                <input type="text" name="historyTxt" placeholder="연혁 내용" class="secondInput">
+                                <div id="hMessage"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>매출액</label>&nbsp;&nbsp; *(억)
+                        <button type="button" class="add-button" onclick="addRevnue()">추가</button>
+                        <div id="revenueContainer">
+                            <div class="dynamic-group">
+                                <input type="text" placeholder="연도" oninput="addSales(event)" class="firstInput" id="saleY">
+                                <input type="hidden" name="salesYear">
+                                <input type="text" name="salesTxt" placeholder="매출액" class="secondInput">
+                                <div id="sMessage"></div>
+                            </div>
+                        </div>
+                        <input type="submit" value="기업 정보 등록" class="submit-button">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Footer 영역 -->
+<div th:replace="~{/layout-test/parts/footer :: footer}"></div>
+</body>
+</html>
+<script>
+    console.log('Input event fired');
+    $(function() {
+        $('#cno').on('input', function () {
+            let input = $(this).val();
+
+            let formatterdInput = input.replace(/[^0-9]/g, '')
+                .replace(/[^0-9]/g, '')
+                .substr(0, 10);
+
+            $(this).val(formatterdInput);
+        });
+        $('#cno').on('blur', function () {
+            console.log('change event fired');
+            let input = $(this).val();
+            if(input.length != 10) {
+                $('#cnoMessage').text('유효하지 않은 사업자 등록 번호입니다. 다시 입력해 주세요.').css('color', 'red');
+                $(this).val('');
+            } else {
+                $('#cnoMessage').text('유효한 사업자 등록 번호입니다.').css('color', 'green');
+            }
+        });
+        $('#cno').on('keypress', function (event) {
+            if(!/[0-9]/.test(String.fromCharCode(event.which))) {
+                event.preventDefault();
+            }
+        });
+
+        $('#historyY').on('input', function () {
+            let input = $(this).val();
+
+            let formatterdInput = input.replace(/[^0-9]/g, '')
+                .replace(/(\d{4})(\d{0,2})/, '$1-$2')
+                .substr(0, 7);
+
+            $(this).val(formatterdInput);
+        });
+        $('#historyY').on('blur', function () {
+            console.log('change event fired');
+            let input = $(this).val();
+            if(!/^\d{4}-\d{2}$/.test(input)) {
+                $('#hMessage').text('YYYY-MM 형식으로 입력해 주세요.').css('color', 'red');
+                $(this).val('');
+            } else {
+                $('#hMessage').text('');
+            }
+        });
+        $('#historyY').on('keypress', function (event) {
+            if(/[a-zA-Z]/.test(String.fromCharCode(event.which))) {
+                event.preventDefault();
+            }
+        });
+
+        $('#saleY').on('input', function () {
+            let input = $(this).val();
+
+            let formatterdInput = input.replace(/[^0-9]/g, '')
+                .replace(/[^0-9]/g, '')
+                .substr(0, 4);
+
+            $(this).val(formatterdInput);
+        });
+        $('#saleY').on('blur', function () {
+            console.log('change event fired');
+            let input = $(this).val();
+            if(input.length != 4) {
+                $('#sMessage').text('유효하지 않은 양식입니다. 다시 입력해 주세요.').css('color', 'red');
+                $(this).val('');
+            } else {
+                $('#sMessage').text('');
+            }
+        });
+        $('#saleY').on('keypress', function (event) {
+            if(!/[0-9]/.test(String.fromCharCode(event.which))) {
+                event.preventDefault();
+            }
+        });
+    });
+</script>

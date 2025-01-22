@@ -2,11 +2,15 @@ package org.green.career.service.login;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.green.career.config.MD5Config;
+import org.green.career.dao.login.CompanyDao;
 import org.green.career.dao.login.LoginDao;
+import org.green.career.dto.login.CompanyDto;
 import org.green.career.dto.login.UserLoginDto;
 import org.green.career.exception.BaseException;
 import org.green.career.service.AbstractService;
 import org.green.career.type.ResultType;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,12 +23,17 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Slf4j
 public class LoginServiceImpl extends AbstractService implements LoginService {
-    private final LoginDao loginDao;
+
+    @Autowired
+    private LoginDao loginDao;
+
+    @Autowired
+    private CompanyDao companyDao;
+
     private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserLoginDto login(String id, String pw, String userGbnCd) {
-
         UserLoginDto user = loginDao.findUserForLogin(id, pw, userGbnCd);
 
         if (id == null || id.trim().isEmpty()) {
@@ -44,5 +53,17 @@ public class LoginServiceImpl extends AbstractService implements LoginService {
         log.info("로그인 성공: {}", id);
         return user;
     }
+
+//    public int registCompany(UserLoginDto company){
+//        System.out.println(company.getPw() + "bbb");
+//        String pw = MD5Config.md5Util(company.getPw());
+//        String pwd = passwordEncoder.encode(company.getPw());
+//        company.setPw(pwd);
+//        System.out.println(pw + "aaa");
+//        System.out.println(company);
+//        int result = companyDao.registCompany(company);
+//        return result;
+//    }
+
 
 }

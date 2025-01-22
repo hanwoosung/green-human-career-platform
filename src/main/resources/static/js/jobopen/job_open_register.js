@@ -1,6 +1,7 @@
 let selectedFiles = [];
 
 $(document).ready(function () {
+    updatePreviewOrder();
     const maxFiles = 3;
 
     const now = new Date();
@@ -75,24 +76,27 @@ $(document).ready(function () {
     function updatePreviewOrder() {
         const filePreview = $("#filePreview");
         const imgContainers = filePreview.find(".img-container");
-        const emptySlots = 3 - imgContainers.length;
+        filePreview.find(".default-img").remove();
 
-        filePreview.empty();
-        imgContainers.each((_, container) => filePreview.append(container));
+        const imageCount = imgContainers.length;
+        const emptySlotsNeeded = 3 - imageCount;
 
-        for (let i = 0; i < emptySlots; i++) {
+        for (let i = 0; i < emptySlotsNeeded; i++) {
             filePreview.append('<div class="default-img">이미지 없음</div>');
         }
     }
 
+
     $(".skill-button").on("click", function () {
-        const skill = $(this).data("skill");
-        if (!$(`.selected-skill-list .skill-tag[data-skill="${skill}"]`).length) {
+        const skillCd = $(this).data("skill");
+        const skillName = $(this).text();
+
+        if (!$(`.selected-skill-list .skill-tag[data-skill="${skillCd}"]`).length) {
             const skillTag = `
-                    <div class="skill-tag" data-skill="${skill}">
-                        <span class="skill-text">${skill}</span>
-                        <span class="remove-skill" data-skill="${skill}">x</span>
-                    </div>`;
+            <div class="skill-tag" data-skill="${skillCd}">
+                <span class="skill-text">${skillName}</span>
+                <span class="remove-skill" data-skill="${skillCd}">x</span>
+            </div>`;
             $(".selected-skill-list").append(skillTag);
         }
     });
@@ -101,6 +105,7 @@ $(document).ready(function () {
         $(this).closest(".skill-tag").remove();
     });
 });
+
 
 function regist(event) {
     event.preventDefault();
@@ -121,11 +126,11 @@ function regist(event) {
     formData.append("workTime", document.querySelector("input[name='workTime']").value);
     formData.append("workType", document.querySelector("select[name='employmentType']").value);
 
-    const skills = Array.from(document.querySelectorAll(".selected-skill-list .skill-tag .skill-text")).map(
-        (skill) => skill.textContent
-    );
-
-    skills.forEach((skill, index) => formData.append(`skillList[${index}]`, skill));
+    const skills = Array.from(document.querySelectorAll(".selected-skill-list .skill-tag")).map((tag, index) => {
+        const skillCd = tag.getAttribute("data-skill");
+        return skillCd;
+    });
+    skills.forEach((skillCd, index) => formData.append(`skillList[${index}]`, skillCd));
 
     selectedFiles.forEach((file) => formData.append("companyImages", file));
 
@@ -135,11 +140,14 @@ function regist(event) {
         },
     })
         .then((response) => {
-            if(response.data.result.code !== 500) {
+            console.log(response.data)
+            if (response.data.data != null) {
                 alert("공고 등록이 완료되었습니다." + response.data.result.code);
+                setTimeout(window.location.href = '/job-open/detail/' + response.data.data,1000);
             }
         })
         .catch((error) => {
+            console.log(error)
             alert("공고 등록에 실패했습니다.");
         });
 }

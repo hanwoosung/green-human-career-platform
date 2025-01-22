@@ -4,24 +4,29 @@
 <mapper namespace="org.green.career.dao.jobseeker.mypage.BookmarkDao">
 
     <select id="getBookmarkList" resultType="org.green.career.dto.jobseeker.mypage.BookmarkDto">
-        SELECT *,
+        SELECT a.*,
+               e.*,
                TRUNCATE((TO_DAYS(NOW()) - TO_DAYS(b.birth)) / 365, 0) AS age,
                c.file_id,
                c.file_name,
                c.file_ext,
                c.file_url,
-               d.c_business
+               d.c_business,
+               COUNT(h.l_no)           AS bookmarkCnt
         FROM tbl_likes a
         LEFT JOIN tbl_user b ON a.cj_no = b.id AND b.user_gbn_cd = 'C'
         LEFT JOIN tbl_file c ON c.file_gbn_cd = '10' AND c.file_ref_id = b.id
         LEFT JOIN tbl_company d ON a.cj_no = d.id
+        LEFT JOIN tbl_user e ON d.id = e.id
+        LEFT JOIN tbl_likes h ON b.id = h.cj_no AND h.l_gbn_cd = 'B' AND h.id = #{id}
         WHERE a.l_gbn_cd = 'B'
         AND a.id = #{id}
-        AND b.use_yn = 'Y'
+        AND e.use_yn = 'Y'
+        GROUP BY e.id
         LIMIT #{offset}, #{limit};
     </select>
 
-    <select id="getTotalCnt">
+    <select id="getTotalCnt" resultType="Integer">
         SELECT COUNT(*)
         FROM tbl_likes a
         LEFT JOIN tbl_user b ON a.cj_no = b.id AND b.user_gbn_cd = 'C'

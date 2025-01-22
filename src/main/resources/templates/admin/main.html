@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<!--
+    작성자: 김상준
+    작성일: 2024.12.06
+    파일 설명:
+    관리자 메인 페이지
+-->
+
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout-test/layout/mypage_layout}"
+>
+    <head>
+        <meta charset="UTF-8">
+        <!-- 페이지의 제목, 이 제목은 팀원들이 각자 수정하여 사용합니다. -->
+        <title>페이지제목</title>
+        <link rel="stylesheet" href="/static/css/admin/main.css">
+        <link rel="stylesheet" href="/static/css/common/paging.css">
+    </head>
+    <body>
+        <main layout:fragment="content">
+
+            <div>
+                <h1>관리자 메인</h1>
+                <div class="container">
+                    <div class="toggle-wrap">
+
+                        <div th:class="${'toggles ' + (toggle == '' ? 'on' : '') }" data-userGbnCd="">
+                            <span>전체</span>
+                        </div>
+                        <div th:class="${'toggles ' + (toggle == 'S' ? 'on' : '') }" data-userGbnCd=S>
+                            <span>구직자</span>
+                        </div>
+                        <div th:class="${'toggles ' + (toggle == 'C' ? 'on' : '') }" data-userGbnCd="C">
+                            <span>기업</span>
+                        </div>
+                        <div th:class="${'toggles ' + (toggle == 'M' ? 'on' : '') }" data-userGbnCd="M">
+                            <span>관리자</span>
+                        </div>
+                    </div>
+
+                    <div class="btn-wrap">
+                        <button class="pwd-btn">비밀번호 초기화</button>
+                        <button class="use-btn">사용여부 변경</button>
+                    </div>
+
+                    <div class="content-wrap">
+
+                        <!-- Table styled user list -->
+                        <div class="user-table">
+                            <!-- Table Header -->
+                            <div class="user-table-header">
+                                <div class="user-table-cell">
+                                    <input name="userChkAll" type="checkbox" value="">
+                                </div>
+                                <div class="user-table-cell">ID</div>
+                                <div class="user-table-cell">이름</div>
+                                <div class="user-table-cell">생년월일</div>
+                                <div class="user-table-cell">이메일</div>
+                                <div class="user-table-cell">전화번호</div>
+                                <div class="user-table-cell">유형</div>
+                                <div class="user-table-cell">가입일</div>
+                                <div class="user-table-cell">사용여부</div>
+                            </div>
+
+                            <!-- Table Row (Sample Data) -->
+                            <div class="user-table-row" th:each="user: ${list}">
+                                <div class="user-table-cell">
+                                    <input type="checkbox" name="userChk" th:value="${user.id}">
+                                </div>
+                                <div class="user-table-cell" th:text="${user.id}">aaa</div>
+                                <div class="user-table-cell" th:text="${user.name}">홍길동</div>
+                                <div class="user-table-cell" th:text="${user.birth}">2024-01-01</div>
+                                <div class="user-table-cell" th:text="${user.email}">hong@example.com</div>
+                                <div class="user-table-cell" th:text="${user.phone}">010-1234-5678</div>
+                                <div class="user-table-cell" th:text="${user.userGbnNm}">구직자</div>
+                                <div class="user-table-cell" th:text="${user.instDt}">2024-01-15</div>
+                                <div class="user-table-cell" th:text="${user.useYn}">2024-01-15</div>
+                            </div>
+
+
+                            <!-- 추가적인 사용자 정보도 같은 형식으로 추가 -->
+                        </div>
+                    </div>
+                    <!-- 페이징 -->
+                    <div class="pagination-wrapper">
+                        <nav class="pagination-nav">
+                            <ul class="pagination">
+                                <!-- 처음 페이지 버튼 -->
+                                <li th:class="${paging.firstPageBtn ? 'page-item' : 'page-item disabled'}">
+                                    <a class="page-link"
+                                       th:attr="data-page=${paging.firstPageBtn ? 1 : ''}"
+                                       aria-label="처음">&laquo;</a>
+                                </li>
+
+                                <!-- 이전 페이지 버튼 -->
+                                <li th:class="${paging.prevBtn ? 'page-item' : 'page-item disabled'}">
+                                    <a class="page-link"
+                                       th:attr="data-page=${paging.prevBtn ? paging.startPage - 1 : ''}"
+                                       aria-label="이전">&lt;</a>
+                                </li>
+
+                                <!-- 페이지 번호 리스트 -->
+                                <li th:each="i : ${#numbers.sequence(paging.startPage, paging.endPage)}"
+                                    th:class="${paging.currentPage == i ? 'page-item active' : 'page-item'}">
+                                    <a class="page-link"
+                                       th:attr="data-page=${i}"
+                                       th:text="${i}"></a>
+                                </li>
+
+                                <!-- 다음 페이지 버튼 -->
+                                <li th:class="${paging.nextBtn ? 'page-item' : 'page-item disabled'}">
+                                    <a class="page-link"
+                                       th:attr="data-page=${paging.nextBtn ? paging.endPage + 1 : ''}"
+                                       aria-label="다음">&gt;</a>
+                                </li>
+
+                                <!-- 마지막 페이지 버튼 -->
+                                <li th:class="${paging.lastPageBtn ? 'page-item' : 'page-item disabled'}">
+                                    <a class="page-link"
+                                       th:attr="data-page=${paging.lastPageBtn ? paging.totalPage : ''}"
+                                       aria-label="마지막">&raquo;</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </body>
+</html>
+
+<script type="module" src="/static/js/admin/main.js"></script>

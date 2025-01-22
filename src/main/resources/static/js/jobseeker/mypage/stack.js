@@ -1,3 +1,5 @@
+import {common} from "/static/js/common.js";
+
 $(document).ready(function () {
     const urlParams = new URLSearchParams(window.location.search);
     const selectedSkills = urlParams.get('skills') ? urlParams.get('skills').split(",") : [];
@@ -127,65 +129,26 @@ $(document).ready(function () {
 
 
     // 스크랩 아이콘
-    $(".scrap-icon").click(function () {
+    $(".scrap-icon").click(function (e) {
 
-        let param = {
-            cjNo: this.closest(".job-card").dataset.cjno,
-            flag: this.classList.contains("bi-bookmark"),
-            lgbnCd: "S"
-        }
+        e.stopPropagation();
 
-        console.log(param);
-
-        axios.post("/likes", param, {
-            headers: {
-                // "Content-Type": "multipart/form-data",
-                "Content-Type": "application/json",
-            },
-        }).then((res) => {
-            console.log(res);
-            if (res.data.result.code == 200) {
-                $(this).toggleClass("bi-bookmark");
-                $(this).toggleClass("bi-bookmark-fill");
-            }else if(res.data.result.code == 455){
-                alert_modal.on("로그인", "로그인후 진행해주세요");
-            }
-        }).catch((error) => {
-            alert("스크랩 실패했습니다.");
-            console.log(error)
-        });
-
+        confirm_modal.on(
+            "스크랩",
+            "스크랩 상태를 변경 하시겠습니까?",
+            () => likes.scrap(this)
+        );
 
     });
 
     // 하트 아이콘
     $(".heart-icon").click(function () {
 
-        let param = {
-            cjNo: this.closest(".job-card").dataset.cjno,
-            flag: this.classList.contains("bi-heart"),
-            lgbnCd: "B"
-        }
-
-        console.log(param);
-
-        axios.post("/likes", param, {
-            headers: {
-                // "Content-Type": "multipart/form-data",
-                "Content-Type": "application/json",
-            },
-        }).then((res) => {
-            console.log(res);
-            if (res.data.result.code == 200) {
-                $(this).toggleClass("bi-heart");
-                $(this).toggleClass("bi-heart-fill");
-            }else if(res.data.result.code == 455){
-                alert_modal.on("로그인", "로그인후 진행해주세요");
-            }
-        }).catch((error) => {
-            alert("북마크 실패했습니다.");
-            console.log(error)
-        });
+        confirm_modal.on(
+            "북마크",
+            "북마크 상태를 변경 하시겠습니까?",
+            () => likes.bookmark(this)
+        );
 
 
     });
@@ -199,4 +162,79 @@ $(document).ready(function () {
 
         window.location.href = "/job-seeker/my-page/stack?search=" + encodeURIComponent(searchText) + "&skills=" + encodeURIComponent(selectedSkills.join(","));
     });
+
+    $(document).on("click", ".job-card img", function (e) {
+        // 클릭한 요소가 <i> 태그인지 확인
+        if ($(e.target).is('i.scrap-icon')) {
+            e.stopPropagation(); // 이벤트 버블링 방지
+            return; // 함수 종료
+        }
+
+        let jno = this.closest(".job-card").dataset.jno;
+
+        if (common.chk.empty(jno)) {
+            location.href = "/job-open/detail/" + jno;
+        } else {
+            alert_modal.on("경고", "공고가 존재하지 않습니다.");
+        }
+    });
+
+
 });
+
+const likes = {
+
+    bookmark: (ele) => {
+
+        let param = {
+            cjNo: ele.closest(".job-card").dataset.id,
+            flag: ele.classList.contains("bi-heart"),
+            lgbnCd: "B"
+        }
+
+        axios.post("/likes", param, {
+            headers: {
+                // "Content-Type": "multipart/form-data",
+                "Content-Type": "application/json",
+            },
+        }).then((res) => {
+            if (res.data.result.code == 200) {
+                location.reload();
+            } else if (res.data.result.code == 455) {
+                alert_modal.on("로그인", "로그인후 진행해주세요");
+            }
+        }).catch((error) => {
+            alert("북마크 실패했습니다.");
+            console.log(error)
+        });
+
+    },
+
+    scrap: (ele) => {
+
+        let param = {
+            cjNo: ele.closest(".job-card").dataset.jno,
+            flag: ele.classList.contains("bi-bookmark"),
+            lgbnCd: "S"
+        }
+
+        axios.post("/likes", param, {
+            headers: {
+                // "Content-Type": "multipart/form-data",
+                "Content-Type": "application/json",
+            },
+        }).then((res) => {
+            if (res.data.result.code == 200) {
+                ele.classList.toggle("bi-bookmark");
+                ele.classList.toggle("bi-bookmark-fill");
+            } else if (res.data.result.code == 455) {
+                alert_modal.on("로그인", "로그인후 진행해주세요");
+            }
+        }).catch((error) => {
+            alert("스크랩 실패했습니다.");
+            console.log(error)
+        });
+
+    }
+
+}

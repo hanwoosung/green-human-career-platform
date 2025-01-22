@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<!--
+    작성자: 구경림
+    작성일: 2024.12.01
+    파일 설명:
+    메인페이지 레이아웃 템플릿
+    사용자 유형(session.userType)에 따라 동적으로 사이드바와 헤더를 표시,
+    Content 영역은 각 페이지에서 layout:fragment="content"를 통해 작성
+
+    1. Sidebar:
+      - 사용자 유형에 따라 동적 사이드바를 로드.
+      - 비회원인 경우 기본 사이드바 표시.
+    2. Header:
+      - 마이페이지 전용 헤더를 동적으로 로드.
+      - 사용자 유형에 따라 헤더 내용 변경.
+    3. Content:
+      - 개별 페이지에서 layout:fragment="content"로 대체.
+    4. Footer:
+      - 공통 푸터를 로드.
+    공통 스타일은 common.css와 theme.css를 통해 관리
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="/static/css/main/index.css">
+    <link rel="stylesheet" href="/static/css/common/skillBox.css">
+    <link rel="stylesheet" href="/static/css/common/paging.css">
+    <link rel="stylesheet" href="/static/css/company/checkbox.css">
+    <link rel="stylesheet" th:href="@{/static/css/common/common.css}">
+    <link rel="stylesheet" th:href="@{/static/css/layout/theme.css}">
+    <script src="/static/js/company/companyRegist.js"></script>
+    <title>Human</title>
+    <style>
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .cno{
+            background-color: gray;
+            width: 400px;
+            color: white;
+            border-radius: 5px;
+        }
+        .cno::placeholder{
+            color: white;
+        }
+        .homepage{
+            background-color: gray;
+            width: 400px;
+            color: white;
+            border-radius: 5px;
+        }
+        .homepage::placeholder{
+            color: white;
+        }
+        .cDetail{
+            background-color: gray;
+            width: 400px;
+            height: 150px;
+            color: white;
+            border-radius: 5px;
+        }
+        .cDetail::placeholder{
+            line-height: 140px;
+            color: white;
+        }
+        .add-button{
+            margin-bottom: 10px;
+        }
+        .submit-button{
+            margin-top: 10px;
+            background-color: cornflowerblue;
+            width: 400px;
+            height: 50px;
+            border-radius: 10px;
+            color: white;
+        }
+        .dynamic-group{
+            margin-bottom: 10px;
+        }
+        button{
+            background-color: cornflowerblue;
+            border-radius: 10px;
+            color: white;
+        }
+        .firstInput{
+            background-color: gray;
+            width: 100px;
+            color: white;
+        }
+        .firstInput::placeholder{
+            color: white;
+        }
+        .secondInput{
+            background-color: gray;
+            width: 250px;
+            color: white;
+        }
+        .secondInput::placeholder{
+            color: white;
+        }
+        .previewContainer{
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="mypage-layout">
+    <!-- Sidebar 영역 -->
+    <div th:replace="~{/layout-test/parts/sidebar :: sidebar(
+            ${session.userType != null ? session.userType : '비회원'}
+        )}" >
+    </div>
+    <div class="mypage-container">
+        <!-- Header 영역 -->
+        <div th:replace="~{/layout-test/parts/header_mypage :: headerMypage(
+            ${session.userType != null ? session.userType : '비회원'}
+        )}">
+        </div>
+        <!-- Content 영역 -->
+        <div class="mypage-content" layout:fragment="content">
+            <div class="main-content">
+                <form th:action="@{/companyIR}" method="post" enctype="multipart/form-data" id="compantForm" onsubmit="return submitForm()">
+                    <input type="hidden" name="id" th:value="${uid}">
+                    <div class="form-group">
+                        <input type="text" name="cno" id="cno" class="cno" placeholder="사업자 등록번호">
+                        <span id="cnoMessage"></span>
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="radio" name="cGbnCd" value="L" id="L">
+                            <label class="cGbnCd" for="L">대기업</label>
+                            <input type="radio" name="cGbnCd" value="M" id="M">
+                            <label class="cGbnCd" for="M">중견기업</label>
+                            <input type="radio" name="cGbnCd" value="S" id="S">
+                            <label class="cGbnCd" for="S">중소기업</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="homepage" class="homepage" placeholder="홈페이지" id="homepage">
+                    </div>
+                    <div class="form-group">
+                        <textarea class="cDetail" name="cDetail" placeholder="기업 소개" id="cDetail"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="cCnt" class="cno" placeholder="현재 사원수" id="cCnt">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="cBusiness" class="cno" placeholder="주요 업무" id="cBusiness">
+                    </div>
+                    <div class="form-group" id="pImageGroup">
+                        <label>대표 이미지</label>
+                        <input type="file" name="pImage" accept="image/*" onchange="ImageInfo(event)">
+                        <button type="button" onclick="removeImageP();"><span>삭제</span></button>
+                        <div class="previewContainer"></div>
+                    </div>
+                    <div class="sub_Image">
+                        <div class="form-group" id="firstImageGroup">
+                            <label for="sImage">기업 이미지</label>
+                            <button type="button" onclick="addImage(this);"><span>파일 추가</span></button>
+                            <br>
+                            <input type="file" name="sImage" id="sImage" onchange="ImageInfo(event)" accept="image/*">
+                            <button type="button" onclick="removeImageFirts();"><span>삭제</span></button>
+                            <div class="previewContainer"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>연혁</label>
+                        <button type="button" class="add-button" onclick="addHistory()">추가</button>
+                        <div id="historyContainer">
+                            <div class="dynamic-group">
+                                <input type="text" placeholder="연-월" oninput="addDate(event)" class="firstInput" id="historyY">
+                                <input type="hidden" name="historyYear">
+                                <input type="text" name="historyTxt" placeholder="연혁 내용" class="secondInput">
+                                <div id="hMessage"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>매출액</label>&nbsp;&nbsp; *(억)
+                        <button type="button" class="add-button" onclick="addRevnue()">추가</button>
+                        <div id="revenueContainer">
+                            <div class="dynamic-group">
+                                <input type="text" placeholder="연도" oninput="addSales(event)" class="firstInput" id="saleY">
+                                <input type="hidden" name="salesYear">
+                                <input type="text" name="salesTxt" placeholder="매출액" class="secondInput">
+                                <div id="sMessage"></div>
+                            </div>
+                        </div>
+                        <input type="submit" value="기업 정보 등록" class="submit-button">
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- Footer 영역 -->
+<div th:replace="~{/layout-test/parts/footer :: footer}"></div>
+</body>
+</html>
+<script>
+    console.log('Input event fired');
+    $(function() {
+        $('#cno').on('input', function () {
+            let input = $(this).val();
+
+            let formatterdInput = input.replace(/[^0-9]/g, '')
+                .replace(/[^0-9]/g, '')
+                .substr(0, 10);
+
+            $(this).val(formatterdInput);
+        });
+        $('#cno').on('blur', function () {
+            console.log('change event fired');
+            let input = $(this).val();
+            if(input.length != 10) {
+                $('#cnoMessage').text('유효하지 않은 사업자 등록 번호입니다. 다시 입력해 주세요.').css('color', 'red');
+                $(this).val('');
+            } else {
+                $('#cnoMessage').text('유효한 사업자 등록 번호입니다.').css('color', 'green');
+            }
+        });
+        $('#cno').on('keypress', function (event) {
+            if(!/[0-9]/.test(String.fromCharCode(event.which))) {
+                event.preventDefault();
+            }
+        });
+
+        $('#historyY').on('input', function () {
+            let input = $(this).val();
+
+            let formatterdInput = input.replace(/[^0-9]/g, '')
+                .replace(/(\d{4})(\d{0,2})/, '$1-$2')
+                .substr(0, 7);
+
+            $(this).val(formatterdInput);
+        });
+        $('#historyY').on('blur', function () {
+            console.log('change event fired');
+            let input = $(this).val();
+            if(!/^\d{4}-\d{2}$/.test(input)) {
+                $('#hMessage').text('YYYY-MM 형식으로 입력해 주세요.').css('color', 'red');
+                $(this).val('');
+            } else {
+                $('#hMessage').text('');
+            }
+        });
+        $('#historyY').on('keypress', function (event) {
+            if(/[a-zA-Z]/.test(String.fromCharCode(event.which))) {
+                event.preventDefault();
+            }
+        });
+
+        $('#saleY').on('input', function () {
+            let input = $(this).val();
+
+            let formatterdInput = input.replace(/[^0-9]/g, '')
+                .replace(/[^0-9]/g, '')
+                .substr(0, 4);
+
+            $(this).val(formatterdInput);
+        });
+        $('#saleY').on('blur', function () {
+            console.log('change event fired');
+            let input = $(this).val();
+            if(input.length != 4) {
+                $('#sMessage').text('유효하지 않은 양식입니다. 다시 입력해 주세요.').css('color', 'red');
+                $(this).val('');
+            } else {
+                $('#sMessage').text('');
+            }
+        });
+        $('#saleY').on('keypress', function (event) {
+            if(!/[0-9]/.test(String.fromCharCode(event.which))) {
+                event.preventDefault();
+            }
+        });
+    });
+</script>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.green.career.dao.admin.AdminDao">
+
+    <select id="getUserList" resultType="org.green.career.dto.admin.AdminUserDto">
+
+        SELECT a.id,
+               a.pw,
+               a.name,
+               a.email,
+               a.user_gbn_cd,
+               b.cd_nm AS user_gbn_nm,
+               a.birth,
+               a.phone,
+               a.addr,
+               a.addr2,
+               a.zip_cd,
+               a.use_yn,
+               a.inst_dt,
+               a.updt_id,
+               a.updt_dt
+        FROM tbl_user a
+                 LEFT JOIN tbl_codeinfo b ON a.user_gbn_cd = b.cd AND b.up_cd = 'user_gbn_cd'
+        WHERE a.user_gbn_cd LIKE CONCAT('%', #{toggle}, '%')
+          AND a.name LIKE CONCAT('%', #{search}, '%')
+            LIMIT #{offset}, #{limit};
+
+    </select>
+
+    <select id="getTotalCnt" resultType="Integer">
+
+        SELECT COUNT(*)
+        FROM tbl_user a
+                 LEFT JOIN tbl_codeinfo b ON a.user_gbn_cd = b.cd AND b.up_cd = 'user_gbn_cd'
+        WHERE a.user_gbn_cd LIKE CONCAT('%', #{toggle}, '%')
+          AND a.name LIKE CONCAT('%', #{search}, '%');
+
+    </select>
+
+    <update id="updateStatus">
+
+        UPDATE tbl_user
+        SET pw = CASE
+                    WHEN #{status} = 'P' THEN #{pw}
+                    ELSE pw
+                 END,
+            use_yn = CASE
+                         WHEN #{status} = 'U' AND use_yn = 'Y' THEN 'N'
+                         WHEN #{status} = 'U' AND use_yn = 'N' THEN 'Y'
+                         ELSE use_yn
+                     END
+        WHERE id IN
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+
+
+    </update>
+
+</mapper>

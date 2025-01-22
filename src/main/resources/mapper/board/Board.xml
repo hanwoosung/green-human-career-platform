@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.green.career.dao.board.BoardDao">
+
+    <select id="selectBoardList" resultType="org.green.career.dto.board.BoardDto">
+        SELECT a.*,
+               b.cd_nm AS b_gbn_nm,
+               c.name
+        FROM tbl_board a
+                 LEFT JOIN tbl_codeinfo b ON a.b_gbn_cd = b.cd AND b.up_cd = 'b_gbn_cd'
+                 LEFT JOIN tbl_user c ON a.inst_id = c.id
+        WHERE a.del_yn = 'N'
+          AND a.title LIKE CONCAT('%', #{search}, '%')
+        AND
+        CASE
+            WHEN #{userGbnCd} = 'C' OR #{userGbnCd} = 'S' THEN (a.inst_id = #{id} OR a.b_gbn_cd = 'N')
+            ELSE 1=1
+        END
+        ORDER BY a.b_gbn_cd DESC,
+            CASE
+                WHEN #{filter} = 'P' THEN a.v_cnt
+                ELSE a.inst_dt
+            END DESC
+        LIMIT #{offset}, #{limit}
+        ;
+    </select>
+
+    <select id="getTotalCnt" resultType="Integer">
+        SELECT COUNT(*)
+        FROM tbl_board a
+        WHERE a.del_yn = 'N'
+        AND a.title LIKE CONCAT('%', #{search}, '%')
+        AND
+        CASE
+            WHEN #{userGbnCd} = 'C' OR #{userGbnCd} = 'S' THEN (a.inst_id = #{id} OR a.b_gbn_cd = 'N')
+            ELSE 1=1
+        END
+        ;
+    </select>
+
+    <insert id="saveBoard">
+        INSERT INTO tbl_board(
+            title,
+            content,
+            b_gbn_cd,
+            b_answer_yn,
+            del_yn,
+            inst_id,
+            inst_dt,
+            updt_id,
+            updt_dt
+        )VALUES (
+            #{board.title},
+            #{board.content},
+            #{board.bGbnCd},
+            #{board.bAnswerYn},
+            #{board.delYn},
+            #{board.instId},
+            NOW(),
+            #{board.updtId},
+            NOW()
+        );
+    </insert>
+
+    <select id="selectBoard" resultType="org.green.career.dto.board.BoardDto">
+
+        SELECT a.*,
+               b.cd_nm AS b_gbn_nm,
+               c.name
+        FROM tbl_board a
+                 LEFT JOIN tbl_codeinfo b ON a.b_gbn_cd = b.cd AND b.up_cd = 'b_gbn_cd'
+                 LEFT JOIN tbl_user c ON a.inst_id = c.id
+        WHERE a.b_no = #{bNo}
+        AND a.del_yn = 'N'
+
+    </select>
+    
+    <update id="updateBoardVCnt">
+        UPDATE tbl_board
+        SET v_cnt = v_cnt + 1
+        WHERE b_no = #{bNo}
+    </update>
+
+    <select id="getComments" resultType="org.green.career.dto.board.CommentDto">
+        SELECT a.cm_no,
+               a.b_no,
+               a.cm_content,
+               a.del_yn,
+               a.inst_id,
+               b.name,
+               a.inst_dt,
+               a.updt_id,
+               a.updt_dt
+        FROM tbl_comment a
+        LEFT JOIN tbl_user b ON a.inst_id = b.id
+        WHERE a.b_no = #{bNo}
+        AND a.del_yn = 'N'
+    </select>
+
+    <delete id="deleteComment">
+
+        DELETE FROM tbl_comment
+        WHERE cm_no = #{cmNo}
+
+    </delete>
+
+    <insert id="saveComment">
+        INSERT INTO tbl_comment(
+            b_no,
+            cm_content,
+            del_yn,
+            inst_id,
+            inst_dt,
+            updt_id,
+            updt_dt
+        )VALUES (
+            #{comment.bNo},
+            #{comment.cmContent},
+            #{comment.delYn},
+            #{comment.instId},
+            NOW(),
+            #{comment.updtId},
+            NOW()
+        );
+    </insert>
+
+    <update id="deleteBoard">
+        UPDATE tbl_board
+        SET del_yn = 'Y'
+        WHERE b_no = #{bNo}
+    </update>
+
+    <update id="updateBoard">
+        UPDATE tbl_board
+        SET title=#{board.title},
+            content=#{board.content},
+            b_gbn_cd=#{board.bGbnCd},
+            b_answer_yn=#{board.bAnswerYn},
+            updt_id=#{board.updtId},
+            updt_dt=NOW()
+        WHERE b_no = #{board.bNo}
+    </update>
+
+    <update id="deleteAllComment">
+        UPDATE tbl_comment
+        SET del_yn = 'Y'
+        WHERE b_no = #{bNo}
+    </update>
+
+</mapper>

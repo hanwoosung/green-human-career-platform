@@ -1,0 +1,605 @@
+.main-container {
+    width: 100%;
+    margin-top: 50px;
+    margin-bottom: 100px;
+}
+
+.sticky-header {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    padding: 20px;
+    border-bottom: 1px solid black;
+}
+
+.sticky-header .top-row-box2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sticky-header h1 {
+    font-size: 25px;
+    margin: 0;
+    color: #333;
+}
+
+.sticky-header .top-row-box-join-btn {
+    padding: 20px 20px;
+    background-color: #007bff;
+    font-size: 14px;
+    color: white;
+    cursor: pointer;
+}
+
+.sticky-header .top-row-box-join-btn:hover {
+    background-color: #0056b3;
+}
+
+.top-box {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 20px;
+    background-color: white;
+}
+
+.top-row-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.top-row-box-img {
+    display: flex;
+    align-items: center;
+    border: 1px solid darkgray;
+    justify-content: space-between;
+    height: 30px;
+    gap: 5px;
+    padding: 10px;
+}
+
+.top-row-box-img h3 {
+    font-size: 12px;
+}
+
+.top-row-box-bookmark {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid gray;
+    font-size: 24px;
+}
+
+.top-row-box-join-btn {
+    padding: 20px;
+    background-color: #007bff;
+    font-size: 15px;
+    color: white;
+    font-weight: bold;
+}
+
+.top-info-box {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid blue;
+}
+
+.top-info-box-row {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    margin-bottom: 50px;
+    border-bottom: 1px solid blue;
+}
+
+
+.top-info-box-row-half {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    align-items: center;
+    height: 100%;
+}
+
+.top-info-box-row-text {
+    display: flex;
+    width: 300px;
+    gap: 50px;
+    height: 100%;
+    justify-content: space-around;
+    text-align: left;
+}
+
+.top-info-box-row-text h4 {
+    width: 50%;
+}
+
+.job-open-img {
+    width: 100%;
+    margin: 0 auto;
+    height: auto;
+}
+
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 20px;
+    padding: 40px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+.middle-content-label {
+    font-size: 24px;
+    font-weight: bold;
+    color: black;
+    text-align: left;
+    padding-bottom: 10px;
+    text-transform: uppercase;
+    border-bottom: 2px solid black;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.middle-content {
+    font-size: 18px;
+    color: #333;
+    margin-top: 10px;
+    line-height: 1.8;
+    white-space: pre-wrap;
+}
+
+.company-info-wrapper {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    width: 800px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.company-info-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.company-info-header h3 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+}
+
+.company-more-info {
+    font-size: 14px;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.company-more-info:hover {
+    text-decoration: underline;
+}
+
+.company-info-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 100px;
+}
+
+.company-logo {
+    width: 120px;
+    height: 120px;
+    border-radius: 5px;
+}
+
+.company-info-text {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.company-info-text h4 {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0;
+    color: #333;
+}
+
+.company-info-text p {
+    font-size: 14px;
+    margin: 0;
+    color: #555;
+}
+
+.recommend-wrapper {
+    margin: 60px auto;
+    padding: 20px;
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+.recommend-header {
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+}
+
+.recommend-content table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.recommend-content table th,
+.recommend-content table td {
+    padding: 15px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    max-width: 200px;
+
+}
+
+.recommend-content table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.recommend-content .apply-btn {
+    padding: 10px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.recommend-content .apply-btn:hover {
+    background-color: #0056b3;
+}
+
+.company-info-wrapper {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    width: 80%;
+    margin: 30px auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.company-info-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.company-info-header h3 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+}
+
+.btn-view-all {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.btn-view-all:hover {
+    background-color: #0056b3;
+}
+
+.company-info-content {
+    display: flex;
+    gap: 20px;
+}
+
+.company-info-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex: 1;
+}
+
+.company-logo {
+    width: 120px;
+    height: 120px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.company-like {
+    font-size: 16px;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.company-info-right {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.company-name {
+    font-size: 22px;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+}
+
+.company-details {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+    color: #555;
+}
+
+.company-details li {
+    margin-bottom: 8px;
+}
+
+.company-details li strong {
+    color: #333;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 30px;
+    margin-top: 15px;
+}
+
+.btn-info {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 15px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.btn-info:hover {
+    background-color: #0056b3;
+}
+
+.skills-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+.skills-label {
+    font-size: 18px;
+    font-weight: bold;
+    color: black;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.skills-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.skill-tag {
+    display: inline-block;
+    padding: 8px 15px;
+    font-size: 14px;
+    color: white;
+    background-color: #007bff;
+    border-radius: 20px;
+    text-align: center;
+    cursor: default;
+    user-select: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.skill-tag:hover {
+    background-color: #0056b3;
+}
+
+.scrap-icon {
+    font-size: 20px;
+    color: #ffc107;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.scrap-icon.active {
+    color: #ffc107;
+}
+
+.heart-icon {
+    font-size: 16px;
+    color: red;
+    cursor: pointer;
+    margin-left: 5px;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.heart-icon.active {
+    color: #e63946;
+}
+
+.popup-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup-content {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+    overflow: hidden;
+}
+
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #f1f1f1;
+    padding-bottom: 10px;
+}
+
+.popup-header h2 {
+    font-size: 24px;
+    color: #333;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #333;
+    cursor: pointer;
+}
+
+.popup-body {
+    max-height: 350px;
+    overflow-y: auto;
+}
+
+.resume-option {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #e0e0e0;
+    cursor: pointer;
+}
+
+.resume-option:hover {
+    background-color: #f5f5f5;
+}
+
+.resume-label {
+    display: block;
+    width: 100%;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.resume-details {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.resume-details strong {
+    font-size: 16px;
+    color: #333;
+}
+
+.resume-info {
+    font-size: 14px;
+    color: #555;
+}
+
+.empty-message {
+    color: #888;
+    text-align: center;
+    padding: 20px;
+}
+
+.apply-btn2 {
+    display: block;
+    width: 100%;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-top: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.apply-btn2:hover {
+    background-color: #218838;
+}
+
+.apply-btn2:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+.action-buttons2 {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 15px;
+}
+
+.btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-edit {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.btn-edit:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+.btn-delete {
+    background-color: #f44336;
+    color: white;
+}
+
+.btn-delete:hover {
+    background-color: #d32f2f;
+    transform: scale(1.05);
+}

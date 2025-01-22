@@ -2,7 +2,9 @@ package org.green.career.controller.main;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.green.career.controller.AbstractController;
 import org.green.career.dto.jobopen.JobSearchResult;
+import org.green.career.dto.jobopen.requset.JobOpeningResponseDto;
 import org.green.career.service.main.MainService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +24,7 @@ import java.util.Map;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-public class MainController {
+public class MainController extends AbstractController {
 
     private final MainService mainService;
 
@@ -32,8 +34,15 @@ public class MainController {
                            @RequestParam(value = "skills", required = false) List<String> skills,
                            Model model) {
 
-        JobSearchResult result = mainService.getJobOpeningsWithPaging(searchText, skills, page);
+        log.info("userMian" + skills);
+
+
+        JobSearchResult result = mainService.getJobOpeningsWithPaging(searchText, skills, page, sessionUserInfo("userId"));
         Map<String, Object> skillData = mainService.findSkillList();
+
+        for(JobOpeningResponseDto jobList:result.getJobList()){
+            jobList.getFileUrl();
+        }
 
         model.addAttribute("skillList", skillData.get("skills"));
         model.addAttribute("categories", skillData.get("categories"));
@@ -44,5 +53,23 @@ public class MainController {
         model.addAttribute("skills", skills);
 
         return "user_main";
+    }
+
+    @GetMapping("/company")
+    public String companyMain(@RequestParam(value = "page", defaultValue = "1") int page, Model model) throws Exception {
+        sessionGoLogin();
+        String id = sessionUserInfo("userId");
+        String type = sessionUserInfo("userType");
+        log.info("userMian" + page);
+        System.out.println("userId" + id);
+        System.out.println("usert" + type);
+//        JobSearchResult result = mainService.getCompanyOpeningsWithPaging(page, sessionUserInfo("id"));
+        JobSearchResult result = mainService.getCompanyOpeningsWithPaging(page, id);
+        log.info("main" + result);
+
+        model.addAttribute("jobList", result.getJobList());
+        model.addAttribute("paging", result.getPaging());
+
+        return "company_main";
     }
 }

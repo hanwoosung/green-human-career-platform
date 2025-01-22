@@ -1,0 +1,136 @@
+/**
+ * 작성자: 김상준
+ * 작성일: 2024-12-03
+ * 구직자 마이페이지 북마크 css
+ */
+
+.content-title{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.search-wrap{
+    width: 100%;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+
+.search-wrap .search-span{
+    width: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.search-wrap input{
+    width: 200px;
+    height: 30px;
+}
+
+.search-wrap button{
+    width: 50px;
+    height: 30px;
+}
+
+.content-title span{
+    font-size: 2rem;
+}
+
+.content-detail{
+    min-height: 70vh;
+}
+
+.content-detail .list-wrap{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.list-wrap .list{
+    width: 600px;
+    border: 1px solid #a6a6a6;
+    border-radius: 20px;
+    height: 200px;
+    margin-top: 20px;
+    margin-right: 20px;
+    display: flex;
+    box-shadow: 8px 8px 8px rgba(148, 148, 148, 0.37);
+    cursor: pointer;
+}
+
+.list .list-img{
+    width: 40%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.list-img img{
+    width: 80%;
+    height: 80%;
+    border: 1px solid #a6a6a6;
+    border-radius: 100%;
+}
+
+.list .list-content{
+    width: 76.5%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.list-content .content-wrap{
+    position: relative;
+    width: 90%;
+    height: 90%;
+}
+
+.content-wrap .contents{
+    width: 100%;
+    padding-top: 10px;
+}
+
+.contents .content-name{
+    font-size: 2rem;
+    font-weight: bold;
+    padding-right: 3px;
+}
+.contents .content-addr{
+    font-size: 1.2rem;
+    text-overflow : ellipsis;
+    width: 100%;
+}
+
+.contents .content-resume{
+    border-radius: 10px;
+    width: 100%;
+    background-color: rgba(19, 63, 157, 0.38);
+
+    white-space: nowrap; /* 줄바꿈 방지 */
+    overflow: hidden;    /* 넘치는 텍스트 숨김 */
+    text-overflow: ellipsis; /* 넘치는 텍스트 생략(...) 처리 */
+}
+
+.contents .content-resume span{
+    width: 100%;
+    height: 100%;
+    font-size: 1.5rem;
+    padding-left: 15px;
+}
+
+.content-date{
+    position: absolute;
+    top: 10px;
+    right: 7px;
+}
+
+
+
+
+

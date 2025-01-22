@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<!--
+    작성자: 김상준
+    작성일: 2024.12.03
+    입사 제안 현황 (기업)
+-->
+
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout-test/layout/mypage_layout}"
+>
+    <head>
+        <meta charset="UTF-8">
+        <title>게시판</title>
+        <link rel="stylesheet" href="/static/css/board/list.css">
+        <link rel="stylesheet" href="/static/css/common/paging.css">
+    </head>
+
+    <body>
+        <main layout:fragment="content">
+            <div class="content-title font-bold">
+                <span>게시판</span>
+            </div>
+            <div class="content-detail">
+                <div class="list-wrap">
+                    <div class="list-head">
+                        <div class="tab-wrap">
+                            <a class="filter on" data-filter="R">
+                                <img src="/static/images/check.png">
+                                최신글
+                            </a>
+                            <p> | </p>
+                            <a class="filter" data-filter="P">
+                                <img src="/static/images/check.png">
+                                인기글
+                            </a>
+                        </div>
+                        <div class="search-wrap">
+                            <span>
+                                <img src="/static/images/search.png">
+                                <input type="text" name="search" placeholder="제목">
+                            </span>
+                        </div>
+                    </div>
+                    <div class="list-content">
+
+<!--                        <th:block th:each="board : ${list}">-->
+<!--                            <div class="list">-->
+<!--                                <a class="list-body">-->
+<!--                                    <div class="list-tag list-line">-->
+<!--                                        <div class="tags-wrap">-->
+<!--                                            <span class="tags" th:text="${board.bGbnNm}">공지</span>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="list-title list-line">-->
+<!--                                        <span th:text="${board.title}">제목입니다. 제목입니다. 제목입니다. 제목입니다. 제목입니다. 제목입니다. </span>-->
+<!--                                    </div>-->
+<!--                                    <div class="list-line list-text">-->
+<!--                                        <span th:utext="${board.content}"></span>-->
+<!--                                    </div>-->
+<!--                                    <div class="list-line list-writer">-->
+<!--                                        <span th:text="${board.name}">yiok79</span>-->
+<!--                                    </div>-->
+<!--                                    <div class="list-line list-extra-info">-->
+<!--                                        <div class="list-extra-info-counts">-->
+<!--                                        <span>-->
+<!--                                            <img src="/static/images/message.png">-->
+<!--                                            <span th:text="${board.comments.size()}">20</span>-->
+<!--                                        </span>-->
+<!--                                            <span>-->
+<!--                                            <img src="/static/images/eye.png">-->
+<!--                                            <span th:text="${board.vCnt}">20</span>-->
+<!--                                        </span>-->
+<!--                                        </div>-->
+<!--                                        <div class="list-date">-->
+<!--                                            <span th:text="${(board.instDt)}">2024-01-01</span>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </a>-->
+<!--                            </div>-->
+<!--                        </th:block>-->
+
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </body>
+</html>
+
+<script type="module" src="/static/js/board/list.js"></script>

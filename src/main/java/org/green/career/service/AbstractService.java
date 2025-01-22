@@ -15,7 +15,7 @@ public abstract class AbstractService {
      * 예외 처리와 데이터 검증을 포함한 안전 실행 메서드
      * @param action DAO 호출 또는 서비스 로직
      */
-    protected <T> T returnData(Supplier<T> action) {
+    protected <T> T returnData(Supplier<T> action) throws BaseException {
         try {
             // DAO 호출 및 결과 받기
             T result = action.get();
@@ -27,7 +27,7 @@ public abstract class AbstractService {
         } catch (BaseException e) {
             throw e;
         } catch (Exception e) {
-            throw new BaseException(ResultType.SERVER_ERROR, "서버에러 (500)!!!!", e);
+            throw new BaseException(ResultType.SERVER_ERROR, "서버에러 (500)!!!!");
         }
     }
 

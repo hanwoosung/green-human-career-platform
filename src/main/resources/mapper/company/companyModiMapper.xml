@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    작성자: 구경림
+    작성일: 2024.12.01
+    파일 설명:
+    사용자 로그인 관련 MyBatis 매퍼
+-->
+<mapper namespace="org.green.career.dao.company.mypage.CompanyModiDao">
+    <select id="getCompanyModiById" resultType="org.green.career.dto.company.mypage.CompanyModiDto">
+        SELECT c.id AS id, c.pw AS pw, c.name AS name, c.email AS email, c.birth AS birth, c.phone AS phone,
+               c.addr AS addr, c.addr2 AS addr2, c.zip_cd AS zipCd,
+               f.file_url AS fileUrl, f.file_name AS fileName, f.file_id AS fileId
+        FROM tbl_user c
+                 LEFT JOIN tbl_file f ON c.id = f.file_ref_id
+        WHERE c.id = #{id} AND c.use_yn = 'Y' AND f.file_gbn_cd = 10;
+    </select>
+    <select id="getCompanyModiId" resultType="org.green.career.dto.company.mypage.CompanyModiDto">
+        SELECT id AS id, pw AS pw, name AS name, email AS email, birth AS birth, phone AS phone,
+               addr AS addr, addr2 AS addr2, zip_cd AS zipCd
+        FROM tbl_user
+        WHERE id = #{id} AND use_yn = 'Y';
+    </select>
+    <insert id="insertMypageProfile">
+        INSERT INTO tbl_file (file_gbn_cd, file_ref_id, file_name, file_ext, file_url, inst_id)
+        VALUES
+            (#{file.fileGbnCd}, #{file.fileRefId}, #{file.fileName}, #{file.fileExt}, #{file.fileUrl}, #{file.fileRefId});
+    </insert>
+    <delete id="deleteMypageProfile">
+        DELETE FROM tbl_file WHERE file_ref_id = #{id};
+    </delete>
+    <update id="updateMyInfo">
+        UPDATE tbl_user
+            SET
+            name = #{user.name}, birth = #{user.birth}, email = #{user.email}, phone = #{user.phone},
+            addr = #{user.addr}, addr2 = #{user.addr2}, zip_cd = #{user.zipCd}
+        WHERE id = #{user.id};
+    </update>
+    <update id="updateMypageProfile">
+        UPDATE tbl_file
+        SET
+            file_gbn_cd = #{file.fileGbnCd}, file_ref_id = #{file.fileRefId}, file_name = #{file.fileName},
+            file_ext =  #{file.fileExt}, file_url = #{file.fileUrl}, updt_id = #{file.fileRefId}, updt_dt = ''
+        WHERE file_id = #{file.fileId};
+    </update>
+</mapper>

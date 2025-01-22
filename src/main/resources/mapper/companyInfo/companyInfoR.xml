@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    작성자: 구경림
+    작성일: 2024.12.01
+    파일 설명:
+    사용자 로그인 관련 MyBatis 매퍼
+-->
+<mapper namespace="org.green.career.dao.company.CompanyInfoDao">
+    <insert id="insertCompanyInfo">
+        INSERT INTO tbl_company (id, c_no, c_gbn_cd, homepage, c_detail, c_cnt, c_business)
+        VALUES
+        (#{company.id}, #{company.cno}, #{company.cGbnCd}, #{company.homepage}, #{company.cDetail}, #{company.cCnt}, #{company.cBusiness})
+            ON DUPLICATE KEY UPDATE
+                c_no = #{company.cno},
+                c_gbn_cd = #{company.cGbnCd},
+                homepage = #{company.homepage},
+                c_detail = #{company.cDetail},
+                c_cnt = #{company.cCnt},
+                c_business = #{company.cBusiness};
+    </insert>
+    <insert id="insertCompanyImage">
+        INSERT INTO tbl_file (file_gbn_cd, file_ref_id, file_name, file_ext, file_url, inst_id)
+        VALUES
+            (#{company.fileGbnCd}, #{company.fileRefId}, #{company.fileName}, #{company.fileExt}, #{company.fileUrl}, #{company.instId})
+            ON DUPLICATE KEY UPDATE
+                file_gbn_cd = #{company.fileGbnCd},
+                file_ref_id= #{company.fileRefId},
+                file_name = #{company.fileName},
+                file_ext = #{company.fileExt},
+                file_url = #{company.fileUrl},
+                inst_id = #{company.instId};
+    </insert>
+    <insert id="insertCompanyHistory">
+        INSERT INTO tbl_company_history (id, c_history, c_content)
+        VALUES
+            (#{company.id},#{company.cHistory}, #{company.cContent})
+        ON DUPLICATE KEY UPDATE
+                c_content  = #{company.cContent};
+    </insert>
+    <insert id="insertCompanySales">
+        INSERT INTO tbl_company_sales (id, c_sale_dt, c_pay)
+        VALUES
+            (#{company.id},#{company.cSaleDt}, #{company.cPay})
+        ON DUPLICATE KEY UPDATE
+            c_pay = #{company.cPay};
+    </insert>
+</mapper>

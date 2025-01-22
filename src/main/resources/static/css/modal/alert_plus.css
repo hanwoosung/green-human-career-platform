@@ -1,0 +1,188 @@
+.modal-alert.on {
+    z-index: 999999;
+    display: flex;
+}
+
+.modal-alert {
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4); /* 어두운 반투명 배경 */
+    position: fixed;
+    left: 0;
+    top: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s ease-in-out; /* 부드러운 애니메이션 */
+}
+
+.modal-alert-wrap {
+    z-index: 1000000;
+    width: 400px;
+    height: auto;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2); /* 부드러운 그림자 */
+    overflow: hidden; /* 요소가 넘치지 않게 처리 */
+    font-family: 'Noto Sans', Arial, sans-serif;
+}
+
+.modal-alert-title {
+    width: 100%;
+    padding: 20px;
+    background-color: #0078d7; /* 블루 톤 */
+    color: white;
+    font-size: 1.5rem;
+    text-align: center;
+    font-weight: bold;
+}
+
+.modal-alert-content {
+    padding: 20px;
+    font-size: 1rem;
+    color: #333;
+    line-height: 1.5;
+    text-align: center;
+    word-break: break-word;
+    max-height: 150px; /* 긴 내용 처리 */
+    overflow-y: auto;
+}
+
+.modal-alert-btn {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 20px;
+    background-color: #f4f4f4;
+    border-top: 1px solid #ddd;
+}
+
+.modal-alert-btn2 {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 15px 20px;
+    background-color: #f4f4f4;
+    border-top: 1px solid #ddd;
+}
+
+
+.modal-alert-btn button, .modal-alert-btn2 button {
+    width: 120px;
+    height: 40px;
+    border-radius: 5px;
+    background-color: #0078d7;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.modal-alert-btn button:hover, .modal-alert-btn2 button:hover {
+    background-color: #0053a4;
+}
+
+
+/*modal-confirm*/
+
+
+.modal-confirm.on {
+    z-index: 999999;
+    display: flex;
+}
+
+.modal-confirm {
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    position: fixed;
+    left: 0;
+    top: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-confirm-wrap {
+    z-index: 1000000;
+    width: 400px;
+    height: auto;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.modal-confirm-title {
+    width: 100%;
+    padding: 20px;
+    background-color: #0078d7;
+    color: white;
+    font-size: 1.5rem;
+    text-align: center;
+    font-weight: bold;
+}
+
+.modal-confirm-content {
+    padding: 20px;
+    font-size: 1rem;
+    color: #333;
+    line-height: 1.5;
+    text-align: center;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.modal-confirm-btn {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 20px;
+    background-color: #f4f4f4;
+    border-top: 1px solid #ddd;
+}
+
+.confirm-delete-ok {
+    width: 120px;
+    height: 40px;
+    border-radius: 5px;
+    background-color: #28a745; /* 초록색 */
+    border: none;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.confirm-delete-ok:hover {
+    background-color: #218838;
+}
+
+.confirm-delete-ng {
+    width: 120px;
+    height: 40px;
+    border-radius: 5px;
+    background-color: #dc3545; /* 빨간색 */
+    border: none;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.confirm-delete-ng:hover {
+    background-color: #c82333;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
